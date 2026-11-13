@@ -13,6 +13,12 @@ updated: 2026-11-13
 
 ---
 
+## 2026-11-13 — Setup OmniRoute, Migrasi Endpoint Hermes, & Launcher `Run Hermes Desktop.bat`
+- **Aksi:**
+  - Menyusun prompt autonomous setup OmniRoute untuk Hermes Agent, panduan mematikan server 9Router (port `20128`), solusi error `better-sqlite3` (`NODE_MODULE_VERSION 127` vs `137`) pada OmniRoute `v3.8.48`, serta command migrasi endpoint Hermes ke `http://localhost:20128/v1`.
+  - Membuat file `Run Hermes Desktop.bat` di root project untuk menjalankan OmniRoute (jika port `20128` belum aktif) dan meluncurkan Hermes Desktop secara otomatis.
+  - Catatan lengkap: [[Setup OmniRoute Migrasi Endpoint Hermes dari 9Router dan Pembuatan Launcher Run Hermes Desktop]].
+
 ## 2026-11-13 — Setup Obsidian Brain & Migrasi Catatan Lokal (Laptop B)
 - **Aksi:**
   - Menambahkan `brain/` ke `.gitignore` root project dan meng-clone `ARDragon-Brain.git` ke `brain/`.
