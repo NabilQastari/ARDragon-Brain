@@ -13,6 +13,20 @@ updated: 2026-11-13
 
 ---
 
+## 2026-11-13 — Penghalusan Kontrol Naik-Turun (`BodyPitch` Trim, Swoop Blending, & Camera Stabilization)
+- **Temuan Akar Masalah:**
+  - `Main Camera` merupakan child langsung `/Dragon_Player` yang menerima penuh rotasi `transform.rotation = (-_currentPitch, _currentYaw, _currentRoll)`, sehingga setiap perubahan sudut *pitch* (`-45°` ↔ `+24°` ↔ `-4°`) maupun *roll* menghentak garis horizon di viewport.
+  - `maxFlapSpeed = 22 m/s` melewati ambang *Swoop Climb* (`cruiseSpeed + 2.0f = 16 m/s`), menyebabkan naga menyentak naik otomatis setelah berhenti mengepak lalu mendadak turun ke `-1.0 m/s` saat melambat.
+  - Terdapat selisih daya angkat tajam `9x` antara `Flap` biasa (`flapHoldLift = 1.2 m/s`) dan `FlyUp` (`11.0 m/s` pada *lerp* `8.0f`), `BodyPitch` tidak terhubung ke kontrol trim terbang saat `Glide`/`Flap`/`GentleDescent`, *deadzone* `0.20` pada `body_pitch` melompat `0.0 -> 0.201` tanpa *rescaling* serta tanpa EMA, dan `FlapPower` meluruh ke `0` di antara tiap ayunan stroke.
+- **Perbaikan:**
+  - **Unity C#, Config & Scene (`DragonFlightController.cs`, `DragonLocomotionConfig.cs`, `DragonLocomotionConfig.asset`, `Test_Dragon_Flight.unity`):**
+    - Memindahkan rotasi *pitch* & *roll* visual naga ke `Visual_Dragon` lewat `ApplyAttitudeRotation()`, menjaga root `Dragon_Player` hanya berotasi *yaw* agar horizon kamera datar (`roll = 0°`), dan meredam follow pitch kamera (`cameraPitchFollowFactor = 0.25`, `lerp dt * 3.5`) + offset vertikal halus (`clamp ±0.45 m`) di `UpdateCameraPolish()`.
+    - Menghubungkan *Swoop Climb* secara ketat dengan kondisi paska-dive kecepatan tinggi (`_wasDivingHighSpeed` atau excess `> 5.5 m/s`) memakai transisi $C^1$ `Mathf.SmoothStep`, menyatukan rentang vertikal `Flap` (`flapHoldLift = 3.2`) dengan `FlyUp` (`flyUpLiftPower = 7.2`, `flyUpPitch = 19`), mengintegrasikan trim kontinu `_activeCommand.BodyPitch` pada `Flap`, `Glide`, `GentleDescent`, `Hover`, & `Dash`, serta menyeragamkan *damping* (`verticalVelocitySmoothSpeed = 3.8`, `pitchSmoothSpeed = 3.8`, `rollSmoothSpeed = 5.5`, `maxFlapSpeed = 19.5`).
+  - **Python CV (`active_cv_sender.py`, `motion_recognizer.py`):**
+    - Merescale *deadzone* `0.20` pada `head_signal` dan `chest_up_signal` dari `0.0` dan menambahkan EMA temporal `0.22` untuk `smoothed_body_pitch`.
+    - Menambahkan amplop *asymmetric EMA* (`smoothed_power`) pada `FlapStrokeClassifier` agar gaya angkat kepakan terasa mengalir kontinu tanpa denyut antar-stroke.
+- **Verifikasi:** Unity compile `0 errors` (`compilationFailed: false`, `consoleErrors: 0`), scene `Test_Dragon_Flight.unity` tersimpan, 7 suite Python CV (`test_phase2..6`, `test_additional_gestures` 10/10, `test_e2e_flight_physics` 6/6) lulus `TOTAL FAILED: 0`, dan pengecekan `verify_vertical_smoothness.py` lulus (`min=0.377, max=0.621, max_drop=0.136`, boundary `0.20->0.21` kontinu `0.0000->0.0125`).
+
 ## 2026-11-13 — Perbaikan Kemudi Belok Live Webcam (Mirror L/R Swap, Mode Duduk, & Responsivitas Unity)
 - **Temuan Akar Masalah:**
   - `active_cv_sender.py` melakukan `cv2.flip(frame, 1)` sebelum inferensi YOLOv8n-pose namun tetap membaca `IDX_LEFT_*` sebagai `ls/lw` dan `IDX_RIGHT_*` sebagai `rs/rw`. Karena pose frontal COCO menempatkan anatomi `LEFT` pada sisi kanan layar (`x` lebih besar), *arm tilt* (`left_flap_height - right_flap_height`) **terbalik arah** dan saling meniadakan dengan *torso lean* (`0°` netral/melawan arah), `is_forearms_extended` gagal aktif, dan fallback posisi hilang menyeberang ke sisi berlawanan.
