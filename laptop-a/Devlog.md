@@ -13,6 +13,9 @@ updated: 2026-11-13
 
 ---
 
+## 2026-11-13 — Konfigurasi & Integrasi MCP Server FigCraft ([[Konfigurasi dan Integrasi MCP Server FigCraft ke Antigravity]])
+- **Aksi:** Mengonfigurasi server MCP `figcraft` (`E:\ArtCraft\Apps\FigCraft\FigCraft\figcraft-cli.exe` dengan argumen `["mcp"]`) di `C:\Users\nmast\.gemini\config\mcp_config.json`, mengekspor `instructions.md` serta 19 skema JSON tool ke `C:\Users\nmast\.gemini\antigravity\mcp\figcraft\`, dan mendokumentasikan detailnya di [[Konfigurasi dan Integrasi MCP Server FigCraft ke Antigravity]].
+
 ## 2026-11-13 — Pengecekan Blender MCP & Eksekusi `generate_dragon.py` ([[Pengecekan Blender MCP dan Perbaikan serta Eksekusi generate_dragon.py]])
 - **Aksi:** Memverifikasi koneksi Blender MCP (`Blender 5.2.3 LTS`, Addon `v1.8`), memperbaiki *SyntaxError* (*unterminated string literal* pada fungsi `export_standalone_obj()`) di `generate_dragon.py`, serta mengeksekusi skrip di Blender hingga menghasilkan 51 mesh komponen naga dalam koleksi `AncientDewWaterDragon` ([[Pengecekan Blender MCP dan Perbaikan serta Eksekusi generate_dragon.py]]).
 

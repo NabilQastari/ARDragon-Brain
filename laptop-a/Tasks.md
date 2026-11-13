@@ -19,6 +19,7 @@ updated: 2026-11-13
 - [ ] Penyelarasan koordinat pad desa terbaru pada denah Genshin-style terhadap [[prd]] Sesi 4.
 
 ## ✅ Selesai
+- [x] Konfigurasi & integrasi MCP server FigCraft (`figcraft-cli.exe mcp`, `v0.18.0`, 19 tools) ke Antigravity ([[Konfigurasi dan Integrasi MCP Server FigCraft ke Antigravity]]).
 - [x] Pengecekan Blender MCP (`Blender 5.2.3 LTS`, Addon `v1.8`), perbaikan *SyntaxError* pada `generate_dragon.py`, dan eksekusi generator naga low-poly `AncientDewWaterDragon` (51 mesh) di Blender ([[Pengecekan Blender MCP dan Perbaikan serta Eksekusi generate_dragon.py]]).
 - [x] Setup koneksi Blender MCP (port `9876`, Blender 5.2.3 LTS) & instalasi 28 skill `EL4CTEO/blender-skills` di `.agents/skills/` ([[Setup Blender MCP, Instalasi Blender Skills, dan Penyederhanaan Konsep Pulau]]).
 - [x] Penataan struktur folder proyek (`assets/` untuk model/referensi, `misc/` untuk skrip sementara/Luau/Excel) dan dokumentasi sesi eksplorasi *blockout* Roblox Studio ([[Eksplorasi Blockout Pulau Sky Guardian di Roblox Studio dan Penataan Folder Assets Misc]]).
