@@ -19,7 +19,7 @@ updated: 2026-11-13
 - [ ] Penyelarasan koordinat pad desa terbaru pada denah Genshin-style terhadap [[prd]] Sesi 4.
 
 ## ✅ Selesai
-- [x] Sinkronisasi dan perbaikan sheet `List Asset` (Versi 2 aset utama & arsip detail) pada `TS & List Asset.xlsx` sesuai Time Schedule ([[Memory1]]).
+- [x] Sinkronisasi dan perbaikan sheet `List Asset` (Versi 2 aset utama & arsip detail) pada `TS & List Asset.xlsx` sesuai Time Schedule ([[Perbaikan Harmonisasi List Asset Excel terhadap Time Schedule dan Prompt Pulau Melayang]]).
 - [x] Finalisasi [[konteks]] v4.0 (Single Source of Truth sistem terbang Y-T-A, Dual-Port UDP 5052/5053, dan kontrol keyboard zero-conflict).
 - [x] Finalisasi [[prd]] v4.0 (Roadmap Tahap 0 – Sesi 5).
 - [x] Kunci desain UI (*Design Approved*) di [[rencana_desain_ui]] beserta aset referensi di `Referensi UI/`.

@@ -13,8 +13,11 @@ updated: 2026-11-13
 
 ---
 
-## 2026-11-13 — Dokumentasi Sesi List Asset & Jadwal TS ([[Memory1]])
-- **Aksi:** Menyusun catatan memori terstruktur [[Memory1]] yang mendokumentasikan perbaikan workbook `TS & List Asset.xlsx` (penyelarasan ke Versi 2 yang ramping sesuai TS, penguncian jadwal VFX Particles pekan 10–11, penataan arsip detail aset di sheet pendukung, dan penyusunan prompt Blender MCP untuk model pulau).
+## 2026-11-13 — Penamaan Ulang Catatan Sesi ke Format Deskriptif
+- **Aksi:** Mengganti nama `Memory1.md` menjadi [[Perbaikan Harmonisasi List Asset Excel terhadap Time Schedule dan Prompt Pulau Melayang]] di `brain/laptop-a/memories/` agar seluruh catatan sesi langsung menggambarkan isi pembahasannya tanpa awalan `Memory*`.
+
+## 2026-11-13 — Dokumentasi Sesi List Asset & Jadwal TS ([[Perbaikan Harmonisasi List Asset Excel terhadap Time Schedule dan Prompt Pulau Melayang]])
+- **Aksi:** Menyusun catatan memori terstruktur [[Perbaikan Harmonisasi List Asset Excel terhadap Time Schedule dan Prompt Pulau Melayang]] yang mendokumentasikan perbaikan workbook `TS & List Asset.xlsx` (penyelarasan ke Versi 2 yang ramping sesuai TS, penguncian jadwal VFX Particles pekan 10–11, penataan arsip detail aset di sheet pendukung, dan penyusunan prompt Blender MCP untuk model pulau).
 
 ## 2026-11-13 — Pembersihan Dokumen Lama (`brain/laptop-a/`)
 - **Aksi:** Menghapus 3 dokumen `.md` usang/sementara dari `brain/laptop-a/`:

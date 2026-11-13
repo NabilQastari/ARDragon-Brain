@@ -1,8 +1,8 @@
 ---
-title: "Memory 1 — Perbaikan & Harmonisasi List Asset Excel terhadap Time Schedule"
-memory_index: 1
+title: "Perbaikan Harmonisasi List Asset Excel terhadap Time Schedule dan Prompt Pulau Melayang"
+type: session-memory
 tags:
-  - memory
+  - session-memory
   - laptop-a
   - list-asset
   - time-schedule
@@ -17,7 +17,7 @@ related:
   - "[[Devlog]]"
 ---
 
-# 🧠 Memory 1 — Perbaikan & Harmonisasi List Asset Excel terhadap Time Schedule
+# Perbaikan Harmonisasi List Asset Excel terhadap Time Schedule dan Prompt Pulau Melayang
 
 ## 1. Tujuan & Konteks Sesi
 - Mengulas dokumen teknis utama (`konteks.md` dan `prd.md`) terkait kebutuhan awal pembuatan prototipe/desain GUI game *AR Dragon Sky Guardian*.
