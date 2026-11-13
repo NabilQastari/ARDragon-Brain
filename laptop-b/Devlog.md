@@ -40,6 +40,13 @@ updated: 2026-11-13
   - Menganalisis struktur proyek dan menginspeksi `rumah.blend`, `Nagcu.blend`, `pulau.blend`, dan `pohon.blend` via Blender 5.1 CLI.
   - Menyusun prompt eksekusi untuk **Hermes Desktop** pada path `Assets AR Dragon Sky Guardian` dengan gaya *stylized low-poly matte* ala `Nagcu.blend`, menggunakan palet warna rumah alami (terakota `#B84A39`, plester krem `#E8DFCE`, kayu `#5C381E`, batu `#54575E`).
 
+## 2026-11-13 — Rework Computer Vision Motion Control & Tambahan Kontrol Terbang (Fly Up, Hover, Gentle Descent)
+- **Catatan Memori:** [[Rework Computer Vision Motion Control dan Tambahan Kontrol Terbang Fly Up Hover Gentle Descent]]
+- **Aksi & Hasil:**
+  - Mengimplementasikan deteksi & fisika **Fly Up** (chest raised + flapping), **Hover Mode** (upper arms tucked + forearm flapping), dan **Gentle Descent** (tucked T-pose tanpa flapping) dengan strict priority arbitration di `motion_recognizer.py` dan `DragonFlightController.cs`.
+  - Memperluas protokol UDP CSV ke 39 token (`34..38`), memperbarui `IPoseProvider.cs`, `UDPPoseReceiver.cs` (termasuk keyboard fallback `H`, `G`, `U`), `IFlightInputProvider.cs`, `DefaultFlightInputMapper.cs`, dan `InGameFlightHUD.cs`.
+  - Validasi lulus 100%: `test_e2e_flight_physics.py` (6/6), `test_additional_gestures.py` (10/10), `test_phase5_validation.py` (7/7), `test_phase6_final_session.py` (7/7), dan kompilasi Unity 6 URP 0 error.
+
 ## 2026-11-13 — Setup Obsidian Brain & Migrasi Catatan Lokal (Laptop B)
 - **Aksi:**
   - Menambahkan `brain/` ke `.gitignore` root project dan meng-clone `ARDragon-Brain.git` ke `brain/`.

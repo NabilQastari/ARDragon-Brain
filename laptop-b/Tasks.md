@@ -13,6 +13,7 @@ updated: 2026-11-13
 > Ruangan khusus untuk melacak implementasi kode Unity C#, Python CV, integrasi aset 3D, dan build di **Laptop B**. Rujuk desain & arsitektur di [[00 - Overview]], [[laptop-a/prd]], dan [[laptop-a/konteks]].
 
 ## 🔥 Antrean Eksekusi (Dari Dokumen Desain Laptop A)
+- [ ] **Uji Play Mode Webcam (Fly Up, Hover, Gentle Descent):** Verifikasi kenyamanan gestur dan transisi fisika secara langsung dengan pemain di Unity Editor sebelum lanjut ke UI lobby.
 - [ ] **Texturing & Ekspor `rumah.blend`:** Jalankan prompt tekstur alami bergaya *stylized matte* (`Nagcu.blend`) di Hermes Desktop, verifikasi material pada koleksi `Rumah 1 jendela` & `Rumah 2 jendela`, lalu ekspor `.fbx` siap Unity URP (lihat [[Analisis Aset Rumah Blend dan Penyusunan Prompt Tekstur untuk Hermes Desktop]]).
 - [ ] **Sesi GUI:** Implementasi Canvas Menu Lobby (`Panel_Missions`, `Panel_Calibration` + RenderTexture Live Dragon, `Panel_Settings`), `InGameFlightHUD`, serta Victory/Defeat Modal sesuai [[laptop-a/rencana_desain_ui]].
 - [ ] **Sesi Model Pulau:** Integrasi & setup FBX kepulauan 3 biome baru di Unity 6 URP setelah pemodelan Blender selesai.
@@ -20,6 +21,7 @@ updated: 2026-11-13
 - [ ] **Sesi 5:** `GameManager.cs` (Level 1–3, timer, bintang 1–3), audio/SFX, dan build Windows standalone + `start_game.bat`.
 
 ## ✅ Selesai (v6.0 — Sky Peck & Auto-Launch Python)
+- [x] **Rework CV & Tambahan Kontrol Terbang (Fly Up, Hover, Gentle Descent):** Selesai diintegrasikan pada Python CV (`pose_stabilizer.py`, `motion_recognizer.py`, `udp_sender.py`, `active_cv_sender.py`) & Unity (`IPoseProvider.cs`, `UDPPoseReceiver.cs`, `IFlightInputProvider.cs`, `DefaultFlightInputMapper.cs`, `DragonFlightController.cs`, `InGameFlightHUD.cs`) dengan verifikasi 10 skenario gestur & 6 suite fisika E2E. Lihat [[Rework Computer Vision Motion Control dan Tambahan Kontrol Terbang Fly Up Hover Gentle Descent]].
 - [x] **Mekanik Penerbangan Sky Peck:** Implementasi *Flap to Climb* (decoupled tanpa pitch nodding), *Lean to Bank/Turn* (50% arm tilt + 50% torso lean), *Tuck to Dive* ($28\text{ m/s}$), *Propeller Dash* ($26\text{ m/s}$), *Swoop Climb*, dan *Glide* di `DragonFlightController.cs`, `UDPPoseReceiver.cs`, `active_cv_sender.py`, & `test_send_dummy_udp.py`.
 - [x] **Auto-Launch Python Process Manager:** `PythonProcessManager.cs` terpasang di `Dragon_Player` (`Test_Dragon_Flight.unity`), otomatis menjalankan `active_cv_sender.py` saat Play Mode dan menghentikan process tree bersih saat keluar Play Mode.
 - [x] **Arsitektur Input Modular & Telemetri 39-Float:** `IFlightInputProvider.cs`, `DefaultFlightInputMapper.cs`, `udp_sender.py` (39-float UDP 5052 + PIP 5053), dan indikator `Python CV : AKTIF [AUTO-SYNC]` di `InGameFlightHUD.cs`.
