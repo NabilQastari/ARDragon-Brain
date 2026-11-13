@@ -13,6 +13,19 @@ updated: 2026-11-13
 
 ---
 
+## 2026-11-13 — Perbaikan Kemudi Belok Live Webcam (Mirror L/R Swap, Mode Duduk, & Responsivitas Unity)
+- **Temuan Akar Masalah:**
+  - `active_cv_sender.py` melakukan `cv2.flip(frame, 1)` sebelum inferensi YOLOv8n-pose namun tetap membaca `IDX_LEFT_*` sebagai `ls/lw` dan `IDX_RIGHT_*` sebagai `rs/rw`. Karena pose frontal COCO menempatkan anatomi `LEFT` pada sisi kanan layar (`x` lebih besar), *arm tilt* (`left_flap_height - right_flap_height`) **terbalik arah** dan saling meniadakan dengan *torso lean* (`0°` netral/melawan arah), `is_forearms_extended` gagal aktif, dan fallback posisi hilang menyeberang ke sisi berlawanan.
+  - Saat duduk/dekat webcam laptop, pinggul (`lh`/`rh`) sering terpotong di bawah frame (`conf < 0.30` atau `y > 0.95`), sehingga `lean_angle_deg` dan `torso_length` kacau/terkunci.
+  - Kurva kemudi default (`max_lean = 18°`, `pow(ratio, 1.35)`), *arm tilt* `/ 0.55`, ambang *arms away* (`0.52`), serta kecepatan belok Unity (`yawTurnSpeed = 65°/s`, `groundTurnSpeed = 65°/s`) terlalu berat saat dimainkan di kursi.
+- **Perbaikan:**
+  - **Python CV (`active_cv_sender.py`, `player_calibrator.py`, `motion_recognizer.py`, `cv_locomotion_config.json`):**
+    - Menukar pemetaan mirror frontal COCO (`IDX_RIGHT_*` -> `ls/le/lw/lh`, `IDX_LEFT_*` -> `rs/re/rw/rh`) serta menambahkan sintesis pinggul virtual berbasis *shoulder roll* + offset lateral kepala saat pinggul terpotong/occluded (`c_lh/c_rh < 0.30` atau `y > 0.95`).
+    - Mengkalibrasi ulang profil default (`max_lean = 13.5°`, `lean_deadzone >= 2.3°`, kurva `0.70*r + 0.30*r^2`, *arm tilt* hingga `14.5°` dengan pembagi `/ 0.42`), mempercepat rilis pasca-kepak (`0.45s -> 0.35s`), dan menurunkan *UpperArmGate* (`0.42 / 0.30`).
+  - **Unity (`DragonFlightController.cs`, `DragonLocomotionConfig.cs`, `DragonLocomotionConfig.asset`, `UDPPoseReceiver.cs`, `Test_Dragon_Flight.unity`):**
+    - Meningkatkan respons belok (`yawTurnSpeed = 95`, `groundTurnSpeed = 95`, `yawSmoothSpeed = 10`, `maxRollAngle = 40`), menurunkan `takeoffFlapThreshold = 0.28` (`0.20s`), menyelaraskan `entryAwayThreshold = 0.42` / `exitAwayThreshold = 0.30`, memperbaiki `tiltDelta = _smoothedRW.y - _smoothedLW.y` pada fallback `UDPPoseReceiver`, serta menyimpan scene `Test_Dragon_Flight.unity`.
+- **Verifikasi:** Unity compile `0 errors` (`compilationFailed: false`, `consoleErrors: 0`), seluruh 7 suite Python CV (`test_phase2..6`, `test_additional_gestures` 10/10, `test_e2e_flight_physics` 6/6) lulus 100%, serta lolos verifikasi orientasi mirror YOLOv8n-pose & *seated steering*.
+
 ## 2026-11-13 — Implementasi Perbaikan Kontrol Prioritas 3 (Hover Wrist Band, Propeller Velocity/Scale, Core Conf & Test Suite CV)
 - **Aksi:**
   - **Python CV (`motion_recognizer.py`, `pose_stabilizer.py`, `active_cv_sender.py`):**
