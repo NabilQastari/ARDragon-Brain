@@ -1,5 +1,5 @@
 ---
-title: "Implementasi On-Ground Mechanics, Arm-Proximity Locomotion Gate, Takeoff, Fly Up-Down, dan Pengujian 16 Skenario"
+title: "On-Ground Mechanics dan Uji 16 Skenario"
 type: session-memory
 tags:
   - session-memory
@@ -16,7 +16,7 @@ related:
   - "[[Devlog]]"
 ---
 
-# Implementasi On-Ground Mechanics, Arm-Proximity Locomotion Gate, Takeoff, Fly Up-Down, dan Pengujian 16 Skenario
+# On-Ground Mechanics dan Uji 16 Skenario
 
 ## 1. Tujuan & Konteks Sesi
 Sebelumnya, begitu game dijalankan di Unity, karakter naga langsung maju dan terbang di udara meskipun pemain belum membentuk pose. Sesi ini bertujuan memperbaiki sistem lokomosi **AR Dragon Sky Guardian** agar:

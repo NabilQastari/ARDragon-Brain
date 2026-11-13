@@ -13,20 +13,23 @@ updated: 2026-11-13
 
 ---
 
+## 2026-11-13 — Penyederhanaan Nama File Memori (Laptop B)
+- **Aksi:** Menyederhanakan seluruh nama file di `brain/laptop-b/memories/` menjadi judul ringkas (3–6 kata) sesuai standar baru di [[00 - Overview]] serta memperbarui seluruh `[[wikilinks]]` di `Devlog.md` dan `Tasks.md`.
+
 ## 2026-11-13 — Upgrade On-Ground Mechanics, Arm-Proximity Locomotion Gate, Takeoff, Fly Up/Down & Verifikasi 16 Skenario
 - **Aksi:**
   - Menyelesaikan pembaruan dokumen perencanaan (`prd.md` & `konteks.md`) serta implementasi penuh **Fase A–D** pada Python CV (`pose_stabilizer.py`, `motion_recognizer.py`, `udp_sender.py`, `active_cv_sender.py`, `cv_locomotion_config.json`) dan Unity (`DragonFlightController.cs`, `DefaultFlightInputMapper.cs`, `UDPPoseReceiver.cs`, `IFlightInputProvider.cs`, `IPoseProvider.cs`, `DragonLocomotionConfig.cs`, `InGameFlightHUD.cs`).
   - Memverifikasi seluruh **16 skenario pengujian** di Unity Play Mode via UDP `5052` dengan `compilationFailed: false` dan `consoleErrors: 0`.
-  - Catatan lengkap: [[Implementasi On-Ground Mechanics, Arm-Proximity Locomotion Gate, Takeoff, Fly Up-Down, dan Pengujian 16 Skenario]].
+  - Catatan lengkap: [[On-Ground Mechanics dan Uji 16 Skenario]].
 
 ## 2026-11-13 — Setup OmniRoute, Migrasi Endpoint Hermes, & Launcher `Run Hermes Desktop.bat`
 - **Aksi:**
   - Menyusun prompt autonomous setup OmniRoute untuk Hermes Agent, panduan mematikan server 9Router (port `20128`), solusi error `better-sqlite3` (`NODE_MODULE_VERSION 127` vs `137`) pada OmniRoute `v3.8.48`, serta command migrasi endpoint Hermes ke `http://localhost:20128/v1`.
   - Membuat file `Run Hermes Desktop.bat` di root project untuk menjalankan OmniRoute (jika port `20128` belum aktif) dan meluncurkan Hermes Desktop secara otomatis.
-  - Catatan lengkap: [[Setup OmniRoute Migrasi Endpoint Hermes dari 9Router dan Pembuatan Launcher Run Hermes Desktop]].
+  - Catatan lengkap: [[Setup OmniRoute dan Launcher Hermes Desktop]].
 
 ## 2026-11-13 — Mekanik Sky Peck, Auto-Launch Python Process Manager, & Update PRD/Konteks v6.0
-- **Catatan Sesi Lengkap:** [[Implementasi Mekanik Terbang Sky Peck, Auto-Launch Python Process Manager, dan Update PRD-Konteks v6.0]]
+- **Catatan Sesi Lengkap:** [[Mekanik Sky Peck dan Auto-Launch Python]]
 - **Ringkasan Eksekusi:**
   - Menerapkan mekanik penerbangan ala **Sky Peck** di `DragonFlightController.cs`, `UDPPoseReceiver.cs`, `InGameFlightHUD.cs`, dan `active_cv_sender.py` (*Flap to Climb* decoupled tanpa *pitch nodding*, *Lean to Bank/Turn* 50% arm tilt + 50% torso lean, *Tuck to Dive* hingga $28\text{ m/s}$, *Swoop Climb*, *Glide*, serta *Propeller Dash* hingga $26\text{ m/s}$).
   - Menambahkan `PythonProcessManager.cs` pada `Dragon_Player` di `Test_Dragon_Flight.unity` agar `active_cv_sender.py` otomatis berjalan saat Unity Play Mode dimulai dan otomatis berhenti bersih (`taskkill /F /T`) saat keluar Play Mode.
@@ -35,13 +38,13 @@ updated: 2026-11-13
   - Memutakhirkan `konteks.md` & `prd.md` ke **v6.0** dan push ke repo project (`origin/master` commit `6f03436`, `2b4833b`, `62c7e90`).
 
 ## 2026-11-13 — Analisis Aset `rumah.blend` & Prompt Tekstur Hermes Desktop (Laptop B)
-- **Ringkasan:** [[Analisis Aset Rumah Blend dan Penyusunan Prompt Tekstur untuk Hermes Desktop]]
+- **Ringkasan:** [[Analisis dan Tekstur Rumah Blend]]
 - **Aksi:**
   - Menganalisis struktur proyek dan menginspeksi `rumah.blend`, `Nagcu.blend`, `pulau.blend`, dan `pohon.blend` via Blender 5.1 CLI.
   - Menyusun prompt eksekusi untuk **Hermes Desktop** pada path `Assets AR Dragon Sky Guardian` dengan gaya *stylized low-poly matte* ala `Nagcu.blend`, menggunakan palet warna rumah alami (terakota `#B84A39`, plester krem `#E8DFCE`, kayu `#5C381E`, batu `#54575E`).
 
 ## 2026-11-13 — Rework Computer Vision Motion Control & Tambahan Kontrol Terbang (Fly Up, Hover, Gentle Descent)
-- **Catatan Memori:** [[Rework Computer Vision Motion Control dan Tambahan Kontrol Terbang Fly Up Hover Gentle Descent]]
+- **Catatan Memori:** [[Rework CV dan Kontrol Terbang Baru]]
 - **Aksi & Hasil:**
   - Mengimplementasikan deteksi & fisika **Fly Up** (chest raised + flapping), **Hover Mode** (upper arms tucked + forearm flapping), dan **Gentle Descent** (tucked T-pose tanpa flapping) dengan strict priority arbitration di `motion_recognizer.py` dan `DragonFlightController.cs`.
   - Memperluas protokol UDP CSV ke 39 token (`34..38`), memperbarui `IPoseProvider.cs`, `UDPPoseReceiver.cs` (termasuk keyboard fallback `H`, `G`, `U`), `IFlightInputProvider.cs`, `DefaultFlightInputMapper.cs`, dan `InGameFlightHUD.cs`.

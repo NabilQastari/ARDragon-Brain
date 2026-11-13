@@ -1,5 +1,5 @@
 ---
-title: "Rework Computer Vision Motion Control dan Tambahan Kontrol Terbang Fly Up, Hover, serta Gentle Descent"
+title: "Rework CV dan Kontrol Terbang Baru"
 type: session-memory
 tags:
   - session-memory
@@ -16,7 +16,7 @@ related:
   - "[[Devlog]]"
 ---
 
-# Rework Computer Vision Motion Control dan Tambahan Kontrol Terbang Fly Up, Hover, serta Gentle Descent
+# Rework CV dan Kontrol Terbang Baru
 
 ## 1. Tujuan & Konteks Sesi
 Sesi ini berfokus pada pengerjaan dua rangkaian besar peningkatan sistem kontrol gerak tubuh (*Sky Peck-inspired gameplay*) di **AR Dragon Sky Guardian** (Unity `6000.3.7f1` URP + Python CV):

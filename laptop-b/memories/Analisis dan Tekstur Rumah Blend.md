@@ -1,5 +1,5 @@
 ---
-title: "Analisis Aset rumah.blend dan Penyusunan Prompt Tekstur untuk Hermes Desktop"
+title: "Analisis dan Tekstur Rumah Blend"
 type: session-memory
 tags:
   - session-memory
@@ -16,7 +16,7 @@ related:
   - "[[Devlog]]"
 ---
 
-# Analisis Aset `rumah.blend` dan Penyusunan Prompt Tekstur untuk Hermes Desktop
+# Analisis dan Tekstur Rumah Blend (`rumah.blend`)
 
 > **Catatan Konteks Waktu:** Sesi analisis aset dan penyusunan prompt berlangsung pada `2026-11-02`, kemudian dirangkum ke dalam memori Obsidian Brain Laptop B pada `2026-11-13`.
 

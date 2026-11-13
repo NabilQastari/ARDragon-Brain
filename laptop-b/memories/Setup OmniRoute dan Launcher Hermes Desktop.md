@@ -1,5 +1,5 @@
 ---
-title: "Setup OmniRoute, Migrasi Endpoint Hermes dari 9Router, dan Pembuatan Launcher Run Hermes Desktop"
+title: "Setup OmniRoute dan Launcher Hermes Desktop"
 type: session-memory
 tags:
   - session-memory
@@ -16,7 +16,7 @@ related:
   - "[[Devlog]]"
 ---
 
-# Setup OmniRoute, Migrasi Endpoint Hermes dari 9Router, dan Pembuatan Launcher Run Hermes Desktop
+# Setup OmniRoute dan Launcher Hermes Desktop
 
 ## 1. Tujuan & Konteks Sesi
 Sesi ini berfokus pada persiapan lingkungan *tooling* AI lokal di **Laptop B** untuk menjalankan **Hermes Agent / Hermes Desktop** melalui gateway **OmniRoute** sebagai pengganti **9Router**:

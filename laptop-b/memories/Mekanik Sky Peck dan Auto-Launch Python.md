@@ -1,5 +1,5 @@
 ---
-title: "Implementasi Mekanik Terbang Sky Peck, Auto-Launch Python Process Manager, dan Update PRD-Konteks v6.0"
+title: "Mekanik Sky Peck dan Auto-Launch Python"
 type: session-memory
 tags:
   - session-memory
@@ -17,7 +17,7 @@ related:
   - "[[laptop-b/Devlog]]"
 ---
 
-# Implementasi Mekanik Terbang Sky Peck, Auto-Launch Python Process Manager, dan Update PRD-Konteks v6.0
+# Mekanik Sky Peck dan Auto-Launch Python
 
 ## 1. Tujuan & Konteks Sesi
 - Meniru mekanik penerbangan tubuh game indie **Sky Peck** (*skypeck.fun*) agar kontrol naga terasa natural, responsif, dan bebas dari disorientasi kamera (*pitch nodding* saat mengepakkan tangan).
