@@ -14,12 +14,17 @@ updated: 2026-11-13
 
 ## 🔥 Antrean Eksekusi (Dari Dokumen Desain Laptop A)
 - [x] **Sederhanakan Scene Uji Awal (`Test_Dragon_Flight.unity`):** Hapus `/World_Island` dan ganti dengan `/Grass_Baseplate` (Cube `2000x2x2000`, `Mat_Grass_Baseplate.mat`) serta reposisi `/Dragon_Player` ke `(0, 0.85, 0)`.
-- [ ] **Perbaikan & Penyempurnaan Mekanisme Kontrol (Hasil Audit):**
-  - [ ] Fix teleportasi `+2.65 m` pada frame pertama Takeoff (`DragonFlightController.cs`) & pencegahan `FlyUp` membatalkan takeoff terlalu dini.
-  - [ ] Perbaiki ambang `FlyUpClassifier` pada default profile (`1.9075` -> selaras `1.74`), aktifkan pembacaan `cv_locomotion_config.json`, serta selaraskan `arm_tilt_norm`, `HoverClassifier`, `PropellerRotationClassifier`, dan `core_conf`.
-  - [ ] Hilangkan double-smoothing / double steering curve (`pow^1.35` 2x), kirim status `UpperArmLocomotionGate` lewat UDP 5052, dan pasang `DefaultFlightInputMapper` langsung di scene dengan `DragonLocomotionConfig.asset`.
-  - [ ] Benahi Keyboard Fallback: tambah binding `A` (kiri), `PropellerDash`, `FlyDownY`, `FlyDownW`; cegah jatuh ke `Gentle Descent` saat tombol dilepas / tidak menahan `T`; dukung fallback `#else` Legacy Input di `DefaultFlightInputMapper`.
-  - [ ] Sinkronkan `InGameFlightHUD.cs` (`-1.6 m/s`, wireframe `FlyDownY/W/Dash`), trigger kalibrasi dari Unity, dan perbaiki 2 test suite CV yang gagal (`test_additional_gestures.py`, `test_e2e_flight_physics.py`).
+- [ ] **Perbaikan & Penyempurnaan Mekanisme Kontrol (Hasil Audit — Webcam/CV):**
+  - [x] **Prioritas 1 (Transisi Grounded -> Takeoff, Landing, & Ambang Fly Up):**
+    - [x] Hapus teleportasi vertikal `+2.65 m` (`minGroundClearance = 3.5 m` snap) pada frame pertama Takeoff, cegah `FlyUp` membatalkan `_isTakingOff` sebelum mencapai target ketinggian, dan izinkan `TuckDive` menyentuh tanah untuk mendarat di `DragonFlightController.cs`.
+    - [x] Perbaiki ambang `FlyUpClassifier` pada default profile (`is_calibrated=False` di `get_default_profile()` -> `1.74 / 1.66`, dan `min(1.80, max(1.68, neutral_ratio + 0.08))` saat terkalibrasi), serta hubungkan pembacaan `_CV_CONFIG` (`cv_locomotion_config.json`) ke seluruh classifier di `motion_recognizer.py`.
+    - [x] Pisahkan `Grounded Look Up` dari `PitchInput` tangan terangkat (`DragonFlightController.cs` hanya memakai `BodyPitch`, sementara `active_cv_sender.py` menghitung `body_pitch` dari *head tilt* + *chest elevation*), dan matikan `enableKeyboardFallback` pada `/Dragon_Player`.
+  - [ ] **Prioritas 2 (Kemudi/Belok, Gate Lengan, & Konfigurasi):**
+    - [ ] Hilangkan double-smoothing / double steering curve (`pow^1.35` 2x), perbaiki rumus `arm_tilt_norm` di `active_cv_sender.py`, kirim status `UpperArmLocomotionGate` lewat UDP 5052, dan pasang `DefaultFlightInputMapper` langsung di scene dengan `DragonLocomotionConfig.asset`.
+  - [ ] **Prioritas 3 (Hover, Dash, Degraded Tracking, & Suite Tes):**
+    - [ ] Perketat `HoverClassifier` terhadap tinggi pergelangan tangan, gunakan rata-rata `shoulder_width` di `PropellerRotationClassifier`, pisahkan `core_conf` dari keypoint pergelangan tangan di `pose_stabilizer.py`, dan perbaiki 2 test suite CV (`test_additional_gestures.py`, `test_e2e_flight_physics.py`).
+  - [ ] **Prioritas 4 (HUD & Kalibrasi Unity):**
+    - [ ] Sinkronkan `InGameFlightHUD.cs` (`-1.6 m/s`, wireframe `FlyDownY/W/Dash`) dan tambahkan trigger kalibrasi dari Unity ke Python CV.
 - [ ] **Uji Play Mode Webcam (Fly Up, Hover, Gentle Descent):** Verifikasi kenyamanan gestur dan transisi fisika secara langsung dengan pemain di Unity Editor sebelum lanjut ke UI lobby.
 - [ ] **Texturing & Ekspor `rumah.blend`:** Jalankan prompt tekstur alami bergaya *stylized matte* (`Nagcu.blend`) di Hermes Desktop, verifikasi material pada koleksi `Rumah 1 jendela` & `Rumah 2 jendela`, lalu ekspor `.fbx` siap Unity URP (lihat [[Analisis dan Tekstur Rumah Blend]]).
 - [ ] **Sesi GUI:** Implementasi Canvas Menu Lobby (`Panel_Missions`, `Panel_Calibration` + RenderTexture Live Dragon, `Panel_Settings`), `InGameFlightHUD`, serta Victory/Defeat Modal sesuai [[laptop-a/rencana_desain_ui]].

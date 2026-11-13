@@ -13,6 +13,20 @@ updated: 2026-11-13
 
 ---
 
+## 2026-11-13 — Implementasi Perbaikan Kontrol Prioritas 1 (Takeoff, Landing, FlyUp Threshold, Config CV & Grounded Look Up)
+- **Aksi:**
+  - **Unity (`DragonFlightController.cs` & `Test_Dragon_Flight.unity`):**
+    - Menghapus *hard-snap* `safePos.y = landedSurfaceY + minGroundClearance` (`3.5 m`) yang menyebabkan naga teleport `+2.65 m` pada frame pertama `Takeoff`, serta menjaga agar `groundAvoidance` tidak mendistorsi kurva naiknya `_isTakingOff`.
+    - Mencegah `FlyUp` membatalkan `_isTakingOff` sebelum naga mencapai ketinggian target (`_takeoffTargetY - 0.35f`).
+    - Mengizinkan `TuckDive` yang mencapai permukaan tanah untuk memicu transisi mendarat (`TriggerLanding()`) alih-alih tertahan meluncur di atas tanah.
+    - Memisahkan `Grounded Look Up` dari `PitchInput` (tangan terangkat) sehingga di darat naga hanya mendongak berdasarkan `BodyPitch`.
+    - Menonaktifkan `enableKeyboardFallback` pada `UDPPoseReceiver` di `/Dragon_Player` (`Test_Dragon_Flight.unity`) sesuai keputusan fokus murni kontrol webcam/CV.
+  - **Python CV (`player_calibrator.py`, `motion_recognizer.py`, `cv_locomotion_config.json`, `active_cv_sender.py`):**
+    - Mengubah `get_default_profile()` menjadi `is_calibrated=False` dan memperbaiki rumus adaptif `FlyUpClassifier` saat terkalibrasi (`min(1.80, max(1.68, neutral_ratio + 0.08))`) sehingga ambang `Fly Up` kembali responsif di `1.74` (default) dan `<= 1.80` (calibrated), bukan `1.9075`.
+    - Menghubungkan pembacaan `_CV_CONFIG` (`cv_locomotion_config.json`) ke `TuckDiveClassifier`, `FlyUpClassifier`, `UpperArmLocomotionGate`, `GentleDescentClassifier`, dan `FlyDownClassifier`.
+    - Memperkaya sinyal `body_pitch` di `active_cv_sender.py` dengan menggabungkan *head tilt* (`head_signal`) dan busung dada (`chest_elevation`) tanpa terkontaminasi posisi pergelangan tangan.
+  - **Verifikasi:** Kompilasi Unity 6 URP `0 errors` (`compilationFailed: false`) dan suite validasi Python CV Phase 2, 4, 5 serta unit test `FlyUpClassifier` lulus 100%.
+
 ## 2026-11-13 — Ganti Pulau dengan Grass Baseplate & Audit Kendala Mekanisme Kontrol
 - **Aksi:**
   - Menghapus `/World_Island` dari hierarki `Test_Dragon_Flight.unity` dan menggantinya dengan `/Grass_Baseplate` (`Cube` ukuran `2000 x 2 x 2000` di `(0, -1, 0)` dengan material `Assets/Materials/Mat_Grass_Baseplate.mat`, shader `Universal Render Pipeline/Lit`), serta memindahkan `/Dragon_Player` ke `(0, 0.85, 0)` dan menyimpan scene.
