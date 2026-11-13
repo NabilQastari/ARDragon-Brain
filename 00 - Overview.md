@@ -71,9 +71,10 @@ Jika pengguna mengetik **`jadikan sesi ini memori`** di sesi chat mana pun (baik
      - **Laptop B** $\rightarrow$ tulis hanya di `brain/laptop-b/` (`owner: Laptop B`, tag `laptop-b`).
    - **Dilarang keras** mengedit atau menghapus file di folder laptop lain.
 2. **Sinkronisasi Awal:** Jalankan `git -C brain pull` (jika ada koneksi internet).
-3. **Penamaan File Deskriptif:**
-   - Simpan di `brain/<laptop-aktif>/memories/<Nama Deskriptif Sesi>.md` (buat folder `memories/` jika belum ada).
-   - Gunakan nama file yang **spesifik dan langsung menggambarkan seluruh pembahasan/pekerjaan di sesi tersebut** (boleh panjang, tanpa awalan `Memory*`, bebas karakter terlarang Windows `\ / : * ? " < > |`, dan tidak menimpa file yang sudah ada).
+3. **Penamaan File Ringkas & Deskriptif:**
+   - Simpan di `brain/<laptop-aktif>/memories/<Nama Ringkas Sesi>.md` (buat folder `memories/` jika belum ada).
+   - Gunakan nama file yang **ringkas, padat, dan langsung menggambarkan topik utama sesi** (idealnya **3–6 kata** / maks ~50 karakter, misal `Pembuatan Model Naga 3D v3.md` atau `Integrasi MCP FigCraft.md`).
+   - Tanpa awalan `Memory*`, hindari koma atau daftar detail panjang di nama file (rincian teknis ditaruh di isi catatan), bebas karakter terlarang Windows `\ / : * ? " < > |`, dan tidak menimpa file yang sudah ada.
 4. **Format Catatan Obsidian:**
    - Gunakan **YAML frontmatter** (`title`, `type: session-memory`, `tags`, `date`, `owner`, `related`) dan `[[wikilinks]]`.
    - Susun isi ke dalam 5 bagian wajib berdasarkan fakta yang benar-benar terjadi di sesi tersebut (tanpa mengarang):

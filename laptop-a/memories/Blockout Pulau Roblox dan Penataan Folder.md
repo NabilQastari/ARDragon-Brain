@@ -1,5 +1,5 @@
 ---
-title: "Eksplorasi Blockout Pulau Sky Guardian di Roblox Studio dan Penataan Folder Assets Misc"
+title: "Blockout Pulau Roblox dan Penataan Folder"
 type: session-memory
 tags:
   - session-memory
@@ -17,7 +17,7 @@ related:
   - "[[Devlog]]"
 ---
 
-# Eksplorasi Blockout Pulau Sky Guardian di Roblox Studio dan Penataan Folder Assets Misc
+# Blockout Pulau Roblox dan Penataan Folder
 
 ## 1. Tujuan & Konteks Sesi
 - **Konteks Waktu:** Sesi chat ini berlangsung pada **2026-11-08** (didokumentasikan ke Obsidian Brain pada **2026-11-13**) saat eksplorasi *blockout* peta pulau masih difokuskan pada **Roblox Studio** sebelum transisi roadmap ke Unity 6 (`6000.3.7f1`).

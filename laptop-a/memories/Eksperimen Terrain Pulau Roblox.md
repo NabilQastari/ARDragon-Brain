@@ -1,5 +1,5 @@
 ---
-title: "Eksperimen Iteratif Daratan Pulau 1600x1600 Part Wedge dan Smooth Terrain Heightmap di Roblox Studio"
+title: "Eksperimen Terrain Pulau Roblox"
 type: session-memory
 tags:
   - session-memory
@@ -18,7 +18,7 @@ related:
   - "[[konteks]]"
 ---
 
-# Eksperimen Iteratif Daratan Pulau 1600x1600 Part Wedge dan Smooth Terrain Heightmap di Roblox Studio
+# Eksperimen Terrain Pulau Roblox
 
 ## 1. Tujuan & Konteks Sesi
 Sesi ini berfokus pada eksplorasi bertahap (*step-by-step*) pembuatan ulang peta pulau **AR Dragon: Sky Guardian** di **Roblox Studio** (`AR Dragon Map`, placeId `76777908576082`, Studio ID `5ada63e9-78fd-49e5-9cd9-075e20b6ffa2`) melalui Roblox Studio MCP (`execute_luau`, `screen_capture`, `search_game_tree`), dengan mengacu pada [[prd]], `prompt.md`, serta referensi visual top-down dan isometrik dari pengguna.

@@ -1,5 +1,5 @@
 ---
-title: "Setup Blender MCP, Instalasi Blender Skills, dan Penyederhanaan Konsep Pulau"
+title: "Setup Blender MCP dan Konsep Pulau"
 type: session-memory
 tags:
   - session-memory
@@ -18,7 +18,7 @@ related:
   - "[[prd]]"
 ---
 
-# Setup Blender MCP, Instalasi Blender Skills, dan Penyederhanaan Konsep Pulau
+# Setup Blender MCP dan Konsep Pulau
 
 ## 1. Tujuan & Konteks Sesi
 - Membaca spesifikasi model pulau pada `prd.md` dan `konteks.md` (saat sesi berlangsung masih mengacu pada spesifikasi awal v3.0 di root workspace).

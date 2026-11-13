@@ -1,5 +1,5 @@
 ---
-title: "Pembuatan dan Iterasi Revisi Model Naga 3D v3 hingga Verifikasi QA di Blender MCP"
+title: "Pembuatan Model Naga 3D v3"
 type: session-memory
 tags:
   - session-memory
@@ -16,7 +16,7 @@ related:
   - "[[Devlog]]"
 ---
 
-# Pembuatan dan Iterasi Revisi Model Naga 3D v3 hingga Verifikasi QA di Blender MCP
+# Pembuatan Model Naga 3D v3
 
 ## 1. Tujuan & Konteks Sesi
 - Menganalisis perbedaan model naga pada folder `remodel naga v1` dan `remodel naga v2`, lalu membangun ulang versi baru (**remodel naga v3**) dari 0 di `remodel naga v3/Dragon_Model.blend` berdasarkan referensi visual yang disetujui.

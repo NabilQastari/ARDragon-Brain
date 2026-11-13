@@ -1,5 +1,5 @@
 ---
-title: "Iterasi Perbaikan Kaki, Eksperimen dan Revert Body serta Sayap Naga V2, dan Eksekusi generate_dragon.py di Blender"
+title: "Iterasi Naga v2 dan Eksekusi Generator"
 type: session-memory
 tags:
   - session-memory
@@ -16,7 +16,7 @@ related:
   - "[[Devlog]]"
 ---
 
-# Iterasi Perbaikan Kaki, Eksperimen dan Revert Body serta Sayap Naga V2, dan Eksekusi generate_dragon.py di Blender
+# Iterasi Naga v2 dan Eksekusi Generator
 
 ## 1. Tujuan & Konteks Sesi
 Sesi ini berfokus pada iterasi lanjutan model 3D **Ancient Dew Water Dragon** pada file `assets/Naga V2 Tes 2.blend` dan pembandingan dengan skrip generator prosedural `generate_dragon.py` di Blender:

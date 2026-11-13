@@ -1,5 +1,5 @@
 ---
-title: "Setup FigCraft MCP Live Control dan Pembuatan 6 Layar Wireframe UI AR Dragon"
+title: "Wireframe 6 Layar UI di FigCraft"
 type: session-memory
 tags:
   - session-memory
@@ -17,7 +17,7 @@ related:
   - "[[Devlog]]"
 ---
 
-# Setup FigCraft MCP Live Control dan Pembuatan 6 Layar Wireframe UI AR Dragon
+# Wireframe 6 Layar UI di FigCraft
 
 ## 1. Tujuan & Konteks Sesi
 - Mengecek koneksi dan kemampuan MCP server **FigCraft** (`E:\ArtCraft\Apps\FigCraft\FigCraft\figcraft-cli.exe`).

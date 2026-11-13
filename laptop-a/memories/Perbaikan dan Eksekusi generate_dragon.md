@@ -1,5 +1,5 @@
 ---
-title: "Pengecekan Blender MCP dan Perbaikan serta Eksekusi generate_dragon.py"
+title: "Perbaikan dan Eksekusi generate_dragon"
 type: session-memory
 tags:
   - session-memory
@@ -15,7 +15,7 @@ related:
   - "[[Devlog]]"
 ---
 
-# Pengecekan Blender MCP dan Perbaikan serta Eksekusi generate_dragon.py
+# Perbaikan dan Eksekusi generate_dragon
 
 ## 1. Tujuan & Konteks Sesi
 - Memeriksa status koneksi **Blender MCP** ke aplikasi Blender yang sedang aktif.

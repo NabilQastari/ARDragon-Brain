@@ -1,5 +1,5 @@
 ---
-title: "Setup Struktur Output Remodel Naga v2 dan Verifikasi Aset Blender MCP"
+title: "Setup Output Remodel Naga v2"
 type: session-memory
 tags:
   - session-memory
@@ -15,7 +15,7 @@ related:
   - "[[Devlog]]"
 ---
 
-# Setup Struktur Output Remodel Naga v2 dan Verifikasi Aset Blender MCP
+# Setup Output Remodel Naga v2
 
 > **Catatan Konteks Waktu:** Sesi eksekusi dilakukan pada **2026-11-10** (sebelum pembersihan `prompt_naga.md` dan penyelesaian remodel naga v3 pada **2026-11-13**).
 

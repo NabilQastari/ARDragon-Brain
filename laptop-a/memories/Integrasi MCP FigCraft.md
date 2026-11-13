@@ -1,5 +1,5 @@
 ---
-title: "Konfigurasi dan Integrasi MCP Server FigCraft ke Antigravity"
+title: "Integrasi MCP FigCraft"
 type: session-memory
 tags:
   - session-memory
@@ -15,7 +15,7 @@ related:
   - "[[Devlog]]"
 ---
 
-# Konfigurasi dan Integrasi MCP Server FigCraft ke Antigravity
+# Integrasi MCP FigCraft
 
 ## 1. Tujuan & Konteks Sesi
 - **Target:** Menghubungkan aplikasi desain antarmuka **FigCraft** (yang sudah diinstal pengguna di `E:\ArtCraft\Apps\FigCraft\FigCraft`) sebagai MCP (*Model Context Protocol*) server di Antigravity.
