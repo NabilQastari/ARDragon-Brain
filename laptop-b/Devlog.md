@@ -13,6 +13,16 @@ updated: 2026-11-14
 
 ---
 
+## 2026-11-14 — Dropdown Input Kamera & Dual Mode Aktivasi YOLO (`Latar Belakang` vs `Jendela Preview`)
+- **Aksi:**
+  - Menonaktifkan peluncuran otomatis Python CV saat Play/Startup (`autoLaunchPython = false` di `PythonProcessManager.cs`, `UDPPoseReceiver.cs`, dan `Test_Dragon_Flight.unity`), serta mereset seluruh flag pose/flap/dash di `UDPPoseReceiver.cs` saat tidak terhubung.
+  - Menambahkan enumerasi kamera DirectShow cepat berbasis `ctypes` COM `ICreateDevEnum` (`enumerate_dshow_cameras()` & `resolve_camera_index()` di `camera_stream.py`, flag `--list-json` di `check_camera.py`) dan dukungan `--cam-name` serta deteksi penutupan jendela `[X]` di `active_cv_sender.py`.
+  - Memperbarui `PythonProcessManager.cs` dengan `CameraLaunchMode` (`None`, `BackgroundInGameOnly`, `ExternalPreviewWindow`), `RefreshCameraListAsync()`, `SelectCamera()`, `LaunchBackgroundMode()`, `LaunchExternalPreviewMode()`, `PYTHONIOENCODING=utf-8`, serta guard race-condition `ReferenceEquals` pada lifecycle proses Python.
+  - Merombak panel kamera kanan atas di `InGameFlightHUD.cs`: dropdown pemilih perangkat kamera (7 kamera terdeteksi dengan popup solid opaque `alpha = 1.0f` bebas tembus teks pada Linear Color Space), tombol `Scan`, tombol `Matikan` saat aktif, serta dua tombol aktivasi (`Latar Belakang` untuk feed PIP in-game saja vs `Jendela Preview` yang juga membuka jendela OpenCV eksternal).
+- **Verifikasi:**
+  - Kompilasi Unity (`Assets/Refresh`) selesai tanpa error maupun warning (`compilationFailed: false`, `consoleErrors: 0`).
+  - Uji Play Mode pada `Test_Dragon_Flight.unity`: zero proses Python CV saat startup (`selectedCameraIndex = -1`, status `STANDBY`), dropdown menampilkan 7 kamera `[0..6]` dengan tombol `Scan` sejajar, mode `Latar Belakang` pada `[6] OBS Virtual Camera` mengalirkan live PIP in-game tanpa jendela eksternal, peralihan ke `Jendela Preview` membuka window OpenCV (`MainWindowHandle` non-zero) sambil tetap streaming PIP, dan tombol `Matikan` + keluar Play Mode menghentikan seluruh proses anak Python CV dengan bersih (`0` console error/warning, scene `isDirty: false`).
+
 ## 2026-11-14 — Penataan Struktur Folder Proyek (`assets/`, `docs/`, `tools/`)
 - **Aksi:**
   - **Aset (`assets/`):**
