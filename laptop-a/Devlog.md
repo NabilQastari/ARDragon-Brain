@@ -19,6 +19,9 @@ updated: 2026-11-13
 ## 2026-11-13 — Konfigurasi & Integrasi MCP Server FigCraft ([[Konfigurasi dan Integrasi MCP Server FigCraft ke Antigravity]])
 - **Aksi:** Mengonfigurasi server MCP `figcraft` (`E:\ArtCraft\Apps\FigCraft\FigCraft\figcraft-cli.exe` dengan argumen `["mcp"]`) di `C:\Users\nmast\.gemini\config\mcp_config.json`, mengekspor `instructions.md` serta 19 skema JSON tool ke `C:\Users\nmast\.gemini\antigravity\mcp\figcraft\`, dan mendokumentasikan detailnya di [[Konfigurasi dan Integrasi MCP Server FigCraft ke Antigravity]].
 
+## 2026-11-13 — Iterasi Kaki, Eksperimen & Revert Body/Sayap Naga V2, dan Eksekusi `generate_dragon.py` ([[Iterasi Perbaikan Kaki, Eksperimen dan Revert Body serta Sayap Naga V2, dan Eksekusi generate_dragon.py di Blender]])
+- **Aksi:** Menyusun catatan memori terstruktur [[Iterasi Perbaikan Kaki, Eksperimen dan Revert Body serta Sayap Naga V2, dan Eksekusi generate_dragon.py di Blender]] yang merekam perbaikan mesh `kaki` & `kaki2` pada `assets/Naga V2 Tes 2.blend`, pembuatan prompt Hermes (analisis referensi dengan `antigravity`/`gemini flash` + pemodelan Blender dengan `opus 4.6`), eksperimen dan *revert* bersih pada *body* (`Naga V2 Tes 2_backup_before_body.blend`) serta sayap (`Naga V2 Tes 2_backup_before_wings.blend`), hingga perbaikan `SyntaxError` dan eksekusi `generate_dragon.py` ke `assets/AncientDewWaterDragon_Generated.blend`.
+
 ## 2026-11-13 — Pengecekan Blender MCP & Eksekusi `generate_dragon.py` ([[Pengecekan Blender MCP dan Perbaikan serta Eksekusi generate_dragon.py]])
 - **Aksi:** Memverifikasi koneksi Blender MCP (`Blender 5.2.3 LTS`, Addon `v1.8`), memperbaiki *SyntaxError* (*unterminated string literal* pada fungsi `export_standalone_obj()`) di `generate_dragon.py`, serta mengeksekusi skrip di Blender hingga menghasilkan 51 mesh komponen naga dalam koleksi `AncientDewWaterDragon` ([[Pengecekan Blender MCP dan Perbaikan serta Eksekusi generate_dragon.py]]).
 
