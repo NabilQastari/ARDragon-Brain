@@ -13,6 +13,9 @@ updated: 2026-11-13
 
 ---
 
+## 2026-11-13 — Dokumentasi Sesi Setup Blender MCP, Skill Modeling, & Konsep Pulau Sederhana ([[Setup Blender MCP, Instalasi Blender Skills, dan Penyederhanaan Konsep Pulau]])
+- **Aksi:** Menyusun catatan memori terstruktur [[Setup Blender MCP, Instalasi Blender Skills, dan Penyederhanaan Konsep Pulau]] yang merekam konfigurasi `mcp-for-blender` (Blender 5.2.3 LTS, port 9876), instalasi 28 skill `EL4CTEO/blender-skills` di `.agents/skills/`, iterasi awal aset `Assets/pulau_sky_guardian.blend`/`.fbx`, serta keputusan penyederhanaan pulau (fokus pada elemen tantangan: sungai, hutan, cerobong asap, lahan tandus `#8B5A2B`, tanpa air terjun/pulau satelit) beserta prompt referensi gambar 3D-nya.
+
 ## 2026-11-13 — Penamaan Ulang Catatan Sesi ke Format Deskriptif
 - **Aksi:** Mengganti nama `Memory1.md` menjadi [[Perbaikan Harmonisasi List Asset Excel terhadap Time Schedule dan Prompt Pulau Melayang]] di `brain/laptop-a/memories/` agar seluruh catatan sesi langsung menggambarkan isi pembahasannya tanpa awalan `Memory*`.
 

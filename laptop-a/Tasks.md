@@ -19,6 +19,7 @@ updated: 2026-11-13
 - [ ] Penyelarasan koordinat pad desa terbaru pada denah Genshin-style terhadap [[prd]] Sesi 4.
 
 ## ✅ Selesai
+- [x] Setup koneksi Blender MCP (port `9876`, Blender 5.2.3 LTS) & instalasi 28 skill `EL4CTEO/blender-skills` di `.agents/skills/` ([[Setup Blender MCP, Instalasi Blender Skills, dan Penyederhanaan Konsep Pulau]]).
 - [x] Sinkronisasi dan perbaikan sheet `List Asset` (Versi 2 aset utama & arsip detail) pada `TS & List Asset.xlsx` sesuai Time Schedule ([[Perbaikan Harmonisasi List Asset Excel terhadap Time Schedule dan Prompt Pulau Melayang]]).
 - [x] Finalisasi [[konteks]] v4.0 (Single Source of Truth sistem terbang Y-T-A, Dual-Port UDP 5052/5053, dan kontrol keyboard zero-conflict).
 - [x] Finalisasi [[prd]] v4.0 (Roadmap Tahap 0 – Sesi 5).
