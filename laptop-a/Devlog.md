@@ -13,6 +13,9 @@ updated: 2026-11-13
 
 ---
 
+## 2026-11-13 — Dokumentasi Sesi Blender MCP Pembuatan Daratan 800×800m ([[Generasi Prosedural Daratan Low-Poly 800x800m di Blender MCP Tahap 1]])
+- **Aksi:** Mengarsipkan seluruh hasil sesi 2026-11-08 ke [[Generasi Prosedural Daratan Low-Poly 800x800m di Blender MCP Tahap 1]] (verifikasi koneksi Blender MCP `5.2.3 LTS`, analisis 3 referensi terrain, identifikasi 3 kontradiksi spesifikasi, serta eksekusi Tahap 1 `island_gen.py` menjadi `Island_v01.blend` [`HEIGHT_MULT = 1.0`] dan `Island_v02.blend` [`HEIGHT_MULT = 3.0`] yang keduanya lolos 14/14 cek `validate()`).
+
 ## 2026-11-13 — Konfigurasi & Integrasi MCP Server FigCraft ([[Konfigurasi dan Integrasi MCP Server FigCraft ke Antigravity]])
 - **Aksi:** Mengonfigurasi server MCP `figcraft` (`E:\ArtCraft\Apps\FigCraft\FigCraft\figcraft-cli.exe` dengan argumen `["mcp"]`) di `C:\Users\nmast\.gemini\config\mcp_config.json`, mengekspor `instructions.md` serta 19 skema JSON tool ke `C:\Users\nmast\.gemini\antigravity\mcp\figcraft\`, dan mendokumentasikan detailnya di [[Konfigurasi dan Integrasi MCP Server FigCraft ke Antigravity]].
 
