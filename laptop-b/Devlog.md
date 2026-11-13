@@ -13,6 +13,12 @@ updated: 2026-11-13
 
 ---
 
+## 2026-11-13 — Ganti Pulau dengan Grass Baseplate & Audit Kendala Mekanisme Kontrol
+- **Aksi:**
+  - Menghapus `/World_Island` dari hierarki `Test_Dragon_Flight.unity` dan menggantinya dengan `/Grass_Baseplate` (`Cube` ukuran `2000 x 2 x 2000` di `(0, -1, 0)` dengan material `Assets/Materials/Mat_Grass_Baseplate.mat`, shader `Universal Render Pipeline/Lit`), serta memindahkan `/Dragon_Player` ke `(0, 0.85, 0)` dan menyimpan scene.
+  - Melakukan audit penuh terhadap seluruh mekanisme kontrol (Python CV, protokol UDP 41-float, `UDPPoseReceiver`, `DefaultFlightInputMapper`, `DragonFlightController`, `InGameFlightHUD`, dan suite tes CV).
+  - Menemukan 15 kendala utama (termasuk bug takeoff teleport `+2.65 m`, `FlyUp` threshold default naik ke `1.9075`, dead config `cv_locomotion_config.json`, double smoothing/steering `^1.8225`, split `UpperArmLocomotionGate`, `DefaultFlightInputMapper` belum terpasang di scene, celah keyboard fallback `A`/`Dash`/`FlyDownY/W`/harus menahan `T`, serta kegagalan pada `test_additional_gestures.py` Skenario 3 dan `test_e2e_flight_physics.py` Test 5).
+
 ## 2026-11-13 — Penyederhanaan Nama File Memori (Laptop B)
 - **Aksi:** Menyederhanakan seluruh nama file di `brain/laptop-b/memories/` menjadi judul ringkas (3–6 kata) sesuai standar baru di [[00 - Overview]] serta memperbarui seluruh `[[wikilinks]]` di `Devlog.md` dan `Tasks.md`.
 

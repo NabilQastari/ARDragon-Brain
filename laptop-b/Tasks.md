@@ -13,6 +13,13 @@ updated: 2026-11-13
 > Ruangan khusus untuk melacak implementasi kode Unity C#, Python CV, integrasi aset 3D, dan build di **Laptop B**. Rujuk desain & arsitektur di [[00 - Overview]], [[laptop-a/prd]], dan [[laptop-a/konteks]].
 
 ## 🔥 Antrean Eksekusi (Dari Dokumen Desain Laptop A)
+- [x] **Sederhanakan Scene Uji Awal (`Test_Dragon_Flight.unity`):** Hapus `/World_Island` dan ganti dengan `/Grass_Baseplate` (Cube `2000x2x2000`, `Mat_Grass_Baseplate.mat`) serta reposisi `/Dragon_Player` ke `(0, 0.85, 0)`.
+- [ ] **Perbaikan & Penyempurnaan Mekanisme Kontrol (Hasil Audit):**
+  - [ ] Fix teleportasi `+2.65 m` pada frame pertama Takeoff (`DragonFlightController.cs`) & pencegahan `FlyUp` membatalkan takeoff terlalu dini.
+  - [ ] Perbaiki ambang `FlyUpClassifier` pada default profile (`1.9075` -> selaras `1.74`), aktifkan pembacaan `cv_locomotion_config.json`, serta selaraskan `arm_tilt_norm`, `HoverClassifier`, `PropellerRotationClassifier`, dan `core_conf`.
+  - [ ] Hilangkan double-smoothing / double steering curve (`pow^1.35` 2x), kirim status `UpperArmLocomotionGate` lewat UDP 5052, dan pasang `DefaultFlightInputMapper` langsung di scene dengan `DragonLocomotionConfig.asset`.
+  - [ ] Benahi Keyboard Fallback: tambah binding `A` (kiri), `PropellerDash`, `FlyDownY`, `FlyDownW`; cegah jatuh ke `Gentle Descent` saat tombol dilepas / tidak menahan `T`; dukung fallback `#else` Legacy Input di `DefaultFlightInputMapper`.
+  - [ ] Sinkronkan `InGameFlightHUD.cs` (`-1.6 m/s`, wireframe `FlyDownY/W/Dash`), trigger kalibrasi dari Unity, dan perbaiki 2 test suite CV yang gagal (`test_additional_gestures.py`, `test_e2e_flight_physics.py`).
 - [ ] **Uji Play Mode Webcam (Fly Up, Hover, Gentle Descent):** Verifikasi kenyamanan gestur dan transisi fisika secara langsung dengan pemain di Unity Editor sebelum lanjut ke UI lobby.
 - [ ] **Texturing & Ekspor `rumah.blend`:** Jalankan prompt tekstur alami bergaya *stylized matte* (`Nagcu.blend`) di Hermes Desktop, verifikasi material pada koleksi `Rumah 1 jendela` & `Rumah 2 jendela`, lalu ekspor `.fbx` siap Unity URP (lihat [[Analisis dan Tekstur Rumah Blend]]).
 - [ ] **Sesi GUI:** Implementasi Canvas Menu Lobby (`Panel_Missions`, `Panel_Calibration` + RenderTexture Live Dragon, `Panel_Settings`), `InGameFlightHUD`, serta Victory/Defeat Modal sesuai [[laptop-a/rencana_desain_ui]].
