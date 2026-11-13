@@ -13,8 +13,14 @@ updated: 2026-11-13
 
 ---
 
+## 2026-11-13 — Dokumentasi Sesi Remodel Naga 3D v3 ([[Pembuatan dan Iterasi Revisi Model Naga 3D v3 hingga Verifikasi QA di Blender MCP]])
+- **Aksi:** Menyusun catatan memori terstruktur [[Pembuatan dan Iterasi Revisi Model Naga 3D v3 hingga Verifikasi QA di Blender MCP]] yang merekam seluruh iterasi pembuatan `remodel naga v3/Dragon_Model.blend` dari 0, transfer kepala v1/v2 (`0.685×`), perbaikan sayap, transisi $C^2$ body–ekor (`24` vertex/cincin), *caudal leaf fin*, gem dada *pear brilliant-cut* (`+21.5°` X-rot), orientasi spike kepala/punggung, penghapusan 2 spike leher atas, serta hasil verifikasi `qa_check.py`.
+
 ## 2026-11-13 — Dokumentasi Sesi Perancangan UI, Wireframe FigCraft, & Denah Pulau 3 Biome ([[Perancangan UI Lobby Kalibrasi In-Game HUD Wireframe FigCraft dan Denah Pulau 3 Biome]])
 - **Aksi:** Menyusun catatan memori terstruktur [[Perancangan UI Lobby Kalibrasi In-Game HUD Wireframe FigCraft dan Denah Pulau 3 Biome]] yang merangkum penggabungan `konteks.md`/`prd.md` v4.0, penguncian aset `Referensi UI/` (8 file: Lobby, Kalibrasi, Flight HUD, Background, serta Wireframe Finish & Village Action), penguncian cetak biru peta 1:1 `assets/upgrade model pulau/Peta_Denah_Resmi_Genshin_Style.jpg` (*Tight-Knit Caldera Archipelago* $1200 \times 1200\text{ m}$), serta penyusunan 1 prompt wireframe tunggal FigCraft untuk 5 layar tersisa.
+
+## 2026-11-13 — Dokumentasi Sesi Eksperimen Daratan Pulau di Roblox Studio ([[Eksperimen Iteratif Daratan Pulau 1600x1600 Part Wedge dan Smooth Terrain Heightmap di Roblox Studio]])
+- **Aksi:** Menyusun catatan memori terstruktur [[Eksperimen Iteratif Daratan Pulau 1600x1600 Part Wedge dan Smooth Terrain Heightmap di Roblox Studio]] yang merekam iterasi pembuatan peta pulau `1600 × 1600` studs di Roblox Studio (mulai dari 9 formasi plateau blueprint, part & `WedgePart`/`CornerWedgePart` berorientasi diagonal, hingga Smooth Terrain prosedural `WriteVoxels` 16 chunk bebas *seam* tanpa bukit/danau) serta pembersihan total (*clean slate*) di akhir sesi untuk diskusi ulang dari awal.
 
 ## 2026-11-13 — Dokumentasi Sesi Blender MCP Pembuatan Daratan 800×800m ([[Generasi Prosedural Daratan Low-Poly 800x800m di Blender MCP Tahap 1]])
 - **Aksi:** Mengarsipkan seluruh hasil sesi 2026-11-08 ke [[Generasi Prosedural Daratan Low-Poly 800x800m di Blender MCP Tahap 1]] (verifikasi koneksi Blender MCP `5.2.3 LTS`, analisis 3 referensi terrain, identifikasi 3 kontradiksi spesifikasi, serta eksekusi Tahap 1 `island_gen.py` menjadi `Island_v01.blend` [`HEIGHT_MULT = 1.0`] dan `Island_v02.blend` [`HEIGHT_MULT = 3.0`] yang keduanya lolos 14/14 cek `validate()`).

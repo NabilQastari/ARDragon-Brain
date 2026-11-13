@@ -14,6 +14,7 @@ updated: 2026-11-13
 > Ruangan khusus untuk melacak pekerjaan desain, GDD, UI/UX, konsep aset 3D, dan arsitektur sistem di **Laptop A**. Lihat konteks eksekusi program di [[laptop-b/Tasks]] dan [[laptop-b/Devlog]].
 
 ## 🔥 Fokus Aktif
+- [ ] Susun prompt desain visual UI di FigCraft berdasarkan gambar referensi user setelah peninjauan layout wireframe selesai ([[Perancangan UI Lobby Kalibrasi In-Game HUD Wireframe FigCraft dan Denah Pulau 3 Biome]]).
 - [ ] Simpan dokumen wireframe aktif FigCraft (`Untitled`) ke file `.figcraft` / ekspor PNG per artboard di `Referensi UI/` ([[Setup FigCraft MCP Live Control dan Pembuatan 6 Layar Wireframe UI AR Dragon]]).
 - [ ] Finalisasi arah desain & remodel *body* serta sayap `assets/Naga V2 Tes 2.blend` (mempertahankan `Tangan*`/`Kaki*` yang sudah disetujui dan kompatibilitas 36-bone `Armature`).
 - [ ] Review final seluruh spesifikasi [[rencana_desain_ui]] (*Missions*, *Calibration*, *Settings*, *In-Game HUD*, *Finish Modal*) agar siap diimplementasikan oleh Laptop B.
@@ -21,6 +22,7 @@ updated: 2026-11-13
 - [ ] Penyelarasan koordinat pad desa terbaru pada denah Genshin-style terhadap [[prd]] Sesi 4.
 
 ## ✅ Selesai
+- [x] Penggabungan `konteks.md`/`prd.md` v4.0, pengumpulan 8 aset referensi UI di `Referensi UI/`, penguncian cetak biru peta 1:1 `assets/upgrade model pulau/Peta_Denah_Resmi_Genshin_Style.jpg` (*Tight-Knit Caldera Archipelago* $1200 \times 1200\text{ m}$), dan penyusunan 1 prompt wireframe tunggal FigCraft untuk 5 layar tersisa ([[Perancangan UI Lobby Kalibrasi In-Game HUD Wireframe FigCraft dan Denah Pulau 3 Biome]]).
 - [x] Setup FigCraft MCP live control (`--control 9877` / `--attach 9877`), pembuatan 6 artboard wireframe UI/UX monokrom 16:9 (`Main Menu`, `Calibration`, `Flight HUD`, `Village Challenge`, `Finish Modal`, `Settings Modal`), dan penyeragaman tombol `ESC` di kanan atas ([[Setup FigCraft MCP Live Control dan Pembuatan 6 Layar Wireframe UI AR Dragon]]).
 - [x] Pembuatan dan iterasi revisi model naga 3D **v3** di `remodel naga v3/Dragon_Model.blend` (kepala v1/v2 `0.685×`, transisi $C^2$ body–ekor `24`-vert, gem dada *pear brilliant-cut*, orientasi spike, & `qa_check.py` lulus) ([[Pembuatan dan Iterasi Revisi Model Naga 3D v3 hingga Verifikasi QA di Blender MCP]]).
 - [x] Konfigurasi & integrasi MCP server FigCraft (`figcraft-cli.exe mcp`, `v0.18.0`, 19 tools) ke Antigravity ([[Konfigurasi dan Integrasi MCP Server FigCraft ke Antigravity]]).
