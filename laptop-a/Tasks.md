@@ -16,7 +16,6 @@ updated: 2026-11-13
 ## 🔥 Fokus Aktif
 - [ ] Susun prompt desain visual UI di FigCraft berdasarkan gambar referensi user setelah peninjauan layout wireframe selesai ([[Desain UI dan Denah Pulau 3 Biome]]).
 - [ ] Simpan dokumen wireframe aktif FigCraft (`Untitled`) ke file `.figcraft` / ekspor PNG per artboard di `Referensi UI/` ([[Wireframe 6 Layar UI di FigCraft]]).
-- [ ] Finalisasi arah desain & remodel *body* serta sayap `assets/Naga V2 Tes 2.blend` (mempertahankan `Tangan*`/`Kaki*` yang sudah disetujui dan kompatibilitas 36-bone `Armature`).
 - [ ] Review final seluruh spesifikasi [[rencana_desain_ui]] (*Missions*, *Calibration*, *Settings*, *In-Game HUD*, *Finish Modal*) agar siap diimplementasikan oleh Laptop B.
 - [ ] Buat ulang GDD Peta Pulau versi baru (**Sesi Model Pulau**: *Tight-Knit Caldera Archipelago* $1200 \times 1200\text{ m}$ — Center Dragon Spawn Peak, Smog Valley, Wildfire Woods, Drought Plateau) mengacu pada [[konteks]] dan denah `Peta_Denah_Resmi_Genshin_Style.jpg`.
 - [ ] Penyelarasan koordinat pad desa terbaru pada denah Genshin-style terhadap [[prd]] Sesi 4.
