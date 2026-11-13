@@ -13,6 +13,17 @@ updated: 2026-11-13
 
 ---
 
+## 2026-11-13 — Implementasi Perbaikan Kontrol Prioritas 2 (Arm Tilt Steering, Double Curve, UpperArm Gate 43-Token & Wiring Scene)
+- **Aksi:**
+  - **Python CV (`player_calibrator.py`, `motion_recognizer.py`, `udp_sender.py`, `active_cv_sender.py`, `test_send_dummy_udp.py`):**
+    - Mengaktifkan kontribusi `arm_tilt_norm` di `AdaptiveThresholdEngine.compute_adaptive_steering()` (dengan zona mati lengan `0.12` dan kontribusi tambahan hingga `12°` tanpa memangkas bobot `1.0x` pada *torso lean*) serta menghitung `arm_tilt_norm = clamp((left_flap_height - right_flap_height) / 0.55, -1, 1)` di `GestureStateMachine.update()`.
+    - Memperluas protokol UDP 5052 dari 41 ke **43 token CSV** (`41`: `is_arms_away`, `42`: `upper_arm_openness`), mengirimkan hasil `UpperArmLocomotionGate` yang sudah tervalidasi kepercayaan keypoint dari Python (serta memperbarui `test_send_dummy_udp.py`).
+  - **Unity C# & Scene (`IPoseProvider.cs`, `UDPPoseReceiver.cs`, `DefaultFlightInputMapper.cs`, `Test_Dragon_Flight.unity`):**
+    - Menambahkan `HasUpperArmGate`, `IsArmsAway`, dan `UpperArmOpenness` ke `IPoseProvider` dan mem-parsing token `41..42` pada `UDPPoseReceiver` (aktif saat `tokens.Length >= 43` dan pose terkoneksi/terdeteksi, tetap kompatibel mundur untuk stream lama).
+    - Menghilangkan *double steering curve* & *double deadzone* di `DefaultFlightInputMapper.cs` (`turnDeadzone = 0.0f`, `steeringEasePower = 1.0f`, skip `Mathf.Pow` saat `steeringEasePower == 1f`) serta memprioritaskan `HasUpperArmGate` Python dibanding kalkulasi ulang lokal dari joint yang sudah ter-lerp Unity.
+    - Memasang komponen `DefaultFlightInputMapper` langsung ke `/Dragon_Player` di `Test_Dragon_Flight.unity`, menghubungkan `poseProviderSource -> UDPPoseReceiver`, `locomotionConfig -> Assets/Settings/DragonLocomotionConfig.asset`, `DragonFlightController.flightInputSource -> DefaultFlightInputMapper`, mengatur `UDPPoseReceiver.smoothingSpeed = 22`, dan menyimpan scene.
+  - **Verifikasi:** Kompilasi Unity 6 URP `0 errors` (`compilationFailed: false`), suite validasi Python CV Phase 2 (6/6), Phase 4 (7/7), Phase 5 (7/7), serta verifikasi unit `verify_priority2.py` (*arm tilt*, *GSM combine + upper-arm gate exit*, dan UDP 43-token roundtrip) seluruhnya lulus.
+
 ## 2026-11-13 — Implementasi Perbaikan Kontrol Prioritas 1 (Takeoff, Landing, FlyUp Threshold, Config CV & Grounded Look Up)
 - **Aksi:**
   - **Unity (`DragonFlightController.cs` & `Test_Dragon_Flight.unity`):**
