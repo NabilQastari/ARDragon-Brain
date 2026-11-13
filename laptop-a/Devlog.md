@@ -13,6 +13,9 @@ updated: 2026-11-13
 
 ---
 
+## 2026-11-13 — Dokumentasi Sesi Perancangan UI, Wireframe FigCraft, & Denah Pulau 3 Biome ([[Perancangan UI Lobby Kalibrasi In-Game HUD Wireframe FigCraft dan Denah Pulau 3 Biome]])
+- **Aksi:** Menyusun catatan memori terstruktur [[Perancangan UI Lobby Kalibrasi In-Game HUD Wireframe FigCraft dan Denah Pulau 3 Biome]] yang merangkum penggabungan `konteks.md`/`prd.md` v4.0, penguncian aset `Referensi UI/` (8 file: Lobby, Kalibrasi, Flight HUD, Background, serta Wireframe Finish & Village Action), penguncian cetak biru peta 1:1 `assets/upgrade model pulau/Peta_Denah_Resmi_Genshin_Style.jpg` (*Tight-Knit Caldera Archipelago* $1200 \times 1200\text{ m}$), serta penyusunan 1 prompt wireframe tunggal FigCraft untuk 5 layar tersisa.
+
 ## 2026-11-13 — Dokumentasi Sesi Blender MCP Pembuatan Daratan 800×800m ([[Generasi Prosedural Daratan Low-Poly 800x800m di Blender MCP Tahap 1]])
 - **Aksi:** Mengarsipkan seluruh hasil sesi 2026-11-08 ke [[Generasi Prosedural Daratan Low-Poly 800x800m di Blender MCP Tahap 1]] (verifikasi koneksi Blender MCP `5.2.3 LTS`, analisis 3 referensi terrain, identifikasi 3 kontradiksi spesifikasi, serta eksekusi Tahap 1 `island_gen.py` menjadi `Island_v01.blend` [`HEIGHT_MULT = 1.0`] dan `Island_v02.blend` [`HEIGHT_MULT = 3.0`] yang keduanya lolos 14/14 cek `validate()`).
 
@@ -21,6 +24,9 @@ updated: 2026-11-13
 
 ## 2026-11-13 — Iterasi Kaki, Eksperimen & Revert Body/Sayap Naga V2, dan Eksekusi `generate_dragon.py` ([[Iterasi Perbaikan Kaki, Eksperimen dan Revert Body serta Sayap Naga V2, dan Eksekusi generate_dragon.py di Blender]])
 - **Aksi:** Menyusun catatan memori terstruktur [[Iterasi Perbaikan Kaki, Eksperimen dan Revert Body serta Sayap Naga V2, dan Eksekusi generate_dragon.py di Blender]] yang merekam perbaikan mesh `kaki` & `kaki2` pada `assets/Naga V2 Tes 2.blend`, pembuatan prompt Hermes (analisis referensi dengan `antigravity`/`gemini flash` + pemodelan Blender dengan `opus 4.6`), eksperimen dan *revert* bersih pada *body* (`Naga V2 Tes 2_backup_before_body.blend`) serta sayap (`Naga V2 Tes 2_backup_before_wings.blend`), hingga perbaikan `SyntaxError` dan eksekusi `generate_dragon.py` ke `assets/AncientDewWaterDragon_Generated.blend`.
+
+## 2026-11-13 — Setup FigCraft MCP Live Control & Wireframe Kit 6 Layar ([[Setup FigCraft MCP Live Control dan Pembuatan 6 Layar Wireframe UI AR Dragon]])
+- **Aksi:** Mengonfigurasi FigCraft MCP (`--attach 9877`, shortcut `FigCraft (MCP Control)`), membangun 6 artboard wireframe 16:9 (`Main Menu & Level Selection`, `Calibration`, `In-Game Flight HUD`, `Village Challenge Overlay`, `Finish Victory Modal`, `Settings Modal`) dalam grid 2×3 secara live via socket kontrol, serta menyeragamkan seluruh tombol `ESC` ke sudut kanan atas ([[Setup FigCraft MCP Live Control dan Pembuatan 6 Layar Wireframe UI AR Dragon]]).
 
 ## 2026-11-13 — Pengecekan Blender MCP & Eksekusi `generate_dragon.py` ([[Pengecekan Blender MCP dan Perbaikan serta Eksekusi generate_dragon.py]])
 - **Aksi:** Memverifikasi koneksi Blender MCP (`Blender 5.2.3 LTS`, Addon `v1.8`), memperbaiki *SyntaxError* (*unterminated string literal* pada fungsi `export_standalone_obj()`) di `generate_dragon.py`, serta mengeksekusi skrip di Blender hingga menghasilkan 51 mesh komponen naga dalam koleksi `AncientDewWaterDragon` ([[Pengecekan Blender MCP dan Perbaikan serta Eksekusi generate_dragon.py]]).
