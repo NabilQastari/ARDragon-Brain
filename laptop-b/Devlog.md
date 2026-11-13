@@ -13,6 +13,16 @@ updated: 2026-11-13
 
 ---
 
+## 2026-11-13 — Implementasi Perbaikan Kontrol Prioritas 3 (Hover Wrist Band, Propeller Velocity/Scale, Core Conf & Test Suite CV)
+- **Aksi:**
+  - **Python CV (`motion_recognizer.py`, `pose_stabilizer.py`, `active_cv_sender.py`):**
+    - **`HoverClassifier`:** Menambahkan validasi zona ketinggian pergelangan tangan (`avg_flap_height in [-1.00, 0.55]`) agar tangan yang menggantung rendah atau melambai di atas kepala tidak memicu Hover, serta rata-rata tekukan siku (`mean avg_elbow_angle <= 160°`, window 8 frame) untuk menolak lengan lurus yang berayun tanpa memblokir titik nadir kepakan lengan bawah.
+    - **`PropellerRotationClassifier`:** Menggunakan rata-rata berjalan `shoulder_width` (`sw_history`) untuk menormalkan radius orbit pergelangan tangan (`MIN_ORBIT_RADIUS_SW = 0.25`), menghitung kecepatan sudut (`est_omega = max(omega_l, omega_r)`) berbasis `dt` aktual frame, serta menegakkan `MIN_ANGULAR_VELOCITY = 4.5 rad/s` agar gerak memutar lambat maupun jitter mikro di bahu tidak memicu Dash.
+    - **`RobustKeypointTracker` & `active_cv_sender.py`:** Menambahkan `CORE_CONFIDENCE_MIN = 0.25`, `compute_core_confidence()`, dan `is_core_confident()` terpisah dari keypoint pergelangan tangan serta mengganti batas `core_conf >= 0.20` di `active_cv_sender.py` menjadi `tracker.is_core_confident(confidences)` (`>= 0.25`) sehingga batas `LOST`/`DEGRADED` dan `GestureStateMachine` selalu sinkron. Sekaligus memperbaiki *typo* gambar garis bahu kiri (`ls[1]` menggantikan `rs[1]`) pada debug overlay `active_cv_sender.py:159`.
+    - **`GentleDescentClassifier`:** Mensyaratkan `is_forearms_extended` (`Tucked T-Pose`) & `upper_arm_proximity <= threshold` alih-alih menerima pose tangan menggantung lemas di sisi badan (`Scenario 3`), sehingga pose diam santai di depan webcam tetap berstatus `NEUTRAL_GLIDE` sementara `is_arms_tucked = True` tetap dikirim ke Unity `DefaultFlightInputMapper`.
+  - **Suite Tes CV (`test_e2e_flight_physics.py`):** Memperbarui `Test 5` dari kontrak lama 39 token ke protokol **43 token CSV** (`token 34..42`).
+  - **Verifikasi:** Seluruh suite CV lulus 100% tanpa regresi — `test_additional_gestures.py` (10/10), `test_e2e_flight_physics.py` (6/6), `test_phase2_validation.py` (6/6), `test_phase3_validation.py` (7/7), `test_phase4_validation.py` (7/7), `test_phase5_validation.py` (7/7), `test_phase6_final_session.py` (7/7), `verify_priority2.py`, dan `verify_priority3.py`.
+
 ## 2026-11-13 — Implementasi Perbaikan Kontrol Prioritas 2 (Arm Tilt Steering, Double Curve, UpperArm Gate 43-Token & Wiring Scene)
 - **Aksi:**
   - **Python CV (`player_calibrator.py`, `motion_recognizer.py`, `udp_sender.py`, `active_cv_sender.py`, `test_send_dummy_udp.py`):**
