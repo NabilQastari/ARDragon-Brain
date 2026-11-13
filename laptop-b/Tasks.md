@@ -19,6 +19,7 @@ updated: 2026-11-13
 - [ ] **Sesi 5:** `GameManager.cs` (Level 1–3, timer, bintang 1–3), audio/SFX, dan build Windows standalone + `start_game.bat`.
 
 ## ✅ Selesai (Baseline v4.0)
+- [x] **Setup Obsidian Brain (Laptop B):** Isolasi `brain/` di `.gitignore`, clone `ARDragon-Brain`, buat `AGENTS.md`, dan migrasi 4 catatan `.md` lokal (`GDD_Pulau.md`, `konteks.md`, `prd.md`, `progress.md`) ke `brain/laptop-b/`.
 - [x] **Tahap 0 & Sesi 1:** `active_cv_sender.py` (YOLOv8n-pose CUDA, One-Euro filter, Dual UDP 5052 & 5053).
 - [x] **Sesi 2:** `UDPPoseReceiver.cs` & `DragonFlightController.cs` (Navigasi 3D Y-T-A, dive boost, raycast ground clearance, keyboard zero-conflict).
 - [x] **Sesi 3:** Integrasi awal naga `Dragon_Model.blend`, pulau 800x800m, dan `InGameFlightHUD.cs` awal.

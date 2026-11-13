@@ -13,6 +13,12 @@ updated: 2026-11-13
 
 ---
 
+## 2026-11-13 — Setup Obsidian Brain & Migrasi Catatan Lokal (Laptop B)
+- **Aksi:**
+  - Menambahkan `brain/` ke `.gitignore` root project dan meng-clone `ARDragon-Brain.git` ke `brain/`.
+  - Memindahkan seluruh file `.md` lokal dari root project (`GDD_Pulau.md`, `konteks.md`, `prd.md`, `progress.md`) ke `brain/laptop-b/`.
+  - Membuat `AGENTS.md` di root project untuk aturan kolaborasi dual-laptop.
+
 ## 2026-11-13 — Inisialisasi Folder Brain Laptop B
 - Folder `brain/laptop-b/` dibuat untuk memisahkan log eksekusi kode & implementasi teknis dari catatan desain di `brain/laptop-a/`.
 - Baseline yang sudah terverifikasi sebelum sinkronisasi vault:
