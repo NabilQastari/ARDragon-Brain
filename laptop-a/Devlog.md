@@ -13,8 +13,17 @@ updated: 2026-11-13
 
 ---
 
+## 2026-11-13 — Pengecekan Blender MCP & Eksekusi `generate_dragon.py` ([[Pengecekan Blender MCP dan Perbaikan serta Eksekusi generate_dragon.py]])
+- **Aksi:** Memverifikasi koneksi Blender MCP (`Blender 5.2.3 LTS`, Addon `v1.8`), memperbaiki *SyntaxError* (*unterminated string literal* pada fungsi `export_standalone_obj()`) di `generate_dragon.py`, serta mengeksekusi skrip di Blender hingga menghasilkan 51 mesh komponen naga dalam koleksi `AncientDewWaterDragon` ([[Pengecekan Blender MCP dan Perbaikan serta Eksekusi generate_dragon.py]]).
+
+## 2026-11-13 — Dokumentasi Sesi Setup Output Remodel Naga v2 ([[Setup Struktur Output Remodel Naga v2 dan Verifikasi Aset Blender MCP]])
+- **Aksi:** Menyusun catatan memori terstruktur [[Setup Struktur Output Remodel Naga v2 dan Verifikasi Aset Blender MCP]] yang merekam pembuatan struktur direktori `remodel naga v2/` (`Dragon_Model.blend`, `renders/` 5 sudut pandang, `previews/` workbench & contact sheet, `textures/README.txt`), perbaikan orientasi kamera `side`/`back`, serta verifikasi reopen headless Blender 5.2.3 LTS tanpa file tercecer atau path absolut.
+
 ## 2026-11-13 — Dokumentasi Sesi Setup Blender MCP, Skill Modeling, & Konsep Pulau Sederhana ([[Setup Blender MCP, Instalasi Blender Skills, dan Penyederhanaan Konsep Pulau]])
 - **Aksi:** Menyusun catatan memori terstruktur [[Setup Blender MCP, Instalasi Blender Skills, dan Penyederhanaan Konsep Pulau]] yang merekam konfigurasi `mcp-for-blender` (Blender 5.2.3 LTS, port 9876), instalasi 28 skill `EL4CTEO/blender-skills` di `.agents/skills/`, iterasi awal aset `Assets/pulau_sky_guardian.blend`/`.fbx`, serta keputusan penyederhanaan pulau (fokus pada elemen tantangan: sungai, hutan, cerobong asap, lahan tandus `#8B5A2B`, tanpa air terjun/pulau satelit) beserta prompt referensi gambar 3D-nya.
+
+## 2026-11-13 — Dokumentasi Sesi Blockout Roblox Studio & Penataan Folder Proyek
+- **Aksi:** Mencatat seluruh progres eksplorasi *blockout* pulau melayang (*Sky Guardian Island*) di Roblox Studio serta penataan struktur folder proyek (`assets/` dan `misc/`) ke dalam [[Eksplorasi Blockout Pulau Sky Guardian di Roblox Studio dan Penataan Folder Assets Misc]].
 
 ## 2026-11-13 — Penamaan Ulang Catatan Sesi ke Format Deskriptif
 - **Aksi:** Mengganti nama `Memory1.md` menjadi [[Perbaikan Harmonisasi List Asset Excel terhadap Time Schedule dan Prompt Pulau Melayang]] di `brain/laptop-a/memories/` agar seluruh catatan sesi langsung menggambarkan isi pembahasannya tanpa awalan `Memory*`.
