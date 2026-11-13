@@ -4,7 +4,7 @@ tags:
   - devlog
   - laptop-b
 owner: Laptop B
-updated: 2026-11-13
+updated: 2026-11-14
 ---
 
 # 🛠️ Devlog — Laptop B
@@ -12,6 +12,17 @@ updated: 2026-11-13
 > Catatan kronologis pengembangan kode, debugging, pengujian Unity/Python, dan hasil build dari **Laptop B**. Kembali ke [[00 - Overview]].
 
 ---
+
+## 2026-11-14 — Penataan Struktur Folder Proyek (`assets/`, `docs/`, `tools/`)
+- **Aksi:**
+  - **Aset (`assets/`):**
+    - Memindahkan seluruh file `.blend`/`.blend1` dari `Assets AR Dragon Sky Guardian/` ke `assets/blender/` (`Dragon_Model.blend`, `Nagcu.blend*`, `pohon*.blend*`, `pulau.blend`, `rumah*.blend*`) dan skrip Blender Python ke `assets/blender/scripts/` (`apply_textures*.py`, `inspect_slots.py`, `list_pohon.py`), lalu menghapus folder kosong `Assets AR Dragon Sky Guardian/`.
+    - Meratakan struktur `vfx/vfx/*` ke `assets/vfx/` dan memindahkan `vfx.zip` ke `assets/archives/vfx.zip`.
+    - Memindahkan 8 screenshot preview dari root project Unity (`AR Dragon Sky Guardian/*.png`) ke `assets/screenshots/`.
+  - **Dokumen & Launcher (`docs/`, `tools/`):**
+    - Memindahkan `Dokumentasi Projek.docx` dan `TS & List Asset.xlsx` ke `docs/`.
+    - Memindahkan `jalankan_dragon.bat` dan `Run Hermes Desktop.bat` ke `tools/`.
+  - **Kebersihan Root:** Menghapus file sementara `test_profile_tmp.json` di root, sementara `AR Dragon Sky Guardian/` dan `ARDragonSkyGuardian_CV/` tetap di root agar referensi path `PythonProcessManager.cs` dan impor modul Python CV tetap utuh.
 
 ## 2026-11-13 — Prioritas 4: Sinkronisasi `InGameFlightHUD` & Trigger Kalibrasi Unity -> Python CV (UDP Port 5054)
 - **Aksi:**

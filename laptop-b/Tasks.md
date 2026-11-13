@@ -5,7 +5,7 @@ tags:
   - laptop-b
   - engineering
 owner: Laptop B
-updated: 2026-11-13
+updated: 2026-11-14
 ---
 
 # 💻 Tasks — Laptop B (Eksekusi & Pengembangan Program)
@@ -41,6 +41,7 @@ updated: 2026-11-13
 - [ ] **Sesi 5:** `GameManager.cs` (Level 1–3, timer, bintang 1–3), audio/SFX, dan build Windows standalone + `start_game.bat`.
 
 ## ✅ Selesai (v6.0 — Sky Peck & Auto-Launch Python)
+- [x] **Penataan Struktur Folder Proyek (`assets/`, `docs/`, `tools/`):** Memindahkan seluruh model & skrip Blender (`Assets AR Dragon Sky Guardian/` -> `assets/blender/` & `assets/blender/scripts/`), aset VFX (`vfx/vfx/` -> `assets/vfx/`, `vfx.zip` -> `assets/archives/`), screenshot preview Unity (`AR Dragon Sky Guardian/*.png` -> `assets/screenshots/`), dokumen (`Dokumentasi Projek.docx` & `TS & List Asset.xlsx` -> `docs/`), serta launcher `.bat` (`tools/`), dan menghapus `test_profile_tmp.json` di root tanpa mengubah path inti `AR Dragon Sky Guardian/` & `ARDragonSkyGuardian_CV/`.
 - [x] **Rework CV & Tambahan Kontrol Terbang (Fly Up, Hover, Gentle Descent):** Selesai diintegrasikan pada Python CV (`pose_stabilizer.py`, `motion_recognizer.py`, `udp_sender.py`, `active_cv_sender.py`) & Unity (`IPoseProvider.cs`, `UDPPoseReceiver.cs`, `IFlightInputProvider.cs`, `DefaultFlightInputMapper.cs`, `DragonFlightController.cs`, `InGameFlightHUD.cs`) dengan verifikasi 10 skenario gestur & 6 suite fisika E2E. Lihat [[Rework CV dan Kontrol Terbang Baru]].
 - [x] **Mekanik Penerbangan Sky Peck:** Implementasi *Flap to Climb* (decoupled tanpa pitch nodding), *Lean to Bank/Turn* (50% arm tilt + 50% torso lean), *Tuck to Dive* ($28\text{ m/s}$), *Propeller Dash* ($26\text{ m/s}$), *Swoop Climb*, dan *Glide* di `DragonFlightController.cs`, `UDPPoseReceiver.cs`, `active_cv_sender.py`, & `test_send_dummy_udp.py`.
 - [x] **Auto-Launch Python Process Manager:** `PythonProcessManager.cs` terpasang di `Dragon_Player` (`Test_Dragon_Flight.unity`), otomatis menjalankan `active_cv_sender.py` saat Play Mode dan menghentikan process tree bersih saat keluar Play Mode.
