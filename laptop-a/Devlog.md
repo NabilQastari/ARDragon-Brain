@@ -13,6 +13,9 @@ updated: 2026-11-13
 
 ---
 
+## 2026-11-13 — Dokumentasi Sesi List Asset & Jadwal TS ([[Memory1]])
+- **Aksi:** Menyusun catatan memori terstruktur [[Memory1]] yang mendokumentasikan perbaikan workbook `TS & List Asset.xlsx` (penyelarasan ke Versi 2 yang ramping sesuai TS, penguncian jadwal VFX Particles pekan 10–11, penataan arsip detail aset di sheet pendukung, dan penyusunan prompt Blender MCP untuk model pulau).
+
 ## 2026-11-13 — Pembersihan Dokumen Lama (`brain/laptop-a/`)
 - **Aksi:** Menghapus 3 dokumen `.md` usang/sementara dari `brain/laptop-a/`:
   - `prompt_naga.md` (remodel naga v3 sudah selesai di `Dragon_Model.blend`).
