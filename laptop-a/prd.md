@@ -12,7 +12,6 @@ related:
   - "[[00 - Overview]]"
   - "[[konteks]]"
   - "[[rencana_desain_ui]]"
-  - "[[gdd_peta_pulau]]"
 ---
 
 # 📋 PRODUCT REQUIREMENTS DOCUMENT (PRD) & DEVELOPMENT PLAYBOOK: AR DRAGON SKY GUARDIAN (v4.0 — PRODUCTION READY)
@@ -254,4 +253,4 @@ AR Dragon Sky Guardian adalah game *PC exergaming* 3D berbasis input Computer Vi
 
 
 ---
-**Navigasi Obsidian:** [[00 - Overview]] · [[konteks]] · [[rencana_desain_ui]] · [[gdd_peta_pulau]] · [[Tasks]] · [[Devlog]]
+**Navigasi Obsidian:** [[00 - Overview]] · [[konteks]] · [[rencana_desain_ui]] · [[Tasks]] · [[Devlog]]

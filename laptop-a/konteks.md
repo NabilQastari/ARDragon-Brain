@@ -13,7 +13,6 @@ related:
   - "[[00 - Overview]]"
   - "[[prd]]"
   - "[[rencana_desain_ui]]"
-  - "[[gdd_peta_pulau]]"
 ---
 
 # 🐉 PROJECT CONTEXT & TECHNICAL BIBLE: AR DRAGON SKY GUARDIAN (v4.0 — PRODUCTION READY)
@@ -251,4 +250,4 @@ Untuk menjamin kelancaran pengujian kapan pun tanpa kamera, sistem keyboard fall
 
 
 ---
-**Navigasi Obsidian:** [[00 - Overview]] · [[prd]] · [[rencana_desain_ui]] · [[gdd_peta_pulau]] · [[Tasks]] · [[Devlog]]
+**Navigasi Obsidian:** [[00 - Overview]] · [[prd]] · [[rencana_desain_ui]] · [[Tasks]] · [[Devlog]]

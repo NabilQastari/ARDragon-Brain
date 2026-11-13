@@ -13,14 +13,15 @@ updated: 2026-11-13
 
 ---
 
+## 2026-11-13 — Pembersihan Dokumen Lama (`brain/laptop-a/`)
+- **Aksi:** Menghapus 3 dokumen `.md` usang/sementara dari `brain/laptop-a/`:
+  - `prompt_naga.md` (remodel naga v3 sudah selesai di `Dragon_Model.blend`).
+  - `prompt_v2.md` (prompt daratan lama 800×800m sudah tidak dipakai).
+  - `gdd_peta_pulau.md` (dihapus untuk dibuat ulang sesuai konsep baru Kepulauan 3 Biome $1200 \times 1200\text{ m}$).
+- **Dokumen Aktif Tersisa:** [[00 - Overview]], [[konteks]], [[prd]], [[rencana_desain_ui]], [[Tasks]], dan [[Devlog]].
+
 ## 2026-11-13 — Setup Obsidian Brain & Migrasi Dokumen Desain
 - **Aksi:** Menginisialisasi Obsidian vault terpisah di `brain/` yang terhubung ke remote `ARDragon-Brain` dan terisolasi dari repo utama melalui `.gitignore`.
-- **Migrasi:** Memindahkan seluruh dokumen desain dan prompt dari root ke `brain/laptop-a/` dengan format YAML frontmatter & `[[wikilinks]]`:
-  - [[konteks]]
-  - [[prd]]
-  - [[gdd_peta_pulau]]
-  - [[rencana_desain_ui]]
-  - [[prompt_naga]]
-  - [[prompt_v2]]
+- **Migrasi:** Memindahkan dokumen desain dari root ke `brain/laptop-a/` dengan format YAML frontmatter & `[[wikilinks]]` (termasuk [[konteks]], [[prd]], [[rencana_desain_ui]], serta file lama `gdd_peta_pulau.md`, `prompt_naga.md`, dan `prompt_v2.md` yang kemudian dibersihkan).
 - **Aturan Kerja:** Menetapkan pemisahan tulis (*anti-collision*) antara `laptop-a/` (desain & arsitektur) dan `laptop-b/` (eksekusi & pengembangan program) di `AGENTS.md`.
 - **Status Project Saat Ini:** Fokus aktif roadmap berada pada **Sesi GUI** (implementasi di Unity sesuai [[rencana_desain_ui]]), disusul **Sesi Model Pulau** (remodel kepulauan 3 biome).

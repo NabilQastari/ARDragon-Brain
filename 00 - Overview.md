@@ -47,9 +47,6 @@ updated: 2026-11-13
 - [[laptop-a/konteks]] — *Single Source of Truth* arsitektur teknis Unity, UDP, dan gestur.
 - [[laptop-a/prd]] — *Product Requirements Document* & roadmap sesi pengembangan.
 - [[laptop-a/rencana_desain_ui]] — Spesifikasi UI Lobby, Kalibrasi, HUD, & Finish Modal (*Clean Minimalist 2D Vector Cartoon Fantasy*).
-- [[laptop-a/gdd_peta_pulau]] — GDD peta pulau & transisi menuju kepulauan 3 biome + gunung pusat.
-- [[laptop-a/prompt_naga]] — Panduan remodel 3D naga (`Ancient Dew Water Dragon`).
-- [[laptop-a/prompt_v2]] — Panduan generasi & penyempurnaan model daratan Blender MCP.
 - [[laptop-a/Tasks]] & [[laptop-a/Devlog]] — Pelacakan tugas desain/arsitektur & catatan perkembangan Laptop A.
 
 ### Eksekusi & Pengembangan Program ([[laptop-b/Tasks|Laptop B]])
