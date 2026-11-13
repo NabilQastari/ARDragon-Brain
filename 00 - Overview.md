@@ -58,3 +58,31 @@ updated: 2026-11-13
 - **Laptop A (`brain/laptop-a/`):** Fokus desain, ide, GDD, UI/UX, aset konsep, dan arsitektur.
 - **Laptop B (`brain/laptop-b/`):** Fokus eksekusi kode Unity C#, Python CV, build, dan debugging.
 - Setiap laptop hanya menulis di foldernya masing-masing dan membaca folder rekan secara *read-only* untuk sinkronisasi konteks.
+
+---
+
+## ⚡ Command Khusus Bersama: `"jadikan sesi ini memori"`
+
+Jika pengguna mengetik **`jadikan sesi ini memori`** di sesi chat mana pun (baik di **Laptop A** maupun **Laptop B**), AI Agent **WAJIB** menjalankan alur berikut:
+
+1. **Tentukan Identitas & Folder Target:**
+   - Cek `AGENTS.md` di root project untuk menentukan identitas laptop aktif:
+     - **Laptop A** $\rightarrow$ tulis hanya di `brain/laptop-a/` (`owner: Laptop A`, tag `laptop-a`).
+     - **Laptop B** $\rightarrow$ tulis hanya di `brain/laptop-b/` (`owner: Laptop B`, tag `laptop-b`).
+   - **Dilarang keras** mengedit atau menghapus file di folder laptop lain.
+2. **Sinkronisasi Awal:** Jalankan `git -C brain pull` (jika ada koneksi internet).
+3. **Penamaan File Deskriptif:**
+   - Simpan di `brain/<laptop-aktif>/memories/<Nama Deskriptif Sesi>.md` (buat folder `memories/` jika belum ada).
+   - Gunakan nama file yang **spesifik dan langsung menggambarkan seluruh pembahasan/pekerjaan di sesi tersebut** (boleh panjang, tanpa awalan `Memory*`, bebas karakter terlarang Windows `\ / : * ? " < > |`, dan tidak menimpa file yang sudah ada).
+4. **Format Catatan Obsidian:**
+   - Gunakan **YAML frontmatter** (`title`, `type: session-memory`, `tags`, `date`, `owner`, `related`) dan `[[wikilinks]]`.
+   - Susun isi ke dalam 5 bagian wajib berdasarkan fakta yang benar-benar terjadi di sesi tersebut (tanpa mengarang):
+     1. `## 1. Tujuan & Konteks Sesi`
+     2. `## 2. Keputusan Desain / Arsitektur / Teknis`
+     3. `## 3. Ringkasan Eksekusi & Perubahan File/Aset`
+     4. `## 4. Detail Penting yang Harus Diingat` (angka, koordinat, aturan, nama simbol/skrip, batasan, preferensi user)
+     5. `## 5. Tugas Tersisa & Langkah Selanjutnya`
+   - Sertakan footer navigasi `[[00 - Overview]]`, `[[Tasks]]`, `[[Devlog]]`, serta catatan terkait di folder laptop masing-masing.
+5. **Update Log & Push Git:**
+   - Tambahkan entri ringkas di `brain/<laptop-aktif>/Devlog.md` yang menautkan `[[<Nama Deskriptif Sesi>]]`, serta perbarui `brain/<laptop-aktif>/Tasks.md` bila ada tugas yang selesai atau baru muncul.
+   - Jalankan `git -C brain add`, `commit` dengan format `docs(<laptop-aktif>): add session note - <topik singkat>`, dan `push` ke `origin main`, lalu laporkan nama file yang dibuat serta status push Git-nya.

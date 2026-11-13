@@ -13,6 +13,9 @@ updated: 2026-11-13
 
 ---
 
+## 2026-11-13 — Penambahan Command Bersama `"jadikan sesi ini memori"`
+- **Aksi:** Menambahkan spesifikasi command `"jadikan sesi ini memori"` di [[00 - Overview]] (dan rujukannya di `AGENTS.md` Laptop A) agar baik Laptop A maupun Laptop B otomatis mengenali perintah tersebut, menyimpan catatan sesi deskriptif di `memories/` masing-masing, memperbarui `Devlog.md`/`Tasks.md`, serta melakukan `commit` dan `push` ke `origin/main`.
+
 ## 2026-11-13 — Dokumentasi Sesi Remodel Naga 3D v3 ([[Pembuatan dan Iterasi Revisi Model Naga 3D v3 hingga Verifikasi QA di Blender MCP]])
 - **Aksi:** Menyusun catatan memori terstruktur [[Pembuatan dan Iterasi Revisi Model Naga 3D v3 hingga Verifikasi QA di Blender MCP]] yang merekam seluruh iterasi pembuatan `remodel naga v3/Dragon_Model.blend` dari 0, transfer kepala v1/v2 (`0.685×`), perbaikan sayap, transisi $C^2$ body–ekor (`24` vertex/cincin), *caudal leaf fin*, gem dada *pear brilliant-cut* (`+21.5°` X-rot), orientasi spike kepala/punggung, penghapusan 2 spike leher atas, serta hasil verifikasi `qa_check.py`.
 
