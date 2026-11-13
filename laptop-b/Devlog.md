@@ -13,6 +13,16 @@ updated: 2026-11-13
 
 ---
 
+## 2026-11-13 — Prioritas 4: Sinkronisasi `InGameFlightHUD` & Trigger Kalibrasi Unity -> Python CV (UDP Port 5054)
+- **Aksi:**
+  - **Sinkronisasi HUD & Wireframe (`InGameFlightHUD.cs`):**
+    - Menyelaraskan laju turun `Gentle Descent` (`-1.6 m/s` fallback + bacaan dinamis `flightController.CurrentVerticalVelocity`) dan `Glide` (`~ -1.0 m/s` + pitch live), menambahkan `[FLY DOWN Y]` / `[FLY DOWN W]` ke baris aksi HUD, memperlebar kartu HUD (`360 -> 415 px`) serta panduan bawah (`740 -> 880 px`), dan menambahkan prioritas `Propeller Dash`, `Fly Down Y`, & `Fly Down W` di `DrawSkeletonWireframe()`.
+    - Menambahkan tombol UI kalibrasi langsung pada panel HUD (`MULAI KALIBRASI (C)`, `KALIBRASI ULANG (C)`, `RESET DEFAULT`, serta `BATALKAN KALIBRASI` + tombol `BATAL` pada banner atas).
+  - **Channel Perintah Kalibrasi Unity <-> Python (`UDPPoseReceiver.cs`, `PythonProcessManager.cs`, `active_cv_sender.py`, `player_calibrator.py`):**
+    - Menambahkan pengiriman UDP port `5054` pada `UDPPoseReceiver` (`SendCommandToPython()`, `TriggerCalibration()`, `CancelCalibration()`, `ResetCalibrationProfile()`, plus pintasan opsional tombol `C` melalui Input System) serta argumen `--cmd-port 5054` dari `PythonProcessManager.cs`.
+    - Menambahkan listener UDP non-blocking `create_command_socket()` / `poll_calibration_commands()` pada `active_cv_sender.py` dan metode `PlayerCalibrator.reset_to_default()` pada `player_calibrator.py`, sekaligus memastikan profil personal yang sudah tersimpan (`is_calibrated=True`) langsung melaporkan `calib_state_id = 5` saat startup.
+- **Verifikasi:** Unity `Assets/Refresh` compile bersih (`compilationFailed: false`, `consoleErrors: 0`, `Test_Dragon_Flight.unity` tersimpan), `verify_udp_calibration_trigger.py` (siklus `CALIBRATE` -> `CALIBRATE_CANCEL` -> `CALIBRATE_RESET` via soket UDP) serta seluruh 7 suite validasi Python CV (`test_phase2..6`, `test_additional_gestures` 10/10, `test_e2e_flight_physics` 6/6) lulus `TOTAL FAILED: 0`.
+
 ## 2026-11-13 — Penghalusan Kontrol Naik-Turun (`BodyPitch` Trim, Swoop Blending, & Camera Stabilization)
 - **Temuan Akar Masalah:**
   - `Main Camera` merupakan child langsung `/Dragon_Player` yang menerima penuh rotasi `transform.rotation = (-_currentPitch, _currentYaw, _currentRoll)`, sehingga setiap perubahan sudut *pitch* (`-45°` ↔ `+24°` ↔ `-4°`) maupun *roll* menghentak garis horizon di viewport.

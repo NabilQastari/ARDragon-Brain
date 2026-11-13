@@ -14,7 +14,7 @@ updated: 2026-11-13
 
 ## 🔥 Antrean Eksekusi (Dari Dokumen Desain Laptop A)
 - [x] **Sederhanakan Scene Uji Awal (`Test_Dragon_Flight.unity`):** Hapus `/World_Island` dan ganti dengan `/Grass_Baseplate` (Cube `2000x2x2000`, `Mat_Grass_Baseplate.mat`) serta reposisi `/Dragon_Player` ke `(0, 0.85, 0)`.
-- [ ] **Perbaikan & Penyempurnaan Mekanisme Kontrol (Hasil Audit — Webcam/CV):**
+- [x] **Perbaikan & Penyempurnaan Mekanisme Kontrol (Hasil Audit — Webcam/CV):**
   - [x] **Prioritas 1 (Transisi Grounded -> Takeoff, Landing, & Ambang Fly Up):**
     - [x] Hapus teleportasi vertikal `+2.65 m` (`minGroundClearance = 3.5 m` snap) pada frame pertama Takeoff, cegah `FlyUp` membatalkan `_isTakingOff` sebelum mencapai target ketinggian, dan izinkan `TuckDive` menyentuh tanah untuk mendarat di `DragonFlightController.cs`.
     - [x] Perbaiki ambang `FlyUpClassifier` pada default profile (`is_calibrated=False` di `get_default_profile()` -> `1.74 / 1.66`, dan `min(1.80, max(1.68, neutral_ratio + 0.08))` saat terkalibrasi), serta hubungkan pembacaan `_CV_CONFIG` (`cv_locomotion_config.json`) ke seluruh classifier di `motion_recognizer.py`.
@@ -31,8 +31,8 @@ updated: 2026-11-13
     - [x] Pisahkan rotasi *pitch* dan *roll* naga ke `Visual_Dragon` (`DragonFlightController.ApplyAttitudeRotation()`) sementara root `Dragon_Player` menjaga yaw stabil dan `UpdateCameraPolish()` mengikuti hanya `cameraPitchFollowFactor = 0.25` pitch naga + offset vertikal ringan dengan horizon *roll = 0°*.
     - [x] Perbaiki lonjakan *Swoop Climb* paska-kepak (`_wasDivingHighSpeed` tracking + `Mathf.SmoothStep` transisi C1), hubungkan celah vertikal `Flap` (`flapHoldLift = 3.2`) ↔ `FlyUp` (`flyUpLiftPower = 7.2`, `flyUpPitch = 19`), integrasikan trim kontinu `_activeCommand.BodyPitch` pada `Flap`, `Glide`, `GentleDescent`, `Hover`, & `Dash`, serta seragamkan *damping* (`verticalVelocitySmoothSpeed = 3.8`, `pitchSmoothSpeed = 3.8`, `maxFlapSpeed = 19.5`).
     - [x] Haluskan sinyal `body_pitch` di `active_cv_sender.py` (*rescaled deadzone* `0.20..1.0 -> 0..1` + EMA `0.22`) dan amplop `FlapPower` di `FlapStrokeClassifier` (`motion_recognizer.py` EMA asimetris agar tidak berdenyut di antara ayunan kepak), lalu sinkronkan `DragonLocomotionConfig.asset` dan scene `Test_Dragon_Flight.unity`.
-  - [ ] **Prioritas 4 (HUD & Kalibrasi Unity):**
-    - [ ] Sinkronkan `InGameFlightHUD.cs` (`-1.6 m/s`, wireframe `FlyDownY/W/Dash`) dan tambahkan trigger kalibrasi dari Unity ke Python CV.
+  - [x] **Prioritas 4 (HUD & Kalibrasi Unity):**
+    - [x] Sinkronkan `InGameFlightHUD.cs` (`-1.6 m/s` / live velocity pada `Gentle Descent` & `Glide`, status prioritas `PropellerDash` / `FlyDownY` / `FlyDownW` pada wireframe standby & panel HUD, pelebaran kartu `415px` + footer `880px`) dan tambahkan trigger kalibrasi dua arah Unity -> Python CV via port UDP `5054` (`CALIBRATE`, `CALIBRATE_CANCEL`, `CALIBRATE_RESET` di `UDPPoseReceiver.cs`, `--cmd-port` di `PythonProcessManager.cs` & `active_cv_sender.py`, `reset_to_default()` di `player_calibrator.py`, serta sinkronisasi `calib_state_id=5` saat profil tersimpan dimuat).
 - [ ] **Uji Play Mode Webcam (Fly Up, Hover, Gentle Descent):** Verifikasi kenyamanan gestur dan transisi fisika secara langsung dengan pemain di Unity Editor sebelum lanjut ke UI lobby.
 - [ ] **Texturing & Ekspor `rumah.blend`:** Jalankan prompt tekstur alami bergaya *stylized matte* (`Nagcu.blend`) di Hermes Desktop, verifikasi material pada koleksi `Rumah 1 jendela` & `Rumah 2 jendela`, lalu ekspor `.fbx` siap Unity URP (lihat [[Analisis dan Tekstur Rumah Blend]]).
 - [ ] **Sesi GUI:** Implementasi Canvas Menu Lobby (`Panel_Missions`, `Panel_Calibration` + RenderTexture Live Dragon, `Panel_Settings`), `InGameFlightHUD`, serta Victory/Defeat Modal sesuai [[laptop-a/rencana_desain_ui]].
