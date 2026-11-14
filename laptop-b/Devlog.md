@@ -4,12 +4,33 @@ tags:
   - devlog
   - laptop-b
 owner: Laptop B
-updated: 2026-11-14
+updated: 2026-11-15
 ---
 
 # 🛠️ Devlog — Laptop B
 
 > Catatan kronologis pengembangan kode, debugging, pengujian Unity/Python, dan hasil build dari **Laptop B**. Kembali ke [[00 - Overview]].
+
+---
+
+## 2026-11-15 — Implementasi Sistem UI Hybrid (Screen 00–06) & Protokol Feature-to-UI Sync
+
+### Eksekusi Utama
+- **Ekstraksi & Setup Aset UI (`UI_Unity_Export`):**
+  - Menempatkan `134` PNG komponen (20 subfolder) di `AR Dragon Sky Guardian/Assets/UI/Components/` dan `7` artboard referensi `1920×1080` di luar build runtime pada `docs/UI_Designs_Reference/`.
+  - Membuat & menjalankan `Assets/Editor/UISpriteSetupUtility.cs` (`SetupAllSprites()`) untuk konfigurasi otomatis `134` sprite (`Single`, `PPU = 100`, `FullRect`, `Bilinear`, `Uncompressed`, `sRGB`, `alphaIsTransparency`) beserta **72 border 9-Slice / Horizontal 3-Slice** dengan urutan C# `Vector4(L, B, R, T)`.
+  - Membuat & menjalankan `Assets/Editor/UIFontSetupUtility.cs` menghasilkan **10 aset TMP SDF** (`Fredoka-Bold`, `Fredoka-SemiBold`, `Nunito-ExtraBold`, `Nunito-Bold`, `Nunito-Medium` + masing-masing `DynamicFallback SDF.asset`) di `Assets/Fonts/`.
+- **Arsitektur UI Hybrid, 14 Skrip UI, 6 Prefab, & 2 Scene Build Index:**
+  - Membuat `Assets/Editor/UISceneAndPrefabBuilder.cs` (`BuildAll()`) serta **14 skrip C# UI** di `Assets/_Scripts/UI/` (`LobbyNavigationManager`, `MissionsPanelUI`, `CalibrationPanelUI`, `LiveDragonPreviewController`, `SettingsPanelUI`, `CameraControlModuleUI`, `SolidCameraDropdown`, `DragonGameSettings`, `UDPVideoStreamReceiver`, `UISkeletonOverlayGraphic`, `InGameFlightHUD`, `PauseModalUI`, `VillageChallengeUI`, `FinishModalUI`) dan **6 prefab** di `Assets/Prefabs/UI/` (`PF_CameraControlModule_Compact`, `PF_CameraControlModule_Full`, `PF_SettingsPanel`, `PF_PauseModal`, `PF_VillageChallengeOverlay`, `PF_FinishModal`).
+  - Memperbarui skrip inti tanpa regresi uji terbang: `PythonProcessManager.cs` (`_instance == this` guard, `autoLaunchPython = false`, DirectShow list), `UDPPoseReceiver.cs` (`ReleasePortForSceneTransition()`), `DefaultFlightInputMapper.cs` (`turnSensitivity`), dan `DragonWingAnimator.cs` (`SetPreviewState`/`ClearPreviewState`).
+  - Mendaftarkan `MainMenu_Lobby.unity` (Build Index `0`) dan `Test_Dragon_Flight.unity` (Build Index `1`):
+    - **LIVE:** Lobby Top Bar & 3 Tab (`CALIBRATION`, `MISSIONS`, `SETTINGS`), Stage 01 `PLAY`, Kalibrasi (kamera 5-state, PIP `UDP 5053` + skeleton overlay, status `0..5` `UDP 5052`, `RECALIBRATE`/`RESET DEFAULT` `UDP 5054`, Live 3D Dragon Preview via `RenderTexture`, auto-highlight 14 pose `01..14`), Settings (`SolidCameraDropdown` 100% opaque `#FBF6EB`, `Turn Sensitivity` `1.0×–3.0×` persisten, `Master Volume`), dan `InGameFlightHUD` (Altitude, Airspeed, Mode Pose, PIP `5053`, `PauseModalUI`).
+    - **PLACEHOLDER (`// TODO [SYNC-GAMEPLAY]` / `// TODO [SYNC-AUDIO]`):** Stage 02/03 (`SetStageProgress`), slider `BGM`/`SFX Volume` (`OnBgmVolumeChanged`/`OnSfxVolumeChanged`), HUD Timer/Villages/Vitality (`SetMissionTimer`/`SetVillageCount`/`SetGlobalVitality`), dan Pose 15 (`SetVillageActionHighlight`).
+    - **DORMANT PREFAB (`SetActive(false)` default + `[ContextMenu]` preview):** `VillageChallengeUI` (`PF_VillageChallengeOverlay.prefab`), `FinishModalUI` (`PF_FinishModal.prefab`), dan Waypoint Compass (`SetWaypointTarget`).
+- **Hasil Verifikasi Unity 6 (`6000.3.7f1`):**
+  - Build & kompilasi bersih (`0` Console Errors; hanya 1 warning pra-eksisting di `QuickUDPTestBuilder.cs(16,40)`).
+  - Uji Play Mode dari `MainMenu_Lobby` & langsung dari `Test_Dragon_Flight.unity` lolos dengan **0 Console Errors/Warnings**, dropdown kamera solid `#FBF6EB` (7 kamera `[0..6]`), `SelectCamera(6, "OBS Virtual Camera")` + `LaunchBackgroundMode()` (`Started=True`) + `StopPython()` (`Stopped=True`), persistensi `TurnSensitivity`, preview `[ContextMenu]` `SCREEN 02B/03/04`, dan zero lingering Python CV process saat keluar Play Mode.
+- Detail lengkap matriks Live/Placeholder/Dormant & **Protokol `Feature-to-UI Sync`** dicatat di [[Implementasi UI Hybrid AR Dragon]].
 
 ---
 

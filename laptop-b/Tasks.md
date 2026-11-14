@@ -5,7 +5,7 @@ tags:
   - laptop-b
   - engineering
 owner: Laptop B
-updated: 2026-11-14
+updated: 2026-11-15
 ---
 
 # 💻 Tasks — Laptop B (Eksekusi & Pengembangan Program)
@@ -43,10 +43,10 @@ updated: 2026-11-14
     - [x] Pasang `DragonWingAnimator` ke `/Dragon_Player` dan verifikasi Play Mode via UDP `5052` (`GroundedIdle`, `FlyUp` upstroke/downstroke, `Glide + Turn`, `cv_asym` kiri/kanan asimetris, `Hover`, `GentleDescent`, `TuckDive`) dengan `compilationFailed: false` dan `0` console error/warning.
 - [ ] **Uji Play Mode Webcam (Fly Up, Hover, Gentle Descent):** Verifikasi kenyamanan gestur dan transisi fisika secara langsung dengan pemain di Unity Editor sebelum lanjut ke UI lobby.
 - [ ] **Texturing & Ekspor `rumah.blend`:** Jalankan prompt tekstur alami bergaya *stylized matte* (`Nagcu.blend`) di Hermes Desktop, verifikasi material pada koleksi `Rumah 1 jendela` & `Rumah 2 jendela`, lalu ekspor `.fbx` siap Unity URP (lihat [[Analisis dan Tekstur Rumah Blend]]).
-- [ ] **Sesi GUI:** Implementasi Canvas Menu Lobby (`Panel_Missions`, `Panel_Calibration` + RenderTexture Live Dragon, `Panel_Settings`), `InGameFlightHUD`, serta Victory/Defeat Modal sesuai [[laptop-a/rencana_desain_ui]].
-- [ ] **Sesi Model Pulau:** Integrasi & setup FBX kepulauan 3 biome baru di Unity 6 URP setelah pemodelan Blender selesai.
-- [ ] **Sesi 4:** Implementasi `Session4_VillageBuilder.cs`, `VillageZoneController.cs`, Auto-Hover, dan VFX 3 desa sesuai [[laptop-a/prd]].
-- [ ] **Sesi 5:** `GameManager.cs` (Level 1–3, timer, bintang 1–3), audio/SFX, dan build Windows standalone + `start_game.bat`.
+- [x] **Sesi GUI:** Implementasi Canvas Menu Lobby (`MainMenu_Lobby.unity` Build Index `0`), upgrade HUD `Test_Dragon_Flight.unity` (Index `1`), impor `134` PNG komponen (`UISpriteSetupUtility.cs` + `72` border), `10` TMP SDF font (`UIFontSetupUtility.cs`), `14` skrip UI, & `6` Prefab UI (`PF_*`) dengan arsitektur **Hybrid (Live + Placeholder + Dormant Prefab)** sesuai [[laptop-a/rencana_desain_ui]], [[laptop-a/panduan_aset_ui_unity]], & [[laptop-a/kontrak_integrasi_ui_dan_progress]] (lihat [[Implementasi UI Hybrid AR Dragon]]).
+- [ ] **Sesi Model Pulau & Feature-to-UI Sync (Scene Gameplay):** Integrasi & setup FBX kepulauan 3 biome baru di Unity 6 URP setelah pemodelan Blender selesai, sekaligus pasang/hubungkan HUD & dormant prefab (`InGameFlightHUD`, `PF_PauseModal`, `PF_VillageChallengeOverlay`, `PF_FinishModal`) + routing scene di `DragonGameSettings` / `MissionsPanelUI` / `LobbyNavigationManager`.
+- [ ] **Sesi 4 & Feature-to-UI Sync (`VillageZoneController`):** Implementasi `Session4_VillageBuilder.cs`, `VillageZoneController.cs`, Auto-Hover, dan VFX 3 desa sesuai [[laptop-a/prd]], sekaligus wajib hubungkan ke `VillageChallengeUI.ShowChallenge`/`UpdateProgress`/`HideChallenge`, `InGameFlightHUD.SetWaypointTarget`/`ClearWaypoint`, dan `CalibrationPanelUI.SetVillageActionHighlight` (Pose 15).
+- [ ] **Sesi 5 & Feature-to-UI Sync (`GameManager` & `AudioManager`):** `GameManager.cs` (Level 1–3, timer, bintang 1–3), audio/SFX, dan build Windows standalone + `start_game.bat`, sekaligus wajib hubungkan ke `InGameFlightHUD` (`SetMissionTimer`/`SetVillageCount`/`SetGlobalVitality`), `FinishModalUI` (`ShowVictory`/`ShowDefeat`), `MissionsPanelUI.SetStageProgress`, serta subscribe `DragonGameSettings.OnBgmVolumeChanged`/`OnSfxVolumeChanged` (menghapus penanda `// TODO [SYNC-GAMEPLAY]` & `// TODO [SYNC-AUDIO]`).
 
 ## ✅ Selesai (v6.0 — Sky Peck & Auto-Launch Python)
 - [x] **Penataan Struktur Folder Proyek (`assets/`, `docs/`, `tools/`):** Memindahkan seluruh model & skrip Blender (`Assets AR Dragon Sky Guardian/` -> `assets/blender/` & `assets/blender/scripts/`), aset VFX (`vfx/vfx/` -> `assets/vfx/`, `vfx.zip` -> `assets/archives/`), screenshot preview Unity (`AR Dragon Sky Guardian/*.png` -> `assets/screenshots/`), dokumen (`Dokumentasi Projek.docx` & `TS & List Asset.xlsx` -> `docs/`), serta launcher `.bat` (`tools/`), dan menghapus `test_profile_tmp.json` di root tanpa mengubah path inti `AR Dragon Sky Guardian/` & `ARDragonSkyGuardian_CV/`.
