@@ -13,6 +13,14 @@ updated: 2026-11-14
 
 ---
 
+## 2026-11-14 — Kontrak Integrasi UI Hybrid (`Live + Placeholder + Dormant`), Aturan Sinkronisasi Progress, & Prompt Implementasi Laptop B ([[kontrak_integrasi_ui_dan_progress]])
+- **Sinkronisasi Konteks Nyata Laptop B:** Membaca `brain/laptop-b/{Tasks,Devlog,progress,konteks,prd}.md` untuk menyelaraskan implementasi UI dengan kondisi testing mekanisme aktif di `Test_Dragon_Flight.unity` (`PythonProcessManager.cs`, `UDPPoseReceiver.cs` `5052/5053/5054`, `DragonFlightController.cs`, `DefaultFlightInputMapper.cs`, `DragonWingAnimator.cs`).
+- **Arsitektur 3-Kategori UI ([[kontrak_integrasi_ui_dan_progress]]):**
+  - **Live Wired:** Navbar Lobby (`MainMenu_Lobby.unity`), Stage 01 `PLAY` & Calibration `READY TO FLY`, Kontrol Kamera 5 State + Dropdown Solid Opaque `#FBF6EB`, Kalibrasi UDP `5054`, `RenderTexture` Live Dragon Preview, 14 kartu pose lokomosi, serta HUD Telemetri, PIP `5053`, Pause, & Slider `Turn Sensitivity`.
+  - **Placeholder Fungsional:** Kartu `Stage 02/03`, Slider `BGM/SFX`, HUD atas timer & global vitality `0%`, serta kartu pose ke-15 (`VillageActions`).
+  - **Dormant Prefabs (`SetActive(false)`):** `UI_HUD_Waypoint_Chevron`, `SCREEN 03 VillageChallengeUI`, dan `SCREEN 04 FinishModalUI` (tetap dirakit lengkap menjadi prefab + public API & `[ContextMenu]` preview Editor tanpa mengganggu gameplay testing).
+- **Protokol Sinkronisasi Progress Masa Depan (`Feature-to-UI Sync`):** Mengunci aturan agar setiap penambahan pulau 3D, `VillageZoneController`/tantangan desa, `GameManager` timer/bintang, perubahan gestur, atau `AudioManager` di Laptop B langsung membuka/menyesuaikan slot placeholder & dormant UI terkait dan melaporkannya di `brain/laptop-b/`.
+
 ## 2026-11-14 — Ekspor Lengkap Aset UI Siap Unity 6 (`UI_Unity_Export/`: `134` Komponen PNG + `7` Artboard `1920×1080`) & [[panduan_aset_ui_unity]]
 - **Folder Ekspor Proyek ([`UI_Unity_Export/`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/)):**
   - [`UI_Unity_Export/Components/`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Components/): **`134` file PNG (`1x`, *textless*)** hasil ekspor modular dari Page `03 - Unity Export Kit` (`UI AR Dragon.figcraft`) ke dalam `20` subfolder berstruktur (`01_Panels/` s.d. `07_Biomes/`).

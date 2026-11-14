@@ -409,4 +409,4 @@ Seluruh **134 PNG bersifat tanpa teks**. Setiap label, angka timer, dan status s
 | **`UDPPoseReceiver.cs`** | 15× `UI_Plaque_PoseCard_*`, `UI_Pill_Active_Gold`, `RawImage` (`RenderTexture` naga), `UI_Btn_Small_Green/Cream` (`SCREEN 01`) | Menerima paket pose UDP `5052`, menggerakkan pratinjau model naga 3D & highlight kartu pose aktif, serta mengirim perintah kalibrasi UDP `5054` (`CALIBRATE`, `CANCEL`, `CALIBRATE_RESET`). |
 
 ---
-**Navigasi Obsidian:** [[00 - Overview]] · [[rencana_desain_ui]] · [[konteks]] · [[prd]] · [[Tasks]] · [[Devlog]]
+**Navigasi Obsidian:** [[00 - Overview]] · [[kontrak_integrasi_ui_dan_progress]] · [[rencana_desain_ui]] · [[konteks]] · [[prd]] · [[Tasks]] · [[Devlog]]
