@@ -277,8 +277,26 @@ Saat naga masuk ke area desa:
 4. **Integrasi Live Dragon Preview di Kalibrasi:**
    * Menggunakan **RenderTexture** sekunder dengan kamera khusus yang menyorot model `Dragon_Model.blend` di scene terisolasi. Parameter pose dari `UDPPoseReceiver.cs` langsung menggerakkan tulang sayap dan badan naga di pratinjau tersebut.
 5. **Font & Tipografi:**
-   * Menggunakan **TextMeshPro (TMP)** dengan font bergaya *clean geometric rounded sans-serif* (seperti *Nunito*, *Quicksand*, atau *Fredoka One*) dengan warna tinta `#2D2926`.
+   * Menggunakan **TextMeshPro (TMP)** dengan font bergaya *clean geometric rounded sans-serif* (seperti *Nunito*, *Quicksand*, atau *Fredoka One*) dengan warna tinta `#2D2926` (**wajib** dipasang sebagai runtime TMP pada seluruh aset blank di `03 - Unity Export Kit`).
 
+---
+
+## 🧩 5. KATALOG PRA-EKSPOR UNITY (`03 - Unity Export Kit`, Page `1260`)
+
+Halaman **`03 - Unity Export Kit`** (`id: 1260`, kanvas `4000 px` lebar, latar netral `#DFD9CB`) memisahkan seluruh komponen UI `Design` menjadi **134 layer ekspor modular (`PNG 1x`, *textless*, *transparent wrapper* `clip: false`)** bertag `/`-prefixed subfolder agar ekspor `file.exportLayers` dari FigCraft langsung membentuk struktur folder siap impor Unity 6 (`uGUI` + `CanvasScaler 1920×1080`):
+
+> **Catatan Bounding Box Ekspor (`clip: false`):** Layer wrapper ekspor diset `fill: "none"` dan `clip: false` agar *hard cast shadow* dan overhang sudut *stepped* tidak terpotong (contoh: `UI_Panel_Parchment_Full_9Slice` wrapper `240×240` mengekspor `264×271 px` utuh dengan bayangan; `UI_Illust_Dragon_WaterBreath` `269×170 px`; `UI_Bg_Lobby_AerialIsland` tepat `1920×1080 px`). Set `Image.Type = Sliced` pada seluruh aset `*_9Slice` sesuai nilai `[L, R, T, B]` di label section masing-masing (perhitungkan overhang shadow jika menggunakan PNG hasil `clip: false`), dan `Image.Type = Filled` pada `UI_HUD_Vitality_Fill_34x474`, `UI_Progress_Horiz_Fill_Blue_9Slice`, serta `UI_Slider_Fill_*`.
+
+| Section | Folder Ekspor | Jml PNG | Cakupan Aset Utama |
+| :--- | :--- | :---: | :--- |
+| **01 · 9-Slice Panels & Backgrounds** (`1263`) | `01_Panels/` | **11** | Panel *Stepped Parchment* (`Full 264×271`, `Calib 224×230`), *SubParchment*, `PoseCard_Default/Active`, `StatRow`, `Recessed_Track`, `NotesBox`, `Locked_Charcoal`, `Overlay_Popup_Opaque`, dan `Scrim_LockedCard` (`64×64`). |
+| **02 · Banners, Ornaments, Ribbons & Medallions** (`1264`) | `02_Ornaments/`, `02_Banners/`, `02_Tags/`, `02_Callouts/`, `02_Chips/` | **20** | *Baroque Scrollwork*, *Corner Fan*, *Diamond Fleuron*, *Socket 38/32*, `Timer_Coin`, `Pill_Gold`, 3 *Stepped Banner* blank + `Stamp_Defeat_Red_Blank`, 3 `Tag_Stage` blank, 2 `Callout_SpeechBubble` (dengan & tanpa koin), `Chip_Bar`, `Header_Bar`. |
+| **03 · Interactive Buttons, Chrome & Navigation Tabs** (`1265`) | `03_Buttons/`, `03_Chrome/`, `03_Navbar/` | **17** | Tombol 3D tactile bevel (`Primary_Green`, `Secondary_Cream`, `Locked_Charcoal`, `Small_*`, `Danger_Coral Active/Disabled`), 4 tombol mode kamera (`ActiveGreen`, `LoadingCyan`, `UtilityCream`, `Disabled`), `TopChrome_Cream`, `CloseX_20`, `Pause_20`, `Navbar_Rail`, `Tab_Default`, `Tab_Active_Gold`. |
+| **04 · Sliders, Dropdowns, Camera States & Viewports** (`1266`) | `04_Controls/`, `04_Dropdown/`, `04_CameraStates/`, `04_Viewports/` | **36** | Slider track/fill (`Green`, `Amber`), knob, `ValueBox`, Dropdown trigger (`Closed`/`Open`), Popup opaque `#FBF6EB` + row (`Even`/`Odd`/`Selected`), Chevron/Checkmark, 4 `Badge_Cam_*`, 3 `NavCam_*`, 4 dot status, ikon kamera/spinner/alert, **viewport berlubang alpha=0 (`Calib_Frame_Hollow`, `PIP_Bezel_Hollow`)**, 2 bracket viewfinder, dan panel kalibrasi gelap. |
+| **05 · HUD, Challenge & Rewards** (`1267`) | `05_HUD/`, `05_Challenge/`, `05_Rewards/` | **17** | `Capsule_Parchment`, `Vitality_Track_40x480` + `Fill_34x474` + `Ticks_Overlay` terpisah, `Waypoint_Chevron`, `CheckDot_Green`, ilustrasi terisolasi `UI_Illust_Dragon_WaterBreath` + `Frame_Dark`, progress horizontal biru, `Badge_Active_Green_Blank`, slot bintang `StarBox_Card/Victory`, `Star_Gold/Empty`, `Box_Locked_Center`, dan `Icon_Padlock_Cream`. |
+| **06 · Vector Icon Library & 15 Calibration Poses** (`1268`) | `06_Icons/`, `06_Poses/` | **25** | 9 ikon UI (`Hourglass`, `Leaf`, `ScoreStar`, `CoinMedallion`, `Speaker_Audio`, `MusicNote`, `Bolt`, `Sensitivity`, `Padlock_Vector`), `Medallion_Slot_58` kosong, serta **15 ikon pose kalibrasi** (`01_GroundedIdle` s.d. `15_VillageActions`, termasuk varian `08_Glide_ActiveGold`). |
+| **07 · Biome Illustrations & Lobby Background** (`1269`) | `07_Biomes/`, `07_Backgrounds/` | **8** | 3 ilustrasi biome versi **`_Raw`** (`380×210`, *borderless* tanpa radius/scrim), 3 versi **`_Framed`** (`392×222`, outline + shadow; Biome 03 Drought bersih tanpa `Locked Scrim`), `UI_Biome_Frame_Border_9Slice` berlubang (`392×222`), dan `UI_Bg_Lobby_AerialIsland` resolusi penuh `1920×1080` (`1:1`). |
+| **08 · DO NOT EXPORT — Runtime Placeholders Reference** (`1270`) | *(Tidak Diekspor — 0 `exportSettings`)* | **0** | Referensi visual elemen yang diganti sistem runtime Unity: `Skeleton Tracking Viewport` (UDP `5053`), `Dragon 3D Viewport` (`RenderTexture`), `Webcam PIP Monitor` (MJPEG `RawImage`), panduan lapisan **`TextMeshProUGUI`**, dan status overlay gembok `CanvasGroup`. |
 
 ---
 **Navigasi Obsidian:** [[00 - Overview]] · [[konteks]] · [[prd]] · [[Tasks]] · [[Devlog]]
