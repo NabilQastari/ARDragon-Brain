@@ -13,6 +13,26 @@ updated: 2026-11-14
 
 ---
 
+## 2026-11-14 — Implementasi Dynamic Wings Movement Naga 3D (`Dragon_Model.fbx` Rigged & `DragonWingAnimator.cs`)
+- **Aksi:**
+  - Mengatasi masalah `Dragon_Model.fbx` sebelumnya yang hanya berisi mesh statis karena `ARM_Dragon` dalam kondisi *hidden* di `assets/blender/Dragon_Model.blend`: mengekspor ulang `AR Dragon Sky Guardian/Assets/Assets 3D/Dragon_Model.fbx` via Blender 5.1.2 dengan membuka visibilitas `ARM_Dragon` di memori (tanpa mengubah file `.blend`) sehingga 13 mesh `SM_Dragon_*` terimpor di Unity sebagai `SkinnedMeshRenderer` terhubung ke 47 tulang.
+  - Memperbarui `/Dragon_Player/Visual_Dragon/Dragon_Model` di `Test_Dragon_Flight.unity` menjadi prefab instance rigged `Dragon_Model.fbx` (`localPosition = (0, -0.7937, 0.6985)`, `localScale = (1.25, 1.25, 1.25)`, `updateWhenOffscreen = true`).
+  - Membuat `AR Dragon Sky Guardian/Assets/_Scripts/Controllers/DragonWingAnimator.cs` (`[DefaultExecutionOrder(50)]`, namespace `DragonWingAR.Controllers`) yang memetakan sumbu rotasi kanonik `Visual_Dragon` ke frame lokal masing-masing tulang sayap dan hanya menggerakkan **12 tulang sayap** (`Wing_Shoulder.L/R`, `Wing_Forearm.L/R`, serta 4 jari `Wing_Finger_Outer`, `Wing_Finger_MidOuter`, `Wing_Finger_MidInner`, `Wing_Finger_Inner` `.L/R`), sementara 35 tulang tubuh lainnya tetap pada rest pose.
+  - Mengimplementasikan engine animasi *Hybrid* (`DragonFlightController` state & fisika + telemetri CV `IPoseProvider` / `UDPPoseReceiver` dengan peredaman eksponensial):
+    - `GroundedIdle`: sayap terlipat simetris di kedua sisi tubuh (`ShoulderSweepBack = 31°`, `ForearmSweepBack = 9°`, `FingerFanFold = 0.62`) tanpa bertumpukan di atas ekor, disertai osilasi napas halus (`0.34 Hz`, `±2.4°`), dan perlahan membuka saat `GroundedWalk` atau lengan terbuka.
+    - `Takeoff`, `Flapping`, `FlyUp`: ayunan kepakan asimetris dengan *phase lag* pada siku (`-0.72 rad`) dan cambuk jari bertingkat (`-1.35 rad`, skala jari luar ke dalam `1.15 -> 0.45`) serta *feathering* pitch.
+    - `Glide` & `SwoopClimb`: bentangan aerodinamis responsif terhadap `Airspeed`, asimetri sayap dalam/luar saat `CurrentTurnInput` berbelok, serta modulasi tinggi & bukaan lengan CV kiri/kanan independen (`LeftUpperArmOpenness`, `RightUpperArmOpenness`, `LeftWrist`/`RightWrist`).
+    - `Hover`, `TuckDive`, `PropellerDash`, `GentleDescent`, `FlyDownY`, dan `FlyDownW` sesuai gestur penerbangan.
+  - Memasang `DragonWingAnimator` pada `/Dragon_Player` di `Test_Dragon_Flight.unity` dan memperbarui `DragonFlightTestSceneBuilder.cs`.
+- **Verifikasi:**
+  - Kompilasi Unity (`Assets/Refresh`) selesai bersih (`compilationFailed: false`, `consoleErrors: 0`, `consoleWarnings: 0` untuk seluruh skrip yang ditambah/diubah).
+  - Pengujian Play Mode via paket UDP `127.0.0.1:5052` (43-token) dengan inspeksi visual `capture_game_view` dan pengukuran posisi bone `script_eval`:
+    - `GroundedIdle`: sayap terlipat rapi di kiri-kanan punggung dengan ruang ekor bersih.
+    - `FlyUp` / `Flapping`: upstroke mengangkat siku tinggi dengan jari melengkung alami; downstroke mengayun kuat dengan sebaran membran penuh tanpa robekan mesh.
+    - `Glide + Turn (-0.90)`: sayap dalam kiri menekuk dan merapat halus sementara sayap luar kanan terangkat penuh.
+    - `cv_asym` (`Arm Open L/R = 1.00 / 0.30`): sayap kiri terangkat lebih tinggi (`TipL.y = 31.68` vs `TipR.y = 31.31`, `ElbowL.y = 31.14` vs `ElbowR.y = 31.05`).
+    - `Hover`, `GentleDescent`, dan `TuckDive` (`0.08x` slow-motion di udara pada ketinggian `98.8 m`) terverifikasi visual sesuai karakteristik masing-masing gestur; `scene` tersimpan bersih (`isDirty: false`) dan tidak ada proses Python CV tertinggal.
+
 ## 2026-11-14 — Dropdown Input Kamera & Dual Mode Aktivasi YOLO (`Latar Belakang` vs `Jendela Preview`)
 - **Aksi:**
   - Menonaktifkan peluncuran otomatis Python CV saat Play/Startup (`autoLaunchPython = false` di `PythonProcessManager.cs`, `UDPPoseReceiver.cs`, dan `Test_Dragon_Flight.unity`), serta mereset seluruh flag pose/flap/dash di `UDPPoseReceiver.cs` saat tidak terhubung.
