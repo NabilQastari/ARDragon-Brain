@@ -47,6 +47,7 @@ updated: 2026-11-13
 - [[laptop-a/konteks]] — *Single Source of Truth* arsitektur teknis Unity, UDP, dan gestur.
 - [[laptop-a/prd]] — *Product Requirements Document* & roadmap sesi pengembangan.
 - [[laptop-a/rencana_desain_ui]] — Spesifikasi UI Lobby, Kalibrasi, HUD, & Finish Modal (*Clean Minimalist 2D Vector Cartoon Fantasy*).
+- [[laptop-a/panduan_aset_ui_unity]] — Panduan impor Unity 6, nilai *9-Slice* (`L, T, R, B`), & perakitan layar untuk **`134` PNG komponen + `7` artboard `1920×1080`** di [`UI_Unity_Export/`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/).
 - [[laptop-a/Tasks]] & [[laptop-a/Devlog]] — Pelacakan tugas desain/arsitektur & catatan perkembangan Laptop A.
 
 ### Eksekusi & Pengembangan Program ([[laptop-b/Tasks|Laptop B]])

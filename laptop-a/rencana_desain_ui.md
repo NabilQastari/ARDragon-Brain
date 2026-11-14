@@ -285,7 +285,7 @@ Saat naga masuk ke area desa:
 
 Halaman **`03 - Unity Export Kit`** (`id: 1260`, kanvas `4000 px` lebar, latar netral `#DFD9CB`) memisahkan seluruh komponen UI `Design` menjadi **134 layer ekspor modular (`PNG 1x`, *textless*, *transparent wrapper* `clip: false`)** bertag `/`-prefixed subfolder agar ekspor `file.exportLayers` dari FigCraft langsung membentuk struktur folder siap impor Unity 6 (`uGUI` + `CanvasScaler 1920×1080`):
 
-> **Catatan Bounding Box Ekspor (`clip: false`):** Layer wrapper ekspor diset `fill: "none"` dan `clip: false` agar *hard cast shadow* dan overhang sudut *stepped* tidak terpotong (contoh: `UI_Panel_Parchment_Full_9Slice` wrapper `240×240` mengekspor `264×271 px` utuh dengan bayangan; `UI_Illust_Dragon_WaterBreath` `269×170 px`; `UI_Bg_Lobby_AerialIsland` tepat `1920×1080 px`). Set `Image.Type = Sliced` pada seluruh aset `*_9Slice` sesuai nilai `[L, R, T, B]` di label section masing-masing (perhitungkan overhang shadow jika menggunakan PNG hasil `clip: false`), dan `Image.Type = Filled` pada `UI_HUD_Vitality_Fill_34x474`, `UI_Progress_Horiz_Fill_Blue_9Slice`, serta `UI_Slider_Fill_*`.
+> **Catatan Bounding Box Ekspor (`clip: false`):** Layer wrapper ekspor diset `fill: "none"` dan `clip: false` agar *hard cast shadow* dan overhang sudut *stepped* tidak terpotong (contoh: `UI_Panel_Parchment_Full_9Slice` wrapper `240×240` mengekspor `264×271 px` utuh dengan bayangan; `UI_Illust_Dragon_WaterBreath` `269×170 px`; `UI_Bg_Lobby_AerialIsland` tepat `1920×1080 px`). Seluruh **`134` PNG komponen** & **`7` PNG desain `1920×1080`** sudah diekspor ke [`UI_Unity_Export/`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/) — lihat **[[panduan_aset_ui_unity]]** untuk ukuran piksel final, nilai border Unity Sprite Editor (`L, T, R, B`), peringatan notch, dan panduan perakitan Scene Unity 6. Set `Image.Type = Sliced` pada seluruh aset `*_9Slice` sesuai nilai terukur, dan `Image.Type = Filled` pada `UI_HUD_Vitality_Fill_34x474`, `UI_Progress_Horiz_Fill_Blue_9Slice`, serta `UI_Slider_Fill_*`.
 
 | Section | Folder Ekspor | Jml PNG | Cakupan Aset Utama |
 | :--- | :--- | :---: | :--- |
@@ -299,4 +299,4 @@ Halaman **`03 - Unity Export Kit`** (`id: 1260`, kanvas `4000 px` lebar, latar n
 | **08 · DO NOT EXPORT — Runtime Placeholders Reference** (`1270`) | *(Tidak Diekspor — 0 `exportSettings`)* | **0** | Referensi visual elemen yang diganti sistem runtime Unity: `Skeleton Tracking Viewport` (UDP `5053`), `Dragon 3D Viewport` (`RenderTexture`), `Webcam PIP Monitor` (MJPEG `RawImage`), panduan lapisan **`TextMeshProUGUI`**, dan status overlay gembok `CanvasGroup`. |
 
 ---
-**Navigasi Obsidian:** [[00 - Overview]] · [[konteks]] · [[prd]] · [[Tasks]] · [[Devlog]]
+**Navigasi Obsidian:** [[00 - Overview]] · [[panduan_aset_ui_unity]] · [[konteks]] · [[prd]] · [[Tasks]] · [[Devlog]]

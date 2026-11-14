@@ -13,6 +13,14 @@ updated: 2026-11-14
 
 ---
 
+## 2026-11-14 — Ekspor Lengkap Aset UI Siap Unity 6 (`UI_Unity_Export/`: `134` Komponen PNG + `7` Artboard `1920×1080`) & [[panduan_aset_ui_unity]]
+- **Folder Ekspor Proyek ([`UI_Unity_Export/`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/)):**
+  - [`UI_Unity_Export/Components/`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Components/): **`134` file PNG (`1x`, *textless*)** hasil ekspor modular dari Page `03 - Unity Export Kit` (`UI AR Dragon.figcraft`) ke dalam `20` subfolder berstruktur (`01_Panels/` s.d. `07_Biomes/`).
+  - [`UI_Unity_Export/Designs/`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/): **`7` file PNG layar penuh `1920×1080`** hasil ekspor Page `Design` (`00_MainMenu_LevelSelection.png` s.d. `06_CameraControl_5VisualStates.png`) sebagai cetak biru visual perakitan UI.
+- **Audit Dimensi Piksel & Panduan Implementasi Unity 6 ([[panduan_aset_ui_unity]]):**
+  - Menghitung dimensi aktual, margin transparan ekspor `clip: false` (`0–14 px` + *hard cast shadow*), dan batas aman *9-Slice* berurutan **Unity Sprite Editor Inspector (`L, T, R, B`)** *(serta mengingatkan perbedaan urutan C# `Sprite.border` `(L, B, R, T)`)* untuk seluruh aset `Sliced`, horizontal *3-slice* (`T=0, B=0` pada banner stepped & speech bubble), dan `Filled` (`Vitality Fill`, progress bar biru).
+  - Mencatat pengecualian ukuran aktual vs nama layer (`UI_HUD_Vitality_Track_40x480` = `40×484`, `UI_Box_Locked_Center_96x80` = `96×84`, `UI_StarBox_Card_Slot_80x76` = `80×80`, `UI_StarBox_Victory_Slot_100x90` = `100×94`, `UI_Pose_14_PropellerDash` = `66×64`), batasan tinggi tombol/box bertakik kiri `=`, penggunaan viewport berlubang `alpha=0` di atas `RawImage`/`RenderTexture`, aturan `#FFFFFF alpha = 1.0f` pada *Linear Color Space*, serta pemetaan komponen & *TextMeshProUGUI* ke skrip `DragonWingAR.*`.
+
 ## 2026-11-14 — Ekspansi 5 Variasi Rumah & 5 Variasi Pohon + Baking Tekstur PBR ([`rumah.blend`](file:///e:/Semester%205/Game/AR%20Dragon/assets/rumah.blend), [`pohon.blend`](file:///e:/Semester%205/Game/AR%20Dragon/assets/pohon.blend), [`Pulau_Archipelago.blend`](file:///e:/Semester%205/Game/AR%20Dragon/assets/upgrade%20model%20pulau/Pulau_Archipelago.blend))
 - **Backup Aset Awal:** Salinan mentah `rumah_original.blend` dan `pohon_original.blend` diamankan di `scratch/backups/`.
 - **Ekspansi & Perbaikan Rumah ([`assets/rumah.blend`](file:///e:/Semester%205/Game/AR%20Dragon/assets/rumah.blend), `154,917` B, 5 varian):**
