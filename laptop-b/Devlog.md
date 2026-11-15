@@ -13,6 +13,38 @@ updated: 2026-11-15
 
 ---
 
+## 2026-11-15 — Integrasi Model Pulau v2 (`Pulau_Archipelago.fbx`), Setup URP, Scene `MainIsland_Gameplay`, & Feature-to-UI Sync
+
+### Eksekusi Utama
+- **Ekspor & Persiapan Aset Kepulauan 3-Biome (`assets/blender/upgrade model pulau/Pulau_Archipelago.blend`):**
+  - Menjalankan inspeksi & ekspor Blender `5.1.2` CLI hanya pada `349` objek mesh gameplay (`COL_Island_Terrain`, `COL_Biome1_Water`, `COL_Island_Rocks`, `COL_Village_Houses`, `COL_Foliage_Trees`; mengecualikan `COL_Cameras_Lights` dan `COL_Reference`) dengan orientasi `-Z Forward, Y Up` & `FBX_SCALE_UNITS` menjadi `AR Dragon Sky Guardian/Assets/Assets 3D/Pulau_Archipelago/Pulau_Archipelago.fbx` (`4,584,124` bytes).
+  - Menyiapkan `69` tekstur PBR aktif ke `Assets/Assets 3D/Pulau_Archipelago/Textures/`: menyalin `23 *_BC.png` (sRGB) & `23 *_N.png` (NormalMap Linear), serta mengonversi `23` peta grayscale *Roughness* (`*_R.png`) dari Blender menjadi peta RGBA *Metallic-Smoothness* URP (`*_MS.png`: `R=G=B=0`, `A = 255 - Roughness`) agar permukaan terrain, batu, pohon, dan rumah desa tetap bergaya *stylized matte* (bebas artefak basah/plastik di Unity URP).
+- **Otomasi Setup URP, Prefab, & Scene (`Assets/Editor/IslandArchipelagoSetupUtility.cs`):**
+  - Mengonfigurasi `TextureImporter` (`69` tekstur), membuat `23` material `Universal Render Pipeline/Lit` + `Mat_Archipelago_Ocean.mat` (Transparent `#184E66`, `alpha = 0.86`, smoothness `0.90`), dan memetakan ulang seluruh `23` material pada `Pulau_Archipelago.fbx` (`bakeAxisConversion = true`).
+  - Merakit `Assets/Prefabs/World/PF_Pulau_Archipelago.prefab` dengan `Archipelago_Model` berskala `(6, 6, 6)` (`2400 × 2400 m`), memasang `MeshCollider` secara ketat hanya pada `SM_Archipelago_Terrain` dan `4` grup `SM_Rocks_*` (`5` collider total), menempatkan `Ocean_Surface` (`Y = 0`) & `SM_Biome1_Water_01` pada layer `Ignore Raycast` tanpa collider, serta membuat objek `Markers` hasil *raycast* (`Spawn_CenterPeak (0.00, 165.00, 15.00)`, `Village_B1_SmogValley (-562.40, 14.10, 274.30)`, `Village_B2_WildfireWoods (739.60, 12.90, 7.80)`, `Village_B3_DroughtPlateau (39.40, 14.70, -647.60)`).
+  - Membuat scene gameplay baru `Assets/_Scenes/MainIsland_Gameplay.unity` dengan mengekstrak & menyelaraskan `/Dragon_Player` ke `Spawn_CenterPeak (0.00, 165.85, 15.00)` menghadap Yaw `-15°` ke lembah kaldera *Smog Valley*, `maxAltitude = 260f`, kamera `nearClipPlane = 0.5f` / `farClipPlane = 4200f`, serta *Linear Fog* `1150..4200 m`.
+- **Feature-to-UI Sync & Pelestarian `Test_Dragon_Flight.unity`:**
+  - `DragonFlightController.cs`: menaikkan default `maxAltitude` dari `160f` menjadi `260f` guna mengakomodasi elevasi puncak kepulauan (`~165 m` dasar + ruang terbang bebas di atas gunung).
+  - `DragonGameSettings.cs`: menetapkan `DragonUITheme.FlightSceneName = "MainIsland_Gameplay"` dan menambahkan `DragonUITheme.TestFlightSceneName = "Test_Dragon_Flight"`.
+  - `FinishModalUI.cs` & `InGameFlightHUD.cs`: memakai `SceneManager.GetActiveScene().name` agar tombol `REPLAY` me-reload scene aktif saat ini dan kapsul misi menampilkan `"TEST FLIGHT (0/3)"` di `Test_Dragon_Flight` vs `"ARCHIPELAGO (0/3)"` di `MainIsland_Gameplay`.
+  - `MissionsPanelUI.cs` & `UISceneAndPrefabBuilder.cs`: memperbarui label Stage 01 menjadi `"ARCHIPELAGO"`, merefaktor `UpgradeFlightScene` -> `UpgradeGameplayScene(...)` untuk merakit HUD & prefab dormant pada `MainIsland_Gameplay.unity` (Build Index `1`) maupun `Test_Dragon_Flight.unity` (Build Index `2`), serta mendaftarkan ketiga scene (`0: MainMenu_Lobby`, `1: MainIsland_Gameplay`, `2: Test_Dragon_Flight`) di `EditorBuildSettings`.
+
+### Status UI Live vs Dormant (`MainIsland_Gameplay.unity`)
+| Elemen UI / Prefab | Status di `MainIsland_Gameplay` | Sinkronisasi / Integrasi |
+| :--- | :--- | :--- |
+| `InGameFlightHUD` | **Live** | Aktif (`ARCHIPELAGO (0/3)`, altitude `165.9 m`, kontrol CV UDP, pip, & kompas) |
+| `PF_PauseModal` (`PauseModalUI`) | **Dormant** (`active=False`) | Teruji toggle pause (`PauseToggleOK=True`) |
+| `PF_QuestNarrativeBox` | **Dormant** (`active=False`) | Terpasang & siap dipanggil Sesi 4 |
+| `PF_VillageChallengeOverlay` | **Dormant** (`active=False`) | Terpasang & siap menerima progres tantangan desa Sesi 4 |
+| `PF_FinishModal` (`FinishModalUI`) | **Dormant** (`active=False`) | Terpasang; `HandleRetryClicked()` me-reload scene aktif (`MainIsland_Gameplay`) |
+
+### Verifikasi Unity 6 (`6000.3.7f1`)
+- Kompilasi skrip C# (`compilationFailed: false`, `0` errors) dan `IslandArchipelagoSetupUtility.SetupAllAndBuildMainIslandScene()`: `Renderers=350`, `BadShader=0`, `NullBaseTex=0`, `Colliders(5)`, `0` console error / warning.
+- Inspeksi visual `capture_scene_view` & `capture_game_view` (Pulau 3 biome, Biome 1 Smog Valley, Biome 2 Wildfire Woods, lobby Missions, & Play Mode `MainIsland_Gameplay`): tekstur matte akurat, pohon terbakar/hidup & perumahan desa rapi, naga spawn `GROUNDED IDLE` (`ALT: 165.9 m | SPD: 0.0 m/s`, kapsul `--:-- · ARCHIPELAGO (0/3)`).
+- Verifikasi Play Mode 3 scene (`MainIsland_Gameplay`, `MainMenu_Lobby` -> `Stage 01` transisi scene, dan regresi `Test_Dragon_Flight` `/Grass_Baseplate`): **lulus dengan `0` console error dan `0` console warning**.
+
+---
+
 ## 2026-11-15 — Implementasi UI v1.8 Boot Flow (`SCREEN 09` Splash Screen $\rightarrow$ `SCREEN 10` Start Screen $\rightarrow$ Lobby)
 
 ### Eksekusi Utama
