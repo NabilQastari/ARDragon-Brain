@@ -23,7 +23,7 @@ related:
 # 🎨 Implementasi UI Hybrid & Sinkronisasi — AR Dragon: Sky Guardian
 
 ## 1. Tujuan & Konteks Sesi
-Mengimplementasikan seluruh antarmuka pengguna (**Screen 00–06**) dan scene UI *AR Dragon: Sky Guardian* di Unity 6 URP (`6000.3.7f1`, namespace `DragonWingAR.*`) berbasis paket aset `UI_Unity_Export` (**134 PNG komponen** textless + **7 referensi 1920×1080**) sesuai spesifikasi [[laptop-a/rencana_desain_ui]], [[laptop-a/panduan_aset_ui_unity]], dan [[laptop-a/kontrak_integrasi_ui_dan_progress]], **tanpa merusak pengujian mekanisme terbang** pada [`Test_Dragon_Flight.unity`](AR Dragon Sky Guardian/Assets/_Scenes/Test_Dragon_Flight.unity).
+Mengimplementasikan seluruh antarmuka pengguna (**Screen 00–07**, termasuk delta patch `v1.6.1`) dan scene UI *AR Dragon: Sky Guardian* di Unity 6 URP (`6000.3.7f1`, namespace `DragonWingAR.*`) berbasis paket aset `UI_Unity_Export` (**134 PNG komponen** textless + **8 referensi 1920×1080**) sesuai spesifikasi [[laptop-a/rencana_desain_ui]], [[laptop-a/panduan_aset_ui_unity]], dan [[laptop-a/kontrak_integrasi_ui_dan_progress]], **tanpa merusak pengujian mekanisme terbang** pada [`Test_Dragon_Flight.unity`](AR Dragon Sky Guardian/Assets/_Scenes/Test_Dragon_Flight.unity).
 
 ---
 
@@ -47,7 +47,7 @@ Mengimplementasikan seluruh antarmuka pengguna (**Screen 00–06**) dan scene UI
 ## 3. Ringkasan Eksekusi & Perubahan File/Aset
 
 ### A. Aset Ekstrak & Editor Automation
-- **Referensi Desain (di luar `Assets/`):** `docs/UI_Designs_Reference/` (`7` PNG `1920×1080`).
+- **Referensi Desain (di luar `Assets/`):** `docs/UI_Designs_Reference/` (`8` PNG `1920×1080`, termasuk revisi `01_Calibration_MotionTutorial.png` & `07_PoseGuide_OverlayModal.png`).
 - **Komponen UI Runtime:** `AR Dragon Sky Guardian/Assets/UI/Components/` (`134` PNG).
 - **Font TMP (`Assets/Fonts/`):** `UIFontSetupUtility.cs` mengonfigurasi **10 aset TMP SDF** (`Fredoka-Bold`, `Fredoka-SemiBold`, `Nunito-ExtraBold`, `Nunito-Bold`, `Nunito-Medium` + masing-masing `DynamicFallback SDF.asset`).
 - **Sprite Importer Otomatis:** `Assets/Editor/UISpriteSetupUtility.cs` (`SetupAllSprites()`) mengatur seluruh **134 PNG** (`Sprite`, `Single`, `PPU = 100`, `FullRect`, `Bilinear`, `Uncompressed`, `sRGB`, `alphaIsTransparency`) termasuk **72 border 9-Slice / Horizontal 3-Slice** `(L, B, R, T)`.
@@ -59,7 +59,7 @@ Mengimplementasikan seluruh antarmuka pengguna (**Screen 00–06**) dan scene UI
 - `Controllers/DefaultFlightInputMapper.cs`: Field `[Range(0.5f, 3.0f)] turnSensitivity` tersinkron ke `DragonGameSettings.TurnSensitivity`.
 - `Controllers/DragonWingAnimator.cs`: Penambahan `SetPreviewState` & `ClearPreviewState` untuk animasi 3D Live Dragon Preview di layar Kalibrasi.
 
-### C. Skrip UI Baru (`Assets/_Scripts/UI/` — 14 Skrip)
+### C. Skrip UI Baru (`Assets/_Scripts/UI/` — 16 Skrip)
 1. `LobbyNavigationManager.cs`
 2. `MissionsPanelUI.cs`
 3. `CalibrationPanelUI.cs`
@@ -74,15 +74,18 @@ Mengimplementasikan seluruh antarmuka pengguna (**Screen 00–06**) dan scene UI
 12. `PauseModalUI.cs`
 13. `VillageChallengeUI.cs`
 14. `FinishModalUI.cs`
+15. `PoseGuideCatalog.cs` *(katalog tunggal 15 pose `#01..#15` & default MRU `[08, 06, 04, 13]`)*
+16. `PoseGuideOverlayUI.cs` *(modal `SCREEN 07` Pose Guide Overlay)*
 
 ### D. Prefab & Scene Build Settings
-- **Prefab UI (`Assets/Prefabs/UI/` — 6 Prefab):**
+- **Prefab UI (`Assets/Prefabs/UI/` — 7 Prefab):**
   - `PF_CameraControlModule_Compact.prefab`
   - `PF_CameraControlModule_Full.prefab`
   - `PF_SettingsPanel.prefab`
   - `PF_PauseModal.prefab`
   - `PF_VillageChallengeOverlay.prefab`
   - `PF_FinishModal.prefab`
+  - `PF_PoseGuideOverlay.prefab` *(modal `SCREEN 07`, default nonaktif di `MainMenu_Lobby`)*
 - **Build Settings (`EditorBuildSettings.scenes`):**
   - Index `0`: `Assets/_Scenes/MainMenu_Lobby.unity` (`enabled = true`)
   - Index `1`: `Assets/_Scenes/Test_Dragon_Flight.unity` (`enabled = true`)
@@ -97,7 +100,8 @@ Mengimplementasikan seluruh antarmuka pengguna (**Screen 00–06**) dan scene UI
 | :--- | :--- | :--- | :--- |
 | **LIVE** | Shared Lobby Top Bar & Navigasi Tab | `LobbyNavigationManager` | `SwitchTab(LobbyTab)` (`Calibration`, `Missions`, `Settings`), `LaunchFlightScene()`, `QuitApplication()` |
 | **LIVE** | Stage 01 (`Smog Valley`) Card & Tombol `PLAY` | `MissionsPanelUI` | Memuat `Test_Dragon_Flight.unity` sambil membawa sesi kamera & `DragonGameSettings` |
-| **LIVE** | Kalibrasi: Kamera 5-State, PIP `5053`, Skeleton, Status `0..5`, `5054`, Live 3D Naga, Pose `01..14` | `CalibrationPanelUI`, `CameraControlModuleUI`, `SolidCameraDropdown`, `UDPVideoStreamReceiver`, `UISkeletonOverlayGraphic`, `LiveDragonPreviewController` | `TriggerCalibration()`, `CancelCalibration()`, `ResetCalibrationProfile()` via `UDPPoseReceiver`; highlight otomatis 14 pose (`UI_Pose_01..14`) + `UI_Pill_Active_Gold` |
+| **LIVE** | Kalibrasi (`SCREEN 01`): Panel atas `860×540`, Kamera 5-State, PIP `5053`, Skeleton, Status `0..5`, `5054`, Live 3D Naga (`840×438`), Baris `1×4` Dinamis MRU + `OPEN POSE GUIDE` | `CalibrationPanelUI`, `CameraControlModuleUI`, `SolidCameraDropdown`, `UDPVideoStreamReceiver`, `UISkeletonOverlayGraphic`, `LiveDragonPreviewController` | `TriggerCalibration()`, `CancelCalibration()`, `ResetCalibrationProfile()` via `UDPPoseReceiver`; antrean MRU 4-slot default `[08, 06, 04, 13]` (`0.15s` dwell debounce, anti-duplikat), `ResetRecentPosesToDefault()`, `OpenPoseGuide()`, `SimulateDetectedPose(int)` |
+| **LIVE** | Modal Pose Guide (`SCREEN 07` — Semua 15 Pose + Sync Live) | `PoseGuideOverlayUI`, `PoseGuideCatalog`, `LobbyNavigationManager` (`PF_PoseGuideOverlay.prefab`) | `Show(int)`, `Hide()`, `SetActivePoseHighlight(int)`, grid `3×5` (`#01..#15`, tag `MAIN` + `ACTIVE` sinkron live), `HandleEscapeAction()` menutup modal sebelum pindah tab |
 | **LIVE** | Settings (`SCREEN 05/06`): Kamera 5-State, Popup Dropdown Solid `#FBF6EB`, `Turn Sensitivity` (`1.0×–3.0×`), `Master Volume` | `SettingsPanelUI`, `DragonGameSettings`, `CameraControlModuleUI`, `SolidCameraDropdown` | `PlayerPrefs` (`DragonWingAR.TurnSensitivity`), `ApplyTurnSensitivityToActiveMappers(float)`, `AudioListener.volume`, `SyncUIFromSettings()` |
 | **LIVE** | In-Game HUD (`SCREEN 02`): Altitude, Airspeed, Mode Pose Aktif, PIP `16:9` (`UDP 5053`), `ESC · PAUSE` | `InGameFlightHUD`, `PauseModalUI` (`PF_PauseModal.prefab`) | `Pause()` (`Time.timeScale = 0f`), `Resume()`, `TogglePause()`, `OpenSettingsSubPanel()`, `CloseSettingsSubPanel()` |
 | **PLACEHOLDER** | Kartu Stage 02 (`Wildfire`) & Stage 03 (`Drought/Locked`) | `MissionsPanelUI`, `DragonGameSettings` | `SetStageProgress(int stageIndex, int starsEarned, bool isLocked)`, `DragonGameSettings.IsStage2UnlockedPlaceholder` (`// TODO [SYNC-GAMEPLAY]`) |
@@ -128,8 +132,8 @@ Setiap sesi pengembangan fitur baru **WAJIB** sekaligus mengaktifkan dan menyamb
 
 ### C. Hasil Verifikasi Akhir
 - Kompilasi & build editor `UISceneAndPrefabBuilder.BuildAll()`: `0` Console Errors (hanya 1 warning pra-eksisting di `QuickUDPTestBuilder.cs(16,40)`).
-- Uji Play Mode dari `MainMenu_Lobby`: verifikasi visual seluruh layar `SCREEN 00–06`, `SolidCameraDropdown` 100% solid opaque `#FBF6EB` (7 kamera `[0..6]`), `Calibration` layout fit (`Top=368.3515`, `Grid=300`, `Bot=70`), toggle kamera `SelectCamera(6, "OBS Virtual Camera")` + `LaunchBackgroundMode()` (`Started=True`) + `StopPython()` (`Stopped=True`), persistensi `TurnSensitivity = 2` ke `Test_Dragon_Flight`, serta `[ContextMenu]` preview `PauseModalUI` (`Paused=True, TimeScale=0`), `VillageChallengeUI` (`VCActive=True`), dan `FinishModalUI` (`VictoryVisible=True`, `DefeatVisible=True`) — **0 Console Errors/Warnings**.
-- Uji Play Mode langsung dari `Test_Dragon_Flight.unity`: `Player=True, FC=True, Mapper=True, Wing=True, HUD=True`, `PMCount=1, AutoLaunch=False, PyRunning=False`, seluruh Dormant UI nonaktif (`DormantAllFalse=True`), scene keluar dengan bersih (`dirty=False`, `0` errors/warnings, zero lingering Python CV process).
+- Uji Play Mode dari `MainMenu_Lobby` (`v1.6.1`): verifikasi visual `1920×1080` untuk `SCREEN 00–07`, `SolidCameraDropdown` 100% solid opaque `#FBF6EB` (7 kamera `[0..6]`), toggle kamera `SelectCamera(6, "OBS Virtual Camera")` + `LaunchBackgroundMode()` (`Started=True`) + `StopPython()` (`Stopped=True`), persistensi `TurnSensitivity`, rotasi MRU `1×4` (`[7,5,3,12]` -> `[11,7,5,3]` -> `[5,11,7,3]` -> `[13,5,11,7]` anti-duplikat -> `[14,13,5,11]` -> reset `[7,5,3,12]`), modal `SCREEN 07` (`15` kartu tanpa elipsis/tumpang-tindih, sinkronisasi live highlight `HighlightedPoseIndex = 12`, close button, `ESC · CLOSE`, serta prioritas `HandleEscapeAction()` `esc1=(False, Calibration)` -> `esc2=(False, Missions)`), dan `[ContextMenu]` preview `PauseModalUI`/`VillageChallengeUI`/`FinishModalUI` — **0 Console Errors/Warnings**.
+- Uji Play Mode langsung dari `Test_Dragon_Flight.unity`: `player=True, ctrl=True, mapper=True, wingAnim=True, hud=True`, `pyCount=1, autoLaunch=False, pyRunning=False`, seluruh overlay dormant nonaktif (`WaypointCompass`, `PF_VillageChallengeOverlay`, `PF_FinishModal`, `PF_PauseModal` = `False`), keluar Play Mode bersih (`0` errors/warnings, `0` proses Python CV tertinggal).
 
 ---
 

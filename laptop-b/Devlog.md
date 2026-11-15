@@ -13,6 +13,31 @@ updated: 2026-11-15
 
 ---
 
+## 2026-11-15 — Revisi UI Kalibrasi (`SCREEN 01` 1×4 Dinamis MRU) & Modal Pose Guide (`SCREEN 07` · v1.6.1)
+
+### Eksekusi Utama
+- **Referensi Visual (`docs/UI_Designs_Reference/`):**
+  - Memperbarui `01_Calibration_MotionTutorial.png` dan menambahkan `07_PoseGuide_OverlayModal.png` di luar folder `Assets/` (total `8` PNG referensi; tidak ada perubahan pada `134` PNG `Assets/UI/Components/` maupun `UISpriteSetupUtility.cs`).
+- **Penyesuaian `SCREEN 01` (`CalibrationPanelUI.cs`, `LiveDragonPreviewController.cs`, `UISceneAndPrefabBuilder.cs`):**
+  - Memperbesar proporsi panel atas Kalibrasi (`TopPanelsRow` `568 px` menuju rasio `860×540`) agar viewport mirror/skeleton dan **Live 3D Dragon Preview** (`RenderTexture` `840×438`, area preview `~446 px`) tampil lebih lega di `1920×1080`.
+  - Menambahkan strip tengah `RECENT POSES · MAX 4` (`UI_Chip_Bar_Cream_9Slice` + `UI_Badge_Label_Amber_Blank`) dan tombol **`OPEN POSE GUIDE [15 POSES]`** (`UI_Btn_Secondary_Cream_9Slice`, tinggi `60 px`).
+  - Mengganti grid `3×5` lama di panel Kalibrasi dengan baris **`1×4` Kartu Pose Dinamis (MRU Queue)**: default launch/reset `[#08 Glide, #06 Flap To Climb, #04 Takeoff, #13 Tuck To Dive]`, dwell debounce `poseSwitchDwellSeconds = 0.15f`, promosi/sisipan ke Slot 1 tanpa duplikat, `ResetRecentPosesToDefault()`, serta dukungan `SetVillageActionHighlight(bool)` (`#15`).
+- **Penambahan `SCREEN 07` (`PoseGuideCatalog.cs`, `PoseGuideOverlayUI.cs`, `PF_PoseGuideOverlay.prefab`, `LobbyNavigationManager.cs`):**
+  - Membuat katalog terpusat `PoseGuideCatalog.cs` untuk seluruh **15 pose (`#01..#15`)** lengkap dengan kategori, subtitle warna, deskripsi aksi, dan status `MAIN`.
+  - Membangun `PF_PoseGuideOverlay.prefab` & `PoseGuideOverlayUI.cs` (`SetActive(false)` default di `MainMenu_Lobby.unity`): backdrop scrim `#1B1815` (`alpha 0.58f`), `ESC · CLOSE`, panel `1824×824` (`UI_Panel_Parchment_Full_9Slice`), `UI_Crest_Baroque_Scrollwork`, banner `UI_Banner_Stepped_Modal_Blank` bertinta gelap `#2D2926`, 4 pill kategori (`01-03 · GROUND`, `04-05 · LAUNCH & STEER`, `06-12 · CORE FLIGHT`, `13-15 · DIVE · DASH · VILLAGE`), grid `3×5` berisi seluruh 15 kartu pose (`MAIN` + sinkronisasi highlight `ACTIVE` live), strip `KEY POSE RULES`, serta tombol `CLOSE POSE GUIDE` (`64 px`).
+  - Mengaktifkan `enableAutoSizing` (`11.5–14.5 pt` di modal, `12–16 pt` di slot MRU) sehingga judul panjang seperti `#12 FLY DOWN IDLE (POSE W)` tampil utuh tanpa elipsis.
+  - Memperbarui `LobbyNavigationManager.HandleEscapeAction()` agar penekanan `Escape` memprioritaskan penutupan `PoseGuideOverlayUI` sebelum keluar dari tab `Calibration` ke `Missions`.
+
+### Verifikasi Unity 6 (`6000.3.7f1`)
+- `script_recompile_status` (`compilationFailed: false`, `errors: []`) & `UISceneAndPrefabBuilder.BuildAll()` selesai bersih (`0` Console Errors).
+- **Play Mode `MainMenu_Lobby.unity` (`capture_game_view` `1920×1080` + `script_eval`):**
+  - Default launch slot `1×4`: `[7, 5, 3, 12]` (`GLIDE`, `FLAP TO CLIMB`, `TAKEOFF`, `TUCK TO DIVE`), modal tertutup (`GuideOpen=False`).
+  - Uji rotasi MRU: `SimulateDetectedPose(11)` → `[11, 7, 5, 3]`; `(5)` → `[5, 11, 7, 3]`; `(13)` → `[13, 5, 11, 7]`; repeat `(13)` idempoten `[13, 5, 11, 7]`; `SetVillageActionHighlight(true)` → `[14, 13, 5, 11]`; `ResetRecentPosesToDefault()` → `[7, 5, 3, 12]`.
+  - Uji modal `SCREEN 07`: `Btn_OpenPoseGuide` membuka modal dengan 15 kartu pose terbaca utuh tanpa elipsis/tumpang-tindih, `SimulateDetectedPose(12)` menyinkronkan highlight modal ke `#13` (`HighlightedPoseIndex = 12`), tombol `CLOSE POSE GUIDE` & `ESC · CLOSE` menutup modal bersih, dan `HandleEscapeAction()` dua kali menghasilkan `(False, Calibration)` lalu `(False, Missions)` (`groundTruth.consoleErrors = 0`, `consoleWarnings = 0`).
+- **Uji Non-Regresi `Test_Dragon_Flight.unity`:** Play Mode & Exit Play Mode bersih (`player=True`, `ctrl=True`, `mapper=True`, `wingAnim=True`, `pyCount=1`, `autoLaunch=False`, `pyRunning=False`, `udp=True`, `hud=True`, seluruh overlay dormant nonaktif, `groundTruth.consoleErrors = 0`, `consoleWarnings = 0`, dan `0` proses Python CV tertinggal).
+
+---
+
 ## 2026-11-15 — Implementasi Sistem UI Hybrid (Screen 00–06) & Protokol Feature-to-UI Sync
 
 ### Eksekusi Utama
