@@ -13,6 +13,43 @@ updated: 2026-11-15
 
 ---
 
+## 2026-11-15 — Perencanaan Pemasangan Skill VFX Effekseer di Laptop B ([[rencana_skill_vfx_effekseer_laptop_b]])
+- **Latar Belakang & Kebutuhan:**
+  - Menindaklanjuti kebutuhan sistem VFX untuk pemulihan 3 desa pada Sesi 4 ([[mekanisme_tantangan_desa]]), disusun dokumen panduan komprehensif bagi Laptop B untuk mengadopsi paket *Agent Skills* open-source **`kanaworksai-hue/effekseer-vfx-skill`**.
+- **Poin-Poin Utama Rencana ([[rencana_skill_vfx_effekseer_laptop_b]]):**
+  - **1. Profil Skill:** Menyediakan dua kapabilitas agen, yaitu `effekseer-vfx` (authoring efek partikel prosedural & flipbooks berbasis ~30 layer primitives + compiler `EffekseerCore`) dan `vfx-review` (evaluasi kualitas rendering independen).
+  - **2. Metode Instalasi di Laptop B:** Menggunakan perintah CLI `npx skills add kanaworksai-hue/effekseer-vfx-skill` (atau clone manual subfolder `skills/` ke `.agents/skills/`).
+  - **3. Integrasi Unity 6 URP:** Mengimpor paket `EffekseerForUnity` (`https://github.com/effekseer/EffekseerForUnity.git#package`) via Unity Package Manager dan mendaftarkan `EffekseerRendererFeature` pada aset URP Forward Renderer Data.
+  - **4. Katalog Kebutuhan VFX Game Fanamir:**
+    - *Desa Zephyria (Smog Valley):* `VFX_WindGust_Flap` (busur sabit angin & pusaran spiral), `VFX_Smog_Dissipation` (penguraian kabut beracun), dan `VFX_Zephyria_Restoration_Glow`.
+    - *Desa Pyrewood (Wildfire Woods):* `VFX_Water_Gathering` (hisapan air di danau), `VFX_Dragon_WaterBreath_Stream` (semburan air deras dari socket mulut Fanamir), serta `VFX_Fire_Extinguish_Steam` (uap putih pemadam api).
+    - *Desa Solaria (Drought Plateau):* `VFX_DewSummon_Aura` (cincin embun zamrud auto-hover), `VFX_Radiant_DewRain` (hujan kristal pemulih), dan `VFX_Solaria_Bloom_Sprouts`.
+    - *Flight Dynamics:* `VFX_Wingtip_Trail`, `VFX_Dive_WindCone`, dan `VFX_Dash_SonicRing`.
+  - **5. Integrasi Skrip:** Penyiapan pemanggilan komponen `EffekseerEmitter` di `VillageZoneController.cs` selaras dengan state mesin tantangan dan `VillageChallengeUI`.
+- **Dampak Dokumentasi:** Memperbarui [[00 - Overview]], [[laptop B Patch 1 planning]], [[Tasks]], dan [[Devlog]].
+
+## 2026-11-15 — Finalisasi Mekanisme Tantangan Desa, Penamaan 3 Desa, & Mode Free Play ([[mekanisme_tantangan_desa]])
+- **Keputusan Game Logic & Mekanisme Tantangan (Sesi 4 & 5):**
+  - **1. Penamaan 3 Desa:**
+    - Biome 1 (Smog Valley): **Desa Zephyria** *(Valley of Winds)*.
+    - Biome 2 (Wildfire Woods): **Desa Pyrewood** *(Cinder Forest)*.
+    - Biome 3 (Drought Plateau): **Desa Solaria** *(Arid Highlands)*.
+  - **2. Dua Radius Interaksi & State Mesin:**
+    - *Radius Narasi (Ground Desa, R=35m):* Naga auto-hover menghadap desa, **Timer Stage PAUSE**, `PF_QuestNarrativeBox` auto-play. Dapat dibatalkan (*escape*) kapan saja dengan kepak sayap (Flap). Jika ditunggu selesai, quest diambil dan objective ter-update.
+    - *Radius Zona Tantangan (Spawn pasca quest diambil):* Naga auto-hover tantangan, **Timer Stage TETAP BERJALAN** (tidak pause agar ada tensi waktu). Pemain tetap bisa escape dengan kepak sayap jika ingin reposisi.
+  - **3. Mekanisme Tantangan per Desa (Opsi A: Linear Hold):**
+    - *Desa Zephyria (Biome 1):* Radius baru spawn sedikit lebih tinggi (`Y +25m`). Tantangan: Flap sayap ritmik untuk mengusir polusi kabut (`0% -> 100%`).
+    - *Desa Pyrewood (Biome 2):* 2 radius interaktif. (1) Danau Zephyria di Biome 1 untuk isi kapasitas air naga `0 -> 100%` (auto-release saat penuh); (2) Hutan terbakar di Biome 2, tantangan buka mulut (*Open Mouth*) untuk semprot air (*WaterBreath*) memadamkan api.
+    - *Desa Solaria (Biome 3):* Radius spawn tinggi di puncak tebing (`Y +40m`). Tantangan: *Raise Both Hands (Angkat Kedua Tangan Tinggi ke Atas)* secara stabil untuk ritual memanggil awan & hujan embun (*Dew Summoning*) memulihkan tanah retak & danau kering (`0% -> 100%`). Variasi ini sempurna melengkapi kardio sayap (A) dan buka mulut (B) dengan peregangan bahu/postur (C) untuk exergaming.
+  - **4. Hierarki Teks Quest Objective:** Global Objective (`Pulihkan semua desa 0/3`) $\rightarrow$ Village Objective (`Selesaikan misi Desa X 0%`) $\rightarrow$ Sub-Objectives ringkas.
+  - **5. Mode Free Play di Lobby:** Kartu ke-4 di Lobby (`SCREEN 00`) berstatus `LOCKED` dan terbuka otomatis setelah menyelesaikan Stage 01, 02, dan 03. Mode bebas terbang tanpa quest & timer di seluruh kepulauan yang sudah pulih hijau.
+
+## 2026-11-15 — Pembaruan `TS & List Asset.xlsx` & Audit Struktur Folder Laptop A
+- **Pembaruan Excel ([`TS & List Asset.xlsx`](file:///e:/Semester%205/Game/AR%20Dragon/TS%20&%20List%20Asset.xlsx), backup di [`misc/TS & List Asset_backup_20261115.xlsx`](file:///e:/Semester%205/Game/AR%20Dragon/misc/TS%20&%20List%20Asset_backup_20261115.xlsx)):** Memutakhirkan sheet `List Asset` menjadi `7` kategori (Model Naga Fanamir, 5 Varian Rumah, Pulau 3 Biome, 12 Varian Pohon, Aset UI/UX `v1.8`, VFX Particles `40%`, & Audio/SFX `0%`) serta memperluas sheet `TS` (`A. Brainstorming & Desain`, `B. Assets`, `C. Setup & Teknologi Inti` `100%`, dan kategori baru `D. Implementasi Gameplay, UI, & Build`).
+
+## 2026-11-15 — Penyusunan Planning Patch 1 untuk Laptop B ([[laptop B Patch 1 planning]])
+- **Ringkasan:** Menyusun daftar prioritas perbaikan & target implementasi lanjutan untuk Laptop B di [[laptop B Patch 1 planning]], mencakup: (1) *improve* CV & kontrol agar lebih smooth, (2) rasio kamera dinamis/*selectable* + default/*last-selected* camera, (3) animasi UI lebih smooth, (4) uji Play Mode webcam nyata di `MainIsland_Gameplay.unity`, (5) Sesi 4 (`VillageZoneController.cs`, VFX, & sync `PF_QuestNarrativeBox`/`PF_VillageChallengeOverlay`/Waypoint/Pose 15), dan (6) Sesi 5 (`GameManager.cs`, `AudioManager.cs`, sync HUD/Finish/Missions/Audio, & build `Fanamir_The_Sky_Guardian.exe` + `start_game.bat`).
+
 ## 2026-11-15 — Desain UI `v1.8`: Alur Boot `Splash Screen (SCREEN 09)` $\rightarrow$ `Start Screen (SCREEN 10 · Press Any Button)` $\rightarrow$ `Lobby`
 - **Keputusan Desain & Alur (`Splash -> Start Screen -> Lobby`):**
   - Menambahkan dua fase layar pembuka sebelum masuk ke Lobby `MainMenu_Lobby` (`SCREEN 00`), selaras penuh dengan gaya *Fantasy Parchment-and-Ink Tabletop Card UI* dan merakitnya **100% dari komponen FigCraft yang sudah diekspor (`140` PNG eksisting — 0 komponen PNG baru dibutuhkan)**:

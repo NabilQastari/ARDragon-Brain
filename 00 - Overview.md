@@ -51,6 +51,9 @@ updated: 2026-11-15
 - [[laptop-a/rencana_desain_ui]] — Spesifikasi UI Boot Flow (*Splash* & *Start Screen*), Lobby, Kalibrasi, HUD, & Finish Modal (*Fantasy Parchment-and-Ink Tabletop Card UI*).
 - [[laptop-a/panduan_aset_ui_unity]] — Panduan impor Unity 6, nilai *9-Slice* (`L, T, R, B`), & perakitan layar untuk **`140` PNG komponen + `11` PNG desain referensi `1920×1080`** di [`UI_Unity_Export/`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/).
 - [[laptop-a/kontrak_integrasi_ui_dan_progress]] — Matriks *Live vs Placeholder vs Dormant UI*, protokol sinkronisasi otomatis *Progress ↔ UI*, & prompt implementasi UI untuk Laptop B.
+- [[laptop-a/mekanisme_tantangan_desa]] — Rancangan gameplay tantangan 3 desa (Zephyria, Pyrewood, Solaria), state mesin narasi vs tantangan, dan mode *Free Play*.
+- [[laptop-a/laptop B Patch 1 planning]] — Rencana detail perbaikan patch 1 untuk Laptop B (CV, dynamic camera, smooth UI, Sesi 4 & 5).
+- [[laptop-a/rencana_skill_vfx_effekseer_laptop_b]] — Panduan & rencana instalasi skill `kanaworksai-hue/effekseer-vfx-skill` (Effekseer Unity 6 URP) untuk pembuatan VFX pemulihan 3 desa & penerbangan Fanamir di Laptop B.
 - [[laptop-a/Tasks]] & [[laptop-a/Devlog]] — Pelacakan tugas desain/arsitektur & catatan perkembangan Laptop A.
 
 ### Eksekusi & Pengembangan Program ([[laptop-b/Tasks|Laptop B]])
