@@ -20,10 +20,10 @@ related:
   - "[[laptop-a/kontrak_integrasi_ui_dan_progress]]"
 ---
 
-# 🎨 Implementasi UI Hybrid & Sinkronisasi — AR Dragon: Sky Guardian
+# 🎨 Implementasi UI Hybrid & Sinkronisasi — Fanamir: The Sky Guardian (`AR Dragon`)
 
 ## 1. Tujuan & Konteks Sesi
-Mengimplementasikan seluruh antarmuka pengguna (**Screen 00–07**, termasuk delta patch `v1.6.1`) dan scene UI *AR Dragon: Sky Guardian* di Unity 6 URP (`6000.3.7f1`, namespace `DragonWingAR.*`) berbasis paket aset `UI_Unity_Export` (**134 PNG komponen** textless + **8 referensi 1920×1080**) sesuai spesifikasi [[laptop-a/rencana_desain_ui]], [[laptop-a/panduan_aset_ui_unity]], dan [[laptop-a/kontrak_integrasi_ui_dan_progress]], **tanpa merusak pengujian mekanisme terbang** pada [`Test_Dragon_Flight.unity`](AR Dragon Sky Guardian/Assets/_Scenes/Test_Dragon_Flight.unity).
+Mengimplementasikan seluruh antarmuka pengguna (**Screen 00–08**, termasuk pembaruan `v1.6.1` dan `v1.7`) untuk **Fanamir: The Sky Guardian** di Unity 6 URP (`6000.3.7f1`, mempertahankan namespace `DragonWingAR.*`) berbasis paket aset `UI_Unity_Exportv2` (**140 PNG komponen** textless + **9 referensi 1920×1080**) sesuai spesifikasi [[laptop-a/rencana_desain_ui]], [[laptop-a/panduan_aset_ui_unity]], dan [[laptop-a/kontrak_integrasi_ui_dan_progress]], **tanpa merusak pengujian mekanisme terbang** pada [`Test_Dragon_Flight.unity`](AR Dragon Sky Guardian/Assets/_Scenes/Test_Dragon_Flight.unity).
 
 ---
 
@@ -47,10 +47,10 @@ Mengimplementasikan seluruh antarmuka pengguna (**Screen 00–07**, termasuk del
 ## 3. Ringkasan Eksekusi & Perubahan File/Aset
 
 ### A. Aset Ekstrak & Editor Automation
-- **Referensi Desain (di luar `Assets/`):** `docs/UI_Designs_Reference/` (`8` PNG `1920×1080`, termasuk revisi `01_Calibration_MotionTutorial.png` & `07_PoseGuide_OverlayModal.png`).
-- **Komponen UI Runtime:** `AR Dragon Sky Guardian/Assets/UI/Components/` (`134` PNG).
+- **Referensi Desain (di luar `Assets/`):** `docs/UI_Designs_Reference/` (**9 PNG `1920×1080`**, yaitu `00, 01, 02, 03, 04, 05, 06, 07, 08`, termasuk `08_QuestNarrative_Overlay.png` auto-play v1.7).
+- **Komponen UI Runtime:** `AR Dragon Sky Guardian/Assets/UI/Components/` (**140 PNG**, termasuk 6 PNG v1.7: `UI_Panel_QuestObjective_9Slice`, `UI_Panel_NarrativeBox_9Slice`, `UI_Banner_SpeakerTag_Blank`, `UI_Icon_QuestScroll_Gold`, `UI_Icon_AutoPlay_Timer`, `UI_Icon_PromptNext_Arrow`).
 - **Font TMP (`Assets/Fonts/`):** `UIFontSetupUtility.cs` mengonfigurasi **10 aset TMP SDF** (`Fredoka-Bold`, `Fredoka-SemiBold`, `Nunito-ExtraBold`, `Nunito-Bold`, `Nunito-Medium` + masing-masing `DynamicFallback SDF.asset`).
-- **Sprite Importer Otomatis:** `Assets/Editor/UISpriteSetupUtility.cs` (`SetupAllSprites()`) mengatur seluruh **134 PNG** (`Sprite`, `Single`, `PPU = 100`, `FullRect`, `Bilinear`, `Uncompressed`, `sRGB`, `alphaIsTransparency`) termasuk **72 border 9-Slice / Horizontal 3-Slice** `(L, B, R, T)`.
+- **Sprite Importer Otomatis:** `Assets/Editor/UISpriteSetupUtility.cs` (`SetupAllSprites()`) mengatur seluruh **140 PNG** (`Sprite`, `Single`, `PPU = 100`, `FullRect`, `Bilinear`, `Uncompressed`, `sRGB`, `alphaIsTransparency`) termasuk **75 border 9-Slice / Horizontal 3-Slice** `(L, B, R, T)` (`UI_Banner_SpeakerTag_Blank` 3-Slice H terkunci `42 px` + `(8, 0, 8, 0)`).
 - **Scene & Prefab Builder:** `Assets/Editor/UISceneAndPrefabBuilder.cs` (`BuildAll()`).
 
 ### B. Pembaruan Skrip Inti (`Assets/_Scripts/`)
@@ -59,7 +59,7 @@ Mengimplementasikan seluruh antarmuka pengguna (**Screen 00–07**, termasuk del
 - `Controllers/DefaultFlightInputMapper.cs`: Field `[Range(0.5f, 3.0f)] turnSensitivity` tersinkron ke `DragonGameSettings.TurnSensitivity`.
 - `Controllers/DragonWingAnimator.cs`: Penambahan `SetPreviewState` & `ClearPreviewState` untuk animasi 3D Live Dragon Preview di layar Kalibrasi.
 
-### C. Skrip UI Baru (`Assets/_Scripts/UI/` — 16 Skrip)
+### C. Skrip UI Baru (`Assets/_Scripts/UI/` — 17 Skrip)
 1. `LobbyNavigationManager.cs`
 2. `MissionsPanelUI.cs`
 3. `CalibrationPanelUI.cs`
@@ -67,7 +67,7 @@ Mengimplementasikan seluruh antarmuka pengguna (**Screen 00–07**, termasuk del
 5. `SettingsPanelUI.cs`
 6. `CameraControlModuleUI.cs`
 7. `SolidCameraDropdown.cs`
-8. `DragonGameSettings.cs`
+8. `DragonGameSettings.cs` *(ditambah `PrefNarrativeAutoNextSec = "Setting_NarrativeAutoNextSec"`)*
 9. `UDPVideoStreamReceiver.cs`
 10. `UISkeletonOverlayGraphic.cs`
 11. `InGameFlightHUD.cs`
@@ -76,9 +76,10 @@ Mengimplementasikan seluruh antarmuka pengguna (**Screen 00–07**, termasuk del
 14. `FinishModalUI.cs`
 15. `PoseGuideCatalog.cs` *(katalog tunggal 15 pose `#01..#15` & default MRU `[08, 06, 04, 13]`)*
 16. `PoseGuideOverlayUI.cs` *(modal `SCREEN 07` Pose Guide Overlay)*
+17. `QuestNarrativeUI.cs` *(overlay narasi quest auto-play *hands-free* `SCREEN 08`)*
 
 ### D. Prefab & Scene Build Settings
-- **Prefab UI (`Assets/Prefabs/UI/` — 7 Prefab):**
+- **Prefab UI (`Assets/Prefabs/UI/` — 8 Prefab):**
   - `PF_CameraControlModule_Compact.prefab`
   - `PF_CameraControlModule_Full.prefab`
   - `PF_SettingsPanel.prefab`
@@ -86,6 +87,7 @@ Mengimplementasikan seluruh antarmuka pengguna (**Screen 00–07**, termasuk del
   - `PF_VillageChallengeOverlay.prefab`
   - `PF_FinishModal.prefab`
   - `PF_PoseGuideOverlay.prefab` *(modal `SCREEN 07`, default nonaktif di `MainMenu_Lobby`)*
+  - `PF_QuestNarrativeBox.prefab` *(overlay `SCREEN 08` auto-play, default dormant nonaktif di `Test_Dragon_Flight`)*
 - **Build Settings (`EditorBuildSettings.scenes`):**
   - Index `0`: `Assets/_Scenes/MainMenu_Lobby.unity` (`enabled = true`)
   - Index `1`: `Assets/_Scenes/Test_Dragon_Flight.unity` (`enabled = true`)
@@ -102,12 +104,13 @@ Mengimplementasikan seluruh antarmuka pengguna (**Screen 00–07**, termasuk del
 | **LIVE** | Stage 01 (`Smog Valley`) Card & Tombol `PLAY` | `MissionsPanelUI` | Memuat `Test_Dragon_Flight.unity` sambil membawa sesi kamera & `DragonGameSettings` |
 | **LIVE** | Kalibrasi (`SCREEN 01`): Panel atas `860×540`, Kamera 5-State, PIP `5053`, Skeleton, Status `0..5`, `5054`, Live 3D Naga (`840×438`), Baris `1×4` Dinamis MRU + `OPEN POSE GUIDE` | `CalibrationPanelUI`, `CameraControlModuleUI`, `SolidCameraDropdown`, `UDPVideoStreamReceiver`, `UISkeletonOverlayGraphic`, `LiveDragonPreviewController` | `TriggerCalibration()`, `CancelCalibration()`, `ResetCalibrationProfile()` via `UDPPoseReceiver`; antrean MRU 4-slot default `[08, 06, 04, 13]` (`0.15s` dwell debounce, anti-duplikat), `ResetRecentPosesToDefault()`, `OpenPoseGuide()`, `SimulateDetectedPose(int)` |
 | **LIVE** | Modal Pose Guide (`SCREEN 07` — Semua 15 Pose + Sync Live) | `PoseGuideOverlayUI`, `PoseGuideCatalog`, `LobbyNavigationManager` (`PF_PoseGuideOverlay.prefab`) | `Show(int)`, `Hide()`, `SetActivePoseHighlight(int)`, grid `3×5` (`#01..#15`, tag `MAIN` + `ACTIVE` sinkron live), `HandleEscapeAction()` menutup modal sebelum pindah tab |
-| **LIVE** | Settings (`SCREEN 05/06`): Kamera 5-State, Popup Dropdown Solid `#FBF6EB`, `Turn Sensitivity` (`1.0×–3.0×`), `Master Volume` | `SettingsPanelUI`, `DragonGameSettings`, `CameraControlModuleUI`, `SolidCameraDropdown` | `PlayerPrefs` (`DragonWingAR.TurnSensitivity`), `ApplyTurnSensitivityToActiveMappers(float)`, `AudioListener.volume`, `SyncUIFromSettings()` |
-| **LIVE** | In-Game HUD (`SCREEN 02`): Top-center `MissionCapsule`, `WaypointCompass` langit atas `(0,-108)`, `Btn_EscPause` kanan atas `(-60,-40)`, `GlobalVitalityBar` ramping `40×484` + pil `#E0E9DC`, klaster kanan bawah `420 px` (`TelemetryDock` + `PIP_CameraControlsCard` dropdown upward `36 px` + `PIP_CameraPanel` ber-`ViewfinderBrackets` & `PipStatusBadge`) | `InGameFlightHUD`, `PauseModalUI` (`PF_CameraControlModule_Compact.prefab`, `PF_PauseModal.prefab`) | `Pause()` (`Time.timeScale = 0f`), `Resume()`, `TogglePause()`, `OpenSettingsSubPanel()`, `CloseSettingsSubPanel()`, `UpdatePipStatusBadge(bool)` |
+| **LIVE** | Settings (`SCREEN 05/06`): Kartu `960×720`, 5 baris slider (`h=58 px`, step `65 px`) termasuk **`Text Auto-Next` (`2.0s–10.0s`, default `5.0s`)**, Kamera 5-State, Popup Dropdown Solid `#FBF6EB`, `Turn Sensitivity` (`1.0×–3.0×`), `Master Volume` | `SettingsPanelUI`, `DragonGameSettings`, `CameraControlModuleUI`, `SolidCameraDropdown` | `PlayerPrefs` (`DragonWingAR.TurnSensitivity`, `Setting_NarrativeAutoNextSec`), `NarrativeAutoNextSeconds`, `ApplyTurnSensitivityToActiveMappers(float)`, `AudioListener.volume`, `SyncUIFromSettings()` |
+| **LIVE** | In-Game HUD (`SCREEN 02`): **`QuestObjectivePanel`** pojok kiri atas (`(50,-30)`, bodi visual `424×112` di `(60,40)` -> state default `TRAVEL`), Top-center `MissionCapsule`, `WaypointCompass` langit atas `(0,-108)`, `Btn_EscPause` kanan atas `(-60,-40)`, `GlobalVitalityBar` ramping `40×484` + pil `#E0E9DC`, klaster kanan bawah `420 px` (`TelemetryDock` + `PIP_CameraControlsCard` dropdown upward `36 px` + `PIP_CameraPanel` ber-`ViewfinderBrackets` & `PipStatusBadge`) | `InGameFlightHUD`, `PauseModalUI` (`PF_CameraControlModule_Compact.prefab`, `PF_PauseModal.prefab`) | `SetQuestObjective(string, bool, string, string)`, `ResetQuestObjectiveToTravel(string)`, `Pause()` (`Time.timeScale = 0f`), `Resume()`, `TogglePause()`, `OpenSettingsSubPanel()`, `CloseSettingsSubPanel()`, `UpdatePipStatusBadge(bool)` |
 | **PLACEHOLDER** | Kartu Stage 02 (`Wildfire`) & Stage 03 (`Drought/Locked`) | `MissionsPanelUI`, `DragonGameSettings` | `SetStageProgress(int stageIndex, int starsEarned, bool isLocked)`, `DragonGameSettings.IsStage2UnlockedPlaceholder` (`// TODO [SYNC-GAMEPLAY]`) |
 | **PLACEHOLDER** | Slider `BGM` & `SFX Volume` (`%` & `PlayerPrefs` aktif) | `SettingsPanelUI`, `DragonGameSettings` | Event `OnBgmVolumeChanged`, `OnSfxVolumeChanged` (`// TODO [SYNC-AUDIO]`) |
 | **PLACEHOLDER** | HUD Timer, Counter Desa `0/3`, Global Vitality Bar | `InGameFlightHUD` | `SetMissionTimer(float remainingSeconds)`, `SetVillageCount(int cleared, int total)`, `SetGlobalVitality(float normalized01)` |
 | **PLACEHOLDER** | Kartu Pose ke-15 (`UI_Pose_15_VillageActions`) | `CalibrationPanelUI` | `SetVillageActionHighlight(bool active)` |
+| **DORMANT** | Quest Narrative Auto-Play (`SCREEN 08`, bodi visual `1236×212` di kiri-bawah `156..1392`, tanpa tombol Continue) | `QuestNarrativeUI` (`PF_QuestNarrativeBox.prefab`) | `ShowNarrativeSequence(...)`, `HideNarrative()`, `[ContextMenu("Debug/Preview Quest Narrative")]`, jeda otomatis saat paused, lalu memanggil `hud.SetQuestObjective("ACTIVE TASK", true, ...)` |
 | **DORMANT** | Waypoint Compass (`UI_HUD_Waypoint_Chevron`) | `InGameFlightHUD` | `SetWaypointTarget(Transform target, string villageLabel)`, `ClearWaypoint()` |
 | **DORMANT** | Overlay Tantangan Desa (`SCREEN 03`, kartu perkamen terpusat `720×670` + `UI_Crest_Baroque_Scrollwork` + `UI_Illust_Frame_Dark_9Slice` + `STATUS: ACTION ACTIVE`) | `VillageChallengeUI` (`PF_VillageChallengeOverlay.prefab`) | `ShowChallenge(string villageTitle, string gestureInstruction, int biomeType, float progress01)` (`BiomeSmog=0`, `BiomeFire=1`, `BiomeDrought=2`), `UpdateProgress(float progress01)`, `HideChallenge()`, + `[ContextMenu]` Editor preview |
 | **DORMANT** | Modal Victory & Defeat (`SCREEN 04`, modal vertikal `680×776` + `STAGE COMPLETE` / `MISSION FAILED` + `STAR 01..03` + `StatsSubPanel` `560×278` + `+X STARS` callout + `ESC · LOBBY` + `Escape`) | `FinishModalUI` (`PF_FinishModal.prefab`) | `ShowVictory(int stars, float elapsedSec, int cleared, int total, int rewardBonusStars)`, `ShowDefeat(float elapsedSec, int cleared, int total, string remainingNote)`, `HideModal()`, event `OnNextLevelRequested`, `OnRetryRequested`, `OnBackToLobbyRequested`, + `[ContextMenu]` Editor preview |
@@ -118,8 +121,7 @@ Setiap sesi pengembangan fitur baru **WAJIB** sekaligus mengaktifkan dan menyamb
    - Daftarkan scene baru di `EditorBuildSettings` dan perbarui `DragonGameSettings.FlightSceneName` / routing di `MissionsPanelUI` & `LobbyNavigationManager` (sambil tetap mempertahankan `Test_Dragon_Flight.unity` atau menyinkronkan target `PLAY`).
    - Pasang prefab/hierarki HUD (`InGameFlightHUD`, `PF_PauseModal`, `PF_VillageChallengeOverlay`, `PF_FinishModal`) ke scene gameplay baru.
 2. **Saat `VillageZoneController` / Sistem Tantangan Desa Diimplementasikan:**
-   - Hubungkan trigger masuk/keluar zona desa ke `VillageChallengeUI.ShowChallenge(...)`, `UpdateProgress(...)`, `HideChallenge()` dengan konstanta `BiomeSmog` (`0`), `BiomeFire` (`1`), `BiomeDrought` (`2`).
-   - Aktifkan Waypoint Compass via `InGameFlightHUD.SetWaypointTarget(...)` & `ClearWaypoint()`.
+   - Saat Fanamir masuk radius trigger desa, putar narasi via `QuestNarrativeUI.ShowNarrativeSequence(...)` (otomatis memperbarui `QuestObjectivePanel` dari `TRAVEL` menjadi `ACTIVE TASK` setelah selesai), lalu aktifkan `VillageChallengeUI.ShowChallenge(...)`, `UpdateProgress(...)`, `HideChallenge()`, serta reset antardesa via `InGameFlightHUD.ResetQuestObjectiveToTravel(nextVillage)` & `SetWaypointTarget(...)` / `ClearWaypoint()`.
    - Hubungkan gestur aksi desa ke `CalibrationPanelUI.SetVillageActionHighlight(...)` (Pose 15).
 3. **Saat `GameManager` (Timer, Bintang, Level Unlock, Global Vitality) Diimplementasikan:**
    - Hubungkan loop gameplay ke `InGameFlightHUD.SetMissionTimer(...)`, `SetVillageCount(...)`, `SetGlobalVitality(...)`.
@@ -131,9 +133,9 @@ Setiap sesi pengembangan fitur baru **WAJIB** sekaligus mengaktifkan dan menyamb
    - Sinkronkan label/highlight kartu pose pada `CalibrationPanelUI` (`UI_Pose_01..15`) dan `InGameFlightHUD` agar teks/ikon tetap akurat dengan kelas `UDPPoseReceiver`.
 
 ### C. Hasil Verifikasi Akhir
-- Kompilasi & build editor `UISceneAndPrefabBuilder.BuildAll()`: `0` Console Errors (hanya 1 warning pra-eksisting di `QuickUDPTestBuilder.cs(16,40)`).
-- Uji Play Mode dari `MainMenu_Lobby` (`v1.6.1`): verifikasi visual `1920×1080` untuk `SCREEN 00–07`, `SolidCameraDropdown` 100% solid opaque `#FBF6EB` (7 kamera `[0..6]`), toggle kamera `SelectCamera(6, "OBS Virtual Camera")` + `LaunchBackgroundMode()` (`Started=True`) + `StopPython()` (`Stopped=True`), persistensi `TurnSensitivity`, rotasi MRU `1×4` (`[7,5,3,12]` -> `[11,7,5,3]` -> `[5,11,7,3]` -> `[13,5,11,7]` anti-duplikat -> `[14,13,5,11]` -> reset `[7,5,3,12]`), modal `SCREEN 07` (`15` kartu tanpa elipsis/tumpang-tindih, sinkronisasi live highlight `HighlightedPoseIndex = 12`, close button, `ESC · CLOSE`, serta prioritas `HandleEscapeAction()` `esc1=(False, Calibration)` -> `esc2=(False, Missions)`), dan `[ContextMenu]` preview `PauseModalUI`/`VillageChallengeUI`/`FinishModalUI` — **0 Console Errors/Warnings**.
-- Uji Play Mode langsung dari `Test_Dragon_Flight.unity` (termasuk penyelarasan visual `SCREEN 02/03/04` & `PauseModal`): `player=True, ctrl=True, mapper=True, wingAnim=True, hud=True`, `pyCount=1, autoLaunch=False, pyRunning=False`, seluruh overlay dormant nonaktif (`WaypointCompass`, `PF_VillageChallengeOverlay`, `PF_FinishModal`, `PF_PauseModal` = `False`); verifikasi visual `1920×1080` untuk HUD + `WaypointCompass` `(0,-108)`, dropdown upward `PIP_CameraControlsCard` (`ddIsOpen=True/False`), `VillageChallengeUI` (`70% RESTORED`), `FinishModalUI` (`STAGE COMPLETE` & `MISSION FAILED`), dan `PauseModalUI` berjalan bersih (`0` errors/warnings, `0` proses Python CV tertinggal), serta non-regresi `MainMenu_Lobby.unity` (`[7,5,3,12]`, `PoseGuideOverlayUI`, `Settings` `ddH=44.0`, `0` errors/warnings).
+- Kompilasi & build editor `UISpriteSetupUtility.SetupAllSprites()` (`140` PNG, `75` border) + `UISceneAndPrefabBuilder.BuildAll()`: `0` Console Errors, `0` warnings skrip UI/Editor (1 warning pra-eksisting di `QuickUDPTestBuilder.cs(16,40)`).
+- Uji Play Mode dari `MainMenu_Lobby` (`v1.6.1` & `v1.7`): verifikasi visual `1920×1080` untuk branding `"FANAMIR: THE SKY GUARDIAN"`, `"LIVE FANAMIR PREVIEW · GLIDE (T-POSE)"`, Pose `#01–#03` memakai `"Fanamir"`, `Settings` (`960×720`, 5 slider termasuk `Row_TextAutoNext` `5.0s` `2.0s–10.0s`, persistensi `Setting_NarrativeAutoNextSec = 4.0f` saat `APPLY & CLOSE`), `SolidCameraDropdown` 100% solid opaque `#FBF6EB`, rotasi MRU `1×4`, modal `SCREEN 07`, serta `autoLaunchPython=False` — `0` errors/warnings.
+- Uji Play Mode langsung dari `Test_Dragon_Flight.unity` (`v1.7` `SCREEN 02/03/04/08` & `PauseModal`): startup bersih (`/Dragon_Player`, `DragonFlightController`, `UDPPoseReceiver`, `QuestObjectivePanel` default `TRAVEL`, `PF_QuestNarrativeBox` & modal dormant `False`, `Pause_SettingsSubPanel` 5 slider aktif), verifikasi visual `SCREEN 08` `DebugPreviewQuestNarrative()` + `PauseModal.Pause()` membekukan timer (`0.21s -> 0.21s`), penyelesaian 3 baris `2.0s` otomatis menutup box dan mengubah `QuestObjectivePanel` menjadi `ACTIVE TASK`, serta `ResetQuestObjectiveToTravel("Wildfire Woods")` bersih (`0` errors, `0` warnings, `0` proses Python CV tertinggal).
 
 ---
 

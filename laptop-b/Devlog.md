@@ -13,6 +13,33 @@ updated: 2026-11-15
 
 ---
 
+## 2026-11-15 — Implementasi UI v1.7 (`Fanamir: The Sky Guardian`, Quest Objective, `Text Auto-Next`, & `SCREEN 08` Auto-Play)
+
+### Eksekusi Utama
+- **Pemasangan Aset `assets/UI_Unity_Exportv2.zip`:**
+  - Mengekstrak **6 PNG komponen baru** ke `AR Dragon Sky Guardian/Assets/UI/Components/` (`134 -> 140` PNG total: `01_Panels/UI_Panel_QuestObjective_9Slice.png`, `01_Panels/UI_Panel_NarrativeBox_9Slice.png`, `02_Banners/UI_Banner_SpeakerTag_Blank.png`, `06_Icons/UI_Icon_QuestScroll_Gold.png`, `06_Icons/UI_Icon_AutoPlay_Timer.png`, `06_Icons/UI_Icon_PromptNext_Arrow.png`) dan memperbarui `7` artboard referensi `1920×1080` (`00, 01, 02, 05, 06, 07, 08`) di `docs/UI_Designs_Reference/`.
+  - Memperbarui `Assets/Editor/UISpriteSetupUtility.cs` untuk border C# `Vector4(L, B, R, T)` (`UI_Panel_QuestObjective_9Slice` `(24, 29, 24, 24)`, `UI_Panel_NarrativeBox_9Slice` `(30, 36, 30, 30)`, `UI_Banner_SpeakerTag_Blank` Horizontal 3-Slice `(8, 0, 8, 0)`), serta menambah alias menu `DragonWingAR/UI/Setup All UI Sprites` sembari menjaga menu lama tetap berfungsi. Hasil: `140` PNG terkonfigurasi (`75` border 9-Slice/3-Slice).
+- **Pembaruan Branding Publik (`FANAMIR: THE SKY GUARDIAN` & `Fanamir`):**
+  - Memperbarui teks UI publik pada `SharedTopNavbar/BrandTitle` (`"FANAMIR: THE SKY GUARDIAN"`), banner `PreviewHeaderTitle` (`"LIVE FANAMIR PREVIEW · {poseTitle}"` di `UISceneAndPrefabBuilder.cs` & `CalibrationPanelUI.cs`), dan deskripsi pose `#01–#03` pada `PoseGuideCatalog.cs` (`Dragon` -> `Fanamir`), dengan **tetap mempertahankan** namespace `DragonWingAR.*`, nama scene `Test_Dragon_Flight.unity`, `/Dragon_Player`, dan kontrak skrip internal.
+- **Quest Objective Panel `SCREEN 02` (`InGameFlightHUD.cs` & `UISceneAndPrefabBuilder.cs`):**
+  - Merakit `QuestObjectivePanel` di pojok kiri atas HUD (kompensasi padding PNG: `RectTransform (50, -30)` `444×137` → bodi visual `424×112` di `(60, 40)`, terpisah bersih `~128 px` di atas `GlobalVitalityBar`), memakai `UI_Panel_QuestObjective_9Slice`, `UI_Socket_Medallion_38_Dark` + `UI_Icon_QuestScroll_Gold`, pil `QUEST OBJECTIVE`, badge status dinamis (`TRAVEL` krem / `ACTIVE TASK` hijau `UI_Badge_Active_Green_Blank` + teks `#FFFFFF`), serta API `SetQuestObjective(...)` & `ResetQuestObjectiveToTravel(string villageName = "Smog Valley")` yang otomatis menampilkan state `TRAVEL` saat scene dimuat.
+- **Pengaturan `Text Auto-Next` `SCREEN 05` (`DragonGameSettings.cs`, `SettingsPanelUI.cs`, `PF_SettingsPanel.prefab`):**
+  - Menambahkan properti persisten `DragonGameSettings.NarrativeAutoNextSeconds` (`PlayerPrefs` key `"Setting_NarrativeAutoNextSec"`, rentang `2.0f–10.0f`, default `5.0f`) dan menyambungkannya ke `SettingsPanelUI` + `APPLY & CLOSE`.
+  - Membangun ulang `PF_SettingsPanel.prefab` (`SettingsCard` `960×720` di `(0, -18)` agar bersih di `TabContentRoot` `1920×1080` maupun Game View docked tanpa menyentuh `TabsRail`), menampilkan `CrestEmblem`, banner `UI_Banner_Stepped_Modal_Blank` (`SETTINGS & AUDIO CONTROLS`), **5 baris slider `UI_Plaque_StatRow_9Slice` (`h = 58 px`, step `65 px`)** + soket gelap + ikon (`Master`, `BGM`, `SFX`, `Turn Sensitivity`, dan baris ke-5 `Text Auto-Next` ber-fill amber), modul kamera + hint panel, dan `Btn_ApplyAndClose` (`68 px`).
+- **Quest Narrative Box Auto-Play `SCREEN 08` (`QuestNarrativeUI.cs` & `PF_QuestNarrativeBox.prefab`):**
+  - Membuat skrip `QuestNarrativeUI.cs` (`QuestLineData`, `ShowNarrativeSequence(...)`, `HideNarrative()`, dan `[ContextMenu("Debug/Preview Quest Narrative")]`) serta prefab `PF_QuestNarrativeBox.prefab` yang terpasang **dormant (`SetActive(false)` default)** pada `Test_Dragon_Flight.unity` (`RectTransform (144, 22)` `1260×242` → bodi visual `1236×212` di kiri-bawah `x: 156..1392`, aman dari Track Vitality kiri & klaster PIP/Telemetri kanan `x >= 1440`).
+  - Tanpa tombol Continue: memakai banner overlap atas-kiri tinggi terkunci `42 px` (`UI_Banner_SpeakerTag_Blank`, teks `#2D2926`), plakat biome `UI_Illust_Frame_Dark_9Slice`, teks krisis + strip `WHAT TO DO:` (`UI_Icon_PromptNext_Arrow`), serta widget kanan `LINE X / Y · AUTO-PLAY` + `AUTO-PLAY · HANDS-FREE` (`NEXT IN X.Xs / Y.Ys`, bar `Filled Horizontal Left` dari `DragonGameSettings.NarrativeAutoNextSeconds`, otomatis jeda saat `Time.timeScale <= 0` / `PauseModal.IsPaused`), dan setelah baris terakhir selesai langsung menutup diri & memanggil `hud.SetQuestObjective("ACTIVE TASK", true, ...)`.
+
+### Verifikasi Unity 6 (`6000.3.7f1`)
+- Rekompilasi (`codeLoadCount: 5`, `compilationFailed: false`, `errors: []`), `UISpriteSetupUtility.SetupAllSprites()` (`140` PNG sprites, `75` border, `0` errors), dan `UISceneAndPrefabBuilder.BuildAll()` (`0` errors, `0` warnings).
+- **Play Mode `MainMenu_Lobby.unity` (`capture_game_view` `1920×1080` & `script_eval`):**
+  - `SharedTopNavbar/BrandTitle = "FANAMIR: THE SKY GUARDIAN"`, Calibration banner `"LIVE FANAMIR PREVIEW · GLIDE (T-POSE)"`, Pose `#01–#03` di `PoseGuideOverlayUI` memakai `"Fanamir"`, Settings `SettingsCard` `960×720` bersih tanpa clipping (`CrestEmblem` tidak menyentuh `TabsRail`), 5 baris slider dengan `Row_TextAutoNext` default `5.0s` (`min=2, max=10`), pengubahan ke `4.0f` + `APPLY & CLOSE` tersimpan persisten di `PlayerPrefs` (`saved4=4`), `SolidCameraDropdown` opaque `#FBF6EB`, dan `PythonProcessManager.autoLaunchPython=False` / `IsProcessRunning=False`.
+- **Play Mode `Test_Dragon_Flight.unity` (`capture_game_view` `1920×1080` & `script_eval`):**
+  - Startup non-regresi bersih: `QuestObjectivePanel` tampil default `TRAVEL` (`"Fly to the marked village (Smog Valley)"`), `PF_QuestNarrativeBox` & modal dormant nonaktif (`False`), `/Dragon_Player` (`DragonFlightController`, `UDPPoseReceiver`) utuh, `Pause_SettingsSubPanel` memiliki `Row_TextAutoNext`.
+  - Pengujian `QuestNarrativeUI.DebugPreviewQuestNarrative()`: animasi hitung mundur `NEXT IN X.Xs / Y.Ys` & fill bar berjalan mulus, `PauseModal.Pause()` membekukan timer akurat (`0.21s -> 0.21s`), menyelesaikan seluruh 3 baris (`2.0s × 3`) otomatis menutup box (`narrativeActive=False`) dan memicu `QuestObjectivePanel` beralih ke `ACTIVE TASK` (`"Disperse the smog — Flap your wings!"`), serta `ResetQuestObjectiveToTravel("Wildfire Woods")` mengembalikan state `TRAVEL`. Console akhir `0` errors, `0` warnings, dan `0` proses Python CV tertinggal pasca Play Mode.
+
+---
+
 ## 2026-11-15 — Perbaikan *Rest-Pose Front Lift* pada Dynamic Wing Movement (`DragonWingAnimator.cs`)
 
 ### Masalah yang Ditemukan
