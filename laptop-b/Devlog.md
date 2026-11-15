@@ -27,7 +27,7 @@ updated: 2026-11-15
   - `DragonFlightController.cs`: menaikkan default `maxAltitude` dari `160f` menjadi `260f` guna mengakomodasi elevasi puncak kepulauan (`~165 m` dasar + ruang terbang bebas di atas gunung).
   - `DragonGameSettings.cs`: menetapkan `DragonUITheme.FlightSceneName = "MainIsland_Gameplay"` dan menambahkan `DragonUITheme.TestFlightSceneName = "Test_Dragon_Flight"`.
   - `FinishModalUI.cs` & `InGameFlightHUD.cs`: memakai `SceneManager.GetActiveScene().name` agar tombol `REPLAY` me-reload scene aktif saat ini dan kapsul misi menampilkan `"TEST FLIGHT (0/3)"` di `Test_Dragon_Flight` vs `"ARCHIPELAGO (0/3)"` di `MainIsland_Gameplay`.
-  - `MissionsPanelUI.cs` & `UISceneAndPrefabBuilder.cs`: memperbarui label Stage 01 menjadi `"ARCHIPELAGO"`, merefaktor `UpgradeFlightScene` -> `UpgradeGameplayScene(...)` untuk merakit HUD & prefab dormant pada `MainIsland_Gameplay.unity` (Build Index `1`) maupun `Test_Dragon_Flight.unity` (Build Index `2`), serta mendaftarkan ketiga scene (`0: MainMenu_Lobby`, `1: MainIsland_Gameplay`, `2: Test_Dragon_Flight`) di `EditorBuildSettings`.
+  - `MissionsPanelUI.cs` & `UISceneAndPrefabBuilder.cs`: memperbarui label Stage 01 menjadi `"ARCHIPELAGO"`, merefaktor `UpgradeFlightScene` -> `UpgradeGameplayScene(...)` untuk merakit HUD & prefab dormant pada `MainIsland_Gameplay.unity` (Build Index `1`) maupun `Test_Dragon_Flight.unity` (Build Index `2`), mendaftarkan ketiga scene (`0: MainMenu_Lobby`, `1: MainIsland_Gameplay`, `2: Test_Dragon_Flight`) di `EditorBuildSettings`, serta menyempurnakan `StarSlot_1..3` pada kartu misi (`BuildStageCard`: `UI_StarBox_Card_Slot_80x76` `80×80`, `StarIcon` `44×44` `preserveAspect=true` di `(0, 11)` bersih di atas bar gelap, & label `StarLabel` `STAR 1..3` bertakik `NoWrap` di `(0, 8.5)`) beserta perataan vertikal `StarLabel` `STAR 01..03` pada `PF_FinishModal.prefab` (`y = 6 -> 11`).
 
 ### Status UI Live vs Dormant (`MainIsland_Gameplay.unity`)
 | Elemen UI / Prefab | Status di `MainIsland_Gameplay` | Sinkronisasi / Integrasi |
@@ -41,7 +41,7 @@ updated: 2026-11-15
 ### Verifikasi Unity 6 (`6000.3.7f1`)
 - Kompilasi skrip C# (`compilationFailed: false`, `0` errors) dan `IslandArchipelagoSetupUtility.SetupAllAndBuildMainIslandScene()`: `Renderers=350`, `BadShader=0`, `NullBaseTex=0`, `Colliders(5)`, `0` console error / warning.
 - Inspeksi visual `capture_scene_view` & `capture_game_view` (Pulau 3 biome, Biome 1 Smog Valley, Biome 2 Wildfire Woods, lobby Missions, & Play Mode `MainIsland_Gameplay`): tekstur matte akurat, pohon terbakar/hidup & perumahan desa rapi, naga spawn `GROUNDED IDLE` (`ALT: 165.9 m | SPD: 0.0 m/s`, kapsul `--:-- · ARCHIPELAGO (0/3)`).
-- Verifikasi Play Mode 3 scene (`MainIsland_Gameplay`, `MainMenu_Lobby` -> `Stage 01` transisi scene, dan regresi `Test_Dragon_Flight` `/Grass_Baseplate`): **lulus dengan `0` console error dan `0` console warning**.
+- Verifikasi Play Mode 3 scene (`MainIsland_Gameplay`, `MainMenu_Lobby` -> `Stage 01` transisi scene + slot bintang `STAR 1..3` kosong/emas & `PF_FinishModal` `STAR 01..03`, dan regresi `Test_Dragon_Flight` `/Grass_Baseplate`): **lulus dengan `0` console error dan `0` console warning**.
 
 ---
 
