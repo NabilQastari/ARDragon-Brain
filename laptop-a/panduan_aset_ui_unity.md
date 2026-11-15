@@ -19,7 +19,7 @@ related:
 # 📦 PANDUAN PENGGUNAAN ASET UI UNITY (`UI_Unity_Export/`)
 ## FANAMIR: THE SKY GUARDIAN
 
-> **Sumber Desain:** [`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft) — Page **`03 - Unity Export Kit`** (`140` PNG komponen modular — +6 komponen baru `v1.7` untuk *Quest Objective*, *Quest Narrative Auto-Play*, & *Settings Text Auto-Next*) & Page **`Design`** (**`9`** PNG artboard layar penuh `1920×1080`, termasuk branding **`Fanamir: The Sky Guardian`**, revisi `SCREEN 02`, `SCREEN 05`, & artboard baru `SCREEN 08`).
+> **Sumber Desain:** [`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft) — Page **`03 - Unity Export Kit`** (`140` PNG komponen modular) & **`11` PNG desain referensi layar penuh `1920×1080`** di [`UI_Unity_Export/Designs/`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/) (`00..08` dari FigCraft `Design`, plus **`09_SplashScreen.png`** & **`10_StartScreen.png`** untuk alur boot `v1.8` — dirakit 100% dari komponen eksisting tanpa memerlukan sprite baru).
 > **Target Engine:** **Unity 6 (`6000.3.7f1`, URP)** dengan `uGUI` + `TextMeshProUGUI` (*namespace teknis eksisting* `DragonWingAR.*` dipertahankan agar tidak memicu regresi).
 > **Prinsip Utama:** Seluruh komponen diekspor **`PNG 1x` tanpa teks statis (*textless*)**, berlatar solid opaque (**`alpha = 1.0f`, zero transparency** pada seluruh perkamen `#F2EFE7` / `#FBF6EB`), serta viewport kamera/naga diekspor **berlubang transparan (`centerA = 0`)** agar `RawImage` & `RenderTexture` dapat tampil langsung di belakang bingkai.
 
@@ -31,7 +31,7 @@ Seluruh file ekspor berada di folder [`UI_Unity_Export/`](file:///e:/Semester%20
 
 ```text
 UI_Unity_Export/
-├── Designs/                         # 9 PNG layar penuh 1920×1080 (referensi visual perakitan di Unity)
+├── Designs/                         # 11 PNG layar penuh 1920×1080 (referensi visual perakitan di Unity)
 │   ├── 00_MainMenu_LevelSelection.png
 │   ├── 01_Calibration_MotionTutorial.png   (Revisi v1.7: Branding Fanamir + Panel 860×540 + 4 Kartu Dinamis)
 │   ├── 02_InGame_FlightHUD.png             (Revisi v1.7: Quest Objective Panel di atas Vitality Bar)
@@ -40,7 +40,9 @@ UI_Unity_Export/
 │   ├── 05_Settings_AudioModal.png
 │   ├── 06_CameraControl_5VisualStates.png
 │   ├── 07_PoseGuide_OverlayModal.png
-│   └── 08_QuestNarrative_Overlay.png       (Baru v1.7: Narrative Box Bawah + Quest Objective ACTIVE TASK)
+│   ├── 08_QuestNarrative_Overlay.png       (v1.7: Narrative Box Bawah + Quest Objective ACTIVE TASK)
+│   ├── 09_SplashScreen.png                 (Baru v1.8: Splash Logo Perkamen — komponen eksisting)
+│   └── 10_StartScreen.png                  (Baru v1.8: Start Screen Press Any Button — komponen eksisting)
 └── Components/                      # 140 PNG komponen siap impor ke Unity Assets/UI/ (+6 komponen v1.7)
     ├── 01_Panels/                   (13 file)
     ├── 02_Banners/                  (6 file)
@@ -78,7 +80,9 @@ UI_Unity_Export/
 | [`05_Settings_AudioModal.png`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/05_Settings_AudioModal.png) | `1920×1080` | `1,031,973` | Referensi Tab **Settings (`v1.7`)**: 5 baris slider (`Master`, `BGM`, `SFX`, `Turn Sensitivity`, **`Text Auto-Next 5.0s`**) & Camera Audio Module (`SCREEN 05`). |
 | [`06_CameraControl_5VisualStates.png`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/06_CameraControl_5VisualStates.png) | `1920×1080` | `636,980` | Lembar spesifikasi **5 State Visual Kamera**, **Popup Dropdown Opaque `#FBF6EB`**, & **3 Badge Navbar `SCREEN 00`**. |
 | [`07_PoseGuide_OverlayModal.png`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/07_PoseGuide_OverlayModal.png) | `1920×1080` | `561,323` | Referensi **Pose Guide Overlay Modal (`SCREEN 07`)**: Katalog lengkap `3×5` seluruh **15 Pose** + kategori + aturan *Key Pose Rules* + tombol tutup `ESC · CLOSE` & `CLOSE POSE GUIDE`. |
-| [`08_QuestNarrative_Overlay.png`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/08_QuestNarrative_Overlay.png) | `1920×1080` | `160,102` | Referensi **Quest Narrative Text Box Auto-Play (`SCREEN 08`, Baru v1.7)**: Text box narasi desa *hands-free* (`1236×212`, timer bar auto-next tanpa tombol Continue) saat Fanamir `IDLE FLY`, beserta Quest Objective `ACTIVE TASK`. |
+| [`08_QuestNarrative_Overlay.png`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/08_QuestNarrative_Overlay.png) | `1920×1080` | `160,102` | Referensi **Quest Narrative Text Box Auto-Play (`SCREEN 08`, v1.7)**: Text box narasi desa *hands-free* (`1236×212`, timer bar auto-next tanpa tombol Continue) saat Fanamir `IDLE FLY`, beserta Quest Objective `ACTIVE TASK`. |
+| [`09_SplashScreen.png`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/09_SplashScreen.png) | `1920×1080` | `54,750` | Referensi **Splash Screen (`SCREEN 09`, Baru v1.8)**: Bingkai perkamen stepped solid `#F2EFE7` + `UI_Crest_Baroque_Scrollwork` + logo `FANAMIR: THE SKY GUARDIAN` (~`2.5s` sebelum Start Screen). |
+| [`10_StartScreen.png`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/10_StartScreen.png) | `1920×1080` | `1,349,407` | Referensi **Start Screen (`SCREEN 10`, Baru v1.8)**: Background pulau + plakat judul besar di langit atas + kapsul **`PRESS ANY BUTTON TO START`** di bawah + tombol **`ESC · QUIT`** kanan atas. |
 
 ---
 
@@ -354,7 +358,7 @@ Seluruh file pose memakai **`Image.Type = Simple`**, **`Preserve Aspect = true`*
 
 ---
 
-## 4. PANDUAN PERAKITAN PER LAYAR (`SCREEN 00–08`) & `SECTION 08` RUNTIME
+## 4. PANDUAN PERAKITAN PER LAYAR (`SCREEN 00–10`) & `SECTION 08` RUNTIME
 
 Seluruh **140 PNG bersifat tanpa teks**. Setiap label, angka timer, isi narasi quest, dan status state dibuat menggunakan **`TextMeshProUGUI`** di dalam Scene Unity.
 
@@ -420,6 +424,15 @@ Seluruh **140 PNG bersifat tanpa teks**. Setiap label, angka timer, isi narasi q
    * Kiri box: Plakat emblem desa (`UI_Illust_Frame_Dark_9Slice` / `UI_Biome_01..03_Raw` mini + nama desa).
    * Tengah box: Sub-judul masalah desa + teks narasi `2–3` baris + strip aksi `UI_Row_Recessed_Track_9Slice` / `UI_Row_NotesBox_Beige_9Slice` berikon `UI_Socket_Medallion_38_Dark` (`WHAT TO DO:` instruksi pemain).
    * Kanan box (**Auto-Play Countdown Widget — tanpa tombol Continue**): Panel resessif `UI_Row_NotesBox_Beige_9Slice` berisi header gelap `AUTO-PLAY · HANDS-FREE`, teks timer `NEXT IN X.Xs / 5.0s`, progress bar horizontal (`UI_Slider_Track_Dark_9Slice` / `UI_Slider_Fill_Green_9Slice` `Filled Horizontal Left`), serta info `"Auto-updates Quest Objective · Speed adjustable in Settings"`. Setelah semua baris selesai auto-advance berdasarkan nilai slider `Text Auto-Next`, box menutup otomatis & memperbarui `Quest Objective Panel`.
+10. **`SCREEN 09` — Splash Screen (`Baru v1.8`, fase boot pertama — menggunakan komponen eksisting):**
+   * Latar kanvas penuh `Image` solid **`#F2EFE7`** (`alpha = 1.0f`) + `UI_Panel_Parchment_Full_9Slice` (`RectTransform 1848×1015` terpusat, margin `12 px` + bayangan bawah).
+   * Gugus tengah: `UI_Crest_Baroque_Scrollwork` (`380×68`), `UI_Plaque_SubParchment_9Slice` (`860×350`), `UI_Badge_Label_Amber_Blank` (`272×38`, `"ANCIENT DEW DRAGON"`), teks hero **`FANAMIR`** (`108 pt`), `UI_Banner_Stepped_Modal_Blank` (`600×77` 3-Slice H terkunci, `"THE SKY GUARDIAN"`), dan caption footer halus `"WEBCAM EXERGAMING · BODY-FLIGHT ADVENTURE"`.
+   * Animasi via `CanvasGroup`: fade-in (`~0.45s`) -> tahan (`~1.8s`) -> fade-out (`~0.45s`) langsung masuk ke `SCREEN 10` (`Start Screen`), dengan opsi skip klik/tombol setelah `0.5s`.
+11. **`SCREEN 10` — Start Screen (`Baru v1.8`, "Press Any Button to Start" — menggunakan komponen eksisting):**
+   * Berbagi `Background_AerialIsland` (`UI_Bg_Lobby_AerialIsland` dengan `AspectRatioFitter.EnvelopeParent`) di `MainMenu_Lobby.unity` sehingga transisi ke `SCREEN 00` (`Lobby`) terasa mulus tanpa layar hitam.
+   * Pojok kanan atas (`-60, -20`): `UI_Btn_TopChrome_Cream_9Slice` (`148×48`) + `UI_IconBadge_CloseX_20` (`24×24`) + **`ESC · QUIT`**.
+   * Plakat Judul Hero di langit atas (`x = 960, y = 144`, `884×267`): `UI_Crest_Baroque_Scrollwork` (`360×65`), `UI_Panel_Parchment_Full_9Slice` (`884×267`), `UI_Tag_Stage_Gold_Blank` (`268×44`, `"SKY EXERGAMING AR"`), judul **`FANAMIR`** (`90 pt`), dan `UI_Banner_Stepped_Modal_Blank` (`600×77` 3-Slice H, `"THE SKY GUARDIAN"`).
+   * Kapsul Prompt Bawah-Tengah (`y = 876`): `UI_HUD_Capsule_Parchment_9Slice` (`590×66`) + 2× `UI_Diamond_Fleuron_18` (`22×22`) + **`PRESS ANY BUTTON TO START`** dengan animasi *alpha/scale pulse* lembut. Menekan tombol apa saja (kecuali `Escape`) atau klik di mana saja (*di luar tombol `ESC · QUIT`*) memanggil transisi ke Tab `Missions` Lobby.
 
 ---
 
@@ -427,6 +440,7 @@ Seluruh **140 PNG bersifat tanpa teks**. Setiap label, angka timer, isi narasi q
 
 | Skrip Unity Target | Elemen UI Terikat (`Components/` & `TMP`) | Aksi / Event |
 | :--- | :--- | :--- |
+| **`BootFlowController.cs` / `LobbyNavigationManager.cs`** *(v1.8)* | `SplashScreenPanel` (`SCREEN 09`), `StartScreenPanel` (`SCREEN 10` — `UI_Panel_Parchment_Full_9Slice`, `UI_Banner_Stepped_Modal_Blank`, `UI_Tag_Stage_Gold_Blank`, `UI_HUD_Capsule_Parchment_9Slice`, `UI_Btn_TopChrome_Cream_9Slice`), serta `LobbyRoot` (`SCREEN 00/01/05`) | Menjalankan alur **`Splash Screen -> Start Screen (Any Key / Click) -> Lobby (Missions)`** saat game pertama kali dijalankan; `Escape` di Start Screen menutup aplikasi (`ESC · QUIT`); menggunakan flag statis `SkipBootScreensOnce` saat kembali dari gameplay (`Pause` / `FinishModal`) agar langsung masuk Lobby tanpa mengulang Splash. |
 | **`LobbyNavigationManager.cs`** | `UI_Tab_Default/Active_Gold_9Slice`, panel `SCREEN 00 / 01 / 05`, overlay `SCREEN 07` | Mengaktifkan panel tab, menukar sprite tab aktif emas, serta memprioritaskan penutupan `PoseGuideOverlayUI` sebelum kembali dari tab saat tombol `Escape` ditekan. |
 | **`PythonProcessManager.cs`** | `UI_NavCam_*`, `UI_Badge_Cam_*`, `UI_Btn_CamMode_*`, `UI_Btn_Danger_Coral_*`, `UI_Dropdown_*`, `UI_Viewport_DarkFallback_BG`, `UI_Icon_*` | Memindai kamera (`RefreshCameraListAsync()` / `--list-json`), `SelectCamera()`, `LaunchBackgroundMode()` (`--headless`), `LaunchExternalPreviewMode()`, menghentikan YOLO (`Matikan`), dan menyinkronkan ke-5 state visual kamera di `SCREEN 00, 01, 02, 05`. |
 | **`InGameFlightHUD.cs`** | **`UI_Panel_QuestObjective_9Slice` + `UI_Icon_QuestScroll_Gold`**, `UI_HUD_Vitality_Fill_34x474`, `UI_HUD_Capsule_Parchment`, `UI_HUD_Waypoint_Chevron`, `UI_Viewport_PIP_Bezel_Hollow`, modul PIP & `SCREEN 03/04/08` | Mengelola teks & status **`Quest Objective`** (`TRAVEL` saat spawn -> `ACTIVE TASK` setelah narasi selesai), memperbarui `fillAmount` Vitality, countdown timer, waypoint, telemetri kecepatan/ketinggian/pose (`IDLE FLY` / `POSE T/Y/A`), `RawImage` stream PIP UDP `5053`, serta kontrol kamera in-game. |

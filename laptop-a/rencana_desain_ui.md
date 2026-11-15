@@ -1,5 +1,5 @@
 ---
-title: "Rencana Desain & Implementasi UI (v1.7)"
+title: "Rencana Desain & Implementasi UI (v1.8)"
 tags:
   - ui-ux
   - design
@@ -14,10 +14,10 @@ related:
   - "[[prd]]"
 ---
 
-# 🎨 DOKUMEN RENCANA DESAIN & IMPLEMENTASI UI (v1.7)
+# 🎨 DOKUMEN RENCANA DESAIN & IMPLEMENTASI UI (v1.8)
 ## FANAMIR: THE SKY GUARDIAN
 
-> **Status Desain:** Dikunci & Disetujui (*Design Approved* — Seluruh layar utama, overlay *Pose Guide*, **Quest Objective + Quest Narrative Box**, & spec 5 State Kamera tersedia di [`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft) pada page `Wireframe` dan **`9` artboard** page `Design` **`SCREEN 00–08`** dengan gaya *Fantasy Parchment-and-Ink Tabletop* `v1.7`: pembaruan branding **`Fanamir: The Sky Guardian`** / **`Fanamir`**, panel **`Quest Objective`** di kiri atas `SCREEN 02`, serta artboard overlay **`SCREEN 08`** untuk **Quest Narrative Text Box** saat Fanamir masuk area desa dan memainkan *Idle Fly*).
+> **Status Desain:** Dikunci & Disetujui (*Design Approved* — **`11` layar referensi `1920×1080`** (`SCREEN 00–10`) tersedia di [`UI_Unity_Export/Designs/`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/) dengan gaya *Fantasy Parchment-and-Ink Tabletop Card UI* `v1.8`: `SCREEN 00–08` tersedia di [`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft) [halaman `Wireframe`, `Design`, & `03 - Unity Export Kit`], sedangkan **`SCREEN 09` (Splash Screen)** & **`SCREEN 10` (Start Screen)** dirakit 1:1 memakai **komponen resmi eksisting `UI_Unity_Export/Components/`** untuk melengkapi alur boot **`Splash Screen -> Start Screen (Press Any Button to Start) -> Lobby`**).
 > **Aset Rujukan:** Tersedia di folder [`Referensi UI/`](file:///e:/Semester%205/Game/AR%20Dragon/Referensi%20UI/).
 > **Prinsip Utama:** *Fantasy Parchment-and-Ink Tabletop Card UI* — Kertas perkamen solid (`#F2EFE7` / `#FBF6EB`, **100% opaque / `alpha = 1.0f`, zero transparency / zero glassmorphism**), sudut **stepped rabbeted plaques** (*vector staircase corner cutouts*) dengan bingkai ganda arsitektural kontinu (*stepped + concave scalloped inner frame* + ornamen sudut *Corner Fan-Medallion* `24×24 px`), spanduk judul *Stepped Banner* bertumpuk batas atas kartu lengkap dengan ornamen diamond *fleuron* & *Baroque Scrollwork Crest*, kontrol tajam `r = 1–4 px`, *outlined* tinta netral seragam `#332C25` dengan bibir 3D *hard cast shadow* nol-blur (`radius: 0`), slot info *borderless recessed taupe* (`#C8BFA8`/`#D5CCBA`) bermedali kiri tumpang-tindih, kotak bintang ber-pill gelap bawah (`STAR 1..3`), tag speech-bubble emas `#E2A43B` (*coin medallion + corner hatch ticks*) tepat di atas tombol aksi utama, palet tombol 3D bevel (`#5C8D46` / `#3D642D` bersheen & takik ganda kiri, sekunder `#E6DFD2` / `#BDB3A0`, locked charcoal `#2E3236`, dan tombol `ESC` krem-merah `#F3EFE6` / `#D15046`), serta latar belakang blank putih `#FFFFFF` khusus layar in-game agar langsung menampakkan viewport Unity (`> 85%` ruang bebas di `SCREEN 02`).
 > **Catatan Placeholder Runtime:** Visual vektor naga 3D & kerangka *stick-figure* di artboard FigCraft berstatus *placeholder visual* yang akan digantikan oleh kamera/model realtime (`RenderTexture` + `RawImage` & overlay kerangka pose) saat implementasi di Unity.
@@ -54,7 +54,48 @@ Seluruh gambar rujukan telah disimpan di folder `Referensi UI/`:
 
 ---
 
-## 🏛️ 2. SPESIFIKASI HALAMAN MENU UTAMA (LOBBY)
+## 🏛️ 2. SPESIFIKASI ALUR BOOT, START SCREEN, & MENU UTAMA (LOBBY)
+
+> **Alur Resmi Saat Game Dijalankan (`Boot Sequence v1.8`):**
+> **`SCREEN 09 (Splash Screen)`** $\rightarrow$ **`SCREEN 10 (Start Screen · Press Any Button to Start)`** $\rightarrow$ **`SCREEN 00 (Lobby · Missions)`** $\rightarrow$ **`SCREEN 02 (In-Game Flight HUD)`**
+> *(Saat pemain kembali dari gameplay via `Pause -> Back to Lobby` atau `Finish Modal -> ESC · LOBBY`, transisi langsung membuka Tab `Missions` tanpa mengulang `Splash Screen` / `Start Screen`.)*
+
+---
+
+### 2.0 Layar Boot Awal: Splash Screen (`SCREEN 09`) & Start Screen (`SCREEN 10`)
+
+#### A. `SCREEN 09` — Splash Screen (`09_SplashScreen.png`, `1920×1080`)
+- **Fungsi & Durasi:** Menampilkan identitas game **`FANAMIR: THE SKY GUARDIAN`** secara singkat (~`2.5–3.0s`: fade-in `0.45s`, hold `1.8s`, fade-out `0.45s`; dapat di-*skip* ke Start Screen lewat klik/tekan tombol setelah jeda aman `0.5s`) sebelum otomatis masuk ke **Start Screen (`SCREEN 10`)**.
+- **Komposisi Visual (Menggunakan Komponen FigCraft Eksisting — Zero New PNGs):**
+  - Latar kanvas penuh: perkamen krem solid **`#F2EFE7` (`alpha = 1.0f`)**.
+  - Bingkai arsitektural luar (`1824×984` visual): `UI_Panel_Parchment_Full_9Slice` penuh di pinggir layar (membawa *stepped rabbeted corners*, inner frames, & corner fan medallions).
+  - Gugus Logo Terpusat (`x = 960`):
+    - Mahkota atas: `UI_Crest_Baroque_Scrollwork` (`380×68`).
+    - Sub-plakat logo (`860×350` visual): `UI_Plaque_SubParchment_9Slice`.
+    - Tag atas straddling tepi atas plakat: `UI_Badge_Label_Amber_Blank` (`272×38`) bertulisan **`ANCIENT DEW DRAGON`**.
+    - Judul hero utama: **`FANAMIR`** (*Fredoka Bold* ~`108 pt`, `#2D2926`, tracking lebar).
+    - Banner stepped straddling tepi bawah plakat: `UI_Banner_Stepped_Modal_Blank` (`600×77` terkunci Horizontal 3-Slice) bertulisan **`THE SKY GUARDIAN`** (`30 pt`).
+  - Footer halus bawah (`y = 952`): `WEBCAM EXERGAMING · BODY-FLIGHT ADVENTURE` (`#6E6355`).
+
+#### B. `SCREEN 10` — Start Screen / Title Screen (`10_StartScreen.png`, `1920×1080`)
+- **Fungsi & Interaksi (`Press Any Button to Start`):**
+  - Menampilkan panorama pulau berbalut plakat judul besar, tombol keluar `ESC · QUIT` di kanan atas, dan prompt **`PRESS ANY BUTTON TO START`** yang berdenyut halus (*alpha/scale pulse*).
+  - **Input:** Penekanan **tombol keyboard/gamepad apa saja** (kecuali `Escape` yang langsung memanggil `QuitApplication()`, atau klik pada tombol `ESC · QUIT`) maupun **klik mouse di mana saja** pada layar akan langsung mentransisikan game ke **Lobby (`SCREEN 00 - Missions`)** secara mulus (*background aerial island tetap menyambung tanpa blank/loading screen*). Beri jeda cooldown singkat (~`0.25s`) saat transisi agar klik tidak menembus ke kartu level Lobby.
+- **Komposisi Visual (Menggunakan Komponen FigCraft Eksisting):**
+  - **Latar Penuh:** `UI_Bg_Lobby_AerialIsland` (`1920×1080`, `AspectRatioFitter.EnvelopeParent` — berbagi objek background yang sama dengan Lobby agar transisi ke `SCREEN 00` seamless).
+  - **Pojok Kanan Atas (`(-60, -20)`):** `UI_Btn_TopChrome_Cream_9Slice` (`148×48`) + `UI_IconBadge_CloseX_20` + **`ESC · QUIT`**.
+  - **Plakat Judul Hero di Langit Atas (`x = 960, y = 144`, visual `860×236` -> meninggalkan kepulauan di tengah layar terbuka lebar):**
+    - Mahkota atas: `UI_Crest_Baroque_Scrollwork` (`360×65`).
+    - Plakat utama: `UI_Panel_Parchment_Full_9Slice` (`884×267` termasuk padding+shadow).
+    - Pita tag atas emas: `UI_Tag_Stage_Gold_Blank` (`268×44`) bertulisan **`SKY EXERGAMING AR`**.
+    - Judul hero: **`FANAMIR`** (*Fredoka Bold* ~`90 pt`, `#2D2926`).
+    - Banner stepped bawah: `UI_Banner_Stepped_Modal_Blank` (`600×77` terkunci 3-Slice H) bertulisan **`THE SKY GUARDIAN`**.
+  - **Kapsul Prompt Bawah-Tengah (`x = 960, y = 876`, `590×66`):**
+    - `UI_HUD_Capsule_Parchment_9Slice` (`590×66`) diapit sepasang `UI_Diamond_Fleuron_18` kiri-kanan (`22×22`) bertulisan **`PRESS ANY BUTTON TO START`** (*Fredoka Bold* `25 pt`, `#2D2926`).
+
+---
+
+### Navigasi Tab Menu Utama (Lobby — `SCREEN 00, 01, 05`)
 
 Sistem Menu Utama menggunakan **3 Tab Navigasi Terpusat (*Segmented Capsule Pill Navbar*)** di bagian atas layar:
 * **Kiri:** `CALIBRATION` (Ikon tangan)

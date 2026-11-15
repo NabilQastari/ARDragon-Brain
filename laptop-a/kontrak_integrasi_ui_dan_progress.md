@@ -30,13 +30,14 @@ related:
 
 ## 1. MATRIKS STATUS ELEMEN UI SAAT INI (FASE TESTING MEKANISME)
 
-Saat mengimplementasikan aset dari `UI_Unity_Export/` (**140 komponen PNG** + **9 referensi layar `1920×1080`** per revisi `v1.7`), Agent/Developer Laptop B membagi seluruh elemen UI ke dalam **3 kategori eksekusi**:
+Saat mengimplementasikan aset dari `UI_Unity_Export/` (**140 komponen PNG** + **11 referensi layar `1920×1080`** per revisi `v1.8`), Agent/Developer Laptop B membagi seluruh elemen UI ke dalam **3 kategori eksekusi**:
 
 ### 🟢 Kategori A — LIVE WIRED (Langsung Berfungsi Penuh Sekarang)
 Fitur backend-nya **sudah tersedia dan terverifikasi** di Laptop B, sehingga UI wajib tersambung ke kode nyata:
 
 | Layar / Komponen | Skrip & Port Backend di Laptop B | Perilaku Nyata Saat Ini |
 | :--- | :--- | :--- |
+| **Boot Flow: Splash & Start Screen (`SCREEN 09 & 10`, Baru `v1.8`)** | `BootFlowController.cs` *(baru)* + `LobbyNavigationManager.cs` | Saat `MainMenu_Lobby.unity` dimulai pertama kali: **`Splash Screen` (`SCREEN 09`)** tampil ~`2.5s` (skippable setelah `0.5s`) $\rightarrow$ **`Start Screen` (`SCREEN 10`)** menunggu *Press Any Button / Click* (kecuali `Escape` / tombol `ESC · QUIT` untuk keluar) $\rightarrow$ masuk **`Lobby` (`SCREEN 00 - Missions`)**. Saat kembali dari `Test_Dragon_Flight.unity` (*Pause / Finish Modal*), `SkipBootScreensOnce` membawa pemain langsung ke Tab `Missions`. |
 | **Shared Navbar (`SCREEN 00/01/05`)** | `LobbyNavigationManager.cs` *(baru)* + `PythonProcessManager.cs` | Pindah tab `CALIBRATION ↔ MISSIONS ↔ SETTINGS`, badge status kamera dinamis pojok kanan atas (`STANDBY`, `LATAR BELAKANG`, `JENDELA PREVIEW`), tombol `ESC · QUIT` / `ESC · BACK`. |
 | **CTA Stage 01 (`PLAY`) & Calibration (`READY TO FLY`)** | Scene Loader / Bootstrapper | Membuka/masuk ke scene terbang uji aktif **`Test_Dragon_Flight.unity`** sambil menjaga status kamera/sensitivitas tetap utuh. |
 | **Modul Kontrol Kamera 5 State (`SCREEN 01`, `02`, `05`, `06`)** | `PythonProcessManager.cs` | Dropdown kamera DirectShow (`RefreshCameraListAsync()` / `--list-json`), popup list **100% solid opaque (`alpha = 1.0f`, `#FBF6EB`)**, tombol `Scan`, `Latar Belakang` (`--headless`), `Jendela Preview`, dan `Matikan`; refleksi 5 state (`STANDBY Belum Pilih`, `STANDBY Terpilih`, `MEMUAT YOLO`, `LIVE`, `ERROR`). Default tetap `autoLaunchPython = false`. |
@@ -282,6 +283,50 @@ Tugas: Terapkan pembaruan UI v1.7 untuk game "Fanamir: The Sky Guardian" (sebelu
    - Kiri & Tengah box: `UI_Panel_NarrativeBox_9Slice` + tag nama desa/pembicara overlap atas kiri (`UI_Banner_SpeakerTag_Blank`) + pill **`LINE 1 / 3 · AUTO-PLAY`** + emblem kiri + narasi krisis desa (2–3 baris) + strip `WHAT TO DO:`.
    - Kanan box (**Auto-Play Countdown Widget**): Badge gelap `AUTO-PLAY · HANDS-FREE`, teks hitung mundur dinamis `NEXT IN X.Xs / Y.Ys`, progress bar horizontal (`Image.Type = Filled Horizontal Left`) yang terisi/berjalan otomatis, serta sub-teks *"Auto-updates Quest Objective · Speed adjustable in Settings"*.
 2. Sediakan API publik `ShowNarrativeSequence(...)` & `HideNarrative()` serta `[ContextMenu("Debug/Preview Quest Narrative")]` untuk uji Editor: text box berjalan otomatis berpindah baris setiap `N` detik sesuai setting `Text Auto-Next`, lalu menutup sendiri setelah baris terakhir selesai dan langsung memanggil `InGameFlightHUD.SetQuestObjective(...)` (beralih dari `TRAVEL` -> `ACTIVE TASK`).
+```
+
+---
+
+## 6. PROMPT PENYESUAIAN UI v1.8 — SPLASH SCREEN (`SCREEN 09`) & START SCREEN (`SCREEN 10`) (LAPTOP B)
+
+> Gunakan prompt di bawah ini di **Laptop B** setelah pembaruan `v1.7` terpasang, untuk menambahkan **Splash Screen (`SCREEN 09`)** dan **Start Screen (`SCREEN 10` — *Press Any Button to Start*)** sebelum masuk ke **Lobby (`MainMenu_Lobby.unity`)**.
+> **Zero komponen sprite baru:** Tidak perlu menambah/mengubah **`140` PNG** di `Assets/UI/Components/` maupun `UISpriteSetupUtility.cs`. Cukup kirim **`2` PNG referensi desain baru (`1920×1080`)** ke `docs/UI_Designs_Reference/`:
+> 1. `09_SplashScreen.png` (`1920×1080`)
+> 2. `10_StartScreen.png` (`1920×1080`)
+
+```markdown
+Tugas: Implementasikan alur boot **Splash Screen (`SCREEN 09`) -> Start Screen (`SCREEN 10`: Press Any Button to Start) -> Lobby (`MainMenu_Lobby.unity`)** pada project Unity 6 URP "Fanamir: The Sky Guardian" di Laptop B (di atas UI v1.7 yang sudah berjalan), tanpa merusak testing mekanisme langsung di `Test_Dragon_Flight.unity`.
+
+### 1. BACA DOKUMENTASI & PASANG REFERENSI v1.8
+1. Jalankan `git -C brain pull` terlebih dahulu (patuhi aturan `AGENTS.md`: dilarang mengedit `brain/laptop-a/`, log hanya di `brain/laptop-b/`).
+2. Baca pembaruan terbaru `v1.8`:
+   - `brain/laptop-a/rencana_desain_ui.md` (bagian `2.0`: `SCREEN 09` & `SCREEN 10`)
+   - `brain/laptop-a/panduan_aset_ui_unity.md` (tabel `Designs/` + bagian `4.2` item `10–11` + `BootFlowController` pada Bab `5`)
+   - `brain/laptop-a/kontrak_integrasi_ui_dan_progress.md`
+3. Pasang 2 file referensi PNG baru (`1920×1080`) ke `docs/UI_Designs_Reference/`:
+   - `docs/UI_Designs_Reference/09_SplashScreen.png`
+   - `docs/UI_Designs_Reference/10_StartScreen.png`
+4. **Catatan Aset:** Semua sprite sudah tersedia di `Assets/UI/Components/` (`140` PNG dari `v1.7`, 0 file baru): `UI_Panel_Parchment_Full_9Slice`, `UI_Plaque_SubParchment_9Slice`, `UI_Crest_Baroque_Scrollwork`, `UI_Badge_Label_Amber_Blank`, `UI_Banner_Stepped_Modal_Blank`, `UI_Tag_Stage_Gold_Blank`, `UI_HUD_Capsule_Parchment_9Slice`, `UI_Diamond_Fleuron_18`, `UI_Btn_TopChrome_Cream_9Slice`, `UI_IconBadge_CloseX_20`, dan `UI_Bg_Lobby_AerialIsland`.
+
+### 2. ARSITEKTUR ALUR BOOT (`BootFlowController.cs` di `MainMenu_Lobby.unity`)
+Implementasikan `SplashScreenPanel` dan `StartScreenPanel` di dalam `MainMenu_Lobby.unity` (Build Index `0`, berbagi `Background_AerialIsland` dengan `Lobby`) melalui komponen baru **`BootFlowController.cs`** (yang berkoordinasi dengan `LobbyNavigationManager.cs` & dirakit otomatis di `UISceneAndPrefabBuilder.cs`):
+1. **Saat Game Pertama Kali Dijalankan (`SkipBootScreensOnce == false`):**
+   - `SharedTopNavbar` & `TabContentRoot` Lobby tersembunyi/tertutup sementara (`alpha = 0` / nonaktif).
+   - **Fase 1 — `SplashScreenPanel` (`SCREEN 09`):** Tampil full-screen (`#F2EFE7` solid opaque, bingkai `UI_Panel_Parchment_Full_9Slice`, mahkota `UI_Crest_Baroque_Scrollwork`, sub-plakat `UI_Plaque_SubParchment_9Slice`, tag `ANCIENT DEW DRAGON`, judul **`FANAMIR`**, banner `UI_Banner_Stepped_Modal_Blank` terkunci tinggi `77 px` **`THE SKY GUARDIAN`**, footer `WEBCAM EXERGAMING · BODY-FLIGHT ADVENTURE`). Jalankan fade-in `0.45s` -> hold `1.8s` -> fade-out `0.45s` via `CanvasGroup` (dapat di-skip ke Start Screen lewat klik/tombol setelah `0.5s` agar tidak melompati Start Screen), lalu otomatis mengaktifkan `StartScreenPanel`.
+   - **Fase 2 — `StartScreenPanel` (`SCREEN 10`):** Memakai `Background_AerialIsland` yang sama di belakang layar, menampilkan plakat judul di langit atas (`UI_Crest_Baroque_Scrollwork`, `UI_Panel_Parchment_Full_9Slice`, `UI_Tag_Stage_Gold_Blank` `"SKY EXERGAMING AR"`, **`FANAMIR`**, `UI_Banner_Stepped_Modal_Blank` `"THE SKY GUARDIAN"`), tombol pojok kanan atas **`ESC · QUIT`**, dan kapsul **`PRESS ANY BUTTON TO START`** (`UI_HUD_Capsule_Parchment_9Slice` + sepasang `UI_Diamond_Fleuron_18`) dengan animasi *alpha/scale pulse* halus di bagian bawah.
+   - **Input `Press Any Button to Start` (*New Input System*):** Gunakan `Keyboard.current.anyKey.wasPressedThisFrame` (kecuali tombol `Escape` yang langsung memanggil `QuitApplication()`), `Gamepad` button press bila ada, serta `Mouse.current.leftButton/rightButton.wasPressedThisFrame` (pastikan klik pada tombol **`ESC · QUIT`** tidak masuk ke Lobby melainkan keluar!). Saat terpicu, beri jeda transisi singkat (`~0.25s` cooldown/fade) menuju **Lobby (`SCREEN 00` — Tab `Missions`)** agar klik tidak tembus ke kartu level.
+2. **Saat Kembali dari Gameplay (`Test_Dragon_Flight.unity`):**
+   - Tambahkan flag statis `BootFlowController.SkipBootScreensOnce` yang diset `true` oleh `PauseModalUI` (`Back to Lobby`) & `FinishModalUI` (`ESC · LOBBY`) sebelum `SceneManager.LoadScene("MainMenu_Lobby")`, sehingga pemain yang kembali dari terbang **langsung masuk ke Tab `Missions`** tanpa mengulang Splash/Start Screen.
+   - Pastikan `PythonProcessManager.autoLaunchPython` tetap `false` selama Splash & Start Screen.
+
+### 3. VERIFIKASI & PEMBARUAN `brain/laptop-b/`
+1. Pastikan **0 Compiler Errors & 0 Console Warnings** setelah kompilasi & `UISceneAndPrefabBuilder.BuildAll()`.
+2. Uji Play Mode `MainMenu_Lobby.unity` (`capture_game_view` `1920×1080`):
+   - Startup awal: `SplashScreenPanel` tampil rapi sesuai `09_SplashScreen.png`, lalu otomatis beralih ke `StartScreenPanel` (`10_StartScreen.png`).
+   - Di `StartScreenPanel`: menekan tombol/klik di area layar langsung masuk mulus ke Lobby Tab `Missions`; menekan tombol `ESC · QUIT` / `Escape` memicu `QuitApplication()`.
+   - Simulasi kembali dari `Test_Dragon_Flight.unity` (`SkipBootScreensOnce = true`): langsung membuka Lobby Tab `Missions` tanpa mengulang Splash.
+   - Uji non-regresi `Test_Dragon_Flight.unity`: tetap langsung bisa di-Play di Editor tanpa error (`0` errors, `0` warnings, `0` proses Python CV tertinggal).
+3. Catat hasil implementasi ke **`brain/laptop-b/`** (`Tasks.md`, `Devlog.md`, dan `memories/Implementasi UI Hybrid AR Dragon.md`), lalu `git -C brain add` (hanya `brain/laptop-b/`), `commit`, dan `push`.
 ```
 
 ---
