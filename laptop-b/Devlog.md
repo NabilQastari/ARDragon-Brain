@@ -13,6 +13,28 @@ updated: 2026-11-15
 
 ---
 
+## 2026-11-15 — Penyelarasan Visual UI In-Game (`SCREEN 02`, `SCREEN 03`, `SCREEN 04`, & `PauseModal`)
+
+### Eksekusi Utama
+- **Penyesuaian `SCREEN 02` In-Game Flight HUD (`UISceneAndPrefabBuilder.cs`, `InGameFlightHUD.cs`, `PF_CameraControlModule_Compact.prefab`):**
+  - Memindahkan `Btn_EscPause` (`148×48`) ke pojok kanan atas `(-60, -40)`, menambahkan soket medali gelap `UI_Socket_Medallion_38_Dark` (`38×38`) serta `UI_HUD_CheckDot_Green` ke `MissionCapsule`, dan memosisikan `WaypointCompass` di langit atas `(0, -108)` di bawah `MissionCapsule` agar tidak menutupi naga.
+  - Merampingkan `GlobalVitalityBar` di kiri menjadi track tunggal `40×484` (`UI_HUD_Vitality_Track_40x480`) dengan pil mengambang mint-cream `82×41` (`#E0E9DC` `alpha = 1.0f`) di atasnya tanpa bingkai `SubParchment` besar.
+  - Menyusun ulang sudut kanan bawah menjadi **klaster terpadu selebar `420 px`** (`right = -60, bottom = 40`): kapsul `TelemetryDock` (`420×44` dengan `ALT:` / `SPD:` ramping dan `Badge_PoseMode`), `PIP_CameraControlsCard` (`420×115`, `PF_CameraControlModule_Compact` memakai dropdown upward `36 px` + label tombol penuh `Latar Belakang` / `Jendela Preview`), serta `PIP_CameraPanel` (`420×240` `16:9` dengan `ViewfinderBrackets` margin `(12,14)` dan lencana status bawah-kiri `PipStatusBadge` yang tersinkron lewat `InGameFlightHUD.UpdatePipStatusBadge`).
+- **Penyesuaian `SCREEN 03` (`VillageChallengeUI.cs`, `PF_VillageChallengeOverlay.prefab`):**
+  - Membangun ulang kartu menjadi panel perkamen terpusat `720×670` (`y = -26` agar `CrestEmblem` tidak bertabrakan dengan `MissionCapsule`), `UI_Banner_Stepped_Modal_Blank`, bingkai ilustrasi gelap `400×219` (`UI_Illust_Dragon_WaterBreath.png` untuk `BiomeFire`), strip instruksi cekung, teks `% RESTORED` + progress bar horizontal, dan pil `STATUS: ACTION ACTIVE` di bawah.
+- **Penyesuaian `SCREEN 04` & `PauseModal` (`FinishModalUI.cs`, `PF_FinishModal.prefab`, `PF_PauseModal.prefab`):**
+  - Merombak `FinishModal` menjadi modal vertikal terpusat `680×776` (`y = -34`): `CrestEmblem`, banner bertinta gelap `#2D2926` (`STAGE COMPLETE` saat menang; coral `#9E2F26` jelas di `DefeatNoteText` saat kalah), 3 slot bintang `100×94` berlabel `STAR 01..03`, `StatsSubPanel` (`560×278` berisi 3 `StatRow` horizontal), bubble `+X STARS` (`rewardCalloutRoot`), tombol bertumpuk `NEXT LEVEL` + `REPLAY`, tombol kanan atas `ESC · LOBBY` (`160×46`), serta penanganan tombol keyboard `Escape` pada `FinishModalUI.Update()`.
+  - Menambahkan `CrestEmblem`, scrim `0.58f`, dan subjudul lebih kontras (`#5C5145`) pada `PF_PauseModal.prefab`.
+
+### Verifikasi Unity 6 (`6000.3.7f1`)
+- Kompilasi & regenerasi `UISceneAndPrefabBuilder.BuildAll()` bersih (`compilationFailed: false`, `consoleErrors: 0`, `consoleWarnings: 0`).
+- **Play Mode `Test_Dragon_Flight.unity` (`capture_game_view` `1920×1080` + `script_eval`):**
+  - Startup non-regresi bersih: `Dragon_Player` (`DragonFlightController`, `DefaultFlightInputMapper`, `DragonWingAnimator`), `PythonProcessManager` (`pmCount=1`, `autoLaunchPython=False`, `IsProcessRunning=False`), `UDPPoseReceiver`, `InGameFlightHUD` aktif, serta `PauseModal`, `VillageChallenge`, `FinishModal`, dan `WaypointCompass` semuanya nonaktif.
+  - Uji visual & fungsi: HUD `02:15 · VILLAGES 1/3`, `33%` vitality, `WaypointCompass` (`WILDFIRE · 139m`) jernih di langit atas, dropdown solid `#FBF6EB` di `PIP_CameraControlsCard` membuka ke atas (`ddIsOpen=True` / `ddIsOpen=False`), `VillageChallengeUI` (`VILLAGE 2: WILDFIRE WOODS`, `70% RESTORED`), `FinishModalUI` (`STAGE COMPLETE`, `01:44`, `3 / 3`, `+3 STARS`, serta `MISSION FAILED` `DefeatNoteText`), dan `PauseModalUI` (`Pause()` / `Resume()`) terverifikasi tanpa tumpang-tindih maupun terpotong (`consoleErrors = 0`, `consoleWarnings = 0`, `0` proses Python CV tertinggal pasca Play Mode).
+- **Non-Regresi `MainMenu_Lobby.unity` Play Mode:** `CalibrationPanelUI` `1×4` defaults `[7,5,3,12]`, `PoseGuideOverlayUI` `Show()`/`Hide()`, serta `Settings` `SolidCameraDropdown` (`ddH = 44.0`) `Open()`/`Close()` berjalan bersih dengan `consoleErrors = 0` dan `consoleWarnings = 0`.
+
+---
+
 ## 2026-11-15 — Revisi UI Kalibrasi (`SCREEN 01` 1×4 Dinamis MRU) & Modal Pose Guide (`SCREEN 07` · v1.6.1)
 
 ### Eksekusi Utama
