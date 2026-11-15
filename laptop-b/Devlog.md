@@ -13,6 +13,22 @@ updated: 2026-11-15
 
 ---
 
+## 2026-11-15 — Penghapusan Panel Perkamen Luar Lobby agar Background Aerial Island Tampil Penuh (`MainMenu_Lobby.unity`)
+
+### Masalah & Eksekusi
+- **Masalah:** Pada `MainMenu_Lobby.unity`, kontainer luar `MainWindowParchment` (`1864×1036` memakai `01_Panels/UI_Panel_Parchment_Full_9Slice.png`) bersama pita belakang `SharedTopNavbar` (`02_Banners/UI_Header_Bar_Parchment_9Slice.png`) menutup hampir seluruh area `Background_AerialIsland` (`07_Backgrounds/UI_Bg_Lobby_AerialIsland.png`).
+- **Perbaikan (`Assets/Editor/UISceneAndPrefabBuilder.cs`):**
+  - Menghapus kontainer `MainWindowParchment` dan latar perkamen pada `SharedTopNavbar` sehingga navbar mengambang transparan langsung di atas langit (`RectTransform` top stretch `-104×64` di `(0, -20)`).
+  - Menambahkan `AspectRatioFitter` (`AspectMode.EnvelopeParent`, `1920f / 1080f`) pada `Background_AerialIsland` agar latar pulau memenuhi viewport secara penuh tanpa *pillarboxing*.
+  - Mengubah induk `TabContentRoot` langsung di bawah `Canvas` dengan rentang vertikal diperluas (`offsetMin (36, 22)`, `offsetMax (-36, -104)`, tinggi konten `954 px` pada kanvas `1920×1080`), lalu menjalankan ulang `UISceneAndPrefabBuilder.BuildAll()`.
+
+### Verifikasi Unity 6 (`6000.3.7f1`)
+- Rekompilasi (`compilationFailed: false`, `errors: []`) dan `UISceneAndPrefabBuilder.BuildAll()` (`0` errors, `0` warnings).
+- **Play Mode `MainMenu_Lobby.unity` (`capture_game_view` `1920×1080`):** Ketiga tab (`Missions`, `Calibration`, `Settings`) menampilkan `Background_AerialIsland` secara penuh di belakang kartu/panel yang mengambang dengan header atas (`FANAMIR: THE SKY GUARDIAN`, `TabsRail`, `NavCamBadge`, `Btn_EscChrome`) tetap rapi tanpa clipping/overlap, `0` console errors, `0` warnings.
+- **Play Mode `Test_Dragon_Flight.unity` (non-regresi):** Startup bersih (`/Dragon_Player`, `InGameFlightHUD`, `QuestObjectivePanel` default `TRAVEL`, `PF_QuestNarrativeBox` dormant `False`, `PythonProcessManager.autoLaunchPython = False`, `0` errors, `0` warnings, dan `0` proses Python CV tertinggal pasca Play Mode).
+
+---
+
 ## 2026-11-15 — Implementasi UI v1.7 (`Fanamir: The Sky Guardian`, Quest Objective, `Text Auto-Next`, & `SCREEN 08` Auto-Play)
 
 ### Eksekusi Utama
