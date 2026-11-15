@@ -7,17 +7,17 @@ tags:
   - unity-ui
 status: approved
 owner: Laptop A
-updated: 2026-11-14
+updated: 2026-11-15
 related:
   - "[[00 - Overview]]"
   - "[[konteks]]"
   - "[[prd]]"
 ---
 
-# 🎨 DOKUMEN RENCANA DESAIN & IMPLEMENTASI UI (v1.6)
+# 🎨 DOKUMEN RENCANA DESAIN & IMPLEMENTASI UI (v1.6.1)
 ## AR DRAGON: SKY GUARDIAN
 
-> **Status Desain:** Dikunci & Disetujui (*Design Approved* — Seluruh 6 Layar Utama + Spec 5 State Kamera tersedia di [`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft) pada page `Wireframe` dan `Design`, dengan penyempurnaan visual *Fantasy Parchment-and-Ink Tabletop UI* `v1.6` pada seluruh 7 artboard page `Design` mendekati 3 referensi RPG perkamen).
+> **Status Desain:** Dikunci & Disetujui (*Design Approved* — Seluruh layar utama, overlay *Pose Guide*, & spec 5 State Kamera tersedia di [`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft) pada page `Wireframe` dan **`8` artboard** page `Design` **`SCREEN 00–07`** dengan gaya *Fantasy Parchment-and-Ink Tabletop* `v1.6.1`: revisi `SCREEN 01` berpanel tracking/preview diperbesar `860×540` + **4 kartu riwayat pose dinamis (`1×4`)** & tombol `OPEN POSE GUIDE`, serta artboard baru `SCREEN 07` untuk overlay katalog penuh 15 pose).
 > **Aset Rujukan:** Tersedia di folder [`Referensi UI/`](file:///e:/Semester%205/Game/AR%20Dragon/Referensi%20UI/).
 > **Prinsip Utama:** *Fantasy Parchment-and-Ink Tabletop Card UI* — Kertas perkamen solid (`#F2EFE7` / `#FBF6EB`, **100% opaque / `alpha = 1.0f`, zero transparency / zero glassmorphism**), sudut **stepped rabbeted plaques** (*vector staircase corner cutouts*) dengan bingkai ganda arsitektural kontinu (*stepped + concave scalloped inner frame* + ornamen sudut *Corner Fan-Medallion* `24×24 px`), spanduk judul *Stepped Banner* bertumpuk batas atas kartu lengkap dengan ornamen diamond *fleuron* & *Baroque Scrollwork Crest*, kontrol tajam `r = 1–4 px`, *outlined* tinta netral seragam `#332C25` dengan bibir 3D *hard cast shadow* nol-blur (`radius: 0`), slot info *borderless recessed taupe* (`#C8BFA8`/`#D5CCBA`) bermedali kiri tumpang-tindih, kotak bintang ber-pill gelap bawah (`STAR 1..3`), tag speech-bubble emas `#E2A43B` (*coin medallion + corner hatch ticks*) tepat di atas tombol aksi utama, palet tombol 3D bevel (`#5C8D46` / `#3D642D` bersheen & takik ganda kiri, sekunder `#E6DFD2` / `#BDB3A0`, locked charcoal `#2E3236`, dan tombol `ESC` krem-merah `#F3EFE6` / `#D15046`), serta latar belakang blank putih `#FFFFFF` khusus layar in-game agar langsung menampakkan viewport Unity (`> 85%` ruang bebas di `SCREEN 02`).
 > **Catatan Placeholder Runtime:** Visual vektor naga 3D & kerangka *stick-figure* di artboard FigCraft berstatus *placeholder visual* yang akan digantikan oleh kamera/model realtime (`RenderTexture` + `RawImage` & overlay kerangka pose) saat implementasi di Unity.
@@ -26,9 +26,9 @@ related:
 - **Permukaan & Bingkai:** Latar kartu `#F2EFE7`, kartu fokus/aksi `#F4F1EA`/`#ECE6DA`, sumur stat resessif *borderless* `#D5CCBA` / `#C8BFA8` / `#C2B9A6`, strip note/dropdown solid `#FBF6EB`, outline tinta utama seragam `#332C25` (`2.5–3 px`, `strokeAlign: inside`, `miter`), dan *hard shadow* nol-blur bertingkat (`#4A4238` `[0, 7]` pada kartu utama, `#5C5346` `[0, 4]` pada sub-kartu pose & spanduk, `#332C25` `[0, 2..6]` pada kontrol/HUD/tab/speech tag, `#181A1C` pada slot `LOCKED`).
 - **Konsistensi Warna Outline Netral (v1.5–v1.6):** Seluruh kontainer UI (kartu utama, sub-panel, kartu pose, badge status kamera navbar, dropdown, viewport monitor/PIP, kotak stat, slot info, dan kartu state `SCREEN 06`) menggunakan **outline tinta seragam `#332C25`** atau tanpa border untuk sumur stat resessif (`strokes: []`) — tanpa outline berwarna merah, biru/cyan, hijau, atau oranye/kuning. Variasi netral terbatas pada `#A89E8B` (*inner rim* tombol `ESC`/tutup/jeda), `#9D9384` (tombol nonaktif `Matikan`), `#4B565D` (badge di dalam viewport gelap `#1A2125`), serta `#A39884` / `#827766` untuk garis bingkai & ornamen sudut dalam perkamen. State kamera tetap dibedakan lewat *fill* badge, dot indikator, teks panduan, dan tombol mode aktif.
 - **Geometri Sudut Kartu & Kontrol (Sesuai Referensi):**
-  - **Kartu Utama & Panel Kalibrasi (`460×680`, `860×404`, `720×652`, `680×792`, `760×874`):** Siluet vektor **Stepped Rabbeted Plaque (`a = 14, b = 7`)** bertakik 2 undakan di keempat sudut, dipasangi dua lapisan *continuous inner border*: outer stepped frame (`inset = 10`, `a = 12, b = 6`, `#A39884`) + inner concave scalloped arch frame (`inset = 15`, arch `r = 18`, `#827766`, `fill: none`) + 4 blok ornamen sudut **Corner Fan-Medallion (`24×24 px`)** pada kartu utama `SCREEN 00, 03, 04, 05`.
-  - **Spanduk Judul & Ornamen Atas (`SCREEN 00–06`):** Seluruh banner judul memakai siluet **Stepped Plaque (`a = 6..10, b = 3..5`)** dengan inner stepped trim `#A89E8B` + diamond *fleuron* kiri-kanan + bibir 3D `[0, 4]` (banner `SCREEN 03` menumpuk garis atas kartu pada `y = 155`), dilengkapi **Baroque Scrollwork Crest (`280×34 px`)** simetris di atas banner `SCREEN 03, 04, 05` serta tag `STAGE 01–03` bersheen di atas kartu `SCREEN 00`.
-  - **Sub-Panel, Slot Borderless & Speech-Bubble Callouts:** `Victory Stat Box` (`560×278`), `Cam Module` (`640×342`, `#ECE6DA`), 7 kartu state `SCREEN 06` (`a = 10, b = 5`), **15 kartu pose `SCREEN 01`** (`a = 8, b = 4`, bibir 3D `[0, 4]`, plus `[0, 3]` pada 15 medali ikon), 4 baris slider `SCREEN 05`, 3 baris stat `SCREEN 04`, dan plakat gestur `SCREEN 03`. Baris info sekunder (`Sub Track` `SCREEN 00`, `Lean Tag` `SCREEN 01`, `Val Track`, `Notes 1–5` & `Proof Rows` `SCREEN 06`) memakai gaya **borderless recessed taupe** + medali bundar `#38312A` menumpang tepi kiri. Tag waktu/reward (`90s`, `150s`, `+3 STARS`) berbentuk **gold speech-bubble** (`#E2A43B`) bermedali koin & *hatch ticks* tepat di atas tombol utama.
+  - **Kartu Utama, Panel Kalibrasi, & Modal (`460×680`, `860×540`, `720×652`, `680×792`, `760×874`, `1824×824`):** Siluet vektor **Stepped Rabbeted Plaque (`a = 14, b = 7`)** bertakik 2 undakan di keempat sudut, dipasangi dua lapisan *continuous inner border*: outer stepped frame (`inset = 10`, `a = 12, b = 6`, `#A39884`) + inner concave scalloped arch frame (`inset = 15`, arch `r = 18`, `#827766`, `fill: none`) + 4 blok ornamen sudut **Corner Fan-Medallion (`24×24 px`)** pada kartu utama `SCREEN 00, 03, 04, 05, 07`.
+  - **Spanduk Judul & Ornamen Atas (`SCREEN 00–07`):** Seluruh banner judul memakai siluet **Stepped Plaque (`a = 6..10, b = 3..5`)** dengan inner stepped trim `#A89E8B` + diamond *fleuron* kiri-kanan + bibir 3D `[0, 4]` (banner `SCREEN 03` menumpuk garis atas kartu pada `y = 155`), dilengkapi **Baroque Scrollwork Crest (`280×34 px`)** simetris di atas banner `SCREEN 03, 04, 05, 07` serta tag `STAGE 01–03` bersheen di atas kartu `SCREEN 00`.
+  - **Sub-Panel, Slot Borderless & Speech-Bubble Callouts:** `Victory Stat Box` (`560×278`), `Cam Module` (`640×342`, `#ECE6DA`), 7 kartu state `SCREEN 06` (`a = 10, b = 5`), **4 kartu pose dinamis `SCREEN 01`** (`422×166`, `a = 8, b = 4`) + **15 kartu panduan pose `SCREEN 07`** (`340×154`, `a = 8, b = 4`, bibir 3D `[0, 4]`, plus `[0, 3]` pada 15 medali ikon), 4 baris slider `SCREEN 05`, 3 baris stat `SCREEN 04`, dan plakat gestur `SCREEN 03`. Baris info sekunder (`Sub Track` `SCREEN 00`, `Lean Tag` `SCREEN 01`, `Val Track`, `Notes 1–5` & `Proof Rows` `SCREEN 06`) memakai gaya **borderless recessed taupe** + medali bundar `#38312A` menumpang tepi kiri. Tag waktu/reward (`90s`, `150s`, `+3 STARS`) berbentuk **gold speech-bubble** (`#E2A43B`) bermedali koin & *hatch ticks* tepat di atas tombol utama.
   - **Kontrol, Tombol, Tab, Dropdown, Box Bintang & Slot Terkunci:** Sudut mikro-tegas **`r = 2–4 px`** (`r = 1 px` untuk *inner rim* `#A89E8B` tombol `ESC`/tutup). Kotak bintang `SCREEN 00` & `04` dilengkapi pill gelap bawah (`STAR 1..3`, `STAR 01..03`, `0 / 1 ★`); kartu & tombol terkunci (`Card 03`) memakai *charcoal slate* `#2B2E31` / `#2E3236`; dan tombol `RECALIBRATE (C)` `SCREEN 01` diset teks `#FFFFFF` ber-sheen & takik ganda kiri agar kontras tinggi.
 - **Hierarki Komponen Khas:** Navbar rail `#CFC6B4` (`[0, 4]` `#332C25`) dengan tab aktif emas `#E5AF46` + bibir `#B37C1E`, pill HUD `SCREEN 02` berbintang bayangan solid tanpa mengganggu `> 85%` viewport gameplay kosong, serta `SCREEN 06` dengan popup dropdown `#FBF6EB` bertingkat bayangan `[0, 6]`.
 
@@ -106,66 +106,94 @@ Sistem Menu Utama menggunakan **3 Tab Navigasi Terpusat (*Segmented Capsule Pill
 
 ---
 
-### 2.2 Tab 2: [ CALIBRATION ] (Kalibrasi Biometrik & Live Naga — 15 Kartu Pose)
-*Rujukan Desain Terbaru:* Page `Design` -> `SCREEN 01 - Calibration & Motion Tutorial - Design` (`UI AR Dragon.figcraft`) — Disinkronkan dengan seluruh mekanisme nyata *Sky Peck + On-Ground Arm-Proximity Locomotion (v6.1)*, *Village Actions*, dan kalibrasi UDP `5054` (Laptop B).
+### 2.2 Tab 2: [ CALIBRATION ] (Kalibrasi Biometrik & Live Naga — 4 Kartu Riwayat Dinamis + Pose Guide Modal)
+*Rujukan Desain Terbaru:* Page `Design` -> `SCREEN 01 - Calibration & Motion Tutorial - Design` (`id: 314`) & `SCREEN 07 - Pose Guide Overlay Modal - Design` (`id: 1893`) pada [`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft) — Disinkronkan dengan mekanisme *Sky Peck + On-Ground Arm-Proximity Locomotion (v6.1)*, kalibrasi UDP `5054` (Laptop B), serta pratinjau skeleton & naga berukuran besar (`860×540 px`).
 
 ```
 +----------------------------------------------------------------------------------------------------------+
 | AR DRAGON · SKY GUARDIAN         [ CALIBRATION (Aktif) ]   [ MISSIONS ]   [ SETTINGS ]      [ESC · BACK] |
 +----------------------------------------------------------------------------------------------------------+
 |  +------------------------------------------------+  +------------------------------------------------+  |
-|  | CAMERA MIRROR · BIOMETRIC CALIBRATION          |  | LIVE DRAGON PREVIEW · GLIDE (T-POSE)           |  |
-|  | [Skeleton Upper-Body+Hips] | [CALIB 5/5]       |  | [STATE: GLIDE · SPD:14 · PITCH:-4 · SWOOP]     |  |
-|  | (NOSE,LS/RS,LE/RE,LW/RW,   | [ARM GATE · CONF] |  |        (Model 3D Naga Merespons Live          |  |
-|  |  LH/RH Virtual Hips Ready) | [BASELINE 100%]   |  |          via RenderTexture di Pedestal)        |  |
+|  | CAMERA MIRROR · TRACKING                       |  | LIVE DRAGON PREVIEW · GLIDE (T-POSE)           |  |
+|  | [Dropdown Cam] [Scan] [Latar Blkg] [Jendela]   |  | [STATE: GLIDE · SPD:14 · PITCH:-4 · SWOOP]     |  |
+|  | [Skeleton Upper-Body+Hips  |  CALIB 5/5      ] |  |                                                |  |
+|  | [  380 px tinggi — lega!   |  ARM GATE·100%  ] |  |      (Model 3D Naga Merespons Live 438 px      |  |
+|  | [  NOSE, LS/RS, LE/RE,     |  HOLD 3s GUIDE  ] |  |        via RenderTexture di Pedestal)          |  |
 |  | [TRACKING: ACTIVE]   [RECALIBRATE(C)] [RESET]  |  | [STATUS: GLIDE]       [GROUND: WALK · LEAN:0°] |  |
 |  +------------------------------------------------+  +------------------------------------------------+  |
 |                                                                                                          |
-|  [GROUNDED IDLE]  [GROUNDED WALK]   [GROUND LOOK UP]   [TAKEOFF]          [LEAN & ARM TILT]              |
-|  [FLAP TO CLIMB]  [FLY UP]          [GLIDE (ACTIVE)]   [HOVER MODE]       [GENTLE DESCENT]               |
-|  [FLY DOWN (Y)]   [FLY DOWN (W)]    [TUCK TO DIVE]     [PROPELLER DASH]   [VILLAGE ACTIONS]              |
+|  [RECENT POSES · MAX 4]  Default at launch: 4 Main Poses (Glide, Flap, Takeoff, Tuck Dive)...  [POSE GUIDE (15)]
+|  +-----------------------+  +-----------------------+  +-----------------------+  +-----------------------+ |
+|  | GLIDE (T-POSE)  [ACT] |  | FLAP TO CLIMB  [DEF]  |  | TAKEOFF        [DEF]  |  | TUCK TO DIVE   [DEF]  | |
+|  | AIR·14m/s·SWOOP READY |  | AIR·12-19.5m/s·CLIMB  |  | TRANS·>=0.25s·+7m     |  | AIR·-45° PITCH·28m/s  | |
+|  +-----------------------+  +-----------------------+  +-----------------------+  +-----------------------+ |
 |                                                                                                          |
-|  [ARM GATE RULE: Tucked vs Away]    [SEATED & SAFETY: Virtual Hips & Tracking Loss]      [READY TO FLY]  |
+|  [ARM GATE RULE: Tucked vs Away]   [SEATED & SAFETY: Virtual Hips & Tracking Loss]       [READY TO FLY]  |
 +----------------------------------------------------------------------------------------------------------+
 ```
 
-#### Komponen UI:
-1. **Panel Kiri (`CAMERA MIRROR · BIOMETRIC CALIBRATION`, `860 × 410 px`):**
+#### Komponen UI `SCREEN 01`:
+1. **Panel Kiri (`CAMERA MIRROR · TRACKING`, `860 × 540 px`, posisi `(80, 114)`):**
    * **Header Status & Tombol `Matikan` (Baris Atas Panel):** Di sebelah kanan judul terpasang pil status dinamis (mis. emerald **`● LIVE · JENDELA PREVIEW`**) dan tombol merah taktil **`Matikan`** (`#CF5B52`) yang tampil saat kamera `MEMUAT YOLO` atau `LIVE` untuk kembali ke status `STANDBY`.
    * **Strip Pemilih Kamera & Dual Mode YOLO (`804 × 40 px`, `#FBF6EB` solid opaque):** Terletak tepat di atas viewport cermin kamera:
      - **Dropdown Input Kamera:** Memilih perangkat terdeteksi (mis. `[6] OBS Virtual Camera ▼` atau default unselected `"Pilih Input Kamera... ▼"`) dengan popup daftar **100% solid opaque** (`#FBF6EB`).
      - **Tombol `Scan`:** Memindai ulang daftar kamera DirectShow secara asinkron jika webcam baru dihubungkan.
      - **Dua Tombol Mode YOLO:** **`Latar Belakang`** (*Headless / PIP Only*) & **`Jendela Preview`** (*External OpenCV Window + PIP*). Tombol aktif diberi penanda titik `●` + aksen hijau emerald dan pemain dapat berpindah langsung antar-mode.
-   * **Area Kiri Viewport (`248 px` tinggi, bingkai tinta seragam `#332C25`):** Mirror kamera / radar skeleton **Upper-Body + Hips** (`NOSE, LS, RS, LE, RE, LW, RW, LH, RH` — mendukung mode duduk lewat *virtual hip synthesis*).
+   * **Area Kiri Viewport (`380 px` tinggi, bingkai tinta seragam `#332C25`):** Ruang pengawasan skeleton jauh lebih lapang (+132 px dibanding v1.6 awal), menampilkan mirror kamera / radar skeleton **Upper-Body + Hips** (`NOSE, LS, RS, LE, RE, LW, RW, LH, RH` — mendukung mode duduk lewat *virtual hip synthesis*).
    * **Sidebar HUD Kanan (100% solid opaque `#1A2125` di dalam viewport):** Badge `CALIB STATE 5/5 · PROFILE SAVED`, badge `ARM GATE: AWAY · CONF 94%`, kartu progress bar **Neutral Posture Baseline** (`0–100%`), dan kotak instruksi kalibrasi 3 detik.
    * **Bar Status & Trigger Bawah (UDP Port `5054`):** Badge hijau `TRACKING: ACTIVE (CUDA)`, tombol amber `RECALIBRATE (C)` (`CALIBRATE` / `CANCEL`), dan tombol netral `RESET DEFAULT` (`CALIBRATE_RESET`).
-2. **Panel Kanan (`LIVE DRAGON PREVIEW · GLIDE (T-POSE)`, `860 × 410 px`):**
-   * Menampilkan model naga 3D (`Dragon_Model.blend`) via `RenderTexture` di atas pedestal yang merespons gestur secara langsung.
+2. **Panel Kanan (`LIVE DRAGON PREVIEW · GLIDE (T-POSE)`, `860 × 540 px`, posisi `(980, 114)`):**
+   * Ruang viewport pratinjau naga diperbesar hingga **`438 px` tinggi**, menampilkan model naga 3D (`Dragon_Model.fbx`) via `RenderTexture` di atas pedestal yang merespons gestur secara langsung.
    * Pil Telemetri Atas: Menampilkan status live (`STATE`, `SPD`, `PITCH`, `SINK`, `SWOOP: READY`).
    * Bar Bawah: Pil teal `STATUS: GLIDE (ARMS AWAY)` (berubah sesuai state aktif) + pil netral `GROUND: WALK 3.5 m/s · LEAN: 0°`.
-3. **Matriks 15 Kartu Panduan Pose & Mekanik (`3 Baris × 5 Kolom`, `340 × 122 px`):**
-   * **Baris 1 (Ground, Transisi, & Kemudi):**
-     - **`GROUNDED IDLE`** (`GROUND · 0 m/s · STAND STRAIGHT`): Berdiri/duduk tegak lurus dengan lengan rapat di sisi badan (`tucked`) -> naga diam sepenuhnya di tempat di darat.
-     - **`GROUNDED WALK`** (`GROUND · 3.5 m/s · ARMS AWAY`): Rentangkan lengan atas menjauh (`T-pose` darat) -> berjalan maju `3.5 m/s`.
-     - **`GROUNDED LOOK UP`** (`GROUND · 0 m/s · +15°..25° PITCH`): Angkat dada / *torso tilt* ke atas tanpa kepakan -> naga mendongak ke langit tanpa terbang.
-     - **`TAKEOFF`** (`TRANSITION · >=0.25s · +7m LIFT`): Di darat, kepakkan kedua lengan kuat (`>=0.25s`) -> melesat lepas landas ke udara.
-     - **`LEAN & ARM TILT`** (`STEERING · GROUND & AIR · SEATED OK`): Condongkan badan (`50%`) atau miringkan tinggi lengan (`50%`) untuk berputar di tempat, berbelok saat jalan, atau *bank-turn* saat terbang.
-   * **Baris 2 (Penerbangan Inti):**
-     - **`FLAP TO CLIMB`** (`AIR · 12–19.5 m/s · SMOOTH CLIMB`): Kepakkan kedua lengan penuh secara ritmis melewati bahu untuk menanjak stabil.
-     - **`FLY UP`** (`AIR · +19° PITCH · STEEP CLIMB`): Angkat dada / *torso tilt* ke atas sambil mengepak aktif untuk menanjak curam ke langit tinggi.
-     - **`GLIDE (T-POSE)`** `[ACTIVE]` (`AIR · 14 m/s · SWOOP READY`): Rentangkan lengan mendatar sejajar bahu (`T-pose` tanpa kepak) untuk meluncur santai; memicu *Swoop Climb* otomatis paska-*dive*.
-     - **`HOVER MODE`** (`AIR · 0 m/s · STATIONARY`): Rapatkan lengan atas ke rusuk & kepakkan lengan bawah secara ritmis -> melayang diam di tempat di udara.
-     - **`GENTLE DESCENT`** (`AIR · 8.5 m/s · -1.6 m/s SINK`): Rapatkan lengan atas ke badan & tahan lengan bawah rileks tanpa kepak -> turun perlahan menuju pendaratan mulus.
-   * **Baris 3 (Turun Presisi, Tukik, Boost, & Desa):**
-     - **`FLY DOWN (POSE Y)`** (`AIR · 12 m/s FWD · -5.5 m/s SINK`): Lengan atas menjauh (`Away`) + lengan bawah mengarah ke atas membentuk huruf **`Y`** -> turun menukik pelan sambil tetap maju.
-     - **`FLY DOWN IDLE (POSE W)`** (`AIR · 0 m/s · -3.2 m/s SINK`): Lengan atas rapat ke badan (`Tucked`) + lengan bawah mengarah ke atas membentuk huruf **`W`** -> turun vertikal perlahan di tempat.
-     - **`TUCK TO DIVE`** (`AIR · -45° PITCH · UP TO 28 m/s`): Tangan dirapatkan/mengepal di dada atas dengan siku mengarah ke bawah -> menukik curam berkecepatan tinggi.
-     - **`PROPELLER DASH`** (`AIR BOOST · 26 m/s BURST`): Putar kedua lengan melingkar secara terus-menerus -> dorongan kecepatan instan di udara.
-     - **`VILLAGE ACTIONS`** (`AUTO-HOVER · 3 BIOME GESTURES`): Smog: kepak sayap · Fire: buka mulut lebar / tangkup tangan di dada · Drought: angkat kedua tangan tinggi di atas kepala.
-4. **Bar Aturan Inti & CTA Bawah:**
-   * **2 Pil Kiri:** `ARM GATE RULE` (ringkasan perbedaan perilaku *Tucked* vs *Away*) & `SEATED & SAFETY` (dukungan *Virtual Hips* mode duduk & perilaku aman *Tracking Loss* di darat/udara).
+3. **Strip Riwayat Pose & Tombol Pembuka Overlay (`y = 676..678`):**
+   * **Kiri (`Pose History Strip`, `1372 × 50 px`):** Pill tag amber **`RECENT POSES · MAX 4`** (`#E2A43B`) diikuti teks penjelas *"Default at launch: 4 Main Poses (Glide, Flap, Takeoff, Tuck Dive) · Slots update dynamically with your last 4 detected poses"*.
+   * **Kanan (`Btn Open Pose Guide`, `368 × 54 px`):** Tombol sekunder krem bevel (`UI_Btn_Secondary_Cream_9Slice`) bertuliskan **`OPEN POSE GUIDE`** lengkap dengan pill emas **`15 POSES`** untuk membuka overlay **`SCREEN 07`**.
+4. **Baris `1 × 4` Kartu Pose Dinamis (`y = 746`, ukuran `422 × 166 px`, jarak antar-kartu `24 px`):**
+   * **Kapasitas Maksimal 4 Kartu:** Hanya menampilkan maksimal **4 mini card pose** berukuran lebih lega & mudah dibaca sekilas dibanding grid 15 kecil.
+   * **Kondisi Default Saat Game Baru Dijalankan (*Startup* / Reset):** Secara default mengisi Slot 1–4 dengan **4 pose utama penerbang**:
+     1. **Slot 1:** **`#08 · GLIDE (T-POSE)`** (status default / aktif awal: `UI_Plaque_PoseCard_Active_9Slice`, badge `SLOT 1 · ACTIVE`)
+     2. **Slot 2:** **`#06 · FLAP TO CLIMB`** (`UI_Plaque_PoseCard_Default_9Slice`, badge `SLOT 2 · DEFAULT`)
+     3. **Slot 3:** **`#04 · TAKEOFF`** (`UI_Plaque_PoseCard_Default_9Slice`, badge `SLOT 3 · DEFAULT`)
+     4. **Slot 4:** **`#13 · TUCK TO DIVE`** (`UI_Plaque_PoseCard_Default_9Slice`, badge `SLOT 4 · DEFAULT`)
+   * **Rotasi Dinamis (*Last-Performed MRU Queue*, Anti-Duplikat):** Setiap kali tracker CV mendeteksi pose baru `P` (dengan debounce stabil `~0.15s` & mengabaikan `None`), `P` dipindahkan/disisipkan ke **Slot 1** (`SLOT 1 · ACTIVE` dengan `UI_Plaque_PoseCard_Active_9Slice`), sementara pose-pose sebelumnya bergeser ke kanan (Slot `1 → 2 → 3 → 4`, item ke-5 terkeluar). Jika `P` sudah berada di Slot `2..4`, posisinya dipromosikan ke Slot `1` tanpa menduplikasi kartu, dan badge Slot `2..4` berubah menjadi `SLOT 2..4 · RECENT`.
+5. **Bar Aturan Inti & CTA Bawah (`y = 940..946`):**
+   * **2 Pil Kiri:** `ARM GATE RULE` (`720×50`, ringkasan *Tucked* vs *Away*) & `SEATED & SAFETY` (`720×50`, dukungan *Virtual Hips* & perilaku aman *Tracking Loss*).
    * **Pojok Kanan Atas:** Tombol `ESC · BACK` konsisten kembali ke tab Missions.
-   * **Pojok Kanan Bawah:** Tombol hijau 3D-bevel `READY TO FLY` langsung memulai penerbangan.
+   * **Pojok Kanan Bawah:** Tombol hijau 3D-bevel `READY TO FLY` (`340×64`) langsung memulai penerbangan.
+
+---
+
+### 2.2.1 Overlay Modal: [ SCREEN 07 · POSE GUIDE MODAL ] (Katalog Lengkap 15 Pose & Penjelasan)
+*Artboard FigCraft:* `SCREEN 07 - Pose Guide Overlay Modal - Design (1920x1080)` (`id: 1893`) · Dibuka oleh tombol **`OPEN POSE GUIDE`** pada `SCREEN 01` dan ditutup oleh tombol **`CLOSE POSE GUIDE`**, tombol **`ESC · CLOSE`** di kanan atas, atau tombol keyboard `Escape` (sebelum keluar dari tab Calibration).
+
+1. **Backdrop & Bingkai Modal Utama (`1824 × 824 px`, posisi `(48, 136)`):**
+   * Menggunakan *dark scrim* `#1B1815` (`alpha = 0.58`) menutupi background lobby agar fokus tertuju penuh ke panduan pose.
+   * Plakat perkamen utama (`UI_Panel_Parchment_Full_9Slice`) bermahkota `UI_Crest_Baroque_Scrollwork` dan banner bertakik `POSE GUIDE · ALL 15 POSES` (`UI_Banner_Stepped_Modal_Blank`).
+   * Pojok kanan atas layar menyediakan tombol **`ESC · CLOSE`** (`UI_Btn_TopChrome_Cream_9Slice` + `UI_IconBadge_CloseX_20`), dan bagian bawah modal menyediakan tombol bevel **`CLOSE POSE GUIDE`** (`340×64`).
+2. **Strip Legenda Kategori (`y = 186`):**
+   * 4 pil kategori warna lembut sesuai kelompok gerak (`01–03 · GROUND`, `04–05 · LAUNCH & STEER`, `06–12 · CORE FLIGHT`, `13–15 · DIVE · DASH · VILLAGE`) beserta pengingat aturan *"Default 4 Main Poses shown at launch (04, 06, 08, 13) · Calibration displays your last 4 detected poses"*.
+3. **Grid Lengkap `3 Baris × 5 Kolom` — Semua 15 Pose (`340 × 154 px` per kartu, gap `15 × 18 px`):**
+   * Badge **`MAIN`** menandai ke-4 pose utama awal (`#04`, `#06`, `#08`, `#13`); saat kamera live aktif dan overlay sedang dibuka, kartu yang sedang terdeteksi otomatis tersorot emas (`ACTIVE` + `UI_Plaque_PoseCard_Active_9Slice`).
+   * **Baris 1 (Ground, Transisi, & Kemudi):**
+     - **`#01 · GROUNDED IDLE`** (`GROUND · 0 m/s · STAND STRAIGHT`): Berdiri/duduk tegak lurus dengan lengan rapat di sisi badan (`tucked`) -> naga diam sepenuhnya di tempat di darat.
+     - **`#02 · GROUNDED WALK`** (`GROUND · 3.5 m/s · ARMS AWAY`): Rentangkan lengan atas menjauh (`T-pose` darat) -> berjalan maju `3.5 m/s`.
+     - **`#03 · GROUNDED LOOK UP`** (`GROUND · 0 m/s · +15°..25° PITCH`): Angkat dada / *torso tilt* ke atas tanpa kepakan -> naga mendongak ke langit tanpa terbang.
+     - **`#04 · TAKEOFF`** `[MAIN]` (`TRANSITION · >=0.25s · +7m LIFT`): Di darat, kepakkan kedua lengan kuat (`>=0.25s`) -> melesat lepas landas ke udara.
+     - **`#05 · LEAN & ARM TILT`** (`STEERING · GROUND & AIR · SEATED OK`): Condongkan badan (`50%`) atau miringkan tinggi lengan (`50%`) untuk berputar di tempat, berbelok saat jalan, atau *bank-turn* saat terbang.
+   * **Baris 2 (Penerbangan Inti):**
+     - **`#06 · FLAP TO CLIMB`** `[MAIN]` (`AIR · 12–19.5 m/s · SMOOTH CLIMB`): Kepakkan kedua lengan penuh secara ritmis melewati bahu untuk menanjak stabil.
+     - **`#07 · FLY UP`** (`AIR · +19° PITCH · STEEP CLIMB`): Angkat dada / *torso tilt* ke atas sambil mengepak aktif untuk menanjak curam ke langit tinggi.
+     - **`#08 · GLIDE (T-POSE)`** `[MAIN / ACTIVE]` (`AIR · 14 m/s · SWOOP READY`): Rentangkan lengan mendatar sejajar bahu (`T-pose` tanpa kepak) untuk meluncur santai; memicu *Swoop Climb* otomatis paska-*dive*.
+     - **`#09 · HOVER MODE`** (`AIR · 0 m/s · STATIONARY`): Rapatkan lengan atas ke rusuk & kepakkan lengan bawah secara ritmis -> melayang diam di tempat di udara.
+     - **`#10 · GENTLE DESCENT`** (`AIR · 8.5 m/s · -1.6 m/s SINK`): Rapatkan lengan atas ke badan & tahan lengan bawah rileks tanpa kepak -> turun perlahan menuju pendaratan mulus.
+   * **Baris 3 (Turun Presisi, Tukik, Boost, & Desa):**
+     - **`#11 · FLY DOWN (POSE Y)`** (`AIR · 12 m/s FWD · -5.5 m/s SINK`): Lengan atas menjauh (`Away`) + lengan bawah mengarah ke atas membentuk huruf **`Y`** -> turun menukik pelan sambil tetap maju.
+     - **`#12 · FLY DOWN IDLE (POSE W)`** (`AIR · 0 m/s · -3.2 m/s SINK`): Lengan atas rapat ke badan (`Tucked`) + lengan bawah mengarah ke atas membentuk huruf **`W`** -> turun vertikal perlahan di tempat.
+     - **`#13 · TUCK TO DIVE`** `[MAIN]` (`AIR · -45° PITCH · UP TO 28 m/s`): Tangan dirapatkan/mengepal di dada atas dengan siku mengarah ke bawah -> menukik curam berkecepatan tinggi.
+     - **`#14 · PROPELLER DASH`** (`AIR BOOST · 26 m/s BURST`): Putar kedua lengan melingkar secara terus-menerus -> dorongan kecepatan instan di udara.
+     - **`#15 · VILLAGE ACTIONS`** (`AUTO-HOVER · 3 BIOME GESTURES`): Smog: kepak sayap · Fire: buka mulut lebar / tangkup tangan di dada · Drought: angkat kedua tangan tinggi di atas kepala.
+4. **Strip Bawah (`KEY POSE RULES`):** Merangkum aturan cepat *Arm Gate*, *Seated Virtual Hips*, dan perilaku aman saat *Tracking Loss*.
 
 ---
 
@@ -285,7 +313,7 @@ Saat naga masuk ke area desa:
 
 Halaman **`03 - Unity Export Kit`** (`id: 1260`, kanvas `4000 px` lebar, latar netral `#DFD9CB`) memisahkan seluruh komponen UI `Design` menjadi **134 layer ekspor modular (`PNG 1x`, *textless*, *transparent wrapper* `clip: false`)** bertag `/`-prefixed subfolder agar ekspor `file.exportLayers` dari FigCraft langsung membentuk struktur folder siap impor Unity 6 (`uGUI` + `CanvasScaler 1920×1080`):
 
-> **Catatan Bounding Box Ekspor (`clip: false`):** Layer wrapper ekspor diset `fill: "none"` dan `clip: false` agar *hard cast shadow* dan overhang sudut *stepped* tidak terpotong (contoh: `UI_Panel_Parchment_Full_9Slice` wrapper `240×240` mengekspor `264×271 px` utuh dengan bayangan; `UI_Illust_Dragon_WaterBreath` `269×170 px`; `UI_Bg_Lobby_AerialIsland` tepat `1920×1080 px`). Seluruh **`134` PNG komponen** & **`7` PNG desain `1920×1080`** sudah diekspor ke [`UI_Unity_Export/`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/) — lihat **[[panduan_aset_ui_unity]]** untuk ukuran piksel final, nilai border Unity Sprite Editor (`L, T, R, B`), peringatan notch, dan panduan perakitan Scene Unity 6. Set `Image.Type = Sliced` pada seluruh aset `*_9Slice` sesuai nilai terukur, dan `Image.Type = Filled` pada `UI_HUD_Vitality_Fill_34x474`, `UI_Progress_Horiz_Fill_Blue_9Slice`, serta `UI_Slider_Fill_*`.
+> **Catatan Bounding Box Ekspor (`clip: false`):** Layer wrapper ekspor diset `fill: "none"` dan `clip: false` agar *hard cast shadow* dan overhang sudut *stepped* tidak terpotong (contoh: `UI_Panel_Parchment_Full_9Slice` wrapper `240×240` mengekspor `264×271 px` utuh dengan bayangan; `UI_Illust_Dragon_WaterBreath` `269×170 px`; `UI_Bg_Lobby_AerialIsland` tepat `1920×1080 px`). Seluruh **`134` PNG komponen** *(tidak berubah pada revisi v1.6.1)* & **`8` PNG desain `1920×1080`** sudah diekspor ke [`UI_Unity_Export/`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/) — lihat **[[panduan_aset_ui_unity]]** untuk ukuran piksel final, nilai border Unity Sprite Editor (`L, T, R, B`), peringatan notch, dan panduan perakitan Scene Unity 6. Set `Image.Type = Sliced` pada seluruh aset `*_9Slice` sesuai nilai terukur, dan `Image.Type = Filled` pada `UI_HUD_Vitality_Fill_34x474`, `UI_Progress_Horiz_Fill_Blue_9Slice`, serta `UI_Slider_Fill_*`.
 
 | Section | Folder Ekspor | Jml PNG | Cakupan Aset Utama |
 | :--- | :--- | :---: | :--- |

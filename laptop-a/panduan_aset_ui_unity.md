@@ -8,7 +8,7 @@ tags:
   - laptop-a
 status: ready-for-implementation
 owner: Laptop A
-updated: 2026-11-14
+updated: 2026-11-15
 related:
   - "[[00 - Overview]]"
   - "[[rencana_desain_ui]]"
@@ -19,7 +19,7 @@ related:
 # 📦 PANDUAN PENGGUNAAN ASET UI UNITY (`UI_Unity_Export/`)
 ## AR DRAGON: SKY GUARDIAN
 
-> **Sumber Desain:** [`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft) — Page **`03 - Unity Export Kit`** (`134` PNG komponen modular) & Page **`Design`** (`7` PNG artboard layar penuh `1920×1080`).
+> **Sumber Desain:** [`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft) — Page **`03 - Unity Export Kit`** (`134` PNG komponen modular — **tidak ada perubahan pada revisi `v1.6.1`**) & Page **`Design`** (**`8`** PNG artboard layar penuh `1920×1080`, termasuk revisi `SCREEN 01` & artboard baru `SCREEN 07`).
 > **Target Engine:** **Unity 6 (`6000.3.7f1`, URP)** dengan `uGUI` + `TextMeshProUGUI` (*namespace* `DragonWingAR.*`).
 > **Prinsip Utama:** Seluruh komponen diekspor **`PNG 1x` tanpa teks statis (*textless*)**, berlatar solid opaque (**`alpha = 1.0f`, zero transparency** pada seluruh perkamen `#F2EFE7` / `#FBF6EB`), serta viewport kamera/naga diekspor **berlubang transparan (`centerA = 0`)** agar `RawImage` & `RenderTexture` dapat tampil langsung di belakang bingkai.
 
@@ -31,15 +31,16 @@ Seluruh file ekspor berada di folder [`UI_Unity_Export/`](file:///e:/Semester%20
 
 ```text
 UI_Unity_Export/
-├── Designs/                         # 7 PNG layar penuh 1920×1080 (referensi visual perakitan di Unity)
+├── Designs/                         # 8 PNG layar penuh 1920×1080 (referensi visual perakitan di Unity)
 │   ├── 00_MainMenu_LevelSelection.png
-│   ├── 01_Calibration_MotionTutorial.png
+│   ├── 01_Calibration_MotionTutorial.png   (Revisi v1.6.1: Panel 860×540 + 4 Kartu Dinamis)
 │   ├── 02_InGame_FlightHUD.png
 │   ├── 03_VillageChallenge_Overlay.png
 │   ├── 04_Finish_VictoryModal.png
 │   ├── 05_Settings_AudioModal.png
-│   └── 06_CameraControl_5VisualStates.png
-└── Components/                      # 134 PNG komponen siap impor ke Unity Assets/UI/
+│   ├── 06_CameraControl_5VisualStates.png
+│   └── 07_PoseGuide_OverlayModal.png       (Baru v1.6.1: Overlay Katalog 15 Pose)
+└── Components/                      # 134 PNG komponen siap impor ke Unity Assets/UI/ (Tetap — 0 berubah)
     ├── 01_Panels/                   (11 file)
     ├── 02_Banners/                  (5 file)
     ├── 02_Callouts/                 (2 file)
@@ -69,12 +70,13 @@ UI_Unity_Export/
 | Nama File | Resolusi | Ukuran (Byte) | Kegunaan Referensi di Unity |
 | :--- | :---: | :---: | :--- |
 | [`00_MainMenu_LevelSelection.png`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/00_MainMenu_LevelSelection.png) | `1920×1080` | `1,282,793` | Referensi Scene/Panel **Main Menu / Missions** (`SCREEN 00`). |
-| [`01_Calibration_MotionTutorial.png`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/01_Calibration_MotionTutorial.png) | `1920×1080` | `798,764` | Referensi Tab **Calibration & 15 Pose Cards** (`SCREEN 01`). |
+| [`01_Calibration_MotionTutorial.png`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/01_Calibration_MotionTutorial.png) | `1920×1080` | `669,757` | Referensi Tab **Calibration (Revisi v1.6.1)**: Panel kamera & naga diperbesar (`860×540`), Strip `RECENT POSES · MAX 4`, Tombol `OPEN POSE GUIDE [15 POSES]`, & **`1×4` Mini Pose Cards Dinamis** (`SCREEN 01`). |
 | [`02_InGame_FlightHUD.png`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/02_InGame_FlightHUD.png) | `1920×1080` | `81,533` | Referensi **In-Game Flight HUD** (`SCREEN 02`; overlay transparan di atas kamera 3D). |
 | [`03_VillageChallenge_Overlay.png`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/03_VillageChallenge_Overlay.png) | `1920×1080` | `93,890` | Referensi **Village Action Overlay** (`SCREEN 03`; overlay saat auto-hover desa). |
 | [`04_Finish_VictoryModal.png`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/04_Finish_VictoryModal.png) | `1920×1080` | `102,783` | Referensi **Finish Modal (Victory/Defeat)** (`SCREEN 04`). |
 | [`05_Settings_AudioModal.png`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/05_Settings_AudioModal.png) | `1920×1080` | `1,024,558` | Referensi Tab **Settings & Camera Audio Module** (`SCREEN 05`). |
 | [`06_CameraControl_5VisualStates.png`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/06_CameraControl_5VisualStates.png) | `1920×1080` | `637,345` | Lembar spesifikasi **5 State Visual Kamera**, **Popup Dropdown Opaque `#FBF6EB`**, & **3 Badge Navbar `SCREEN 00`**. |
+| [`07_PoseGuide_OverlayModal.png`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/07_PoseGuide_OverlayModal.png) | `1920×1080` | `561,510` | Referensi **Pose Guide Overlay Modal (`SCREEN 07`)**: Katalog lengkap `3×5` seluruh **15 Pose** + kategori + aturan *Key Pose Rules* + tombol tutup `ESC · CLOSE` & `CLOSE POSE GUIDE`. |
 
 ---
 
@@ -132,10 +134,10 @@ Proyek Unity 6 URP berjalan di **Linear Color Space**. Jangan menurunkan `Color.
 | Nama File | Ukuran PNG | Margin `m=(L,T,R,B)` | `Image.Type` | Border Unity `L, T, R, B` | Fungsi & Catatan Teknis |
 | :--- | :---: | :---: | :---: | :---: | :--- |
 | `UI_Panel_Parchment_Full_9Slice.png` | `264×271` | `(12,12,12,12)` | `Sliced` | **`52, 52, 52, 59`** | Kartu utama `SCREEN 00` (`460×680`) & modal `SCREEN 03/04/05`. Pasangi 4x `UI_Corner_Fan_Medallion_24` di tiap sudut dalam. |
-| `UI_Panel_Parchment_Calib_9Slice.png` | `224×230` | `(12,12,12,12)` | `Sliced` | **`33, 33, 33, 39`** | Dua panel utama `SCREEN 01` (*Camera Mirror* kiri & *Live Dragon Preview* kanan). |
+| `UI_Panel_Parchment_Calib_9Slice.png` | `224×230` | `(12,12,12,12)` | `Sliced` | **`33, 33, 33, 39`** | Dua panel utama `SCREEN 01` (*Camera Mirror* kiri & *Live Dragon Preview* kanan, ukuran `860×540` pada `v1.6.1`). |
 | `UI_Plaque_SubParchment_9Slice.png` | `180×184` | `(10,10,10,10)` | `Sliced` | **`34, 34, 34, 38`** | Sub-kontainer dalam modal (`Victory Stat Box` `SCREEN 04`, `Cam Module` `SCREEN 05`, panel state `SCREEN 06`). |
-| `UI_Plaque_PoseCard_Default_9Slice.png` | `200×133` | `(10,10,10,10)` | `Sliced` | **`24, 24, 24, 27`** | Kartu panduan pose normal pada grid `3×5` `SCREEN 01` (`14` kartu non-aktif). |
-| `UI_Plaque_PoseCard_Active_9Slice.png` | `208×143` | `(14,14,14,14)` | `Sliced` | **`27, 27, 27, 32`** | Kartu pose aktif yang disorot (contoh: `GLIDE (T-POSE)` dengan highlight emas/ink). |
+| `UI_Plaque_PoseCard_Default_9Slice.png` | `200×133` | `(10,10,10,10)` | `Sliced` | **`24, 24, 24, 27`** | Kartu pose non-aktif pada **4 slot dinamis `SCREEN 01`** (`422×166`) & grid **`3×5` `SCREEN 07`** (`340×154`). |
+| `UI_Plaque_PoseCard_Active_9Slice.png` | `208×143` | `(14,14,14,14)` | `Sliced` | **`27, 27, 27, 32`** | Kartu pose aktif/slot terdepan pada **`SCREEN 01` Slot 1** & kartu aktif di **`SCREEN 07`** (highlight emas/ink). |
 | `UI_Plaque_StatRow_9Slice.png` | `240×90` | `(10,10,10,10)` | `Sliced` | **`24, 23, 24, 27`** | Baris slider `SCREEN 05` & baris statistik hasil `SCREEN 04` (pasangi `UI_Socket_Medallion_38_Dark` di sisi kiri). |
 | `UI_Row_Recessed_Track_9Slice.png` | `180×44` | `(0,0,0,0)` | `Sliced` | **`5, 6, 5, 5`** | Sumur info *borderless recessed taupe* (strip `LIMIT ...` `SCREEN 00`, baris info `SCREEN 01/06`). |
 | `UI_Row_NotesBox_Beige_9Slice.png` | `180×56` | `(0,0,0,0)` | `Sliced` | **`5, 5, 5, 5`** | Kotak catatan panduan teks multi-baris (bawah kartu state `SCREEN 06`, aturan `SCREEN 01`). |
@@ -159,10 +161,10 @@ Proyek Unity 6 URP berjalan di **Linear Color Space**. Jangan menurunkan `Color.
 | `02_Banners/` | `UI_Header_Bar_Parchment_9Slice.png` | `240×68` | `(10,10,10,10)` | `Sliced` | **`22, 21, 22, 25`** | Strip header bar perkamen memanjang (judul atas `SCREEN 06` & strip telemetri `STATE: GLIDE...` `SCREEN 01`). |
 | `02_Callouts/` | `UI_Callout_SpeechBubble_Gold_Blank.png` | `133×61` | `(7,7,6,7)` | `Sliced` *(3-Slice H)* | **`17, 0, 49, 0`** | Tag speech-bubble emas di atas tombol sekunder / tombol `SCREEN 04`. Zona `R = 49` menjaga ekor lancip kanan bawah tidak ikut tertarik saat teks diperpanjang. |
 | `02_Callouts/` | `UI_Callout_SpeechBubble_Gold_WithCoin.png` | `133×61` | `(2,6,6,7)` | `Sliced` *(3-Slice H)* | **`29, 0, 49, 0`** | Sama seperti di atas dengan koin emas di kiri (`90s`, `150s` di `SCREEN 00`, `+3 STARS` di `SCREEN 04`). |
-| `02_Chips/` | `UI_Chip_Bar_Cream_9Slice.png` | `260×56` | `(0,0,0,0)` | `Sliced` | **`4, 4, 4, 8`** | Bar krem aturan bawah `SCREEN 01` (`ARM GATE RULE` & `SEATED & SAFETY`), serta latar dropdown container modul. |
-| `02_Ornaments/` | `UI_Badge_Label_Amber_Blank.png` | `140×40` | `(2,1,2,1)` | `Sliced` | **`5, 4, 5, 6`** | Tag kapsul amber kiri di dalam `UI_Chip_Bar_Cream_9Slice` (`ARM GATE RULE`). |
+| `02_Chips/` | `UI_Chip_Bar_Cream_9Slice.png` | `260×56` | `(0,0,0,0)` | `Sliced` | **`4, 4, 4, 8`** | Strip `RECENT POSES · MAX 4`, bar aturan bawah `SCREEN 01` (`ARM GATE RULE` & `SEATED & SAFETY`), strip `KEY POSE RULES` `SCREEN 07`, serta latar dropdown container modul. |
+| `02_Ornaments/` | `UI_Badge_Label_Amber_Blank.png` | `140×40` | `(2,1,2,1)` | `Sliced` | **`5, 4, 5, 6`** | Tag kapsul amber kiri (`RECENT POSES · MAX 4`, `ARM GATE RULE` di `SCREEN 01`, dan `KEY POSE RULES` di `SCREEN 07`). |
 | `02_Ornaments/` | `UI_Badge_Label_Teal_Blank.png` | `154×40` | `(2,1,2,1)` | `Sliced` | **`5, 4, 5, 6`** | Tag kapsul teal (`STATUS: GLIDE` & `SEATED & SAFETY` di `SCREEN 01`). |
-| `02_Ornaments/` | `UI_Pill_Active_Gold.png` | `70×26` | `(3,2,3,2)` | `Sliced` | **`6, 5, 6, 7`** | Lencana mini `ACTIVE` di pojok kanan atas kartu pose `UI_Plaque_PoseCard_Active_9Slice`. |
+| `02_Ornaments/` | `UI_Pill_Active_Gold.png` | `70×26` | `(3,2,3,2)` | `Sliced` | **`6, 5, 6, 7`** | Lencana mini `SLOT 1 · ACTIVE` (`SCREEN 01`), pill `15 POSES` (`OPEN POSE GUIDE`), & badge `ACTIVE` (`SCREEN 07`). *(Catatan: `UI_Pose_08_Glide_ActiveGold.png` memiliki latar medali emas bawaan, sedangkan `01–07, 09–15` netral; sorotan aktif utama memakai swap `UI_Plaque_PoseCard_Active_9Slice` + pill ini).* |
 | `02_Ornaments/` | `UI_Corner_Fan_Medallion_24.png` | `40×40` | `(7,7,7,7)` | `Simple` | `0, 0, 0, 0` | Ornamen kipas sudut perkamen. Duplikasi 4× ke tiap pojok dalam panel `Parchment_Full` (putar `RectTransform` Z `0° / -90° / 180° / 90°` per sudut). |
 | `02_Ornaments/` | `UI_Crest_Baroque_Scrollwork.png` | `300×54` | `(8,8,9,9)` | `Simple` *(Preserve Aspect)* | `0, 0, 0, 0` | Mahkota ukiran barok simetris (`centerA = 0`), dipasang tepat di atas `UI_Banner_Stepped_Modal_Blank` (`SCREEN 03, 04, 05`). |
 | `02_Ornaments/` | `UI_Diamond_Fleuron_18.png` | `26×26` | `(3,3,3,3)` | `Simple` | `0, 0, 0, 0` | Hiasan berlian kiri/kanan pada banner `SCREEN 00–06` (opsional jika banner ingin teks dinamis dengan posisi ikon fleuron ikut bergerak). |
@@ -369,15 +371,16 @@ Seluruh **134 PNG bersifat tanpa teks**. Setiap label, angka timer, dan status s
      * Strip Limit: `UI_Row_Recessed_Track_9Slice` + `UI_Socket_Medallion_32_GreenCore`.
      * Baris Bintang / Terkunci: 3× `UI_StarBox_Card_Slot_80x76` berisi `UI_Icon_Star_Gold_40` / `Empty_40`; atau pada Stage 03 saat terkunci gunakan `UI_Box_Locked_Charcoal_9Slice` / `UI_Box_Locked_Center_96x80` + `UI_Icon_Padlock_Cream_36`.
      * Callout & CTA Bawah: `UI_Callout_SpeechBubble_Gold_WithCoin` (`90s`, `150s`) overlap di atas kanan tombol `UI_Btn_Primary_Green_9Slice` (`PLAY`) / `Secondary_Cream` (`SELECT`) / `Locked_Charcoal` (`UNLOCK: ...`).
-3. **`SCREEN 01` — Calibration & 15 Motion Pose Tutorial:**
-   * **Panel Kiri & Kanan:** `UI_Panel_Parchment_Calib_9Slice` + `UI_Banner_Stepped_SubPanel_Blank` + `UI_Header_Bar_Parchment_9Slice`.
+3. **`SCREEN 01` — Calibration, Live Dragon Preview, & 4 Dynamic Recent Pose Cards (Revisi v1.6.1):**
+   * **Panel Kiri & Kanan (`860×540 px`):** `UI_Panel_Parchment_Calib_9Slice` + `UI_Banner_Stepped_SubPanel_Blank` + `UI_Header_Bar_Parchment_9Slice`.
    * **Kontrol Kamera (`Panel Kiri`):** `UI_Badge_Cam_*` + `UI_Btn_Danger_Coral_*` + `UI_Dropdown_Trigger_*` + `UI_Btn_Small_Cream` (`Scan`) + 2× `UI_Btn_CamMode_*`.
-   * **Viewport Kalibrasi & Naga (`Section 08 Runtime Replacement`):**
-     * Letakkan **`RawImage`** (feed kamera/skeleton dari UDP `5053`) atau **`RawImage` dengan `RenderTexture`** (model 3D naga dari kamera terisolasi di sisi kanan) **di belakang** `UI_Viewport_Calib_Frame_Hollow_9Slice`.
+   * **Viewport Kalibrasi & Naga (`Section 08 Runtime Replacement`, diperbesar):**
+     * Letakkan **`RawImage`** (feed kamera/skeleton dari UDP `5053`, area kiri ~`380 px` tinggi) atau **`RawImage` dengan `RenderTexture`** (model 3D naga dari kamera terisolasi di panel kanan, area ~`438 px` tinggi) **di belakang** `UI_Viewport_Calib_Frame_Hollow_9Slice`.
      * Saat kamera `STANDBY` / `MEMUAT` / `ERROR`, aktifkan panel `UI_Viewport_DarkFallback_BG_9Slice` + ikon/teks panduan state terkait.
      * Sisi kanan dalam viewport kiri: `UI_Calib_SidebarCard_Dark_9Slice` + `UI_Calib_InstructionStrip_Dark_9Slice` + `UI_Viewfinder_Brackets_Green/Teal`.
      * Trigger UDP `5054`: `UI_Btn_Small_Green` (`RECALIBRATE (C)` -> `CALIBRATE` / `CANCEL`) + `UI_Btn_Small_Cream` (`RESET DEFAULT` -> `CALIBRATE_RESET`).
-   * **Grid 15 Kartu Pose:** 15× `UI_Plaque_PoseCard_Default_9Slice` (ganti ke `Active_9Slice` + `UI_Pill_Active_Gold` saat pose terdeteksi oleh `UDPPoseReceiver.cs`) dengan child `UI_Pose_01..15`.
+   * **Strip Riwayat Pose & Pembuka Guide (`y = 676..678`):** `UI_Chip_Bar_Cream_9Slice` + `UI_Badge_Label_Amber_Blank` (`RECENT POSES · MAX 4`) di kiri + tombol `UI_Btn_Secondary_Cream_9Slice` (`OPEN POSE GUIDE`) beserta badge `UI_Pill_Active_Gold` (`15 POSES`) di kanan.
+   * **Baris `1×4` Mini Pose Cards Dinamis (`422×166 px`):** Tepat **4 slot** memakai `UI_Plaque_PoseCard_Active_9Slice` (Slot 1) dan `UI_Plaque_PoseCard_Default_9Slice` (Slot 2–4) dengan ikon dinamis `UI_Pose_01..15`. Default awal saat start/reset menampilkan 4 pose utama (`#08 Glide`, `#06 Flap`, `#04 Takeoff`, `#13 Tuck Dive`), lalu berotasi MRU mengikuti pose terakhir yang dilakukan pemain.
    * **Bar Bawah:** 2× `UI_Chip_Bar_Cream_9Slice` (`UI_Badge_Label_Amber_Blank` & `Teal_Blank`) + `UI_Btn_Primary_Green` (`READY TO FLY`).
 4. **`SCREEN 02` — In-Game Flight HUD:**
    * Latar Canvas **transparan** agar scene pulau 3D terlihat langsung (`> 85%` area layar bebas).
@@ -396,6 +399,12 @@ Seluruh **134 PNG bersifat tanpa teks**. Setiap label, angka timer, dan status s
    * **Popup Daftar Kamera (`TMPro.TMP_Dropdown` Template):**
      * Ganti background **`Template`** menjadi `UI_Dropdown_Popup_9Slice` (**`alpha = 1.0f` solid opaque**) agar teks modul/slider di belakang popup tertutup sempurna di *Linear Color Space*.
      * Gunakan `UI_Dropdown_Row_Even/Odd_9Slice` dan `UI_Dropdown_Row_Selected_Gold_9Slice` + `UI_Icon_Checkmark_16` untuk item aktif.
+8. **`SCREEN 07` — Pose Guide Overlay Modal (Baru v1.6.1, dibangun dari komponen eksisting):**
+   * Backdrop *scrim* solid gelap (`Image` `#1B1815`, `alpha = 0.58f`) + tombol pojok kanan atas `UI_Btn_TopChrome_Cream_9Slice` & `UI_IconBadge_CloseX_20` (`ESC · CLOSE`).
+   * Kontainer utama `1824×824 px`: `UI_Panel_Parchment_Full_9Slice` *(ingat: ornamen sudut kipas sudah menyatu pada artwork PNG ini sehingga tidak perlu ditumpuki `Corner_Fan_Medallion_24`)* + `UI_Crest_Baroque_Scrollwork` + `UI_Banner_Stepped_Modal_Blank` (`POSE GUIDE · ALL 15 POSES`).
+   * Strip atas: 4 pil kategori warna lembut + teks ringkasan aturan `Default 4 Main Poses (04, 06, 08, 13)`.
+   * Grid **`3×5` lengkap (`#01–#15`)**: 15× `UI_Plaque_PoseCard_Default/Active_9Slice` + `UI_Pose_01..15` + tag `MAIN` (`04, 06, 08, 13`) + `UI_Pill_Active_Gold` (`ACTIVE`, tersorot dinamis bila kamera mendeteksi pose tersebut saat modal terbuka).
+   * Strip aturan & penutup bawah: `UI_Chip_Bar_Cream_9Slice` (`UI_Badge_Label_Amber_Blank` `KEY POSE RULES`) + tombol `UI_Btn_Secondary_Cream_9Slice` (`CLOSE POSE GUIDE`).
 
 ---
 
@@ -403,10 +412,11 @@ Seluruh **134 PNG bersifat tanpa teks**. Setiap label, angka timer, dan status s
 
 | Skrip Unity Target | Elemen UI Terikat (`Components/` & `TMP`) | Aksi / Event |
 | :--- | :--- | :--- |
-| **`LobbyNavigationManager.cs`** | `UI_Tab_Default/Active_Gold_9Slice`, panel `SCREEN 00 / 01 / 05` | Mengaktifkan panel tab & menukar sprite tab aktif emas. |
+| **`LobbyNavigationManager.cs`** | `UI_Tab_Default/Active_Gold_9Slice`, panel `SCREEN 00 / 01 / 05`, overlay `SCREEN 07` | Mengaktifkan panel tab, menukar sprite tab aktif emas, serta memprioritaskan penutupan `PoseGuideOverlayUI` sebelum kembali dari tab saat tombol `Escape` ditekan. |
 | **`PythonProcessManager.cs`** | `UI_NavCam_*`, `UI_Badge_Cam_*`, `UI_Btn_CamMode_*`, `UI_Btn_Danger_Coral_*`, `UI_Dropdown_*`, `UI_Viewport_DarkFallback_BG`, `UI_Icon_*` | Memindai kamera (`RefreshCameraListAsync()` / `--list-json`), `SelectCamera()`, `LaunchBackgroundMode()` (`--headless`), `LaunchExternalPreviewMode()`, menghentikan YOLO (`Matikan`), dan menyinkronkan ke-5 state visual kamera di `SCREEN 00, 01, 02, 05`. |
 | **`InGameFlightHUD.cs`** | `UI_HUD_Vitality_Fill_34x474`, `UI_HUD_Capsule_Parchment`, `UI_HUD_Waypoint_Chevron`, `UI_Viewport_PIP_Bezel_Hollow`, modul PIP & `SCREEN 03/04` | Memperbarui `fillAmount` Vitality, countdown timer, waypoint, telemetri kecepatan/ketinggian/pose, `RawImage` stream PIP UDP `5053`, serta kontrol kamera in-game. |
-| **`UDPPoseReceiver.cs`** | 15× `UI_Plaque_PoseCard_*`, `UI_Pill_Active_Gold`, `RawImage` (`RenderTexture` naga), `UI_Btn_Small_Green/Cream` (`SCREEN 01`) | Menerima paket pose UDP `5052`, menggerakkan pratinjau model naga 3D & highlight kartu pose aktif, serta mengirim perintah kalibrasi UDP `5054` (`CALIBRATE`, `CANCEL`, `CALIBRATE_RESET`). |
+| **`CalibrationPanelUI.cs` / `UDPPoseReceiver.cs`** | **4 slot kartu dinamis `1×4`** (`UI_Plaque_PoseCard_*`, `UI_Pose_01..15`, `UI_Pill_Active_Gold`), `RawImage` (`RenderTexture` naga), `UI_Btn_Small_Green/Cream`, `OPEN POSE GUIDE` (`SCREEN 01`) | Menerima paket pose UDP `5052`, menggerakkan pratinjau model naga 3D, mengelola rotasi **antrean MRU max-4 kartu** (default launch `[08, 06, 04, 13]`), mengirim kalibrasi UDP `5054` (`CALIBRATE`, `CANCEL`, `CALIBRATE_RESET`), & membuka `PoseGuideOverlayUI`. |
+| **`PoseGuideOverlayUI.cs`** *(baru)* | `UI_Panel_Parchment_Full_9Slice`, `UI_Banner_Stepped_Modal_Blank`, 15× `UI_Plaque_PoseCard_*`, `UI_Pose_01..15`, `UI_Btn_TopChrome_Cream`, `UI_Btn_Secondary_Cream` (`SCREEN 07`) | Menampilkan katalog penuh **15 pose + penjelasannya**, menyinkronkan highlight pose aktif selama overlay terbuka, serta menutup modal via klik `CLOSE POSE GUIDE`, `ESC · CLOSE`, atau tombol keyboard `Escape`. |
 
 ---
 **Navigasi Obsidian:** [[00 - Overview]] · [[kontrak_integrasi_ui_dan_progress]] · [[rencana_desain_ui]] · [[konteks]] · [[prd]] · [[Tasks]] · [[Devlog]]

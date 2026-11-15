@@ -8,7 +8,7 @@ tags:
   - laptop-a
 status: ready-for-laptop-b
 owner: Laptop A
-updated: 2026-11-14
+updated: 2026-11-15
 related:
   - "[[00 - Overview]]"
   - "[[rencana_desain_ui]]"
@@ -30,7 +30,7 @@ related:
 
 ## 1. MATRIKS STATUS ELEMEN UI SAAT INI (FASE TESTING MEKANISME)
 
-Saat mengimplementasikan aset dari `UI_Unity_Export/` (134 komponen PNG + 7 referensi layar `1920×1080`), Agent/Developer Laptop B membagi seluruh elemen UI ke dalam **3 kategori eksekusi**:
+Saat mengimplementasikan aset dari `UI_Unity_Export/` (134 komponen PNG + 8 referensi layar `1920×1080`), Agent/Developer Laptop B membagi seluruh elemen UI ke dalam **3 kategori eksekusi**:
 
 ### 🟢 Kategori A — LIVE WIRED (Langsung Berfungsi Penuh Sekarang)
 Fitur backend-nya **sudah tersedia dan terverifikasi** di Laptop B, sehingga UI wajib tersambung ke kode nyata:
@@ -42,7 +42,7 @@ Fitur backend-nya **sudah tersedia dan terverifikasi** di Laptop B, sehingga UI 
 | **Modul Kontrol Kamera 5 State (`SCREEN 01`, `02`, `05`, `06`)** | `PythonProcessManager.cs` | Dropdown kamera DirectShow (`RefreshCameraListAsync()` / `--list-json`), popup list **100% solid opaque (`alpha = 1.0f`, `#FBF6EB`)**, tombol `Scan`, `Latar Belakang` (`--headless`), `Jendela Preview`, dan `Matikan`; refleksi 5 state (`STANDBY Belum Pilih`, `STANDBY Terpilih`, `MEMUAT YOLO`, `LIVE`, `ERROR`). Default tetap `autoLaunchPython = false`. |
 | **Viewport Mirror Kamera + Skeleton + Trigger Kalibrasi (`SCREEN 01`)** | `UDPPoseReceiver.cs` (UDP `5052`, `5053`, `5054`) | `RawImage` feed PIP kamera (`5053`), panel sidebar status `calib_state_id` (`0–5`) & `calib_progress` (`0–100%`), tombol `RECALIBRATE (C)` (`TriggerCalibration()` / `CancelCalibration()`) dan `RESET DEFAULT` (`ResetCalibrationProfile()`) ke UDP `5054`. |
 | **Live 3D Dragon Preview (`SCREEN 01` Kanan)** | Prefab `Dragon_Model.fbx` + `DragonWingAnimator.cs` + `RenderTexture` | Kamera terisolasi menyorot model naga 3D rigged di atas pedestal, memutar/mengepak sayap secara real-time mengikuti `UDPPoseReceiver` / state pose, plus strip telemetri `STATE`, `SPD`, `PITCH`. |
-| **Grid 15 Kartu Pose — 14 Pose Lokomosi (`SCREEN 01`)** | `UDPPoseReceiver.cs` / `DragonFlightController.cs` | Seluruh 15 kartu tampil rapi; kartu `01_GroundedIdle` s.d. `14_PropellerDash` otomatis berpindah ke `UI_Plaque_PoseCard_Active_9Slice` + `UI_Pill_Active_Gold` saat pose tersebut aktif terdeteksi. |
+| **4 Kartu Pose Dinamis (`RECENT POSES · MAX 4`) + Modal Guide `SCREEN 07` (`SCREEN 01` & `07`)** | `CalibrationPanelUI.cs`, `PoseGuideOverlayUI.cs` *(baru)*, `UDPPoseReceiver.cs` | Pada `SCREEN 01`, hanya tampil **4 mini card (`1×4`)**. Default saat game baru dijalankan / reset menampilkan **4 Pose Utama** (`#08 Glide`, `#06 FlapToClimb`, `#04 Takeoff`, `#13 TuckToDive`). Setiap kali pose baru `01..14` terdeteksi stabil di kamera, pose itu masuk/promosi ke **Slot 1 (`SLOT 1 · ACTIVE`)** dan menggeser riwayat sebelumnya ke Slot 2–4 (antrean MRU max 4 tanpa duplikasi). Tombol **`OPEN POSE GUIDE [15 POSES]`** membuka modal **`SCREEN 07` (`Pose Guide · All 15 Poses`)** berisi katalog lengkap 15 pose beserta penjelasannya (plus live highlight & tutup via tombol `CLOSE POSE GUIDE`, `ESC · CLOSE`, atau tombol `Escape`). |
 | **In-Game Flight HUD — Telemetri, PIP & Pause (`SCREEN 02`)** | `InGameFlightHUD.cs` + `DragonFlightController.cs` + `UDPPoseReceiver.cs` | Pembacaan live Altitude (`m`), Airspeed (`m/s`), mode pose aktif (`POSE T/Y/A` / `ActiveFlightStateName`), header kontrol kamera + monitor PIP 16:9 (`5053`), serta tombol `ESC · PAUSE` (`Time.timeScale = 0f` + menu Pause ringkas / kembali ke Lobby). |
 | **Slider `Turn Sensitivity` (`SCREEN 05`)** | `DefaultFlightInputMapper` / `DragonLocomotionConfig` + `PlayerPrefs` | Mengubah faktor sensitivitas belok secara persisten (`1.0×`–`3.0×`) dan menyimpannya saat `APPLY & CLOSE`. |
 
@@ -57,7 +57,7 @@ Elemen terlihat di layar saat navigasi atau terbang agar bentuk UI utuh dan siap
 | **Slider `Master`, `BGM`, `SFX Volume` (`SCREEN 05`)** | Slider, nilai teks `%`, dan tombol `APPLY & CLOSE` berfungsi penuh serta disimpan di `PlayerPrefs` (`Master` dapat langsung mengatur `AudioListener.volume`), sedangkan `BGM` & `SFX` disiapkan slot `AudioMixer` / event publik tanpa wajib punya file audio dulu. | Sambungkan langsung ke `AudioManager` / `AudioMixer` pada Sesi Audio. |
 | **Kapsul Tengah Atas HUD (`Timer & VILLAGES 0/3`, `SCREEN 02`)** | Tampil sebagai kapsul rapi bertulisan placeholder (mis. `--:-- · TEST FLIGHT (0/3)`). Tidak memicu timeout/kalah selama fase testing mekanisme. | Method publik: `SetMissionTimer(float remainingSeconds)` & `SetVillageCount(int cleared, int total)`. |
 | **Global Vitality Bar Vertikal Kiri (`SCREEN 02`)** | Tampil lengkap (`Track + Fill + Ticks + Badge 0%`) dengan `fillAmount = 0f` statis sementara. | Method publik: `SetGlobalVitality(float normalized01)`. |
-| **Kartu Pose ke-15 (`UI_Pose_15_VillageActions`, `SCREEN 01`)** | Kartu panduan gestur 3 desa tampil statis sebagai edukasi awal; highlight aktif otomatis belum tersambung ke logika skor desa. | Aktifkan highlight otomatis saat gestur aksi desa terdeteksi di dalam zona tantangan / uji kalibrasi desa. |
+| **Kartu Pose ke-15 (`UI_Pose_15_VillageActions`)** | Selalu tampil utuh di katalog **`SCREEN 07` (`Pose Guide · All 15 Poses`)** beserta penjelasannya; tidak masuk ke 4 pose utama default di `SCREEN 01` kecuali dipicu oleh tantangan desa nanti (`SetVillageActionHighlight(bool)`). | Saat `VillageZoneController` / aksi desa diuji atau dipicu, aktifkan highlight kartu `#15` di `SCREEN 07` & promosikan ke Slot 1 antrean dinamis `SCREEN 01`. |
 
 ---
 
@@ -86,7 +86,7 @@ Komponen ini **tidak akan muncul otomatis selama fase testing mekanisme** karena
 | **1. Scene Gameplay & Pulau 3D Baru** *(mis. `Pulau_Archipelago.fbx` masuk scene baru selain `Test_Dragon_Flight.unity`)* | Arahkan tombol **`PLAY`** / **`READY TO FLY`** (atau `StageConfig`) ke scene gameplay baru sambil mempertahankan opsi testing `Test_Dragon_Flight.unity`. Cek ulang `Main Camera` / `Layer` supaya UI Canvas tetap bersih. |
 | **2. Tantangan Desa (`VillageZoneController.cs` & VFX 3 Desa)** | 1. Hubungkan trigger masuk/keluar desa ke `VillageChallengeUI.ShowChallenge(...)`, `UpdateProgress(...)`, & `HideChallenge()`.<br>2. Hubungkan arah Pad Desa aktif ke `UpdateWaypoint(...)` agar `UI_HUD_Waypoint_Chevron` aktif menunjuk desa terdekat.<br>3. Sambungkan progres total desa (`0/3 -> 3/3`) ke `SetVillageCount(...)` & `SetGlobalVitality(...)` di HUD `SCREEN 02`.<br>4. Aktifkan highlight kartu **`15_VillageActions`** bila gestur aksi desa dipraktikkan.<br>5. **Jika ada desa/gestur yang ditambah, dihapus, atau berubah aturan/teksnya,** perbarui teks TMP/ikon pada `SCREEN 03`, deskripsi di `SCREEN 01`, dan pill `LIMIT ...` di `SCREEN 00`. |
 | **3. Sistem Misi, Timer, Bintang & Progression (`GameManager.cs`)** | 1. Hubungkan hitungan mundur asli (`90s` / `150s` / `210s`) ke `SetMissionTimer(...)` di HUD `SCREEN 02`.<br>2. Hubungkan event menang / waktu habis ke `FinishModalUI.ShowVictory(...)` & `FinishModalUI.ShowDefeat(...)` (`SCREEN 04`), pastikan `Time.timeScale` & input/kamera ditangani bersih saat modal tampil.<br>3. Hubungkan status unlock & bintang (`PlayerPrefs` / save profile) ke **`Panel_Missions` (`SCREEN 00`)** untuk men-toggle `UI_Scrim_LockedCard_Overlay`, status kunci `STAGE 02/03`, serta bintang emas/kosong. |
-| **4. Mekanik Terbang / Daftar Pose Baru atau Diubah** | Perbarui grid kartu pose di `Panel_Calibration` (`SCREEN 01`), warna pill status pose di dock telemetri `SCREEN 02`, dan binding state highlight pada UI controller agar tetap 1:1 dengan `DragonFlightController` & `motion_recognizer.py`. |
+| **4. Mekanik Terbang / Daftar Pose Baru atau Diubah** | Perbarui katalog pose di **`CalibrationPanelUI` (4 pose utama default / antrean riwayat dinamis `SCREEN 01`)** & **`PoseGuideOverlayUI` (grid 15 kartu lengkap `SCREEN 07`)**, warna pill status pose di dock telemetri `SCREEN 02`, dan binding state highlight pada UI controller agar tetap 1:1 dengan `DragonFlightController` & `motion_recognizer.py`. |
 | **5. Sistem Audio (`AudioManager` / `BGM` / `SFX`)** | Hubungkan slider **`Master`**, **`BGM`**, dan **`SFX Volume`** pada `Panel_Settings` (`SCREEN 05`) ke `AudioMixer` / sumber audio resmi, lalu hapus komentar `TODO [SYNC-AUDIO]`. |
 | **6. Kewajiban Log ke Obsidian `brain/laptop-b/`** | Setiap sinkronisasi UI ↔ Gameplay **WAJIB** dicatat di `brain/laptop-b/Devlog.md` (menyebut komponen mana yang berpindah status dari *Placeholder/Dormant* menjadi *Live*) dan di-centang di `brain/laptop-b/Tasks.md`, lalu `git -C brain commit && push`. |
 
@@ -154,6 +154,78 @@ Karena progress project saat ini masih di tahap **testing mekanisme terbang** (b
    - Mana elemen UI yang sudah **Live**, mana yang masih **Placeholder**, dan mana yang **Dormant Prefab** beserta nama script & method publiknya.
    - **Aturan Sinkronisasi Progress Wajib di sesi-sesi mendatang:** setiap kali ada pembaruan di Laptop B (mis. penambahan **Pulau 3D**, **Tantangan 3 Desa / `VillageZoneController`**, **`GameManager` Timer/Stars/Unlock**, **AudioManager**, atau **perubahan gestur**), agent/developer wajib sekaligus membuka/menyesuaikan slot placeholder UI terkait agar UI dan mekanisme game selalu 100% sinkron.
 3. Akhiri dengan `git -C brain add` (hanya folder `brain/laptop-b/`), `commit`, dan `push`.
+```
+
+---
+
+## 4. PROMPT PENYESUAIAN UI KALIBRASI & POSE GUIDE OVERLAY (LAPTOP B — DELTA PATCH v1.6.1)
+
+> Gunakan prompt ringkas di bawah ini jika UI awal (`MainMenu_Lobby.unity`, `134` sprite komponen di `Assets/UI/Components/`, `CalibrationPanelUI.cs`, `UISceneAndPrefabBuilder.cs`) **sudah terimplementasi** di Laptop B dan hanya perlu disesuaikan ke revisi **`SCREEN 01` (4 kartu riwayat dinamis) + `SCREEN 07` (Modal Pose Guide 15 Pose)**.
+> **File yang dikirim bersama prompt ini cukup `2` PNG referensi baru dari `UI_Unity_Export/Designs/` saja:**
+> 1. `01_Calibration_MotionTutorial.png` *(timpa file lama di `docs/UI_Designs_Reference/`)*
+> 2. `07_PoseGuide_OverlayModal.png` *(tambah file baru ke `docs/UI_Designs_Reference/`)*
+> *(Tidak perlu mengirim ulang / mengubah `134` PNG di `Assets/UI/Components/` maupun `UISpriteSetupUtility.cs` karena seluruh komponennya sudah tersedia di project Laptop B).*
+
+```markdown
+Tugas: Terapkan penyesuaian desain UI Kalibrasi (`SCREEN 01`) dan tambahkan modal Pose Guide Overlay (`SCREEN 07`) pada project Unity 6 URP "AR Dragon: Sky Guardian" di Laptop B (berbasis implementasi UI Hybrid yang sudah berjalan di `MainMenu_Lobby.unity`), tanpa mengganggu `Test_Dragon_Flight.unity` maupun pengujian mekanisme terbang.
+
+### 1. BACA DOKUMENTASI & REFERENSI TERBARU
+1. Jalankan `git -C brain pull` terlebih dahulu (patuhi aturan `AGENTS.md`: dilarang mengedit `brain/laptop-a/`, catat pembaruan hanya di `brain/laptop-b/`).
+2. Baca pembaruan terbaru dari Laptop A (read-only):
+   - `brain/laptop-a/rencana_desain_ui.md` (bagian `2.2` revisi `SCREEN 01` & `2.2.1` `SCREEN 07`)
+   - `brain/laptop-a/panduan_aset_ui_unity.md` (item `3. SCREEN 01`, `8. SCREEN 07`, & Checklist C# Bab `5`)
+   - `brain/laptop-a/kontrak_integrasi_ui_dan_progress.md`
+3. Pasang 2 file referensi PNG (`1920×1080`) yang saya lampirkan ke `docs/UI_Designs_Reference/`:
+   - Timpa `docs/UI_Designs_Reference/01_Calibration_MotionTutorial.png`
+   - Tambahkan `docs/UI_Designs_Reference/07_PoseGuide_OverlayModal.png`
+4. **Catatan Aset:** Tidak ada penambahan maupun perubahan pada `Assets/UI/Components/` (`134` PNG) maupun `UISpriteSetupUtility.cs`. Gunakan sprite yang sudah di-import:
+   - `UI_Panel_Parchment_Full_9Slice` *(ingat temuan sebelumnya: ornamen kipas sudut sudah menyatu di artwork PNG ini, jadi jangan ditumpuki `UI_Corner_Fan_Medallion_24`)*
+   - `UI_Panel_Parchment_Calib_9Slice`, `UI_Plaque_PoseCard_Default_9Slice`, `UI_Plaque_PoseCard_Active_9Slice`, `UI_Pill_Active_Gold`, `UI_Pose_01..15`, `UI_Chip_Bar_Cream_9Slice`, `UI_Badge_Label_Amber_Blank`, `UI_Btn_Secondary_Cream_9Slice`, `UI_Btn_TopChrome_Cream_9Slice`, `UI_IconBadge_CloseX_20`, `UI_Crest_Baroque_Scrollwork`, `UI_Banner_Stepped_Modal_Blank`.
+
+### 2. PENYESUAIAN `SCREEN 01` (`CalibrationPanelUI.cs` & `UISceneAndPrefabBuilder.cs`)
+Ubah tata letak panel Calibration pada `MainMenu_Lobby.unity` agar sesuai dengan `01_Calibration_MotionTutorial.png`:
+1. **Perbesar Top Panels (`Left Panel` Mirror & `Right Panel` Live Dragon Preview):**
+   - Tingkatkan tinggi kedua panel atas menjadi proporsi **`860×540`** di kanvas referensi `1920×1080` sehingga area viewport Skeleton (`~380 px` tinggi) dan area `RenderTexture` Live 3D Dragon Preview (`~438 px` tinggi) jauh lebih lega, jelas, dan tetap fit 100% di dalam viewport `1920×1080` bersama strip tengah, 4 kartu bawah, & bar rule/CTA.
+2. **Strip Header Tengah + Tombol Pembuka Pose Guide (`y ≈ 676–678` dari atas):**
+   - Di sebelah kiri (`~1372×50`): `UI_Chip_Bar_Cream_9Slice` berisi pill amber `UI_Badge_Label_Amber_Blank` bertulisan **`RECENT POSES · MAX 4`** dan teks penjelas TMP: *"Default at launch: 4 Main Poses (Glide, Flap, Takeoff, Tuck Dive) · Slots update dynamically with your last 4 detected poses"*.
+   - Di sebelah kanan (`~368×54`): tombol **`OPEN POSE GUIDE`** (`UI_Btn_Secondary_Cream_9Slice`) dilengkapi badge emas **`15 POSES`** (`UI_Pill_Active_Gold`) yang membuka modal `SCREEN 07`.
+3. **Baris `1×4` Kartu Pose Dinamis (Hanya Maksimal 4 Kartu di Halaman Kalibrasi):**
+   - Hapus/gantikan grid `3×5` lama di panel Calibration menjadi tepat **4 slot kartu besar (`~422×166 px` tiap kartu, jarak horizontal `24 px`)**.
+   - **Perilaku Default Saat Launch / Reset:**
+     - Saat game baru dibuka / panel reset, ke-4 slot default menampilkan **4 Pose Utama**:
+       1. Slot 1: **Glide (T-Pose)** (`#08`, highlight aktif awal memakai `UI_Plaque_PoseCard_Active_9Slice` & badge `SLOT 1 · ACTIVE`)
+       2. Slot 2: **Flap To Climb** (`#06`, `UI_Plaque_PoseCard_Default_9Slice`, badge `SLOT 2 · DEFAULT`)
+       3. Slot 3: **Takeoff** (`#04`, `UI_Plaque_PoseCard_Default_9Slice`, badge `SLOT 3 · DEFAULT`)
+       4. Slot 4: **Tuck To Dive** (`#13`, `UI_Plaque_PoseCard_Default_9Slice`, badge `SLOT 4 · DEFAULT`)
+   - **Perilaku Rotasi Dinamis (*Last-Performed MRU Queue*):**
+     - Saat tracker pose (`UDPPoseReceiver` / state pose live `01..14`, serta `SetVillageActionHighlight(true)` untuk `#15` nanti) mendeteksi pose valid baru `P` (abaikan `None`/tidak terdeteksi, dan tambahkan debounce/dwell singkat mis. `~0.15s` agar kedipan noise CV 1-frame tidak mengacak urutan):
+       - Jika `P` sudah ada di dalam 4 slot (`Slot 2..4`), **pindahkan `P` ke Slot 1** tanpa membuat duplikat kartu, sementara slot sebelumnya bergeser ke kanan mengisi posisi `P` yang kosong.
+       - Jika `P` belum ada di 4 slot, **sisipkan `P` ke Slot 1** dan geser Slot `1→2→3→4` (item lama ke-5 terkeluar otomatis; total tetap maksimal 4 kartu).
+       - Slot 1 selalu disorot aktif (`UI_Plaque_PoseCard_Active_9Slice`, pill `SLOT 1 · ACTIVE` atau `SLOT 1 · RECENT`), sedangkan Slot 2–4 memakai `UI_Plaque_PoseCard_Default_9Slice` dengan label `SLOT 2..4 · RECENT` (atau `DEFAULT` bila slot tsb masih bawaan awal dan belum pernah digeser).
+       - Sediakan juga method `ResetRecentPosesToDefault()` (mis. terpanggil saat klik `RESET DEFAULT` atau opsi reset sesi) yang mengembalikan urutan `[08, 06, 04, 13]`.
+     - *(Catatan Sprite `UI_Pose_08_Glide_ActiveGold.png`)*: Karena PNG #08 memiliki lingkaran medali emas bawaan sedangkan pose lain netral, jadikan **swap plaque `UI_Plaque_PoseCard_Active_9Slice` + warna badge `SLOT 1 · ACTIVE`** sebagai indikator aktif utama yang konsisten di semua pose.
+
+### 3. TAMBAHAN MODAL `SCREEN 07` — `PoseGuideOverlayUI.cs` & `PF_PoseGuideOverlay.prefab`
+Bangun modal **Pose Guide Overlay (`07_PoseGuide_OverlayModal.png`)** di Lobby Canvas (`SetActive(false)` secara default, tampil di layer teratas di atas halaman Calibration saat `OPEN POSE GUIDE` diklik):
+1. **Struktur Visual (`1920×1080`):**
+   - Backdrop scrim solid gelap (`Image` warna `#1B1815`, `alpha ≈ 0.58f`) menutupi background lobby agar fokus tertuju ke modal & memblokir klik di belakangnya.
+   - Pojok kanan atas layar: tombol **`ESC · CLOSE`** (`UI_Btn_TopChrome_Cream_9Slice` + `UI_IconBadge_CloseX_20`).
+   - Kontainer utama `1824×824`: `UI_Panel_Parchment_Full_9Slice` (tanpa duplikasi ornamen sudut), mahkota `UI_Crest_Baroque_Scrollwork`, dan banner **`POSE GUIDE · ALL 15 POSES`** (`UI_Banner_Stepped_Modal_Blank`).
+   - Strip legenda kategori atas: 4 pil kategori warna lembut (`01–03 · GROUND`, `04–05 · LAUNCH & STEER`, `06–12 · CORE FLIGHT`, `13–15 · DIVE · DASH · VILLAGE`) + keterangan *"Default 4 Main Poses shown at launch (04, 06, 08, 13) · Calibration displays your last 4 detected poses"*.
+   - **Grid lengkap `3 baris × 5 kolom` berisi semua `15` pose (`#01` s.d. `#15`):** ikon `UI_Pose_01..15`, judul pose, subtitle mekanik (warna per kategori), deskripsi singkat yang jelas bagi pemain, nomor `#01..#15`, serta badge **`MAIN`** pada pose `#04, #06, #08, #13`. Saat kamera aktif & modal ini dibuka, kartu pose yang sedang terdeteksi otomatis disorot **`ACTIVE`** (`UI_Plaque_PoseCard_Active_9Slice` + `UI_Pill_Active_Gold`).
+   - Strip aturan bawah: `KEY POSE RULES` (`UI_Chip_Bar_Cream_9Slice` + `UI_Badge_Label_Amber_Blank`) + tombol penutup **`CLOSE POSE GUIDE`** (`UI_Btn_Secondary_Cream_9Slice`).
+2. **Wiring Navigasi & Tombol `Escape`:**
+   - Tutup modal melalui klik **`CLOSE POSE GUIDE`**, klik **`ESC · CLOSE`**, maupun penekanan tombol keyboard `Escape` (*new Input System*).
+   - Perbarui `LobbyNavigationManager.cs`: **prioritaskan menutup `PoseGuideOverlayUI` lebih dulu** ketika `Escape` ditekan saat overlay sedang terbuka, baru kemudian pressing `Escape` berikutnya keluar dari tab Calibration ke Missions!
+
+### 4. VERIFIKASI & PEMBARUAN `brain/laptop-b/`
+1. Perbarui `Assets/Editor/UISceneAndPrefabBuilder.cs` (`BuildAll()`) agar perubahan `Calibration` (`1×4` + panel `860×540`) dan prefab/panel `PF_PoseGuideOverlay.prefab` bisa di-generate ulang bersih tanpa manual wiring yang rawan hilang.
+2. Pastikan **`0` Compiler Errors & `0` Console Errors/Warnings** pada script baru/terubah (`CalibrationPanelUI`, `PoseGuideOverlayUI`, `LobbyNavigationManager`, `UISceneAndPrefabBuilder`).
+3. Jalankan uji Play Mode di `MainMenu_Lobby.unity` (dan verifikasi singkat `Test_Dragon_Flight.unity` tetap berjalan normal):
+   - Saat awal masuk Calibration: tampil 4 pose default (`08, 06, 04, 13`) tanpa terpotong.
+   - Uji simulasi / live deteksi pose: Slot 1 berpindah dinamis ke pose terakhir, tidak ada duplikat kartu, maksimal tetap 4 kartu, dan `ResetRecentPosesToDefault()` mengembalikan 4 pose utama.
+   - Uji klik **`OPEN POSE GUIDE`** -> modal `SCREEN 07` menampilkan 15 pose lengkap dengan deskripsi + tag `MAIN`, tidak terpotong di `1920×1080`, dan menutup bersih via **`CLOSE POSE GUIDE`**, **`ESC · CLOSE`**, serta keyboard **`Escape`** (tanpa langsung keluar dari tab Calibration).
+4. Catat seluruh perubahan ini di **`brain/laptop-b/`** (`Tasks.md`, `Devlog.md`, dan perbarui `brain/laptop-b/memories/Implementasi UI Hybrid AR Dragon.md`) lalu lakukan `git -C brain add` (hanya `brain/laptop-b/`), `commit`, dan `push`.
 ```
 
 ---
