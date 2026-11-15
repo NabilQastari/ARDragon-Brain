@@ -13,6 +13,26 @@ updated: 2026-11-15
 
 ---
 
+## 2026-11-15 — Perbaikan *Rest-Pose Front Lift* pada Dynamic Wing Movement (`DragonWingAnimator.cs`)
+
+### Masalah yang Ditemukan
+- Model `Dragon_Model.fbx` memiliki pose awal impor di mana tulang lengan depan (`Wing_Shoulder` naik `+12.9°`, `Wing_Forearm` naik curam `+35.5°` dengan posisi pergelangan *wrist* lebih tinggi dari kepala `y = 0.554`) sedangkan keempat jari menjuntai curam ke bawah (`-19°` hingga `-55°`).
+- Karena `CacheWingRig()` menyalin `bone.localRotation` secara langsung sebagai `RestLocalRotation` dan hampir semua regime di `ComputeWingTargets()` masih menambahkan bias positif `ShoulderPitchUp` / `ForearmPitchUp` (mis. `+24°/+10°` di `GroundedIdle`, `+15°/+8°` di `Hover`, `+18°` di `GentleDescent`, `+22°/+10°` di `FlyDownY`), animasi sayap dinamis mempertahankan kemiringan bagian depan sayap yang terangkat curam.
+
+### Eksekusi Utama
+- **Netralisasi Basis Sayap Zero-Twist (`DragonWingAnimator.cs`):**
+  - Menambahkan `OrientWingBoneNeutral()` & `MirrorDirX()` pada `BuildWingSide()` untuk mengorientasikan ulang `Wing_Shoulder` → `Wing_Forearm` → 4 `Wing_Finger` secara berurutan ke bidang airfoil horizontal (`NeutralShoulderRightDir`, `NeutralForearmRightDir`, `NeutralFingerRightDirs`) sebelum merekam `RestLocalRotation` dan sumbu ortogonal (`AxisUp`, `AxisForward`, `AxisPitchUp`). Hasil mesh awal memelankan selisih depan-belakang ke hampir rata (`FrontY = +0.018`, `BackY = -0.024`).
+- **Penyetelan Regime & Dekomposisi Fleksi Jari:**
+  - Menghapus bias positif `PitchUp` berlebih pada `GroundedIdle` (`-4°/-2°`), `GroundedWalk` (`-3°/-2°`), `Takeoff`/`FlyUp`/`Flapping` (`stroke * 6f`), `Hover` (`3f + stroke * 6f`), `FlyDownY` (`6f`), `FlyDownW` (`3f`), `GentleDescent` (`4f`), dan `Glide` (`-1°`).
+  - Memperbarui `FingerFoldSweepDeg` menjadi `{ 18f, -10f, -40f, -64f }` agar saat terlipat penuh (`GroundedIdle`, `TuckDive`) jari dalam (`Wing_Finger_Inner`) merapat sejajar sisi tubuh tanpa menembus punggung/ekor, serta memproyeksikan fleksi vertikal jari ke `FingerLateralFlapWeights` (sumbu depan) dan `FingerBackPitchWeights` (sumbu pitch).
+
+### Verifikasi Unity 6 (`6000.3.7f1`)
+- Rekompilasi bersih (`compilationFailed: false`, `consoleErrors: 0`).
+- **Play Mode `MainMenu_Lobby.unity` (Calibration Live Preview):** Terverifikasi visual pada `capture_game_view` untuk `GLIDE (T-POSE)` (bentang sayap horizontal aerodinamis tanpa ujung depan terangkat), `TUCK TO DIVE` (lipatan streamline rapi sejajar sisi tanpa tumpukan di tulang punggung), dan `FLAP TO CLIMB`.
+- **Play Mode `Test_Dragon_Flight.unity` (UDP `5052` Multi-State):** Terverifikasi `GroundedIdle` (`FrontY = +0.032`, `BackY = +0.014`), `Flapping`, `GentleDescent` (`ALT 106.9 m`), dan respons asimetris `cv_asym` (`FrontY` datar tanpa efek tenda depan) dengan `consoleErrors = 0`, `consoleWarnings = 0`, dan `isDirty = false`.
+
+---
+
 ## 2026-11-15 — Penyelarasan Visual UI In-Game (`SCREEN 02`, `SCREEN 03`, `SCREEN 04`, & `PauseModal`)
 
 ### Eksekusi Utama
