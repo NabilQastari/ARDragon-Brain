@@ -13,6 +13,22 @@ updated: 2026-11-15
 
 ---
 
+## 2026-11-16 — Finalisasi Naskah Dialog Narasi, Parameter Timer/Bintang Stage 01–03, & Daftar Audio/SFX ([[mekanisme_tantangan_desa]])
+- **Persetujuan User:**
+  - Menyetujui nama resmi 3 desa: **Desa Zephyria** (Biome 1 - Smog), **Desa Pyrewood** (Biome 2 - Wildfire), dan **Desa Solaria** (Biome 3 - Drought).
+  - Menyetujui mekanisme tantangan Desa Solaria (*Ritual Embun Suci / Dew Summoning* dengan gestur *Raise Both Hands / Fly Up*).
+- **Pembaruan Isi Dokumen ([[mekanisme_tantangan_desa]]):**
+  - **1. Naskah Dialog Narasi 3 Baris (`SCREEN 08` `PF_QuestNarrativeBox`):**
+    - *Desa Zephyria (Tetua Rowan):* Masalah kabut jurang beracun $\rightarrow$ Tanaman layu & warga batuk $\rightarrow$ Arahan terbang naik & kepakkan sayap sekuat tenaga (*Flap Wings*).
+    - *Desa Pyrewood (Penjaga Rimba Keith):* Sambaran petir membakar hutan $\rightarrow$ Merembet ke pemukiman $\rightarrow$ Arahan terbang ke Danau Zephyria untuk isi air, lalu kembali semprotkan air dengan buka mulut (*Open Mouth*).
+    - *Desa Solaria (Tetua Mira):* Terik surya keringkan mata air $\rightarrow$ Tanah merekah & ternak kehausan $\rightarrow$ Arahan terbang tinggi ke puncak tebing & angkat kedua tangan ke langit panggil hujan embun (*Raise Hands*).
+  - **2. Parameter Batas Waktu & Kriteria Bintang (Stage 01–03):**
+    - Stage 01 (1 Desa): 120s (⭐⭐⭐ $\ge 60\text{s}$, ⭐⭐ $20–59\text{s}$, ⭐ $< 20\text{s}$).
+    - Stage 02 (2 Desa): 240s (⭐⭐⭐ $\ge 90\text{s}$, ⭐⭐ $30–89\text{s}$, ⭐ $< 30\text{s}$).
+    - Stage 03 (3 Desa): 360s (⭐⭐⭐ $\ge 120\text{s}$, ⭐⭐ $30–119\text{s}$, ⭐ $< 30\text{s}$).
+    - Selama narasi timer berhenti (PAUSE); selama tantangan desa timer terus berjalan (TIDAK PAUSE).
+  - **3. Daftar Audio & SFX (`AudioManager.cs` Sesi 5):** 3 BGM (`BGM_Lobby`, `BGM_Flight_Adventure`, `BGM_Village_Challenge`), 5 SFX Naga/Penerbangan (`Flap`, `GlideWind`, `DiveWhoosh`, `WaterBreath`, `DewSummonChime`), 4 SFX Interaksi Misi (`WaterAbsorb`, `FireExtinguish`, `SmogDisperse`, `VillageRestoredFanfare`), dan 5 SFX UI/Loop (`UIClick`, `QuestAccepted`, `DialogueNext`, `VictoryFanfare`, `DefeatGong`).
+
 ## 2026-11-15 — Perencanaan Pemasangan Skill VFX Effekseer di Laptop B ([[rencana_skill_vfx_effekseer_laptop_b]])
 - **Latar Belakang & Kebutuhan:**
   - Menindaklanjuti kebutuhan sistem VFX untuk pemulihan 3 desa pada Sesi 4 ([[mekanisme_tantangan_desa]]), disusun dokumen panduan komprehensif bagi Laptop B untuk mengadopsi paket *Agent Skills* open-source **`kanaworksai-hue/effekseer-vfx-skill`**.
