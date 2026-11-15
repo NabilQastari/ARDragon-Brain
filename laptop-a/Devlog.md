@@ -13,21 +13,23 @@ updated: 2026-11-15
 
 ---
 
-## 2026-11-15 — Pembaruan UI `v1.7`: Branding `Fanamir: The Sky Guardian`, Quest Objective Panel (`SCREEN 02`), & Quest Narrative Text Box (`SCREEN 08`)
-- **Perubahan di [`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft) (`1,184,573` B):**
+## 2026-11-15 — Pembaruan UI `v1.7`: Branding `Fanamir: The Sky Guardian`, Quest Objective Panel (`SCREEN 02`), Quest Narrative Auto-Play (`SCREEN 08`), & Slider `Text Auto-Next` (`SCREEN 05`)
+- **Perubahan di [`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft) (`1,306,400` B):**
   - **1. Pembaruan Identitas & Branding Publik:** Mengganti seluruh kemunculan teks `AR DRAGON · SKY GUARDIAN` / `Dragon` (di `Design` `SCREEN 00, 01, 05, 06, 07`, `Wireframe`, serta header/catatan `03 - Unity Export Kit`) ke **`FANAMIR: THE SKY GUARDIAN`** & **`Fanamir`** (termasuk `LIVE FANAMIR PREVIEW · GLIDE (T-POSE)` di Calibration dan deskripsi pose `#01–#03`). Nama aset teknis (`UI_Illust_Dragon_WaterBreath`) & namespace `DragonWingAR.*` tetap dijaga.
   - **2. Quest Objective Panel (`SCREEN 02 - In-Game Flight HUD`, `id: 348`):** Menambahkan panel *Stepped Parchment* (`60, 40`, `424×112`, jeda aman `128 px` di atas badge `33%` Vitality Bar dan `286 px` sebelum kapsul Timer tengah) dengan medali gulungan emas & pill **`QUEST OBJECTIVE`**:
     - State spawn (`TRAVEL`): *"Fly to the marked village (Smog Valley)"* + waypoint disinkronkan ke `SMOG VALLEY · 140m`.
     - State pasca-narasi (`ACTIVE TASK`, hijau `#5C8D46`): *"Disperse the smog — Flap your wings!"*.
-  - **3. Quest Narrative Text Box (`SCREEN 08 - Quest Narrative & Objective`, `id: 2114` baru di `(4200, 2400)`):** Artboard overlay khusus saat **Fanamir** masuk area desa dan memainkan *Idle Fly* (`POSE: IDLE FLY`), menempatkan **Quest Narrative Box (`156, 828`, `1236×212`)** di area bawah-kiri/tengah dengan jarak bersih `18–36 px` dari Vitality Bar kiri (`x=80..120, y=330..810`) dan `48 px` sebelum klaster PIP/Telemetri kanan bawah (`x >= 1440`). Berisi tag pembicara tumpang-tindih `SMOG VALLEY · ELDER ROWAN`, counter `VILLAGE BRIEFING · 1 / 3`, emblem biome kiri, narasi masalah desa `2–3` baris, strip `WHAT TO DO:`, chip `UPDATES QUEST OBJECTIVE`, dan tombol taktil hijau **`CONTINUE ▶ [ SPACE ] OR [ CLICK ]`**.
+  - **3. Quest Narrative Text Box Auto-Play (`SCREEN 08 - Quest Narrative & Objective`, `id: 2114` baru di `(4200, 2400)`):** Artboard overlay khusus saat **Fanamir** masuk area desa dan memainkan *Idle Fly* (`POSE: IDLE FLY`), menempatkan **Quest Narrative Box (`156, 828`, `1236×212`)** di area bawah-kiri/tengah dengan jarak bersih `18–36 px` dari Vitality Bar kiri (`x=80..120, y=330..810`) dan `48 px` sebelum klaster PIP/Telemetri kanan bawah (`x >= 1440`). **Tanpa tombol Continue** agar pemain tetap *hands-free* melakukan pose di webcam: berisi tag pembicara `SMOG VALLEY · ELDER ROWAN`, pill **`LINE 1 / 3 · AUTO-PLAY`**, emblem biome kiri, narasi `2–3` baris, strip `WHAT TO DO:`, serta panel kanan **`AUTO-PLAY · HANDS-FREE`** dengan countdown `NEXT IN 3.2s / 5.0s`, progress bar horizontal hijau, dan keterangan *"Auto-updates Quest Objective · Speed adjustable in Settings"*.
+  - **4. Pengaturan `Text Auto-Next` di `SCREEN 05` (`Settings & Audio Modal`, `id: 400`):** Memadatkan 4 baris slider (`70 px -> 58 px`, step `65 px`) dan menambahkan slider ke-5 **`Text Auto-Next`** (`5.0s`, ikon jam timer `#E5A93B`, warna track amber `#E0A23B`) di atas `Camera Input & AI YOLO Module` agar kecepatan auto-play text box dapat diatur pemain di Settings nanti.
 - **Ekspor Modular & Verifikasi Aset (`UI_Unity_Export/`):**
-  - Menambahkan **`5` komponen *textless* baru (`clip: false`)** pada `03 - Unity Export Kit` (total kini **`139` PNG** di `Components/` + **`9` PNG `1920×1080`** di `Designs/`):
+  - Menambahkan **`6` komponen *textless* baru (`clip: false`)** pada `03 - Unity Export Kit` (total kini **`140` PNG** di `Components/` + **`9` PNG `1920×1080`** di `Designs/`):
     - `01_Panels/UI_Panel_QuestObjective_9Slice.png` (`240×135`, `2,018` B, Border Unity `24, 24, 24, 29`)
     - `01_Panels/UI_Panel_NarrativeBox_9Slice.png` (`304×200`, `2,287` B, Border Unity `30, 30, 30, 36`)
     - `02_Banners/UI_Banner_SpeakerTag_Blank.png` (`240×42`, `483` B, Horizontal 3-Slice `8, 0, 8, 0`)
     - `06_Icons/UI_Icon_QuestScroll_Gold.png` (`48×48`, `697` B)
-    - `06_Icons/UI_Icon_PromptNext_Arrow.png` (`48×48`, `869` B)
-  - Mengekspor ulang `Designs/` (`00, 01, 02, 05, 06, 07`) + baru [`08_QuestNarrative_Overlay.png`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/08_QuestNarrative_Overlay.png) (`157,183` B); memverifikasi seluruh `9` desain tepat `1920×1080` & memeriksa render screenshot `SCREEN 00, 01, 02, 05, 07, 08` serta section Export Kit `1263, 1264, 1268`.
+    - `06_Icons/UI_Icon_AutoPlay_Timer.png` (`48×48`, `1,209` B)
+    - `06_Icons/UI_Icon_PromptNext_Arrow.png` (`48×48`, `869` B, opsional)
+  - Mengekspor ulang `Designs/` (`00, 01, 02, 05` [`1,031,973` B], `06, 07`) + baru [`08_QuestNarrative_Overlay.png`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/08_QuestNarrative_Overlay.png) (`160,102` B); memverifikasi seluruh `9` desain tepat `1920×1080` & memeriksa render screenshot `SCREEN 00, 01, 02, 05, 07, 08` serta section Export Kit `1263, 1264, 1268`.
   - Memperbarui [[00 - Overview]], [[rencana_desain_ui]] (`v1.7`), [[panduan_aset_ui_unity]], [[kontrak_integrasi_ui_dan_progress]] (menambahkan **§5 Prompt Penyesuaian `v1.7`** untuk Laptop B), & [[Tasks]].
 
 ## 2026-11-15 — Revisi UI Kalibrasi (`SCREEN 01` Max 4 Kartu Dinamis + Panel Diperbesar) & Modal `SCREEN 07` Pose Guide (`v1.6.1`)

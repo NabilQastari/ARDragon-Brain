@@ -30,7 +30,7 @@ related:
 
 ## 1. MATRIKS STATUS ELEMEN UI SAAT INI (FASE TESTING MEKANISME)
 
-Saat mengimplementasikan aset dari `UI_Unity_Export/` (**139 komponen PNG** + **9 referensi layar `1920×1080`** per revisi `v1.7`), Agent/Developer Laptop B membagi seluruh elemen UI ke dalam **3 kategori eksekusi**:
+Saat mengimplementasikan aset dari `UI_Unity_Export/` (**140 komponen PNG** + **9 referensi layar `1920×1080`** per revisi `v1.7`), Agent/Developer Laptop B membagi seluruh elemen UI ke dalam **3 kategori eksekusi**:
 
 ### 🟢 Kategori A — LIVE WIRED (Langsung Berfungsi Penuh Sekarang)
 Fitur backend-nya **sudah tersedia dan terverifikasi** di Laptop B, sehingga UI wajib tersambung ke kode nyata:
@@ -44,7 +44,7 @@ Fitur backend-nya **sudah tersedia dan terverifikasi** di Laptop B, sehingga UI 
 | **Live 3D Dragon Preview (`SCREEN 01` Kanan)** | Prefab `Dragon_Model.fbx` + `DragonWingAnimator.cs` + `RenderTexture` | Kamera terisolasi menyorot model naga 3D rigged di atas pedestal, memutar/mengepak sayap secara real-time mengikuti `UDPPoseReceiver` / state pose, plus strip telemetri `STATE`, `SPD`, `PITCH`. |
 | **4 Kartu Pose Dinamis (`RECENT POSES · MAX 4`) + Modal Guide `SCREEN 07` (`SCREEN 01` & `07`)** | `CalibrationPanelUI.cs`, `PoseGuideOverlayUI.cs` *(baru)*, `UDPPoseReceiver.cs` | Pada `SCREEN 01`, hanya tampil **4 mini card (`1×4`)**. Default saat game baru dijalankan / reset menampilkan **4 Pose Utama** (`#08 Glide`, `#06 FlapToClimb`, `#04 Takeoff`, `#13 TuckToDive`). Setiap kali pose baru `01..14` terdeteksi stabil di kamera, pose itu masuk/promosi ke **Slot 1 (`SLOT 1 · ACTIVE`)** dan menggeser riwayat sebelumnya ke Slot 2–4 (antrean MRU max 4 tanpa duplikasi). Tombol **`OPEN POSE GUIDE [15 POSES]`** membuka modal **`SCREEN 07` (`Pose Guide · All 15 Poses`)** berisi katalog lengkap 15 pose beserta penjelasannya (plus live highlight & tutup via tombol `CLOSE POSE GUIDE`, `ESC · CLOSE`, atau tombol `Escape`). |
 | **In-Game Flight HUD — Telemetri, PIP & Pause (`SCREEN 02`)** | `InGameFlightHUD.cs` + `DragonFlightController.cs` + `UDPPoseReceiver.cs` | Pembacaan live Altitude (`m`), Airspeed (`m/s`), mode pose aktif (`POSE T/Y/A` / `ActiveFlightStateName`), header kontrol kamera + monitor PIP 16:9 (`5053`), serta tombol `ESC · PAUSE` (`Time.timeScale = 0f` + menu Pause ringkas / kembali ke Lobby). |
-| **Slider `Turn Sensitivity` (`SCREEN 05`)** | `DefaultFlightInputMapper` / `DragonLocomotionConfig` + `PlayerPrefs` | Mengubah faktor sensitivitas belok secara persisten (`1.0×`–`3.0×`) dan menyimpannya saat `APPLY & CLOSE`. |
+| **Slider `Turn Sensitivity` & `Text Auto-Next` (`SCREEN 05`)** | `DefaultFlightInputMapper` / `DragonLocomotionConfig` + `PlayerPrefs` | `Turn Sensitivity` (`1.0×–3.0×`) & **`Text Auto-Next` (`2.0s–10.0s`, default `5.0s`)** disimpan saat `APPLY & CLOSE` (`PlayerPrefs`) dan dibaca `QuestNarrativeUI` untuk interval auto-advance. |
 
 ---
 
@@ -68,7 +68,7 @@ Komponen ini **tidak akan muncul otomatis selama fase testing mekanisme** karena
 | Layar / Komponen | Status Default Saat Play Mode | Method Publik Siap Pakai & Opsi Test QA |
 | :--- | :--- | :--- |
 | **Waypoint Compass Tengah (`UI_HUD_Waypoint_Chevron`, `SCREEN 02`)** | `SetActive(false)` ketika target desa `== null`. | `SetWaypointTarget(Transform target, string villageLabel)` / `ClearWaypoint()`. |
-| **`SCREEN 08` — `QuestNarrativeUI` (`Panel_QuestNarrative`, Baru `v1.7`)** | **Tertutup (`SetActive(false)` / `alpha = 0`)** saat terbang bebas tanpa trigger masuk area desa. | `ShowNarrative(string speakerTag, string stepLabel, string villageId, string crisisTag, string storyBody, string actionInstruction, System.Action onContinue)`, `HideNarrative()`. Saat *Continue* / `Space` ditekan -> tutup panel & ubah `QuestObjective` ke `ACTIVE TASK`. Tambah `[ContextMenu("Debug/Preview Quest Narrative")]`. |
+| **`SCREEN 08` — `QuestNarrativeUI` (`Panel_QuestNarrative`, Baru `v1.7`)** | **Tertutup (`SetActive(false)` / `alpha = 0`)** saat terbang bebas tanpa trigger masuk area desa. | `ShowNarrativeSequence(QuestLineData[] lines, string villageId, string actionInstruction, System.Action onComplete)`, `HideNarrative()`. **Berjalan otomatis (*hands-free*, tanpa tombol Continue)** dengan hitung mundur `Text Auto-Next` (default `5.0s` per baris dari Settings/`PlayerPrefs`); selesai semua baris -> otomatis tutup & ubah `QuestObjective` ke `ACTIVE TASK`. Tambah `[ContextMenu("Debug/Preview Quest Narrative")]`. |
 | **`SCREEN 03` — `VillageChallengeUI` (`Panel_VillageChallenge`)** | **Tertutup (`SetActive(false)` / CanvasGroup `alpha = 0, interactable = false`)** saat gameplay normal tanpa zona desa. | `ShowChallenge(string villageTitle, string gestureInstruction, int biomeType, float progress01)`, `UpdateProgress(float progress01)`, `HideChallenge()`. |
 | **`SCREEN 04` — `FinishModalUI` (`Panel_FinishModal`: Victory & Defeat)** | **Tertutup (`SetActive(false)`)** — tidak akan muncul karena belum ada tantangan/timer kalah/menang. | `ShowVictory(int stars, float elapsedSec, int cleared, int total, int rewardBonusStars)`, `ShowDefeat(float elapsedSec, int cleared, int total, string remainingNote)`, `HideModal()`, lengkap dengan tombol `LEVEL BERIKUTNYA`, `COBA LAGI`, dan `KEMBALI KE LOBBY`. |
 
@@ -86,7 +86,7 @@ Komponen ini **tidak akan muncul otomatis selama fase testing mekanisme** karena
 | Ketika Progress Baru di Laptop B Menambahkan / Mengubah... | Perubahan UI yang WAJIB Ikut Dilakukan |
 | :--- | :--- |
 | **1. Scene Gameplay & Pulau 3D Baru** *(mis. `Pulau_Archipelago.fbx` masuk scene baru selain `Test_Dragon_Flight.unity`)* | Arahkan tombol **`PLAY`** / **`READY TO FLY`** (atau `StageConfig`) ke scene gameplay baru sambil mempertahankan opsi testing `Test_Dragon_Flight.unity`. Cek ulang `Main Camera` / `Layer` supaya UI Canvas tetap bersih. |
-| **2. Tantangan Desa (`VillageZoneController.cs` & VFX 3 Desa)** | 1. Saat **Fanamir** masuk trigger area desa & memainkan *Idle Fly*: panggil `QuestNarrativeUI.ShowNarrative(...)` (`SCREEN 08`) dengan penjelasan masalah desa + instruksi aksi; saat `CONTINUE`/`Space` ditekan, tutup narasi, update `Quest Objective Panel` (`SCREEN 02`) ke **`ACTIVE TASK`**, lalu lanjutkan ke `VillageChallengeUI.ShowChallenge(...)`.<br>2. Hubungkan arah Pad Desa bertanda (*marked village*) ke `UpdateWaypoint(...)` agar `UI_HUD_Waypoint_Chevron` aktif selama objective berstatus `TRAVEL`.<br>3. Sambungkan progres total desa (`0/3 -> 3/3`) ke `SetVillageCount(...)` & `SetGlobalVitality(...)` di HUD `SCREEN 02`.<br>4. Aktifkan highlight kartu **`15_VillageActions`** bila gestur aksi desa dipraktikkan.<br>5. **Jika ada desa/gestur yang ditambah, dihapus, atau berubah aturan/teksnya,** perbarui teks TMP/ikon pada `SCREEN 03`, `SCREEN 08`, deskripsi di `SCREEN 01`, dan pill `LIMIT ...` di `SCREEN 00`. |
+| **2. Tantangan Desa (`VillageZoneController.cs` & VFX 3 Desa)** | 1. Saat **Fanamir** masuk trigger area desa & memainkan *Idle Fly*: panggil `QuestNarrativeUI.ShowNarrativeSequence(...)` (`SCREEN 08`) yang berjalan **auto-play *hands-free*** mengikuti interval slider `Text Auto-Next` (Settings); setelah selesai, box otomatis menutup, meng-update `Quest Objective Panel` (`SCREEN 02`) ke **`ACTIVE TASK`**, lalu melanjutkan ke `VillageChallengeUI.ShowChallenge(...)`.<br>2. Hubungkan arah Pad Desa bertanda (*marked village*) ke `UpdateWaypoint(...)` agar `UI_HUD_Waypoint_Chevron` aktif selama objective berstatus `TRAVEL`.<br>3. Sambungkan progres total desa (`0/3 -> 3/3`) ke `SetVillageCount(...)` & `SetGlobalVitality(...)` di HUD `SCREEN 02`.<br>4. Aktifkan highlight kartu **`15_VillageActions`** bila gestur aksi desa dipraktikkan.<br>5. **Jika ada desa/gestur yang ditambah, dihapus, atau berubah aturan/teksnya,** perbarui teks TMP/ikon pada `SCREEN 03`, `SCREEN 08`, deskripsi di `SCREEN 01`, dan pill `LIMIT ...` di `SCREEN 00`. |
 | **3. Sistem Misi, Timer, Bintang & Progression (`GameManager.cs`)** | 1. Hubungkan hitungan mundur asli (`90s` / `150s` / `210s`) ke `SetMissionTimer(...)` di HUD `SCREEN 02`.<br>2. Hubungkan event menang / waktu habis ke `FinishModalUI.ShowVictory(...)` & `FinishModalUI.ShowDefeat(...)` (`SCREEN 04`), pastikan `Time.timeScale` & input/kamera ditangani bersih saat modal tampil.<br>3. Hubungkan status unlock & bintang (`PlayerPrefs` / save profile) ke **`Panel_Missions` (`SCREEN 00`)** untuk men-toggle `UI_Scrim_LockedCard_Overlay`, status kunci `STAGE 02/03`, serta bintang emas/kosong. |
 | **4. Mekanik Terbang / Daftar Pose Baru atau Diubah** | Perbarui katalog pose di **`CalibrationPanelUI` (4 pose utama default / antrean riwayat dinamis `SCREEN 01`)** & **`PoseGuideOverlayUI` (grid 15 kartu lengkap `SCREEN 07`)**, warna pill status pose di dock telemetri `SCREEN 02`, dan binding state highlight pada UI controller agar tetap 1:1 dengan `DragonFlightController` & `motion_recognizer.py`. |
 | **5. Sistem Audio (`AudioManager` / `BGM` / `SFX`)** | Hubungkan slider **`Master`**, **`BGM`**, dan **`SFX Volume`** pada `Panel_Settings` (`SCREEN 05`) ke `AudioMixer` / sumber audio resmi, lalu hapus komentar `TODO [SYNC-AUDIO]`. |
@@ -236,29 +236,30 @@ Bangun modal **Pose Guide Overlay (`07_PoseGuide_OverlayModal.png`)** di Lobby C
 
 > Gunakan prompt di bawah ini di **Laptop B** untuk menerapkan pembaruan `v1.7` di atas implementasi UI Hybrid eksisting (`MainMenu_Lobby.unity` & `Test_Dragon_Flight.unity`).
 > **Aset yang dikirim bersama prompt ini:**
-> - **5 PNG Komponen Baru** ke `Assets/UI/Components/`:
+> - **6 PNG Komponen Baru** ke `Assets/UI/Components/` (`134 -> 140` PNG total):
 >   1. `01_Panels/UI_Panel_QuestObjective_9Slice.png` (`240×135`)
 >   2. `01_Panels/UI_Panel_NarrativeBox_9Slice.png` (`304×200`)
 >   3. `02_Banners/UI_Banner_SpeakerTag_Blank.png` (`240×42`)
 >   4. `06_Icons/UI_Icon_QuestScroll_Gold.png` (`48×48`)
->   5. `06_Icons/UI_Icon_PromptNext_Arrow.png` (`48×48`)
-> - **7 PNG Desain Referensi (`1920×1080`)** ke `docs/UI_Designs_Reference/`: `00_MainMenu_LevelSelection.png`, `01_Calibration_MotionTutorial.png`, `02_InGame_FlightHUD.png`, `05_Settings_AudioModal.png`, `06_CameraControl_5VisualStates.png`, `07_PoseGuide_OverlayModal.png`, dan file baru `08_QuestNarrative_Overlay.png`.
+>   5. `06_Icons/UI_Icon_AutoPlay_Timer.png` (`48×48`) *(ikon jam auto-next untuk Settings & Narrative)*
+>   6. `06_Icons/UI_Icon_PromptNext_Arrow.png` (`48×48`) *(opsional)*
+> - **7 PNG Desain Referensi (`1920×1080`)** ke `docs/UI_Designs_Reference/`: `00_MainMenu_LevelSelection.png`, `01_Calibration_MotionTutorial.png`, `02_InGame_FlightHUD.png`, `05_Settings_AudioModal.png` *(kini 5 slider)*, `06_CameraControl_5VisualStates.png`, `07_PoseGuide_OverlayModal.png`, dan file baru `08_QuestNarrative_Overlay.png` *(versi auto-play tanpa Continue)*.
 
 ```markdown
-Tugas: Terapkan pembaruan UI v1.7 untuk game "Fanamir: The Sky Guardian" (sebelumnya "AR Dragon: Sky Guardian") pada project Unity 6 URP di Laptop B, menambahkan Quest Objective Panel di `SCREEN 02` dan Quest Narrative Text Box (`SCREEN 08`), tanpa merusak mekanisme terbang `Test_Dragon_Flight.unity` maupun struktur script internal (`DragonWingAR.*`).
+Tugas: Terapkan pembaruan UI v1.7 untuk game "Fanamir: The Sky Guardian" (sebelumnya "AR Dragon: Sky Guardian") pada project Unity 6 URP di Laptop B, menambahkan Quest Objective Panel di `SCREEN 02`, pengaturan `Text Auto-Next` di `SCREEN 05`, dan Quest Narrative Text Box Auto-Play (`SCREEN 08`), tanpa merusak mekanisme terbang `Test_Dragon_Flight.unity` maupun struktur script internal (`DragonWingAR.*`).
 
 ### 1. BACA DOKUMENTASI & PASANG ASET BARU v1.7
 1. Jalankan `git -C brain pull` terlebih dahulu (patuhi aturan `AGENTS.md`: dilarang mengedit `brain/laptop-a/`, log hanya di `brain/laptop-b/`).
 2. Baca pembaruan terbaru `v1.7`:
    - `brain/00 - Overview.md`
-   - `brain/laptop-a/rencana_desain_ui.md` (bagian `3.1` & `3.1.1`)
-   - `brain/laptop-a/panduan_aset_ui_unity.md` (tabel `3.1`, `3.2`, `3.6`, & perakitan `SCREEN 02`/`SCREEN 08`)
+   - `brain/laptop-a/rencana_desain_ui.md` (bagian `2.3`, `3.1`, & `3.1.1`)
+   - `brain/laptop-a/panduan_aset_ui_unity.md` (tabel `3.1`, `3.2`, `3.6`, & perakitan `SCREEN 02`/`05`/`08`)
    - `brain/laptop-a/kontrak_integrasi_ui_dan_progress.md`
-3. Salin 5 PNG baru ke `Assets/UI/Components/` dan perbarui `Assets/Editor/UISpriteSetupUtility.cs` untuk mengonfigurasi border C# `Sprite.border = new Vector4(L, B, R, T)` berikut:
+3. Salin 6 PNG baru ke `Assets/UI/Components/` dan perbarui `Assets/Editor/UISpriteSetupUtility.cs` untuk mengonfigurasi border C# `Sprite.border = new Vector4(L, B, R, T)` berikut:
    - `UI_Panel_QuestObjective_9Slice.png` (`240×135`) -> `new Vector4(24, 29, 24, 24)` (`Sliced`)
    - `UI_Panel_NarrativeBox_9Slice.png` (`304×200`) -> `new Vector4(30, 36, 30, 30)` (`Sliced`)
    - `UI_Banner_SpeakerTag_Blank.png` (`240×42`) -> `new Vector4(8, 0, 8, 0)` (`Sliced`, Horizontal 3-Slice — kunci height `42 px` atau `new Vector4(8, 10, 8, 6)` bila diskalakan vertikal)
-   - `UI_Icon_QuestScroll_Gold.png` (`48×48`) & `UI_Icon_PromptNext_Arrow.png` (`48×48`) -> `Simple`, `Preserve Aspect = true`, border `Vector4.zero`.
+   - `UI_Icon_QuestScroll_Gold.png`, `UI_Icon_AutoPlay_Timer.png`, & `UI_Icon_PromptNext_Arrow.png` (`48×48`) -> `Simple`, `Preserve Aspect = true`, border `Vector4.zero`.
 4. Pasang 7 file referensi PNG (`00, 01, 02, 05, 06, 07, 08`) ke `docs/UI_Designs_Reference/`.
 
 ### 2. PEMBARUAN BRANDING PUBLIK (`FANAMIR: THE SKY GUARDIAN` & `Fanamir`)
@@ -271,14 +272,16 @@ Tugas: Terapkan pembaruan UI v1.7 untuk game "Fanamir: The Sky Guardian" (sebelu
    - `SetQuestObjective(string statusBadge, bool isActiveTask, string mainTitle, string hintText)`
    - Default saat `Test_Dragon_Flight` / level dimuat: state `TRAVEL` mengarahkan pemain menuju desa bertanda (*marked village*), mis. *"Fly to the marked village (Smog Valley)"* (tetap aman sebagai UI fungsional selama `VillageZoneController` belum dipasang).
 
-### 4. QUEST NARRATIVE TEXT BOX `SCREEN 08` (`QuestNarrativeUI.cs` — Dormant Hidden Default)
-1. Buat komponen & prefab **`PF_QuestNarrativeBox.prefab`** (`SetActive(false)` secara default di HUD `Test_Dragon_Flight.unity`), di-anchor **bawah-kiri/tengah** (`x: 156..1392, y: 828..1040` dari atas pada `1920×1080`, ukuran bodi `1236×212`, `0` tabrakan dengan Vitality Bar kiri maupun PIP Kamera & Telemetri kanan bawah `x >= 1440`) sesuai `08_QuestNarrative_Overlay.png`:
-   - `UI_Panel_NarrativeBox_9Slice` + tag nama desa/pembicara overlap atas kiri (`UI_Banner_SpeakerTag_Blank`) + pill `VILLAGE BRIEFING · X / 3` + emblem kiri + narasi krisis desa (2–3 baris) + strip `WHAT TO DO:` + chip `UPDATES QUEST OBJECTIVE` + tombol **`CONTINUE ▶`** (`UI_Btn_Primary_Green_9Slice` + `UI_Icon_PromptNext_Arrow` + hint `[ SPACE ] OR [ CLICK ]`).
-2. Sediakan API publik `ShowNarrative(...)` & `HideNarrative()` serta `[ContextMenu("Debug/Preview Quest Narrative")]` agar bisa diuji visualnya di Editor, dan hubungkan event penutup tombol `CONTINUE` / `Space` agar langsung memanggil `InGameFlightHUD.SetQuestObjective(...)` (beralih dari `TRAVEL` -> `ACTIVE TASK`). *(Nanti saat `VillageZoneController` dibuat, trigger masuk desa memanggil `Idle Fly` pada Fanamir + `QuestNarrativeUI.ShowNarrative(...)`).*
+### 4. PENGATURAN `TEXT AUTO-NEXT` DI `SCREEN 05` (SETTINGS)
+1. Sesuaikan panel **Settings** (`PF_SettingsPanel`) agar menampung **5 baris slider (`h = 58 px`, step `65 px`)** mengacu pada `05_Settings_AudioModal.png`: `Master Volume`, `BGM Volume`, `SFX Volume`, `Turn Sensitivity`, dan baris ke-5 **`Text Auto-Next`** (ikon `UI_Icon_AutoPlay_Timer`, slider warna amber `#E0A23B`, rentang **`2.0s–10.0s`**, default **`5.0s`**).
+2. Simpan nilainya ke `PlayerPrefs` (mis. key `Setting_NarrativeAutoNextSec`, default `5.0f`) saat `APPLY & CLOSE` agar langsung terbaca oleh `QuestNarrativeUI` di scene gameplay.
 
-### 5. VERIFIKASI & LOG OBSIDIAN
-1. Jalankan `UISceneAndPrefabBuilder` / verifikasi UI tanpa `0` Compiler Errors/Warnings, cek Play Mode `MainMenu_Lobby` & `Test_Dragon_Flight` (branding baru tampil bersih, `QuestObjectivePanel` rapi di atas `VitalityBar`, `Debug/Preview Quest Narrative` tidak menabrak PIP/VitalityBar).
-2. Perbarui `brain/laptop-b/` (`Tasks.md`, `Devlog.md`) dan `git -C brain commit && push`.
+### 5. QUEST NARRATIVE TEXT BOX AUTO-PLAY `SCREEN 08` (`QuestNarrativeUI.cs` — Dormant Hidden Default)
+1. Buat komponen & prefab **`PF_QuestNarrativeBox.prefab`** (`SetActive(false)` secara default di HUD `Test_Dragon_Flight.unity`), di-anchor **bawah-kiri/tengah** (`x: 156..1392, y: 828..1040` dari atas pada `1920×1080`, ukuran bodi `1236×212`, `0` tabrakan dengan Vitality Bar kiri maupun PIP Kamera & Telemetri kanan bawah `x >= 1440`) sesuai `08_QuestNarrative_Overlay.png`:
+   - **Tanpa tombol Continue:** Karena tangan pemain sibuk melakukan gestur pose di kamera, jangan buat tombol Continue wajib klik/Space.
+   - Kiri & Tengah box: `UI_Panel_NarrativeBox_9Slice` + tag nama desa/pembicara overlap atas kiri (`UI_Banner_SpeakerTag_Blank`) + pill **`LINE 1 / 3 · AUTO-PLAY`** + emblem kiri + narasi krisis desa (2–3 baris) + strip `WHAT TO DO:`.
+   - Kanan box (**Auto-Play Countdown Widget**): Badge gelap `AUTO-PLAY · HANDS-FREE`, teks hitung mundur dinamis `NEXT IN X.Xs / Y.Ys`, progress bar horizontal (`Image.Type = Filled Horizontal Left`) yang terisi/berjalan otomatis, serta sub-teks *"Auto-updates Quest Objective · Speed adjustable in Settings"*.
+2. Sediakan API publik `ShowNarrativeSequence(...)` & `HideNarrative()` serta `[ContextMenu("Debug/Preview Quest Narrative")]` untuk uji Editor: text box berjalan otomatis berpindah baris setiap `N` detik sesuai setting `Text Auto-Next`, lalu menutup sendiri setelah baris terakhir selesai dan langsung memanggil `InGameFlightHUD.SetQuestObjective(...)` (beralih dari `TRAVEL` -> `ACTIVE TASK`).
 ```
 
 ---

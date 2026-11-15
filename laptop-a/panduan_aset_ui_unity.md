@@ -19,7 +19,7 @@ related:
 # 📦 PANDUAN PENGGUNAAN ASET UI UNITY (`UI_Unity_Export/`)
 ## FANAMIR: THE SKY GUARDIAN
 
-> **Sumber Desain:** [`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft) — Page **`03 - Unity Export Kit`** (`139` PNG komponen modular — +5 komponen baru `v1.7` untuk *Quest Objective* & *Quest Narrative*) & Page **`Design`** (**`9`** PNG artboard layar penuh `1920×1080`, termasuk branding **`Fanamir: The Sky Guardian`**, revisi `SCREEN 02`, & artboard baru `SCREEN 08`).
+> **Sumber Desain:** [`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft) — Page **`03 - Unity Export Kit`** (`140` PNG komponen modular — +6 komponen baru `v1.7` untuk *Quest Objective*, *Quest Narrative Auto-Play*, & *Settings Text Auto-Next*) & Page **`Design`** (**`9`** PNG artboard layar penuh `1920×1080`, termasuk branding **`Fanamir: The Sky Guardian`**, revisi `SCREEN 02`, `SCREEN 05`, & artboard baru `SCREEN 08`).
 > **Target Engine:** **Unity 6 (`6000.3.7f1`, URP)** dengan `uGUI` + `TextMeshProUGUI` (*namespace teknis eksisting* `DragonWingAR.*` dipertahankan agar tidak memicu regresi).
 > **Prinsip Utama:** Seluruh komponen diekspor **`PNG 1x` tanpa teks statis (*textless*)**, berlatar solid opaque (**`alpha = 1.0f`, zero transparency** pada seluruh perkamen `#F2EFE7` / `#FBF6EB`), serta viewport kamera/naga diekspor **berlubang transparan (`centerA = 0`)** agar `RawImage` & `RenderTexture` dapat tampil langsung di belakang bingkai.
 
@@ -41,7 +41,7 @@ UI_Unity_Export/
 │   ├── 06_CameraControl_5VisualStates.png
 │   ├── 07_PoseGuide_OverlayModal.png
 │   └── 08_QuestNarrative_Overlay.png       (Baru v1.7: Narrative Box Bawah + Quest Objective ACTIVE TASK)
-└── Components/                      # 139 PNG komponen siap impor ke Unity Assets/UI/ (+5 komponen v1.7)
+└── Components/                      # 140 PNG komponen siap impor ke Unity Assets/UI/ (+6 komponen v1.7)
     ├── 01_Panels/                   (13 file)
     ├── 02_Banners/                  (6 file)
     ├── 02_Callouts/                 (2 file)
@@ -58,7 +58,7 @@ UI_Unity_Export/
     ├── 05_Challenge/                (5 file)
     ├── 05_HUD/                      (6 file)
     ├── 05_Rewards/                  (6 file)
-    ├── 06_Icons/                    (12 file)
+    ├── 06_Icons/                    (13 file)
     ├── 06_Poses/                    (15 file)
     ├── 07_Backgrounds/              (1 file)
     └── 07_Biomes/                   (7 file)
@@ -75,10 +75,10 @@ UI_Unity_Export/
 | [`02_InGame_FlightHUD.png`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/02_InGame_FlightHUD.png) | `1920×1080` | `99,066` | Referensi **In-Game Flight HUD (`v1.7`)** (`SCREEN 02`; mencakup **Quest Objective Panel** kiri atas di atas Vitality Bar & waypoint `SMOG VALLEY · 140m`). |
 | [`03_VillageChallenge_Overlay.png`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/03_VillageChallenge_Overlay.png) | `1920×1080` | `93,890` | Referensi **Village Action Overlay** (`SCREEN 03`; overlay saat auto-hover desa). |
 | [`04_Finish_VictoryModal.png`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/04_Finish_VictoryModal.png) | `1920×1080` | `102,783` | Referensi **Finish Modal (Victory/Defeat)** (`SCREEN 04`). |
-| [`05_Settings_AudioModal.png`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/05_Settings_AudioModal.png) | `1920×1080` | `1,023,740` | Referensi Tab **Settings & Camera Audio Module** (`SCREEN 05`, branding `FANAMIR: THE SKY GUARDIAN`). |
+| [`05_Settings_AudioModal.png`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/05_Settings_AudioModal.png) | `1920×1080` | `1,031,973` | Referensi Tab **Settings (`v1.7`)**: 5 baris slider (`Master`, `BGM`, `SFX`, `Turn Sensitivity`, **`Text Auto-Next 5.0s`**) & Camera Audio Module (`SCREEN 05`). |
 | [`06_CameraControl_5VisualStates.png`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/06_CameraControl_5VisualStates.png) | `1920×1080` | `636,980` | Lembar spesifikasi **5 State Visual Kamera**, **Popup Dropdown Opaque `#FBF6EB`**, & **3 Badge Navbar `SCREEN 00`**. |
 | [`07_PoseGuide_OverlayModal.png`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/07_PoseGuide_OverlayModal.png) | `1920×1080` | `561,323` | Referensi **Pose Guide Overlay Modal (`SCREEN 07`)**: Katalog lengkap `3×5` seluruh **15 Pose** + kategori + aturan *Key Pose Rules* + tombol tutup `ESC · CLOSE` & `CLOSE POSE GUIDE`. |
-| [`08_QuestNarrative_Overlay.png`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/08_QuestNarrative_Overlay.png) | `1920×1080` | `157,183` | Referensi **Quest Narrative Text Box & Active Objective (`SCREEN 08`, Baru v1.7)**: Text box narasi desa (`1236×212` di bawah-kiri) saat Fanamir `IDLE FLY`, terpisah bersih dari Vitality Bar & PIP/Telemetri, beserta Quest Objective `ACTIVE TASK`. |
+| [`08_QuestNarrative_Overlay.png`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/08_QuestNarrative_Overlay.png) | `1920×1080` | `160,102` | Referensi **Quest Narrative Text Box Auto-Play (`SCREEN 08`, Baru v1.7)**: Text box narasi desa *hands-free* (`1236×212`, timer bar auto-next tanpa tombol Continue) saat Fanamir `IDLE FLY`, beserta Quest Objective `ACTIVE TASK`. |
 
 ---
 
@@ -122,7 +122,7 @@ Proyek Unity 6 URP berjalan di **Linear Color Space**. Jangan menurunkan `Color.
 
 ---
 
-## 3. KATALOG LENGKAP `139` KOMPONEN & NILAI `Sprite Editor`
+## 3. KATALOG LENGKAP `140` KOMPONEN & NILAI `Sprite Editor`
 
 > **Cara Membaca Kolom:**
 > * **Ukuran PNG:** Dimensi aktual `W×H` piksel pada disk.
@@ -298,9 +298,9 @@ Proyek Unity 6 URP berjalan di **Linear Color Space**. Jangan menurunkan `Color.
 
 ---
 
-### 3.6 `06_Icons/` & `06_Poses/` (`27` File)
+### 3.6 `06_Icons/` & `06_Poses/` (`28` File)
 
-#### `06_Icons/` (`12` File — Semua `Image.Type = Simple`, Border `0, 0, 0, 0`)
+#### `06_Icons/` (`13` File — Semua `Image.Type = Simple`, Border `0, 0, 0, 0`)
 | Nama File | Ukuran PNG | Margin `m` | `Preserve Aspect` | Lokasi Pemakaian |
 | :--- | :---: | :---: | :---: | :--- |
 | `UI_Icon_Hourglass_Amber.png` | `48×48` | `(17,15,17,15)` | `true` | Kapsul Timer `SCREEN 02` & Baris Waktu Tempuh `SCREEN 04`. |
@@ -313,7 +313,8 @@ Proyek Unity 6 URP berjalan di **Linear Color Space**. Jangan menurunkan `Color.
 | `UI_Icon_Sensitivity_Arrows.png` | `48×48` | `(14,15,14,16)` | `true` | Soket medali baris slider `Turn Sensitivity` (`SCREEN 05`). |
 | `UI_Icon_Padlock_Vector.png` | `72×69` | `(17,21,17,3)` | `true` | Varian gembok vektor bersih (`69 px` tinggi) bila diperlukan di overlay/badge. |
 | `UI_Icon_QuestScroll_Gold.png` | `48×48` | `(11,9,11,9)` | `true` | *(Baru v1.7)* Ikon gulungan quest emas + segel merah di kiri panel `Quest Objective` (`SCREEN 02`). |
-| `UI_Icon_PromptNext_Arrow.png` | `48×48` | `(14,11,12,11)` | `true` | *(Baru v1.7)* Ikon panah emas lanjut/tutup di dalam tombol **`CONTINUE ▶`** pada **Quest Narrative Box** (`SCREEN 08`). |
+| `UI_Icon_PromptNext_Arrow.png` | `48×48` | `(14,11,12,11)` | `true` | *(Opsional)* Ikon panah emas untuk indikator arah lanjut UI. |
+| `UI_Icon_AutoPlay_Timer.png` | `48×48` | `(10,10,10,10)` | `true` | *(Baru v1.7)* Ikon jam timer emas untuk soket medali slider **`Text Auto-Next`** (`SCREEN 05`) & indikator *Auto-Play* (`SCREEN 08`). |
 | `UI_Pose_Medallion_Slot_58.png` | `64×64` | `(3,2,3,1)` | `true` | Soket medali latar kosong jika ingin merender ikon pose secara terpisah. |
 
 #### `06_Poses/` (`15` File — Grid `3×5` Kalibrasi `SCREEN 01`)
@@ -355,7 +356,7 @@ Seluruh file pose memakai **`Image.Type = Simple`**, **`Preserve Aspect = true`*
 
 ## 4. PANDUAN PERAKITAN PER LAYAR (`SCREEN 00–08`) & `SECTION 08` RUNTIME
 
-Seluruh **139 PNG bersifat tanpa teks**. Setiap label, angka timer, isi narasi quest, dan status state dibuat menggunakan **`TextMeshProUGUI`** di dalam Scene Unity.
+Seluruh **140 PNG bersifat tanpa teks**. Setiap label, angka timer, isi narasi quest, dan status state dibuat menggunakan **`TextMeshProUGUI`** di dalam Scene Unity.
 
 ### 4.1 Palet Tipografi & Warna Teks (`TextMeshProUGUI`)
 * **Font Disarankan** (mengacu [[rencana_desain_ui]]): *Clean geometric rounded sans-serif* (**`Fredoka`** / **`Fredoka One`** untuk judul/tag/CTA, dan **`Nunito`** / **`Quicksand`** untuk deskripsi & telemetri).
@@ -403,7 +404,7 @@ Seluruh **139 PNG bersifat tanpa teks**. Setiap label, angka timer, isi narasi q
    * Victory memakai `UI_Banner_Stepped_Modal_Blank`; Defeat memakai `UI_Stamp_Defeat_Red_Blank`.
    * Isi modal: `UI_Plaque_SubParchment_9Slice` + 3× `UI_StarBox_Victory_Slot_100x90` (`UI_Icon_Star_Gold/Empty_40`) + 3× `UI_Plaque_StatRow_9Slice` (`UI_Socket_Medallion_38_Dark` + `UI_Icon_Hourglass_Amber`, `Leaf_Green`, `ScoreStar_Gold`) + `UI_Callout_SpeechBubble_Gold_*` + `UI_Btn_Primary_Green` + `UI_Btn_Secondary_Cream`.
 7. **`SCREEN 05` & `SCREEN 06` — Settings Modal, Slider & Solid Camera Dropdown:**
-   * 4 baris setting memakai `UI_Plaque_StatRow_9Slice` + `UI_Socket_Medallion_38_Dark` + ikon (`Speaker_Audio`, `MusicNote_BGM`, `Bolt_SFX`, `Sensitivity_Arrows`) + `Slider` (`UI_Slider_Track`, `UI_Slider_Fill_Green/Amber`, `UI_Slider_Knob_Cream`) + `UI_Input_ValueBox_Taupe`.
+   * 5 baris setting memakai `UI_Plaque_StatRow_9Slice` + `UI_Socket_Medallion_38_Dark` + ikon (`Speaker_Audio`, `MusicNote_BGM`, `Bolt_SFX`, `Sensitivity_Arrows`, **`AutoPlay_Timer`**) + `Slider` (`UI_Slider_Track`, `UI_Slider_Fill_Green/Amber`, `UI_Slider_Knob_Cream`) + `UI_Input_ValueBox_Taupe` (`Master`, `BGM`, `SFX`, `Turn Sensitivity`, dan **`Text Auto-Next` `2.0s–10.0s`, default `5.0s`**).
    * **Popup Daftar Kamera (`TMPro.TMP_Dropdown` Template):**
      * Ganti background **`Template`** menjadi `UI_Dropdown_Popup_9Slice` (**`alpha = 1.0f` solid opaque**) agar teks modul/slider di belakang popup tertutup sempurna di *Linear Color Space*.
      * Gunakan `UI_Dropdown_Row_Even/Odd_9Slice` dan `UI_Dropdown_Row_Selected_Gold_9Slice` + `UI_Icon_Checkmark_16` untuk item aktif.
@@ -413,12 +414,12 @@ Seluruh **139 PNG bersifat tanpa teks**. Setiap label, angka timer, isi narasi q
    * Strip atas: 4 pil kategori warna lembut + teks ringkasan aturan `Default 4 Main Poses (04, 06, 08, 13)`.
    * Grid **`3×5` lengkap (`#01–#15`)**: 15× `UI_Plaque_PoseCard_Default/Active_9Slice` + `UI_Pose_01..15` + tag `MAIN` (`04, 06, 08, 13`) + `UI_Pill_Active_Gold` (`ACTIVE`, tersorot dinamis bila kamera mendeteksi pose tersebut saat modal terbuka).
    * Strip aturan & penutup bawah: `UI_Chip_Bar_Cream_9Slice` (`UI_Badge_Label_Amber_Blank` `KEY POSE RULES`) + tombol `UI_Btn_Secondary_Cream_9Slice` (`CLOSE POSE GUIDE`).
-9. **`SCREEN 08` — Quest Narrative & Objective Overlay (`Baru v1.7`, saat Fanamir masuk desa & Idle Fly):**
+9. **`SCREEN 08` — Quest Narrative Auto-Play Overlay (`Baru v1.7`, saat Fanamir masuk desa & Idle Fly):**
    * Anchor **bawah-kiri/tengah** (`x: 156, y: 828` dari atas pada `1920×1080`, ukuran bodi `1236×212`) — aman di kanan *Vitality Track* (`x: 80..120`, berakhir `y: 810`) dan di kiri klaster *PIP/Telemetry* (`x: 1440..1860`, jeda aman `48 px`).
-   * Kontainer: `UI_Panel_NarrativeBox_9Slice` + `UI_Banner_SpeakerTag_Blank` bertumpuk tepi atas kiri (`y: -18` -> `SMOG VALLEY · ELDER ROWAN`) + `UI_HUD_Capsule_Parchment_9Slice` (`VILLAGE BRIEFING · 1 / 3`).
+   * Kontainer: `UI_Panel_NarrativeBox_9Slice` + `UI_Banner_SpeakerTag_Blank` bertumpuk tepi atas kiri (`y: -18` -> `SMOG VALLEY · ELDER ROWAN`) + `UI_HUD_Capsule_Parchment_9Slice` (`LINE 1 / 3 · AUTO-PLAY`).
    * Kiri box: Plakat emblem desa (`UI_Illust_Frame_Dark_9Slice` / `UI_Biome_01..03_Raw` mini + nama desa).
    * Tengah box: Sub-judul masalah desa + teks narasi `2–3` baris + strip aksi `UI_Row_Recessed_Track_9Slice` / `UI_Row_NotesBox_Beige_9Slice` berikon `UI_Socket_Medallion_38_Dark` (`WHAT TO DO:` instruksi pemain).
-   * Kanan box: Chip indikator `UPDATES QUEST OBJECTIVE` + tombol **`CONTINUE ▶`** memakai `UI_Btn_Primary_Green_9Slice` + `UI_Socket_Medallion_38_Dark` + `UI_Icon_PromptNext_Arrow` + sub-label `[ SPACE ] OR [ CLICK ]`.
+   * Kanan box (**Auto-Play Countdown Widget — tanpa tombol Continue**): Panel resessif `UI_Row_NotesBox_Beige_9Slice` berisi header gelap `AUTO-PLAY · HANDS-FREE`, teks timer `NEXT IN X.Xs / 5.0s`, progress bar horizontal (`UI_Slider_Track_Dark_9Slice` / `UI_Slider_Fill_Green_9Slice` `Filled Horizontal Left`), serta info `"Auto-updates Quest Objective · Speed adjustable in Settings"`. Setelah semua baris selesai auto-advance berdasarkan nilai slider `Text Auto-Next`, box menutup otomatis & memperbarui `Quest Objective Panel`.
 
 ---
 
@@ -428,8 +429,8 @@ Seluruh **139 PNG bersifat tanpa teks**. Setiap label, angka timer, isi narasi q
 | :--- | :--- | :--- |
 | **`LobbyNavigationManager.cs`** | `UI_Tab_Default/Active_Gold_9Slice`, panel `SCREEN 00 / 01 / 05`, overlay `SCREEN 07` | Mengaktifkan panel tab, menukar sprite tab aktif emas, serta memprioritaskan penutupan `PoseGuideOverlayUI` sebelum kembali dari tab saat tombol `Escape` ditekan. |
 | **`PythonProcessManager.cs`** | `UI_NavCam_*`, `UI_Badge_Cam_*`, `UI_Btn_CamMode_*`, `UI_Btn_Danger_Coral_*`, `UI_Dropdown_*`, `UI_Viewport_DarkFallback_BG`, `UI_Icon_*` | Memindai kamera (`RefreshCameraListAsync()` / `--list-json`), `SelectCamera()`, `LaunchBackgroundMode()` (`--headless`), `LaunchExternalPreviewMode()`, menghentikan YOLO (`Matikan`), dan menyinkronkan ke-5 state visual kamera di `SCREEN 00, 01, 02, 05`. |
-| **`InGameFlightHUD.cs`** | **`UI_Panel_QuestObjective_9Slice` + `UI_Icon_QuestScroll_Gold`**, `UI_HUD_Vitality_Fill_34x474`, `UI_HUD_Capsule_Parchment`, `UI_HUD_Waypoint_Chevron`, `UI_Viewport_PIP_Bezel_Hollow`, modul PIP & `SCREEN 03/04/08` | Mengelola teks & status **`Quest Objective`** (`TRAVEL` saat spawn -> `ACTIVE TASK` setelah narasi), memperbarui `fillAmount` Vitality, countdown timer, waypoint, telemetri kecepatan/ketinggian/pose (`IDLE FLY` / `POSE T/Y/A`), `RawImage` stream PIP UDP `5053`, serta kontrol kamera in-game. |
-| **`QuestNarrativeUI.cs`** *(baru / sub-modul HUD)* | `UI_Panel_NarrativeBox_9Slice`, `UI_Banner_SpeakerTag_Blank`, `UI_Btn_Primary_Green_9Slice`, `UI_Icon_PromptNext_Arrow` (`SCREEN 08`) | Muncul saat Fanamir masuk zona trigger desa & memainkan animasi *Idle Fly*; menampilkan pembicara/desa, narasi masalah `2–3` baris, instruksi `WHAT TO DO:`, lalu saat **`CONTINUE` / `Space`** ditekan otomatis menutup box & memanggil update **`Quest Objective Panel`**. |
+| **`InGameFlightHUD.cs`** | **`UI_Panel_QuestObjective_9Slice` + `UI_Icon_QuestScroll_Gold`**, `UI_HUD_Vitality_Fill_34x474`, `UI_HUD_Capsule_Parchment`, `UI_HUD_Waypoint_Chevron`, `UI_Viewport_PIP_Bezel_Hollow`, modul PIP & `SCREEN 03/04/08` | Mengelola teks & status **`Quest Objective`** (`TRAVEL` saat spawn -> `ACTIVE TASK` setelah narasi selesai), memperbarui `fillAmount` Vitality, countdown timer, waypoint, telemetri kecepatan/ketinggian/pose (`IDLE FLY` / `POSE T/Y/A`), `RawImage` stream PIP UDP `5053`, serta kontrol kamera in-game. |
+| **`QuestNarrativeUI.cs`** *(baru / sub-modul HUD)* | `UI_Panel_NarrativeBox_9Slice`, `UI_Banner_SpeakerTag_Blank`, `UI_Row_NotesBox_Beige_9Slice`, `UI_Slider_Track/Fill_Green` (`SCREEN 08`) & setting **`Text Auto-Next`** (`SCREEN 05`, `UI_Icon_AutoPlay_Timer`) | Muncul saat Fanamir masuk zona trigger desa & memainkan animasi *Idle Fly*; menjalankan **timer auto-play *hands-free*** per baris (`default 5.0s`, mengikuti pengaturan **`Text Auto-Next`** di Settings/`PlayerPrefs`), lalu menutup otomatis & memperbarui **`Quest Objective Panel`** tanpa perlu klik Continue. |
 | **`CalibrationPanelUI.cs` / `UDPPoseReceiver.cs`** | **4 slot kartu dinamis `1×4`** (`UI_Plaque_PoseCard_*`, `UI_Pose_01..15`, `UI_Pill_Active_Gold`), `RawImage` (`RenderTexture` naga), `UI_Btn_Small_Green/Cream`, `OPEN POSE GUIDE` (`SCREEN 01`) | Menerima paket pose UDP `5052`, menggerakkan pratinjau model naga 3D, mengelola rotasi **antrean MRU max-4 kartu** (default launch `[08, 06, 04, 13]`), mengirim kalibrasi UDP `5054` (`CALIBRATE`, `CANCEL`, `CALIBRATE_RESET`), & membuka `PoseGuideOverlayUI`. |
 | **`PoseGuideOverlayUI.cs`** *(baru)* | `UI_Panel_Parchment_Full_9Slice`, `UI_Banner_Stepped_Modal_Blank`, 15× `UI_Plaque_PoseCard_*`, `UI_Pose_01..15`, `UI_Btn_TopChrome_Cream`, `UI_Btn_Secondary_Cream` (`SCREEN 07`) | Menampilkan katalog penuh **15 pose + penjelasannya**, menyinkronkan highlight pose aktif selama overlay terbuka, serta menutup modal via klik `CLOSE POSE GUIDE`, `ESC · CLOSE`, atau tombol keyboard `Escape`. |
 
