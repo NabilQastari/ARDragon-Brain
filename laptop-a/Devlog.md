@@ -13,6 +13,23 @@ updated: 2026-11-15
 
 ---
 
+## 2026-11-15 — Pembaruan UI `v1.7`: Branding `Fanamir: The Sky Guardian`, Quest Objective Panel (`SCREEN 02`), & Quest Narrative Text Box (`SCREEN 08`)
+- **Perubahan di [`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft) (`1,184,573` B):**
+  - **1. Pembaruan Identitas & Branding Publik:** Mengganti seluruh kemunculan teks `AR DRAGON · SKY GUARDIAN` / `Dragon` (di `Design` `SCREEN 00, 01, 05, 06, 07`, `Wireframe`, serta header/catatan `03 - Unity Export Kit`) ke **`FANAMIR: THE SKY GUARDIAN`** & **`Fanamir`** (termasuk `LIVE FANAMIR PREVIEW · GLIDE (T-POSE)` di Calibration dan deskripsi pose `#01–#03`). Nama aset teknis (`UI_Illust_Dragon_WaterBreath`) & namespace `DragonWingAR.*` tetap dijaga.
+  - **2. Quest Objective Panel (`SCREEN 02 - In-Game Flight HUD`, `id: 348`):** Menambahkan panel *Stepped Parchment* (`60, 40`, `424×112`, jeda aman `128 px` di atas badge `33%` Vitality Bar dan `286 px` sebelum kapsul Timer tengah) dengan medali gulungan emas & pill **`QUEST OBJECTIVE`**:
+    - State spawn (`TRAVEL`): *"Fly to the marked village (Smog Valley)"* + waypoint disinkronkan ke `SMOG VALLEY · 140m`.
+    - State pasca-narasi (`ACTIVE TASK`, hijau `#5C8D46`): *"Disperse the smog — Flap your wings!"*.
+  - **3. Quest Narrative Text Box (`SCREEN 08 - Quest Narrative & Objective`, `id: 2114` baru di `(4200, 2400)`):** Artboard overlay khusus saat **Fanamir** masuk area desa dan memainkan *Idle Fly* (`POSE: IDLE FLY`), menempatkan **Quest Narrative Box (`156, 828`, `1236×212`)** di area bawah-kiri/tengah dengan jarak bersih `18–36 px` dari Vitality Bar kiri (`x=80..120, y=330..810`) dan `48 px` sebelum klaster PIP/Telemetri kanan bawah (`x >= 1440`). Berisi tag pembicara tumpang-tindih `SMOG VALLEY · ELDER ROWAN`, counter `VILLAGE BRIEFING · 1 / 3`, emblem biome kiri, narasi masalah desa `2–3` baris, strip `WHAT TO DO:`, chip `UPDATES QUEST OBJECTIVE`, dan tombol taktil hijau **`CONTINUE ▶ [ SPACE ] OR [ CLICK ]`**.
+- **Ekspor Modular & Verifikasi Aset (`UI_Unity_Export/`):**
+  - Menambahkan **`5` komponen *textless* baru (`clip: false`)** pada `03 - Unity Export Kit` (total kini **`139` PNG** di `Components/` + **`9` PNG `1920×1080`** di `Designs/`):
+    - `01_Panels/UI_Panel_QuestObjective_9Slice.png` (`240×135`, `2,018` B, Border Unity `24, 24, 24, 29`)
+    - `01_Panels/UI_Panel_NarrativeBox_9Slice.png` (`304×200`, `2,287` B, Border Unity `30, 30, 30, 36`)
+    - `02_Banners/UI_Banner_SpeakerTag_Blank.png` (`240×42`, `483` B, Horizontal 3-Slice `8, 0, 8, 0`)
+    - `06_Icons/UI_Icon_QuestScroll_Gold.png` (`48×48`, `697` B)
+    - `06_Icons/UI_Icon_PromptNext_Arrow.png` (`48×48`, `869` B)
+  - Mengekspor ulang `Designs/` (`00, 01, 02, 05, 06, 07`) + baru [`08_QuestNarrative_Overlay.png`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/Designs/08_QuestNarrative_Overlay.png) (`157,183` B); memverifikasi seluruh `9` desain tepat `1920×1080` & memeriksa render screenshot `SCREEN 00, 01, 02, 05, 07, 08` serta section Export Kit `1263, 1264, 1268`.
+  - Memperbarui [[00 - Overview]], [[rencana_desain_ui]] (`v1.7`), [[panduan_aset_ui_unity]], [[kontrak_integrasi_ui_dan_progress]] (menambahkan **§5 Prompt Penyesuaian `v1.7`** untuk Laptop B), & [[Tasks]].
+
 ## 2026-11-15 — Revisi UI Kalibrasi (`SCREEN 01` Max 4 Kartu Dinamis + Panel Diperbesar) & Modal `SCREEN 07` Pose Guide (`v1.6.1`)
 - **Perubahan Desain di [`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft) (`1,175,475` B, Page `Design` kini `8` artboard):**
   - **`SCREEN 01 - Calibration & Motion Tutorial - Design` (`id: 314`, `1920×1080`):**
@@ -43,6 +60,14 @@ updated: 2026-11-15
   - `scene_audit.py`: `ok=True`, `objects=352`, `missing=[]`, `packed=0`, `absolute_paths=[]`, `orphans=0`, `linked_libraries=[]`.
   - *Grounding BVH*: `COL_Village_Houses` (`27` unit, `missing_hits=0`, `dz ∈ [-0.0151, -0.015] m`), `COL_Foliage_Trees` (`316` unit, `missing_hits=0`, `dz ∈ [-0.1963, -0.0158] m`).
   - Inspeksi gambar pratinjau lulus pada [`island_final_topdown.png`](file:///e:/Semester%205/Game/AR%20Dragon/assets/upgrade%20model%20pulau/previews/island_final_topdown.png), [`island_final_perspective.png`](file:///e:/Semester%205/Game/AR%20Dragon/assets/upgrade%20model%20pulau/previews/island_final_perspective.png), [`island_final_village_b1.png`](file:///e:/Semester%205/Game/AR%20Dragon/assets/upgrade%20model%20pulau/previews/island_final_village_b1.png), [`island_final_village_b2_forest.png`](file:///e:/Semester%205/Game/AR%20Dragon/assets/upgrade%20model%20pulau/previews/island_final_village_b2_forest.png), dan [`island_final_village_b3.png`](file:///e:/Semester%205/Game/AR%20Dragon/assets/upgrade%20model%20pulau/previews/island_final_village_b3.png).
+
+## 2026-11-15 — Penetapan Identitas & Judul Resmi Game: `Fanamir: The Sky Guardian` & Planning UI Quest Objective + Narrative Text Box
+- **Keputusan Desain Identitas:** Mengubah judul publik game dari *AR Dragon: Sky Guardian* menjadi **`Fanamir: The Sky Guardian`**, dengan **`Fanamir`** sebagai nama resmi karakter naga (*Ancient Dew Water Dragon*). Namespace internal C# `DragonWingAR.*` dan struktur folder proyek tetap dipertahankan agar tidak memicu regresi kode di Laptop B.
+- **Keputusan Desain Alur Quest & UI In-Game (`SCREEN 02`):**
+  1. **Quest Objective (di atas Progress Bar):** Muncul di atas *Global Vitality Progress Bar* sisi kiri layar segera setelah game load & pemain spawn. Dimulai dengan objective awal mengarahkan pemain menuju desa yang memiliki penanda (*mark*).
+  2. **Transisi Masuk Area Desa (*Idle Fly* + Narrative Text Box):** Saat **Fanamir** memasuki area desa, naga memainkan animasi **Idle Fly** (terbang di tempat) di atas desa, lalu muncul **Text Box Narasi Quest/Misi** yang menjelaskan masalah desa tersebut dan apa yang harus dilakukan pemain.
+  3. **Update Objective:** Setelah narasi text box selesai, **Quest Objective** di atas progress bar diperbarui sesuai tugas pemulihan desa yang harus diselesaikan (detail mekanisme tantangan lanjutan akan dibahas setelah pembaruan UI selesai).
+- **Tindak Lanjut:** Menyiapkan prompt khusus Sesi Desain UI (FigCraft) untuk memperbarui branding judul, merancang komponen Quest Objective + Narrative Text Box di `UI AR Dragon.figcraft`, dan mengekspor asetnya ke `UI_Unity_Export/`.
 
 ## 2026-11-14 — Varian Pohon Kering Biome Drought (`06–08`) & Sebagian Gosong Biome Wildfire (`09–10`) ([`pohon.blend`](file:///e:/Semester%205/Game/AR%20Dragon/assets/pohon.blend), [`Pulau_Archipelago.blend`](file:///e:/Semester%205/Game/AR%20Dragon/assets/upgrade%20model%20pulau/Pulau_Archipelago.blend))
 - **Penambahan 5 Varian Pohon Baru ke [`assets/pohon.blend`](file:///e:/Semester%205/Game/AR%20Dragon/assets/pohon.blend) (`221,569` B, total `10` varian + `15` map PBR baru `T_Pohon_06..10_{BC,R,N}.png`):**

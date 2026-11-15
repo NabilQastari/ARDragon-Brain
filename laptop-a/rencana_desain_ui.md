@@ -1,5 +1,5 @@
 ---
-title: "Rencana Desain & Implementasi UI (v1.6)"
+title: "Rencana Desain & Implementasi UI (v1.7)"
 tags:
   - ui-ux
   - design
@@ -14,10 +14,10 @@ related:
   - "[[prd]]"
 ---
 
-# 🎨 DOKUMEN RENCANA DESAIN & IMPLEMENTASI UI (v1.6.1)
-## AR DRAGON: SKY GUARDIAN
+# 🎨 DOKUMEN RENCANA DESAIN & IMPLEMENTASI UI (v1.7)
+## FANAMIR: THE SKY GUARDIAN
 
-> **Status Desain:** Dikunci & Disetujui (*Design Approved* — Seluruh layar utama, overlay *Pose Guide*, & spec 5 State Kamera tersedia di [`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft) pada page `Wireframe` dan **`8` artboard** page `Design` **`SCREEN 00–07`** dengan gaya *Fantasy Parchment-and-Ink Tabletop* `v1.6.1`: revisi `SCREEN 01` berpanel tracking/preview diperbesar `860×540` + **4 kartu riwayat pose dinamis (`1×4`)** & tombol `OPEN POSE GUIDE`, serta artboard baru `SCREEN 07` untuk overlay katalog penuh 15 pose).
+> **Status Desain:** Dikunci & Disetujui (*Design Approved* — Seluruh layar utama, overlay *Pose Guide*, **Quest Objective + Quest Narrative Box**, & spec 5 State Kamera tersedia di [`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft) pada page `Wireframe` dan **`9` artboard** page `Design` **`SCREEN 00–08`** dengan gaya *Fantasy Parchment-and-Ink Tabletop* `v1.7`: pembaruan branding **`Fanamir: The Sky Guardian`** / **`Fanamir`**, panel **`Quest Objective`** di kiri atas `SCREEN 02`, serta artboard overlay **`SCREEN 08`** untuk **Quest Narrative Text Box** saat Fanamir masuk area desa dan memainkan *Idle Fly*).
 > **Aset Rujukan:** Tersedia di folder [`Referensi UI/`](file:///e:/Semester%205/Game/AR%20Dragon/Referensi%20UI/).
 > **Prinsip Utama:** *Fantasy Parchment-and-Ink Tabletop Card UI* — Kertas perkamen solid (`#F2EFE7` / `#FBF6EB`, **100% opaque / `alpha = 1.0f`, zero transparency / zero glassmorphism**), sudut **stepped rabbeted plaques** (*vector staircase corner cutouts*) dengan bingkai ganda arsitektural kontinu (*stepped + concave scalloped inner frame* + ornamen sudut *Corner Fan-Medallion* `24×24 px`), spanduk judul *Stepped Banner* bertumpuk batas atas kartu lengkap dengan ornamen diamond *fleuron* & *Baroque Scrollwork Crest*, kontrol tajam `r = 1–4 px`, *outlined* tinta netral seragam `#332C25` dengan bibir 3D *hard cast shadow* nol-blur (`radius: 0`), slot info *borderless recessed taupe* (`#C8BFA8`/`#D5CCBA`) bermedali kiri tumpang-tindih, kotak bintang ber-pill gelap bawah (`STAR 1..3`), tag speech-bubble emas `#E2A43B` (*coin medallion + corner hatch ticks*) tepat di atas tombol aksi utama, palet tombol 3D bevel (`#5C8D46` / `#3D642D` bersheen & takik ganda kiri, sekunder `#E6DFD2` / `#BDB3A0`, locked charcoal `#2E3236`, dan tombol `ESC` krem-merah `#F3EFE6` / `#D15046`), serta latar belakang blank putih `#FFFFFF` khusus layar in-game agar langsung menampakkan viewport Unity (`> 85%` ruang bebas di `SCREEN 02`).
 > **Catatan Placeholder Runtime:** Visual vektor naga 3D & kerangka *stick-figure* di artboard FigCraft berstatus *placeholder visual* yang akan digantikan oleh kamera/model realtime (`RenderTexture` + `RawImage` & overlay kerangka pose) saat implementasi di Unity.
@@ -68,7 +68,7 @@ Sistem Menu Utama menggunakan **3 Tab Navigasi Terpusat (*Segmented Capsule Pill
 
 ```
 +---------------------------------------------------------------------------------------------------+
-| AR DRAGON · SKY GUARDIAN   [ MISSIONS (Aktif) ] [ CALIBRATION ] [ SETTINGS ]  [● STANDBY] [ESC·QUIT]|
+| FANAMIR: THE SKY GUARDIAN    [ MISSIONS (Aktif) ] [ CALIBRATION ] [ SETTINGS ]  [● STANDBY] [ESC·QUIT]|
 +---------------------------------------------------------------------------------------------------+
 |                                                                                                   |
 |      +---------------------+   +---------------------+   +---------------------+                  |
@@ -83,7 +83,7 @@ Sistem Menu Utama menggunakan **3 Tab Navigasi Terpusat (*Segmented Capsule Pill
 ```
 
 #### Komponen UI:
-1. **Header Kiri Atas & Tab Navigasi:** Teks judul bersih `AR DRAGON · SKY GUARDIAN` (Font: *Geometric Sans-Serif Bold*, warna: `#2D2926` Dark Ink) diikuti tab pill `[ MISSIONS ]`, `[ CALIBRATION ]`, dan `[ SETTINGS ]`.
+1. **Header Kiri Atas & Tab Navigasi:** Teks judul bersih `FANAMIR: THE SKY GUARDIAN` (Font: *Geometric Sans-Serif Bold*, warna: `#2D2926` Dark Ink) diikuti tab pill `[ MISSIONS ]`, `[ CALIBRATION ]`, dan `[ SETTINGS ]`.
 2. **Navbar Kanan Atas (`Badge Camera Dynamic Status` + `ESC · QUIT`):**
    * **Tombol `ESC · QUIT`:** Konsisten menempel di sudut **kanan atas** semua layar dengan kontras tinggi (`#FBF6EB`, outline luar seragam `#332C25`, *inner rim* netral `#A89E8B`, serta ikon/pil coral di bagian dalam).
    * **Badge Status Kamera Dinamis (`Badge Camera Dynamic Status`):** Tepat di sebelah kiri `ESC · QUIT`, pill 100% solid `#FBF6EB` ber-outline tinta seragam `#332C25` yang menampilkan status real-time `PythonProcessManager` lewat warna *fill* badge/dot:
@@ -111,10 +111,10 @@ Sistem Menu Utama menggunakan **3 Tab Navigasi Terpusat (*Segmented Capsule Pill
 
 ```
 +----------------------------------------------------------------------------------------------------------+
-| AR DRAGON · SKY GUARDIAN         [ CALIBRATION (Aktif) ]   [ MISSIONS ]   [ SETTINGS ]      [ESC · BACK] |
+| FANAMIR: THE SKY GUARDIAN        [ CALIBRATION (Aktif) ]   [ MISSIONS ]   [ SETTINGS ]      [ESC · BACK] |
 +----------------------------------------------------------------------------------------------------------+
 |  +------------------------------------------------+  +------------------------------------------------+  |
-|  | CAMERA MIRROR · TRACKING                       |  | LIVE DRAGON PREVIEW · GLIDE (T-POSE)           |  |
+|  | CAMERA MIRROR · TRACKING                       |  | LIVE FANAMIR PREVIEW · GLIDE (T-POSE)          |  |
 |  | [Dropdown Cam] [Scan] [Latar Blkg] [Jendela]   |  | [STATE: GLIDE · SPD:14 · PITCH:-4 · SWOOP]     |  |
 |  | [Skeleton Upper-Body+Hips  |  CALIB 5/5      ] |  |                                                |  |
 |  | [  380 px tinggi — lega!   |  ARM GATE·100%  ] |  |      (Model 3D Naga Merespons Live 438 px      |  |
@@ -241,12 +241,14 @@ Menggunakan bahasa visual kartun minimalis solid yang sama:
 
 ```
 +---------------------------------------------------------------------------------------------------+
-|                             [ 02:15  ·  VILLAGES: 1/3 ]                            [ ESC · PAUSE ]|
+| [📜 QUEST OBJECTIVE · TRAVEL]                 [ 02:15  ·  VILLAGES: 1/3 ]           [ ESC · PAUSE ]|
+| | Fly to the marked village (Smog Valley)                                                         |
++---------------------------------------------------------------------------------------------------+
 |                                                                                                   |
 | [33% 🍃]                                                                                          |
 | +---+                                                                                             |
 | |===|                                         ▲                                                   |
-| |===|                                [ WILDFIRE · 140m ]                                          |
+| |===|                              [ SMOG VALLEY · 140m ]                                         |
 | |   |                                                     +-------------------------------------+ |
 | |   |                                                     | ▲ 42m  12.0m/s            [ POSE T ]  | |
 | |   |                                                     +-------------------------------------+ |
@@ -261,6 +263,10 @@ Menggunakan bahasa visual kartun minimalis solid yang sama:
 ```
 
 #### Komponen In-Game HUD:
+0. **Kiri Atas di Atas Vitality Bar (`Quest Objective Panel`, `x: 60, y: 40, 424×112`):**
+   * Plakat *Stepped Parchment* (`#F2EFE7` + outline `#332C25` + shadow `[0, 5]`) yang duduk tepat di atas lencana `33%` (`y: 280`, jeda aman `128 px`) dengan soket medali kiri berikon gulungan emas (`UI_Icon_QuestScroll_Gold`), pil amber **`QUEST OBJECTIVE`**, badge status kanan (**`TRAVEL`** / **`ACTIVE TASK`** hijau emerald `#5C8D46`), judul objective utama, dan sub-teks petunjuk singkat:
+     * **Saat Game Load & Pemain Spawn:** Status `TRAVEL` -> *"Fly to the marked village (Smog Valley)"* · *"Follow the village marker · Narrative opens on arrival"*.
+     * **Setelah Narasi Desa Ditutup:** Otomatis ter-update ke status `ACTIVE TASK` sesuai misi desa aktif (mis. *"Disperse the smog — Flap your wings!"*).
 1. **Tengah Atas (Timer & Objektif Desa Mungil):**
    * Kapsul krem solid `#FBF6EB` ramping tanpa pita: ikon jam pasir + digital countdown `02:15`, pemisah titik, dan status `VILLAGES: 1 / 3` dengan tanda centang hijau.
 2. **Kanan Atas (Tombol Pause):**
@@ -268,15 +274,25 @@ Menggunakan bahasa visual kartun minimalis solid yang sama:
 3. **Sisi Kiri Layar (Global Vitality Progress Bar Vertikal):**
    * Bar meteran vertikal ramping mengisi dari bawah ke atas warna hijau emerald mewakili energi pemulihan pulau, dengan lencana persentase `33%` di puncak.
 4. **Klaster Kanan Bawah (Telemetri Naga + Header Kontrol Kamera + Monitor PIP 16:9):**
-   * **Dock Telemetri (`y: 632`):** Kapsul ramping paling atas menampilkan ketinggian `▲ 42m`, kecepatan angin `12.0m/s`, dan badge cyan `POSE T` (`POSE Y` menanjak / `POSE A` menukik).
+   * **Dock Telemetri (`y: 632`):** Kapsul ramping paling atas menampilkan ketinggian `▲ 42m`, kecepatan angin `12.0m/s`, dan badge cyan `POSE T` (`POSE Y` menanjak / `POSE A` menukik / `IDLE FLY` saat di atas desa).
    * **Header Kontrol Kamera PIP (`PIP Camera Control Header`, `420×112` tepat di atas kotak PIP):** Kartu krem solid `#FBF6EB` tanpa transparansi berisi:
      * Baris status: badge state (`● LIVE · LATAR BELAKANG`, dll.) + tombol merah taktil **`Matikan`** di kanan.
      * Baris pemilih input: dropdown kamera (`Pilih Input Kamera... ▼` / `[0] USB2.0 HD UVC WebCam ▼`, popup solid 100% opaque `#FBF6EB`) + tombol **`Scan`**.
      * Baris aktivasi YOLO: tombol **`Latar Belakang`** dan **`Jendela Preview`** (terkunci sebelum pilih kamera; langsung switch mode saat aktif).
    * **Monitor Kamera PIP (`420×236`, rasio 16:9):** Outline tinta seragam `#332C25` pada seluruh state (state `LIVE`, `STANDBY`, `MEMUAT YOLO`, dan `ERROR` ditunjukkan oleh isi badge status, dot indikator, tombol mode aktif, serta pesan panduan di dalam panel — tanpa outline berwarna), menampilkan live feed webcam + skeleton pose atau pesan panduan state terkait.
 5. **Tengah Layar (Subtle Waypoint Compass Pointer):**
-   * Panah chevron kartun halus mengarah ke desa terdekat: `▲ WILDFIRE · 140m`.
-6. **Kelegaan Layar:** Dengan memadatkan kontrol kamera tepat di atas kotak PIP sudut kanan bawah, lebih dari **85% area tengah dan kiri layar tetap lapang** (~88% viewport terbuka).
+   * Panah chevron kartun halus mengarah ke desa bertanda (*marked village*): `▲ SMOG VALLEY · 140m`. (Otomatis tersembunyi saat narasi desa dibuka atau tidak ada target perjalanan aktif).
+6. **Kelegaan Layar:** Dengan menempatkan `Quest Objective Panel` sejajar garis atas bersama kapsul Timer & tombol Pause serta memadatkan kontrol kamera di kanan bawah, viewport pandang tengah tetap sangat lega (> `82%` terbuka) tanpa tabrakan dengan Vitality Bar kiri (`y: 280..810`).
+
+### 3.1.1 Quest Narrative Text Box / `SCREEN 08` (Saat Fanamir Masuk Area Desa)
+*Artboard FigCraft:* `SCREEN 08 - Quest Narrative & Objective - Design (1920x1080)` (`id: 2114`)
+
+Saat **Fanamir** memasuki area trigger desa (*village arrival*), game beralih memainkan animasi **`IDLE FLY`** (terbang di tempat) di atas desa dan memunculkan **Quest Narrative Text Box** pada area **bawah-tengah / kiri-bawah (`x: 156, y: 828, 1236×212`)** tanpa bertabrakan dengan **Vitality Track kiri** (`x: 80..120`, berakhir di `y: 810`) maupun klaster **PIP Kamera & Telemetri kanan bawah** (`x: 1440..1860`):
+1. **Banner Pembicara / Desa (`y: -18` overlap atas kiri, `344×38`):** Banner emas `SMOG VALLEY · ELDER ROWAN` (`UI_Banner_SpeakerTag_Blank`) + pil pojok kanan atas `VILLAGE BRIEFING · 1 / 3`.
+2. **Emblem Biome Kiri (`132×150`):** Plakat gelap berisi ilustrasi ringkas ikon kondisi desa + nama desa (`SMOG VALLEY`).
+3. **Narasi Masalah Desa (`2–3` baris):** Sub-tag `VILLAGE CRISIS · INDUSTRIAL HAZE` dan narasi jelas tentang krisis yang terjadi di desa untuk menyelamatkan warga/alam oleh Fanamir.
+4. **Strip Instruksi Aksi (`WHAT TO DO:`):** Strip resessif taupe `#E7DFD0` + soket ikon gelap berisi petunjuk eksplisit apa yang harus dilakukan pemain (mis. *"Flap both wings steadily in front of your webcam to clear the smog!"*).
+5. **Indikator Update & Tombol Lanjut/Tutup:** Chip `UPDATES QUEST OBJECTIVE` di atas tombol taktil hijau **`CONTINUE ▶ [ SPACE ] OR [ CLICK ]`**. Menekan tombol/Space akan menutup Narrative Text Box, memperbarui `Quest Objective Panel` menjadi status **`ACTIVE TASK`**, lalu memulai tantangan pemulihan desa (`SCREEN 03` / progress bar desa).
 
 ### 3.2 Mode Auto-Hover Desa (Mission Overlay)
 Saat naga masuk ke area desa:
@@ -311,18 +327,18 @@ Saat naga masuk ke area desa:
 
 ## 🧩 5. KATALOG PRA-EKSPOR UNITY (`03 - Unity Export Kit`, Page `1260`)
 
-Halaman **`03 - Unity Export Kit`** (`id: 1260`, kanvas `4000 px` lebar, latar netral `#DFD9CB`) memisahkan seluruh komponen UI `Design` menjadi **134 layer ekspor modular (`PNG 1x`, *textless*, *transparent wrapper* `clip: false`)** bertag `/`-prefixed subfolder agar ekspor `file.exportLayers` dari FigCraft langsung membentuk struktur folder siap impor Unity 6 (`uGUI` + `CanvasScaler 1920×1080`):
+Halaman **`03 - Unity Export Kit`** (`id: 1260`, kanvas `4000 px` lebar, latar netral `#DFD9CB`) memisahkan seluruh komponen UI `Design` menjadi **139 layer ekspor modular (`PNG 1x`, *textless*, *transparent wrapper* `clip: false`)** bertag `/`-prefixed subfolder agar ekspor `file.exportLayers` dari FigCraft langsung membentuk struktur folder siap impor Unity 6 (`uGUI` + `CanvasScaler 1920×1080`):
 
-> **Catatan Bounding Box Ekspor (`clip: false`):** Layer wrapper ekspor diset `fill: "none"` dan `clip: false` agar *hard cast shadow* dan overhang sudut *stepped* tidak terpotong (contoh: `UI_Panel_Parchment_Full_9Slice` wrapper `240×240` mengekspor `264×271 px` utuh dengan bayangan; `UI_Illust_Dragon_WaterBreath` `269×170 px`; `UI_Bg_Lobby_AerialIsland` tepat `1920×1080 px`). Seluruh **`134` PNG komponen** *(tidak berubah pada revisi v1.6.1)* & **`8` PNG desain `1920×1080`** sudah diekspor ke [`UI_Unity_Export/`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/) — lihat **[[panduan_aset_ui_unity]]** untuk ukuran piksel final, nilai border Unity Sprite Editor (`L, T, R, B`), peringatan notch, dan panduan perakitan Scene Unity 6. Set `Image.Type = Sliced` pada seluruh aset `*_9Slice` sesuai nilai terukur, dan `Image.Type = Filled` pada `UI_HUD_Vitality_Fill_34x474`, `UI_Progress_Horiz_Fill_Blue_9Slice`, serta `UI_Slider_Fill_*`.
+> **Catatan Bounding Box Ekspor (`clip: false`):** Layer wrapper ekspor diset `fill: "none"` dan `clip: false` agar *hard cast shadow* dan overhang sudut *stepped* tidak terpotong (contoh: `UI_Panel_Parchment_Full_9Slice` wrapper `240×240` mengekspor `264×271 px` utuh dengan bayangan; `UI_Panel_QuestObjective_9Slice` `240×135 px`; `UI_Panel_NarrativeBox_9Slice` `304×200 px`; `UI_Illust_Dragon_WaterBreath` `269×170 px`; `UI_Bg_Lobby_AerialIsland` tepat `1920×1080 px`). Seluruh **`139` PNG komponen** & **`9` PNG desain `1920×1080`** (`00..08`) sudah diekspor ke [`UI_Unity_Export/`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/) — lihat **[[panduan_aset_ui_unity]]** untuk ukuran piksel final, nilai border Unity Sprite Editor (`L, T, R, B`), peringatan notch, dan panduan perakitan Scene Unity 6. Set `Image.Type = Sliced` pada seluruh aset `*_9Slice` sesuai nilai terukur, dan `Image.Type = Filled` pada `UI_HUD_Vitality_Fill_34x474`, `UI_Progress_Horiz_Fill_Blue_9Slice`, serta `UI_Slider_Fill_*`.
 
 | Section | Folder Ekspor | Jml PNG | Cakupan Aset Utama |
 | :--- | :--- | :---: | :--- |
-| **01 · 9-Slice Panels & Backgrounds** (`1263`) | `01_Panels/` | **11** | Panel *Stepped Parchment* (`Full 264×271`, `Calib 224×230`), *SubParchment*, `PoseCard_Default/Active`, `StatRow`, `Recessed_Track`, `NotesBox`, `Locked_Charcoal`, `Overlay_Popup_Opaque`, dan `Scrim_LockedCard` (`64×64`). |
-| **02 · Banners, Ornaments, Ribbons & Medallions** (`1264`) | `02_Ornaments/`, `02_Banners/`, `02_Tags/`, `02_Callouts/`, `02_Chips/` | **20** | *Baroque Scrollwork*, *Corner Fan*, *Diamond Fleuron*, *Socket 38/32*, `Timer_Coin`, `Pill_Gold`, 3 *Stepped Banner* blank + `Stamp_Defeat_Red_Blank`, 3 `Tag_Stage` blank, 2 `Callout_SpeechBubble` (dengan & tanpa koin), `Chip_Bar`, `Header_Bar`. |
+| **01 · 9-Slice Panels & Backgrounds** (`1263`) | `01_Panels/` | **13** | Panel *Stepped Parchment* (`Full 264×271`, `Calib 224×230`), *SubParchment*, `PoseCard_Default/Active`, `StatRow`, `Recessed_Track`, `NotesBox`, `Locked_Charcoal`, `Overlay_Popup_Opaque`, `Scrim_LockedCard` (`64×64`), plus **`UI_Panel_QuestObjective_9Slice` (`240×135`)** & **`UI_Panel_NarrativeBox_9Slice` (`304×200`)**. |
+| **02 · Banners, Ornaments, Ribbons & Medallions** (`1264`) | `02_Ornaments/`, `02_Banners/`, `02_Tags/`, `02_Callouts/`, `02_Chips/` | **21** | *Baroque Scrollwork*, *Corner Fan*, *Diamond Fleuron*, *Socket 38/32*, `Timer_Coin`, `Pill_Gold`, 3 *Stepped Banner* blank + `Stamp_Defeat_Red_Blank` + **`UI_Banner_SpeakerTag_Blank` (`240×42`)**, 3 `Tag_Stage` blank, 2 `Callout_SpeechBubble` (dengan & tanpa koin), `Chip_Bar`, `Header_Bar`. |
 | **03 · Interactive Buttons, Chrome & Navigation Tabs** (`1265`) | `03_Buttons/`, `03_Chrome/`, `03_Navbar/` | **17** | Tombol 3D tactile bevel (`Primary_Green`, `Secondary_Cream`, `Locked_Charcoal`, `Small_*`, `Danger_Coral Active/Disabled`), 4 tombol mode kamera (`ActiveGreen`, `LoadingCyan`, `UtilityCream`, `Disabled`), `TopChrome_Cream`, `CloseX_20`, `Pause_20`, `Navbar_Rail`, `Tab_Default`, `Tab_Active_Gold`. |
 | **04 · Sliders, Dropdowns, Camera States & Viewports** (`1266`) | `04_Controls/`, `04_Dropdown/`, `04_CameraStates/`, `04_Viewports/` | **36** | Slider track/fill (`Green`, `Amber`), knob, `ValueBox`, Dropdown trigger (`Closed`/`Open`), Popup opaque `#FBF6EB` + row (`Even`/`Odd`/`Selected`), Chevron/Checkmark, 4 `Badge_Cam_*`, 3 `NavCam_*`, 4 dot status, ikon kamera/spinner/alert, **viewport berlubang alpha=0 (`Calib_Frame_Hollow`, `PIP_Bezel_Hollow`)**, 2 bracket viewfinder, dan panel kalibrasi gelap. |
 | **05 · HUD, Challenge & Rewards** (`1267`) | `05_HUD/`, `05_Challenge/`, `05_Rewards/` | **17** | `Capsule_Parchment`, `Vitality_Track_40x480` + `Fill_34x474` + `Ticks_Overlay` terpisah, `Waypoint_Chevron`, `CheckDot_Green`, ilustrasi terisolasi `UI_Illust_Dragon_WaterBreath` + `Frame_Dark`, progress horizontal biru, `Badge_Active_Green_Blank`, slot bintang `StarBox_Card/Victory`, `Star_Gold/Empty`, `Box_Locked_Center`, dan `Icon_Padlock_Cream`. |
-| **06 · Vector Icon Library & 15 Calibration Poses** (`1268`) | `06_Icons/`, `06_Poses/` | **25** | 9 ikon UI (`Hourglass`, `Leaf`, `ScoreStar`, `CoinMedallion`, `Speaker_Audio`, `MusicNote`, `Bolt`, `Sensitivity`, `Padlock_Vector`), `Medallion_Slot_58` kosong, serta **15 ikon pose kalibrasi** (`01_GroundedIdle` s.d. `15_VillageActions`, termasuk varian `08_Glide_ActiveGold`). |
+| **06 · Vector Icon Library & 15 Calibration Poses** (`1268`) | `06_Icons/`, `06_Poses/` | **27** | **11** ikon UI (`Hourglass`, `Leaf`, `ScoreStar`, `CoinMedallion`, `Speaker_Audio`, `MusicNote`, `Bolt`, `Sensitivity`, `Padlock_Vector`, **`QuestScroll_Gold`**, **`PromptNext_Arrow`**), `Medallion_Slot_58` kosong, serta **15 ikon pose kalibrasi** (`01_GroundedIdle` s.d. `15_VillageActions`, termasuk varian `08_Glide_ActiveGold`). |
 | **07 · Biome Illustrations & Lobby Background** (`1269`) | `07_Biomes/`, `07_Backgrounds/` | **8** | 3 ilustrasi biome versi **`_Raw`** (`380×210`, *borderless* tanpa radius/scrim), 3 versi **`_Framed`** (`392×222`, outline + shadow; Biome 03 Drought bersih tanpa `Locked Scrim`), `UI_Biome_Frame_Border_9Slice` berlubang (`392×222`), dan `UI_Bg_Lobby_AerialIsland` resolusi penuh `1920×1080` (`1:1`). |
 | **08 · DO NOT EXPORT — Runtime Placeholders Reference** (`1270`) | *(Tidak Diekspor — 0 `exportSettings`)* | **0** | Referensi visual elemen yang diganti sistem runtime Unity: `Skeleton Tracking Viewport` (UDP `5053`), `Dragon 3D Viewport` (`RenderTexture`), `Webcam PIP Monitor` (MJPEG `RawImage`), panduan lapisan **`TextMeshProUGUI`**, dan status overlay gembok `CanvasGroup`. |
 

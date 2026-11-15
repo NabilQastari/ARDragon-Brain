@@ -1,17 +1,19 @@
 ---
-title: AR Dragon Sky Guardian — Project Overview
+title: Fanamir: The Sky Guardian — Project Overview
 tags:
   - overview
+  - fanamir
   - ar-dragon
   - game-design
   - architecture
 status: active
-updated: 2026-11-13
+updated: 2026-11-15
 ---
 
-# 🐉 AR Dragon: Sky Guardian — Overview
+# 🐉 Fanamir: The Sky Guardian — Overview
 
-> **Visi Utama:** Game *PC Exergaming* 3D semi-open-world berbasis Computer Vision (webcam standar tanpa sensor khusus) di mana pemain mengendalikan Naga Penjaga Langit (*Ancient Dew Water Dragon*) untuk menjelajahi kepulauan dan memulihkan 3 desa dari bencana lingkungan melalui gestur tubuh interaktif.
+> **Visi Utama:** Game *PC Exergaming* 3D semi-open-world berbasis Computer Vision (webcam standar tanpa sensor khusus) di mana pemain mengendalikan **Fanamir**, sang Naga Penjaga Langit (*Ancient Dew Water Dragon*), untuk menjelajahi kepulauan dan memulihkan 3 desa dari bencana lingkungan melalui gestur tubuh interaktif.
+> *(Nama proyek lama: `AR Dragon: Sky Guardian`; namespace C# internal `DragonWingAR.*` dan folder teknis tetap dipertahankan demi kompatibilitas).*
 
 ---
 
@@ -47,7 +49,7 @@ updated: 2026-11-13
 - [[laptop-a/konteks]] — *Single Source of Truth* arsitektur teknis Unity, UDP, dan gestur.
 - [[laptop-a/prd]] — *Product Requirements Document* & roadmap sesi pengembangan.
 - [[laptop-a/rencana_desain_ui]] — Spesifikasi UI Lobby, Kalibrasi, HUD, & Finish Modal (*Clean Minimalist 2D Vector Cartoon Fantasy*).
-- [[laptop-a/panduan_aset_ui_unity]] — Panduan impor Unity 6, nilai *9-Slice* (`L, T, R, B`), & perakitan layar untuk **`134` PNG komponen + `8` artboard `1920×1080`** di [`UI_Unity_Export/`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/).
+- [[laptop-a/panduan_aset_ui_unity]] — Panduan impor Unity 6, nilai *9-Slice* (`L, T, R, B`), & perakitan layar untuk **`139` PNG komponen + `9` artboard `1920×1080`** di [`UI_Unity_Export/`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/).
 - [[laptop-a/kontrak_integrasi_ui_dan_progress]] — Matriks *Live vs Placeholder vs Dormant UI*, protokol sinkronisasi otomatis *Progress ↔ UI*, & prompt implementasi UI untuk Laptop B.
 - [[laptop-a/Tasks]] & [[laptop-a/Devlog]] — Pelacakan tugas desain/arsitektur & catatan perkembangan Laptop A.
 
