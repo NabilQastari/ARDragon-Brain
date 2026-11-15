@@ -13,6 +13,30 @@ updated: 2026-11-15
 
 ---
 
+## 2026-11-15 — Implementasi UI v1.8 Boot Flow (`SCREEN 09` Splash Screen $\rightarrow$ `SCREEN 10` Start Screen $\rightarrow$ Lobby)
+
+### Eksekusi Utama
+- **Referensi Desain `v1.8`:** Memasang `docs/UI_Designs_Reference/09_SplashScreen.png` dan `docs/UI_Designs_Reference/10_StartScreen.png` (`1920×1080`, total `11` referensi desain) tanpa menambah/mengubah aset komponen (`140` PNG eksisting di `Assets/UI/Components/`).
+- **`BootFlowController.cs` (`Assets/_Scripts/UI/BootFlowController.cs`):**
+  - Mengimplementasikan fase boot berurutan `Splash` -> `StartScreen` -> `Lobby` di dalam `MainMenu_Lobby.unity` (berbagi `Background_AerialIsland` agar transisi ke `SCREEN 00 Missions` mulus tanpa jeda loading).
+  - Menangani input **New Input System** pada `StartScreenPanel`: `Keyboard.current.anyKey.wasPressedThisFrame` (kecuali `Escape` yang langsung memanggil `QuitFromBoot()` / `QuitApplication()`), `Gamepad` button press (`ButtonControl` langsung di `Gamepad.all`), `Mouse` click / `Button` penuh layar (dengan filter posisi terhadap `startQuitButtonRect` & raycast `Btn_StartEscQuit` di lapisan atas), plus jeda aman `splashSkipUnlockDelay = 0.5s`, `startInputUnlockDelay = 0.25s`, dan fade transisi `0.25s` menuju Lobby (`Tab Missions`) agar klik tidak menembus ke kartu stage.
+  - Menyediakan `public static bool SkipBootScreensOnce` serta menghubungkan `PauseModalUI.BackToLobby()` dan `FinishModalUI` (`HandleBackToLobbyClicked()` / placeholder `HandleNextLevelClicked()`) agar pemain yang kembali dari `Test_Dragon_Flight.unity` langsung membuka Tab `Missions` tanpa mengulang Splash/Start Screen.
+  - Memastikan `LobbyNavigationManager.Update()` & `Start()` berkoordinasi aman (`IsInLobby` guard) sehingga `Escape` / tab switching tidak bentrok saat berada di Splash maupun Start Screen, dan `PythonProcessManager.autoLaunchPython` tetap `false`.
+- **Perakitan `UISceneAndPrefabBuilder.cs` (`BuildLobbyScene()`):**
+  - Merakit `SplashScreenPanel` (`#F2EFE7` solid opaque, `OuterParchmentFrame` `UI_Panel_Parchment_Full_9Slice` responsif `StretchFull` tanpa clipping tepi pada layar `16:9` maupun ultrawide, `UI_Crest_Baroque_Scrollwork`, `Splash_SubPlaque` `860×350`, pill `ANCIENT DEW DRAGON`, judul `FANAMIR`, `UI_Banner_Stepped_Modal_Blank` terkunci `600×77` `THE SKY GUARDIAN`, & footer `WEBCAM EXERGAMING · BODY-FLIGHT ADVENTURE`).
+  - Merakit `StartScreenPanel` di atas `Background_AerialIsland` (`Start_TitlePlaque` `884×267` di langit atas `y = -144`, `Start_Crest`, `Start_GoldTag` `SKY EXERGAMING AR`, `FANAMIR`, `UI_Banner_Stepped_Modal_Blank` `600×77` `THE SKY GUARDIAN`, kapsul `Start_PromptCapsule` `UI_HUD_Capsule_Parchment_9Slice` `590×66` solid opaque + `PromptContentGroup` ber-`UI_Diamond_Fleuron_18` & pulse halus `PRESS ANY BUTTON TO START`, serta `Btn_StartEscQuit` `ESC · QUIT` sejajar `-52, -28`).
+
+### Verifikasi Unity 6 (`6000.3.7f1`)
+- Rekompilasi (`compilationFailed: false`, `errors: []`) dan `UISceneAndPrefabBuilder.BuildAll()` (`0` errors, `0` warnings).
+- **Play Mode `MainMenu_Lobby.unity` (`capture_game_view` `1920×1080` + `EventSystem` Raycast):**
+  - Startup membuka `SplashScreenPanel` (`09_SplashScreen` 1:1 dengan seluruh sudut & ornamen utuh), otomatis berpindah ke `StartScreenPanel` (`10_StartScreen` solid opaque, `autoLaunchPython = False`, `IsProcessRunning = False`).
+  - Uji klik di area kapsul `Start_PromptCapsule` (`GraphicRaycaster` hitting `StartScreenPanel`) masuk mulus ke `BootPhase.Lobby` (`Tab = Missions`), sedangkan klik `Btn_StartEscQuit` (`hit = Btn_StartEscQuit`) memanggil `QuitApplication()` dan menghentikan Play Mode bersih.
+- **Play Mode `Test_Dragon_Flight.unity` & Cross-Scene Return:**
+  - Startup langsung di `Test_Dragon_Flight.unity` bersih (`/Dragon_Player`, `InGameFlightHUD`, `PauseModalUI`, `FinishModalUI`, `QuestNarrativeUI` dormant `False`, `autoLaunchPython = False`, `0` errors/warnings).
+  - Uji memanggil `PauseModalUI.Pause()` -> `PauseModalUI.BackToLobby()` memuat `MainMenu_Lobby` langsung ke `BootPhase.Lobby` (`Tab = Missions`) dengan `SplashScreenPanel`/`StartScreenPanel` nonaktif, `SkipBootScreensOnce` tereset kembali ke `False`, `0` errors, `0` warnings, dan `0` proses Python CV tertinggal pasca Play Mode.
+
+---
+
 ## 2026-11-15 — Penghapusan Panel Perkamen Luar Lobby agar Background Aerial Island Tampil Penuh (`MainMenu_Lobby.unity`)
 
 ### Masalah & Eksekusi
