@@ -13,6 +13,32 @@ updated: 2026-11-16
 
 ---
 
+## 2026-11-16 — Tahap 1: Revisi 3 Titik Pelacakan Wajah (Hidung, Dagu, Mulut) & `HEAD_PITCH` di Python CV
+
+### Eksekusi Utama (`[[laptop-a/planning_revisi_titik_wajah_dan_pov]]` — Tahap 1)
+1. **Tracker 3 Titik Wajah & Anti-Jitter (`ARDragonSkyGuardian_CV/mouth_tracker.py`):**
+   - Meningkatkan `MouthTracker` pada crop wajah adaptif (`shoulder_width_norm` + offset dagu + fallback full-frame berasio) untuk melacak **3 titik wajah MediaPipe `FaceLandmarker`**: **Hidung (`IDX_NOSE_TIP = 4`)**, **Dagu (`IDX_CHIN = 152`)**, dan **Mulut (`IDX_UPPER_LIP = 13`, `IDX_LOWER_LIP = 14`, sudut `#61/#291`)**.
+   - Implementasi `compute_nose_chin_elevation_deg()` secara isotropik menggunakan vektor 3D `(Chin -> Nose)` lengkap dengan kompensasi *face roll* (garis pipi `#234/#454`) serta kompensasi penurunan rahang (*excess lip gap*) agar membuka mulut lebar (`MOUTH_OPEN`) tidak memicu sinyal mendongak palsu.
+   - Verifikasi empiris pada `FaceLandmarker` + `facial_transformation_matrixes` Camera 0 mengunci konstanta netral kanonik `DEFAULT_NEUTRAL_ELEVATION_DEG = -38.8°` (bersesuaian `< 0.1°` terhadap matriks rotasi 3D wajah), diikuti `AdaptiveOneEuroFilter` dan kurva *rescaled deadzone* (`±2.2° .. ±16.0°`) untuk menghasilkan `HEAD_PITCH` kontinu dalam rentang `[-1.0 .. +1.0]`.
+   - Menghitung `MOUTH_OPEN` (`[0.0 .. 1.0]`) kontinu bebas step biner lama `0.20 -> 1.0`, menggunakan jarak bibir isotropik (`MAR` vs `jawOpen`), filter One-Euro, serta ambang hysteresis `0.45 / 0.35`.
+   - Menyediakan `set_neutral_baseline()`, `recenter_neutral_baseline()`, dan `reset_neutral_baseline()` serta mempertahankan `process_crop()` demi kompatibilitas penuh.
+2. **Kalibrasi Baseline Netral & Protokol UDP 5052 (`player_calibrator.py`, `udp_sender.py`):**
+   - `player_calibrator.py`: Menambahkan `neutral_head_pitch_deg` pada `PlayerBiometricProfile` yang ikut disampel pada `STEP1_NEUTRAL` dan tersimpan di profil JSON.
+   - `udp_sender.py`: Menambahkan argumen opsional `head_pitch` di `PoseUDPSender.send_pose()` sebagai token ke-44 (`tokens[43]`), sekaligus menjaga format 43 token saat `head_pitch=None` agar suite lama tetap lulus 100%.
+3. **Integrasi Pipeline & Dekoupling Total dari Dada/Kemudi (`active_cv_sender.py`):**
+   - **Menghapus sepenuhnya `chest_elevation` / `chest_up_signal` dan `mid_shoulder - nose` dari perhitungan pitch (`raw_body_pitch`):** kini `BODY_PITCH` (`tokens[21]`) dan `HEAD_PITCH` (`tokens[43]`) membaca 100% dari `MouthTracker.process_face()` (Hidung & Dagu), sedangkan `udp_mouth_val` (`tokens[12]`) mengirim nilai kontinu `mouth_open` (`0.0 .. 1.0`).
+   - Menghapus komponen `head_lat_ratio` pada estimasi pinggul virtual saat duduk (`seated_lean_deg = shoulder_roll_deg * 1.45`) sehingga pergerakan kepala tidak pernah mencemari kemudi horizontal `steering_input`.
+   - Memperbarui `draw_debug_overlay()` untuk menggambar penanda visual `NOSE` (sian), `CHIN` (kuning-oranye), garis penghubung vertikal Hidung-Dagu, bibir atas-bawah (`LIPS` / hijau `MOUTH` saat `> 0.45`), meter visual `HEAD_PITCH`, readout `MOUTH_OPEN`, serta pintasan `'N'` (*Zero Head Baseline*), `'C'` (Kalibrasi), dan `'R'` (Reset).
+
+### Hasil Verifikasi Tahap 1
+- **Unit & Geometry Suite (`test_tahap1_face_tracking.py`):** **7/7 PASS**: Netral (`-38.81° -> +0.000`), Mendongak `+8°/+16°` (`+0.420 / +1.000`), Menunduk `-8°/-16°` (`-0.420 / -1.000`), Invariansi jarak (`1.8x` vs `0.55x` identik `+0.565`), Invariansi roll `25°` (`+0.000`), Buka mulut lebar di netral (`+0.000`), Kalibrasi baseline, serta paket UDP `44-float` (`MOUTH_OPEN=0.68`, `HEAD_PITCH=+0.55`, `Steering=0.00`).
+- **Suite Regresi Python CV:** `test_phase1_validation.py` (`8/8` PASS), `test_phase4_validation.py` (`7/7` PASS), `test_additional_gestures.py` (`10/10` PASS), dan `test_e2e_flight_physics.py` (`6/6` PASS).
+- **Live GUI Preview & Unity Non-Regression:**
+  - Uji live `active_cv_sender.py` GUI preview (`[0] USB2.0 HD UVC WebCam 1280x720`, CUDA): menerima `12` paket UDP 44-float + frame JPEG `8123` byte tanpa error.
+  - Uji Play Mode Unity (`MainIsland_Gameplay.unity`) menerima paket 44-float dari Python via `UDPPoseReceiver`: `mouth=0.72`, `waterBreath=True`, `bodyPitch=0.65`, `turn=0.00`, `0` console error/warning baru.
+
+---
+
 ## 2026-11-16 — Patch 1 Fokus 1: Sistem Kamera Dinamis, Perapian HUD PIP, Navigasi Pause $\rightarrow$ Calibration, & Auto-Persistence
 
 ### Eksekusi Utama
