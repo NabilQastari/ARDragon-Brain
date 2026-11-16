@@ -13,6 +13,19 @@ updated: 2026-11-15
 
 ---
 
+## 2026-11-16 — Penerbitan Buku Panduan Resmi 15 Pose & Sistem Kemudi (`.docx` & `.pdf`)
+- **Penerbitan Dokumen Panduan Gerak:**
+  - Membuat naskah lengkap dan mengekspor dokumen resmi **`Panduan_15_Pose_Fanamir.docx`** (`1.92 MB`) dan **`Panduan_15_Pose_Fanamir.pdf`** (`4.50 MB`, `13 halaman`) di root workspace dan folder `docs/`.
+  - Dokumen mencakup:
+    1. *Halaman Sampul:* Visual hero Fanamir, metadata rilis v2.0, dan platform info.
+    2. *Filosofi Exergaming:* Pembebasan dada dari kelelahan otot, pemisahan sumbu kemudi secara alami.
+    3. *Prinsip Inti Kemudi:* 5 pilar kemudi arah (kiri/kanan = badan miring, atas/bawah = kepala naik/turun, sayap = tenaga, mulut = semburan air).
+    4. *Katalog 15 Pose:* Rincian kartu visual untuk 4 Kategori (Grounded #01–#03, Locomotion #04–#08, Maneuver #09–#14, dan Village Actions #15) lengkap dengan panduan tubuh, respon game, telemetri AI, dan tips eksekusi.
+    5. *Aksi 3 Desa & Quest Flow:* Rincian krisis dan mekanisme pemulihan di Desa Zephyria, Pyrewood, dan Solaria.
+    6. *Kombinasi Manuver Akrobatik:* Spiral Climb, Dive to Swoop, Quick Stop to Hover, dan Soft Landing.
+    7. *Panduan Setup Webcam & Ergonomi:* Pencahayaan, jarak 1.5–2.5m, mode duduk/berdiri, rasio aspek kamera, dan ganti kamera in-game via Pause Modal.
+- **Dampak Dokumentasi:** Memperbarui [[Tasks]] dan [[Devlog]].
+
 ## 2026-11-16 — Strategi 2 Tahap: Revisi Titik Wajah (Tahap 1) Lalu Penyesuaian Pose Vertikal Tanpa Dada (Tahap 2) ([[planning_revisi_titik_wajah_dan_pov]])
 - **Keputusan Alur Eksekusi:**
   - **Tahap 1 (Revisi Titik Wajah):** Fokus pertama murni pada deteksi stabil 3 titik di Python CV (Hidung, Dagu, Mulut), sinyal normalisasi `HEAD_PITCH` (naik `+` dan turun `-`), serta rasio bukaan mulut `MOUTH_OPEN`.
