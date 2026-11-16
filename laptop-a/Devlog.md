@@ -13,6 +13,16 @@ updated: 2026-11-15
 
 ---
 
+## 2026-11-16 — Spesifikasi Revisi Titik Wajah (Hidung, Dagu, Mulut) & Pemisahan Kontrol POV ([[planning_revisi_titik_wajah_dan_pov]])
+- **Keputusan Desain & Pemisahan Kontrol:**
+  - **3 Titik Wajah Inti:** Hidung (`Nose`), Dagu (`Chin`), dan Mulut (`Mouth`).
+  - **Pemisahan Mutlak (*Decoupling*) POV vs Lintasan Terbang:**
+    - Gerakan mengangkat Hidung & Dagu ke atas dihitung sebagai `HEAD_PITCH_POV` yang memutar tulang kepala/leher naga (`DragonHeadLookController.cs`) dan mengarahkan kamera ke langit untuk melihat pemandangan ke atas.
+    - **TIDAK mengubah atau membelokkan arah lintasan terbang Fanamir** (vektor laju maju dan ketinggian naga tetap stabil mengikuti gestur sayap).
+  - **Aksi Semburan Air Purba:**
+    - Bukaan celah bibir vertikal (`MouthOpen > 0.45`) murni digunakan untuk memicu `VFX_Dragon_WaterBreath_Stream` saat memadamkan kebakaran hutan di Desa Pyrewood.
+- **Dampak Dokumentasi:** Membuat [[planning_revisi_titik_wajah_dan_pov]], memperbarui [[Tasks]], dan [[Devlog]].
+
 ## 2026-11-16 — Spesifikasi Teknis Fokus 1: Sistem Kamera Dinamis & Navigasi In-Game ke Kalibrasi ([[planning_kamera_dinamis_dan_navigasi_pause]])
 - **Rincian Dokumen:** Menyusun spesifikasi implementasi detail untuk Laptop B mencakup:
   1. Penanganan rasio aspek kamera dinamis (`16:9`, `4:3`, dan vertikal `9:16` ponsel) via `AspectRatioFitter.AspectMode.FitInParent` di Unity (`RawImage` Kalibrasi & HUD PIP) serta inferensi YOLO letterboxed simetris di Python.
