@@ -13,6 +13,19 @@ updated: 2026-11-15
 
 ---
 
+## 2026-11-16 — Penyusunan Panduan Setup Lengkap & Prompt Onboarding Brain Antigravity + Obsidian (`prompt-setup-brain.md`)
+- **Penyusunan Master Guide & Prompt Wizard:**
+  - Menyusun panduan menyeluruh berbasis arsitektur nyata project AR Dragon / Fanamir ke dalam [`prompt-setup-brain.md`](file:///e:/Semester%205/Game/AR%20Dragon/prompt-setup-brain.md).
+  - Merancang tag `<SYSTEM_ONBOARDING_INSTRUCTION>` agar ketika pengguna mem-paste dokumen ke chat Antigravity di project baru mana pun, AI langsung bertindak sebagai Onboarding Wizard interaktif langkah-demi-langkah.
+  - Mendokumentasikan 5 pilar sistem Brain:
+    1. *Pemisahan Sub-Repo Git Terisolasi:* Sub-repo `brain/` dikelola terpisah dari repositori kode/game (`.gitignore` root mengabaikan `brain/`, `.gitignore` brain mengabaikan `.obsidian/`).
+    2. *Arsitektur Anti-Collision Multi-Device:* Folder eksklusif `laptop-a/` dan `laptop-b/` dengan aturan strict write-own dan read-partner untuk eliminasi 100% merge conflict.
+    3. *Konektivitas Graf Pengetahuan Obsidian:* Format markdown, YAML frontmatter, dan `[[wikilinks]]` untuk visualisasi relasi ide, task, dan memori.
+    4. *Otomasi `AGENTS.md`:* Kontrak startup (`git -C brain pull`, auto-read overview & context) dan end-of-task handover.
+    5. *Protokol Sesi Memori (`"jadikan sesi ini memori"`):* Standarisasi 5 bagian wajib (Tujuan, Keputusan, Eksekusi, Parameter Kritis, Sisa Tugas) dan auto-commit/push.
+  - Menyertakan template lengkap siap pakai untuk `00 - Overview.md`, `AGENTS.md` (Laptop A, Laptop B, Single Device), `Tasks.md`, `Devlog.md`, `konteks.md`, dan `prd.md`.
+- **Dampak Dokumentasi:** Memperbarui [[Tasks]] dan [[Devlog]].
+
 ## 2026-11-16 — Penerbitan Buku Panduan Resmi 15 Pose & Sistem Kemudi (`.docx` & `.pdf`)
 - **Penerbitan Dokumen Panduan Gerak:**
   - Membuat naskah lengkap dan mengekspor dokumen resmi **`Panduan_15_Pose_Fanamir.docx`** (`1.92 MB`) dan **`Panduan_15_Pose_Fanamir.pdf`** (`4.50 MB`, `13 halaman`) di root workspace dan folder `docs/`.
