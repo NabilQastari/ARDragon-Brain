@@ -13,6 +13,20 @@ updated: 2026-11-15
 
 ---
 
+## 2026-11-16 — Perumusan Checklist Pra-Sesi 4 Laptop B: Kamera Dinamis, Alur Pause ke Kalibrasi, & Validasi 15 Pose ([[laptop B Patch 1 planning]])
+- **Keputusan & Arahan Teknis Laptop B:**
+  - **Fokus 1 (Sistem Kamera & Rasio Dinamis):**
+    - Dukungan rasio input kamera fleksibel (`16:9`, `4:3`, dan vertikal `9:16` seperti DroidCam/Iriun) menggunakan `AspectRatioFitter.AspectMode.FitInParent` di Unity (`RawImage` Kalibrasi & PIP) serta padding *letterbox* simetris di Python OpenCV tanpa peregangan paksa.
+    - Menghapus kontrol ganti kamera langsung dari HUD gameplay agar tidak mengganggu pemain saat terbang.
+    - Menyediakan alur ganti kamera & kalibrasi dari in-game via tombol `ESC` $\rightarrow$ `PF_PauseModal` $\rightarrow$ tombol `CALIBRATION & CAMERA` $\rightarrow$ overlay Kalibrasi live (tanpa reload scene / tanpa kembali ke Lobby) $\rightarrow$ `RESUME`.
+    - Auto-persistence kamera via `PlayerPrefs` (`LastCameraDevice`) dengan fallback kamera default bawaan laptop (indeks 0).
+  - **Fokus 2 (Validasi 15 Pose & Finalisasi Kontrol Fanamir):**
+    - Pengujian penuh 15 pose dengan webcam fisik di `MainIsland_Gameplay.unity` (Grounded, Takeoff, Lean/Arm Tilt, Flap, Fly Up Y, Glide T, Hover, Descent, Dive, Dash, dan Village Actions).
+    - Polishing deadzone kemudi belok ($\pm 2.5^\circ$), hysteresis *Flap vs Glide*, kelancaran animasi sayap 12-tulang `DragonWingAnimator.cs`, serta verifikasi batas ketinggian `maxAltitude = 260f` melewati puncak Center Peak (`165.85m`).
+  - **Checklist Tambahan Pra-Sesi 4:**
+    - Perapian HUD in-game, verifikasi posisi marker 3 desa di terrain archipelago, dan instalasi plugin Effekseer VFX di Laptop B sebelum mengimplementasikan `VillageZoneController.cs`.
+- **Dampak Dokumentasi:** Memperbarui [[laptop B Patch 1 planning]], [[Tasks]], dan [[Devlog]].
+
 ## 2026-11-16 — Finalisasi Naskah Dialog Narasi, Parameter Timer/Bintang Stage 01–03, & Daftar Audio/SFX ([[mekanisme_tantangan_desa]])
 - **Persetujuan User:**
   - Menyetujui nama resmi 3 desa: **Desa Zephyria** (Biome 1 - Smog), **Desa Pyrewood** (Biome 2 - Wildfire), dan **Desa Solaria** (Biome 3 - Drought).
