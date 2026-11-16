@@ -13,6 +13,14 @@ updated: 2026-11-15
 
 ---
 
+## 2026-11-16 — Spesifikasi Teknis Fokus 1: Sistem Kamera Dinamis & Navigasi In-Game ke Kalibrasi ([[planning_kamera_dinamis_dan_navigasi_pause]])
+- **Rincian Dokumen:** Menyusun spesifikasi implementasi detail untuk Laptop B mencakup:
+  1. Penanganan rasio aspek kamera dinamis (`16:9`, `4:3`, dan vertikal `9:16` ponsel) via `AspectRatioFitter.AspectMode.FitInParent` di Unity (`RawImage` Kalibrasi & HUD PIP) serta inferensi YOLO letterboxed simetris di Python.
+  2. Perapian HUD In-Game: menyembunyikan dropdown kamera & tombol Scan/Matikan saat mode terbang.
+  3. Alur navigasi `In-Game -> ESC -> PF_PauseModal -> CALIBRATION & CAMERA -> Live Calibration Overlay -> RESUME` tanpa me-reload scene.
+  4. Auto-persistence kamera via `PlayerPrefs` (`"DragonWingAR_LastCameraDevice"`).
+  5. Penyusunan prompt eksekusi modular untuk dieksekusi oleh agen di Laptop B.
+
 ## 2026-11-16 — Perumusan Checklist Pra-Sesi 4 Laptop B: Kamera Dinamis, Alur Pause ke Kalibrasi, & Validasi 15 Pose ([[laptop B Patch 1 planning]])
 - **Keputusan & Arahan Teknis Laptop B:**
   - **Fokus 1 (Sistem Kamera & Rasio Dinamis):**
