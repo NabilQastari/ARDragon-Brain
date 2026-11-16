@@ -4,12 +4,42 @@ tags:
   - devlog
   - laptop-b
 owner: Laptop B
-updated: 2026-11-15
+updated: 2026-11-16
 ---
 
 # 🛠️ Devlog — Laptop B
 
 > Catatan kronologis pengembangan kode, debugging, pengujian Unity/Python, dan hasil build dari **Laptop B**. Kembali ke [[00 - Overview]].
+
+---
+
+## 2026-11-16 — Patch 1 Fokus 1: Sistem Kamera Dinamis, Perapian HUD PIP, Navigasi Pause $\rightarrow$ Calibration, & Auto-Persistence
+
+### Eksekusi Utama
+1. **Rasio Kamera Dinamis (`16:9`, `4:3`, & `9:16` Vertikal) — Python CV & Unity:**
+   - `ARDragonSkyGuardian_CV/camera_stream.py`: Sinkronisasi resolusi aktual kamera (`actual_width`, `actual_height`, `_sync_actual_resolution()`, `get_resolution()`).
+   - `ARDragonSkyGuardian_CV/udp_sender.py`: Memperbarui `VideoUDPSender.compute_scaled_size(src_w, src_h)` agar rasio aspek asli frame terjaga di dalam `max_edge = 320` (`1280x720 -> 320x180`, `640x480 -> 320x240`, `720x1280 -> 180x320`, `480x640 -> 240x320`) dengan batas aman UDP JPEG `<= 65000` byte.
+   - `ARDragonSkyGuardian_CV/pose_stabilizer.py` & `player_calibrator.py`: Menambahkan kompensasi rasio aspek (`aspect_ratio`, `aspect_scale_x`) di `BiometricNormalizer.calculate_biometrics()` serta `left_arm_reach_norm` / `right_arm_reach_norm` agar perhitungan metrik biometrik dan sudut tubuh tetap invarian di kamera `16:9`, `4:3`, dan `9:16`.
+   - `ARDragonSkyGuardian_CV/active_cv_sender.py`: Membaca resolusi aktual frame, menyesuaikan seated virtual hips dengan `aspect_scale_x`, dan meng-clamp dimensi `draw_debug_overlay()` agar aman pada frame vertikal sempit.
+   - Unity UI (`CalibrationPanelUI.cs`, `InGameFlightHUD.cs`, `UISceneAndPrefabBuilder.cs`): Memasang `AspectRatioFitter` (`AspectMode.FitInParent`) pada `mirrorVideoImage`, `skeletonOverlay`, `pipVideoRawImage` (`VideoRaw`), dan `pipSkeletonOverlay`, memanggil `UpdateCameraAspectRatio(width, height)` saat resolusi `Texture2D` berubah, serta menjaga latar pillarbox gelap simetris.
+2. **Perapian HUD In-Game (`InGameFlightHUD.cs`):**
+   - Menyembunyikan `pipCameraControlsCard` (`PIP_CameraControlsCard`) & `pipCameraModule` selama gameplay aktif; pojok kanan bawah hanya menampilkan kotak PIP webcam/skeleton + badge status `PipStatusBadge` (`CV: LIVE` / `CV: OFF`).
+3. **Alur Pause $\rightarrow$ Calibration & Camera Tanpa Reload Scene:**
+   - `PF_PauseModal.prefab`, `PauseModalUI.cs`, `CalibrationPanelUI.cs`, `UISceneAndPrefabBuilder.cs`: Menambahkan tombol `Btn_Calibration` (`CALIBRATION & CAMERA`, `UI_Btn_TopChrome_Cream_9Slice`) di antara `Btn_Resume` dan `Btn_Settings`. Saat diklik, Pause Card disembunyikan dan overlay `Pause_CalibrationSubPanel` aktif secara live (`Time.timeScale = 0f`) dengan `InGamePauseMode` (`BACK TO PAUSE` pada tombol pojok & `RESUME FLIGHT`).
+   - `UDPPoseReceiver.cs`, `DefaultFlightInputMapper.cs`, `DragonWingAnimator.cs`, `DragonFlightController.cs`, `LiveDragonPreviewController.cs`: Menggunakan `unscaledDeltaTime`/`unscaledTime` agar mirror skeleton & preview Fanamir 3D tetap responsif saat `Time.timeScale = 0f` sementara naga gameplay membeku aman (`if (Time.deltaTime <= 0f) return;`).
+4. **Auto-Persistence Kamera (`PlayerPrefs`):**
+   - `PythonProcessManager.cs` & `CameraControlModuleUI.cs`: Menyimpan perangkat terakhir ke `PlayerPrefs` (`"DragonWingAR_LastCameraDevice"`, `"DragonWingAR_LastCameraIndex"`) melalui `SelectCamera()` dan otomatis memilih kamera tersimpan atau fallback indeks `0` melalui `GetSavedOrDefaultCamera()` / `ApplySavedOrDefaultCameraSelection()` saat startup (tetap mempertahankan `autoLaunchPython = false`).
+
+### Hasil Verifikasi
+- **Python CV:**
+  - `test_phase1_validation.py`: `8/8` PASS (`0.02s`).
+  - `test_additional_gestures.py`: `10/10` PASS (`5.97s`).
+  - `test_e2e_flight_physics.py`: `6/6` SUITES PASSED (`100%`).
+  - Uji `VideoUDPSender.compute_scaled_size()` & invariansi `BiometricNormalizer.calculate_biometrics()`: metrik identik (`wingspan_ratio=4.5, chest_elevation=1.875, lean_angle_deg=0.0, avg_elbow_angle=180.0, upper_arm_openness=0.875`) lintas `16:9`, `4:3`, dan `9:16`.
+- **Unity Build & Play Mode (`MainMenu_Lobby.unity`, `MainIsland_Gameplay.unity`, `Test_Dragon_Flight.unity`):**
+  - `MainMenu_Lobby.unity`: Auto-select default webcam indeks `0` (`USB2.0 HD UVC WebCam`), verifikasi `9:16` (`tex=180x320`, `fitterRatio=0.5625`, pillarbox simetris & skeleton selaras), serta persistensi `PlayerPrefs` (`OBS Virtual Camera` indeks `6` dan kembali ke `USB2.0 HD UVC WebCam` indeks `0`) terverifikasi saat restart Play Mode.
+  - `MainIsland_Gameplay.unity`: `PIP_CameraControlsCard` tersembunyi, `InGameFlightHUD` menyesuaikan `AspectRatioFitter` dinamis untuk `16:9` (`320x180`, `1.7778`, live Cam `0` dengan badge `CV: LIVE`), `4:3` (`320x240`, `1.3333`), dan `9:16` (`180x320`, `0.5625`); alur penuh `ESC · PAUSE` $\rightarrow$ `CALIBRATION & CAMERA` $\rightarrow$ `OPEN POSE GUIDE` / `RECALIBRATE` $\rightarrow$ `BACK TO PAUSE` $\rightarrow$ `RESUME FLIGHT` berjalan mulus dan `DragonFlightController` langsung lanjut terbang.
+  - `Test_Dragon_Flight.unity`: Non-regression terverifikasi (`PIP_CameraControlsCard` tersembunyi, `CALIBRATION & CAMERA` berfungsi penuh, `autoLaunchPython=false`, `0` compile errors & `0` Play Mode console errors).
 
 ---
 
