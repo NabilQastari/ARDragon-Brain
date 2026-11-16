@@ -1,5 +1,5 @@
 ---
-title: Planning Teknis — Revisi Titik Wajah (Hidung, Dagu, Mulut) & Kontrol POV Fly Up
+title: Planning Teknis — Revisi Titik Wajah (Hidung, Dagu, Mulut) & Penyesuaian Pose Vertikal
 type: planning
 tags:
   - planning
@@ -8,8 +8,8 @@ tags:
   - face-tracking
   - pov-camera
   - fly-up
+  - pitch-control
   - mouth-tracker
-  - cv-control
 date: 2026-11-16
 owner: Laptop A
 related:
@@ -21,104 +21,101 @@ related:
   - "[[mekanisme_tantangan_desa]]"
 ---
 
-# 👤 Planning Teknis — Revisi Titik Wajah & Kontrol POV Fly Up
+# 👤 Planning Teknis — Revisi Titik Wajah & Penyesuaian Pose Vertikal
 
-> Dokumen spesifikasi revisi sistem pelacakan wajah (*Face Keypoints Tracking*) untuk **Laptop B**.
-> 
-> **Poin Utama Revisi:**
-> 1. Mengunci **3 Titik Wajah Inti:** **Hidung (`Nose`)**, **Dagu (`Chin`)**, dan **Mulut (`Mouth`)**.
-> 2. **Hidung & Dagu $\rightarrow$ Menggerakkan POV (Pandangan Kepala/Kamera) dengan Tujuan Utama untuk FLY UP (Terbang Menanjak Naik):**
->    - Saat dagu dan hidung diangkat ke atas, kepala Fanamir mendongak, kamera menatap ke langit, dan naga **terbang menanjak ke atas (*Fly Up*)**.
->    - Gerakan kepala ini **BUKAN untuk membelokkan arah terbang horizontal (belok kiri/kanan)**. Kemudi belok kiri/kanan murni dikendalikan oleh kemiringan badan dan lengan (*Lean & Arm Tilt*).
-> 3. **Mulut $\rightarrow$ Aksi Semburan Air Purba:** Bukaan mulut murni digunakan untuk menyemburkan air (*Water Breath*) pada pemadaman api di Desa Pyrewood.
+> Dokumen acuan kerja bertahap untuk **Laptop B**:
+> 1. **Tahap 1:** Revisi titik deteksi wajah (Hidung, Dagu, Mulut) pada pipeline Python CV & UDP.
+> 2. **Tahap 2:** Penyesuaian pose-pose terkait (`#03 Grounded Look Up`, `#07 Fly Up`, dan Pitch Down) agar **murni membaca Hidung & Dagu tanpa perlu mengangkat dada (*no chest elevation needed*)**.
 
 ---
 
-## 1. Arsitektur & Spesifikasi 3 Titik Wajah
+## 📌 Alur Pengerjaan Bertahap di Laptop B
+
+```text
+[ TAHAP 1: REVISI TITIK WAJAH ]
+      │  - Deteksi Hidung (Nose), Dagu (Chin), Mulut (Mouth) di Python CV
+      │  - Hitung sinyal pitch vertikal: Naik (+) & Turun (-) dari Hidung & Dagu
+      │  - Hitung bukaan mulut MOUTH_OPEN (0.0 s/d 1.0)
+      │  - Uji kestabilan titik di live webcam window
+      ▼
+[ TAHAP 2: PENYESUAIAN BEBERAPA POSE ]
+         - Sesuaikan #03 Grounded Look Up (Cukup angkat sedikit dagu, dada rileks)
+         - Sesuaikan #07 Fly Up (Dagu/Hidung naik -> Fanamir mendongak & terbang naik)
+         - Sesuaikan Pitch Down (Dagu/Hidung turun -> Fanamir menunduk & meluncur turun)
+         - Kunci Tegasan: Kepala TIDAK membelokkan arah horizontal (Belok kiri/kanan murni Lean & Arm Tilt)
+```
+
+---
+
+## 1. Spesifikasi 3 Titik Wajah (Tahap 1)
 
 ```
            [ Mata / Dahi ]
                  │
            (1) HIDUNG (Nose)  ───┐
-                 │                ├─► POV Look-Up & Pemicu Utama FLY UP
-           (3) MULUT  (Mouth) ──┐ │   (Elevasi vertikal naik, BUKAN belok kiri/kanan!)
+                 │                ├─► Sinyal Pitch Vertikal (Naik & Turun)
+           (3) MULUT  (Mouth) ──┐ │   (Fly Up, Pitch Down, Grounded Look Up)
                  │              │ └──►
            (2) DAGU   (Chin)  ──┘
                                 │
                                 └─► Bukaan Mulut (Buka Mulut = Semburan Air Purba)
 ```
 
-| Titik Wajah | Lokasi Anatomis | Fungsi Gameplay di Fanamir |
+| Titik Wajah | Bagian Anatomis | Fungsi Gameplay di Fanamir |
 | :--- | :--- | :--- |
-| **1. Hidung (`Nose`)** | Ujung tengah hidung | Bersama Dagu, mendeteksi sudut elevasi kepala (*Head Pitch Angle*). |
-| **2. Dagu (`Chin`)** | Ujung bawah dagu | Menjadi jangkar dasar orientasi wajah vertikal. |
-| **3. Mulut (`Mouth`)** | Bibir atas & bibir bawah | Mengukur bukaan mulut vertikal (`0.0 = Tutup`, `1.0 = Buka Lebar`) untuk memicu semburan air di Desa Pyrewood. |
+| **1. Hidung (`Nose`)** | Ujung tengah hidung | Bersama Dagu, mengukur elevasi pitch kepala (*Head Pitch*). |
+| **2. Dagu (`Chin`)** | Ujung bawah dagu | Menjadi jangkar orientasi kepala vertikal. |
+| **3. Mulut (`Mouth`)** | Bibir atas & bibir bawah | Mengukur bukaan mulut vertikal (`0.0 = Tutup`, `1.0 = Buka Lebar`) untuk semburan air di Desa Pyrewood. |
 
 ---
 
-## 2. Logika Kontrol: POV Fly Up vs Kemudi Belok
+## 2. Penyesuaian Pose & Sumbu Kontrol (Tahap 2)
 
-### A. Kontrol Vertikal: Angkat Hidung & Dagu $\rightarrow$ POV Menatap Langit & Fly Up
-* **Kalkulasi di Python (`active_cv_sender.py`):**
-  - Hitung vektor vertikal antara hidung dan dagu:
-    $$\Delta Y_{\text{face}} = Y_{\text{chin}} - Y_{\text{nose}}$$
-  - Ketika pemain mengangkat kepala/dagu ke atas:
-    - Nilai `head_pitch` dihitung dari pergeseran posisi hidung dan dagu terhadap garis bahu netral.
-    - Menghasilkan nilai normalisasi `HEAD_PITCH_ELEVATION` ($0.0 \sim +1.0$).
-* **Penerapan di Unity (`DragonFlightController.cs` & `DragonHeadLookController.cs`):**
-  1. **Visual Kepala & Kamera (POV Look-At):**
-     - Leher dan kepala naga mendongak ke atas mengikuti sudut `HEAD_PITCH_ELEVATION` (hingga $+30^\circ$).
-     - Kamera follow sedikit bergeser ke atas memberikan sudut pandang sinematik menatap langit.
-  2. **Dinamika Terbang Menanjak (Fly Up):**
-     - Sinyal elevasi kepala ini menggerakkan daya angkat vertikal Fanamir:
-       ```csharp
-       if (headPitchElevation > 0.15f) // deadzone kecil
-       {
-           float climbLift = headPitchElevation * flyUpLiftPower;
-           verticalVelocity += climbLift * Time.deltaTime;
-           dragonPitch = Mathf.Lerp(dragonPitch, headPitchElevation * maxClimbPitch, Time.deltaTime * pitchSmoothSpeed);
-       }
-       ```
-     - **HASIL:** Fanamir mendongak dan langsung menanjak terbang ke atas (**Fly Up**) secara anggun mengikuti arah pandangan pemain!
+### A. Penyesuaian Pose `#03 · Grounded Look Up`
+* **Sebelumnya:** Pemain harus membusungkan/mengangkat dada ke atas (*chest elevation*).
+* **Penyesuaian Baru:**
+  - **Dada tidak perlu diangkat/dibusungkan!**
+  - Cukup **angkat sedikit dagu ke atas**.
+  - Begitu dagu dan hidung naik sedikit di atas ambang netral, kepala dan leher Fanamir mendongak menatap langit ($+15^\circ \sim +25^\circ$), kaki naga tetap diam di tanah.
 
-### B. Kemudi Belok Arah Terbang (Yaw / Roll Kiri-Kanan) Murni dari Badan/Tangan
-* **Aturan Keras (*Rule of Decoupling*):**
-  - Gerakan mengangkat hidung & dagu **SAMA SEKALI TIDAK mempengaruhi kemudi belok kiri/kanan**.
-  - Kemudi belok horizontal (Yaw & Roll) tetap **100% dikendalikan oleh `Lean & Arm Tilt`** (condong badan atau miring tangan).
-  - Ini mencegah naga berbelok oleng tanpa sengaja saat pemain hanya ingin terbang menanjak ke atas.
+### B. Penyesuaian Kontrol Terbang Vertikal: Naik & Turun
+* **Sumbu Pitch Vertikal Murni dari Kepala:**
+  - **Terbang Menanjak Naik (`FLY UP`):**
+    - Angkat dagu dan hidung ke atas $\rightarrow$ Fanamir mendongak menatap langit (kamera follow terangkat) dan naga **terbang menanjak naik ke atas (*Fly Up*)** secara proporsional.
+    - **Dada tidak perlu dinaikkan!** Cukup gerakkan kepala.
+  - **Terbang Meluncur Datar (`GLIDE`):**
+    - Posisi dagu dan hidung lurus netral $\rightarrow$ Fanamir meluncur datar stabil.
+  - **Terbang Menukik / Turun Perlahan (`PITCH DOWN`):**
+    - Turunkan/tundukkan dagu sedikit ke bawah $\rightarrow$ Fanamir menunduk dan meluncur turun secara terkontrol.
 
-### C. Aksi Semburan Air (Mulut)
-* **Kalkulasi Bukaan Mulut:**
-  - Jarak celah bibir vertikal dinormalisasi terhadap jarak hidung-dagu $\rightarrow$ `MouthOpen` ($0.0 \sim 1.0$).
-* **Penerapan di Unity:**
-  - Saat di radius kebakaran hutan Desa Pyrewood dan memiliki air:
-    - `MouthOpen > 0.45` $\rightarrow$ semburan air purba aktif (`VFX_Dragon_WaterBreath_Stream`).
-    - `MouthOpen <= 0.45` $\rightarrow$ semburan air padam.
+### C. Tegasan `!= Belok Arah Terbang`
+* **Aturan Mutlak:**
+  - Gerakan kepala (Hidung & Dagu) **HANYA untuk sumbu Pitch vertikal (naik dan turun)**.
+  - Gerakan kepala **SAMA SEKALI TIDAK membelokkan arah horizontal naga (tidak memicu belok kiri atau kanan)**.
+  - Kemudi belok kiri/kanan (Yaw & Roll) **100% tetap dikendalikan oleh kemiringan badan dan tangan (`#05 Lean & Arm Tilt`)**.
+  - Ini menjamin saat pemain mendongak untuk menanjak (*Fly Up*), naga melesat lurus naik tanpa oleng atau belok sendiri.
+
+### D. Aksi Semburan Air (Mulut)
+* Membuka mulut lebar di depan kamera (**`MouthOpen > 0.45`**) saat berada di zona kebakaran hutan Desa Pyrewood memicu semburan air purba (*Water Breath Stream*).
 
 ---
 
-## 3. Implementasi Teknis di Laptop B
+## 3. Checklist Eksekusi Teknis di Laptop B
 
-1. **Python CV (`active_cv_sender.py` & Head ROI):**
-   - Ambil bounding box kepala dari YOLOv8n-pose.
-   - Deteksi 3 titik: Hidung, Dagu, dan Bibir Atas/Bawah.
-   - Kirimkan telemetri melalui UDP 5052:
-     - `HEAD_PITCH_ELEVATION` (sinyal elevasi kepala untuk POV & Fly Up)
-     - `MOUTH_OPEN` (rasio bukaan mulut)
-     - *Catatan:* Jangan campurkan sinyal kepala ini ke sumbu kemudi belok (steering input)!
-2. **Unity Controller (`DragonFlightController.cs`):**
-   - Hubungkan `HEAD_PITCH_ELEVATION` ke sistem daya angkat naga (**Fly Up**) dan rotasi visual kepala/kamera.
-   - Sumbu kemudi belok horizontal (`turnInput`) tetap murni membaca `arm_tilt` / `torso_lean`.
+### Tahap 1: Eksekusi Revisi Titik Wajah (Python CV)
+- [ ] Implementasikan deteksi 3 titik (Hidung, Dagu, Mulut) di `active_cv_sender.py` / `MouthTracker`.
+- [ ] Hitung nilai normalisasi `HEAD_PITCH` (rentang `-1.0` s/d `+1.0`, di mana `0.0` = netral, `+` = mendongak/naik, `-` = menunduk/turun).
+- [ ] Hitung rasio bukaan mulut `MOUTH_OPEN` (`0.0` s/d `1.0`).
+- [ ] Uji preview visual titik di jendela OpenCV/PIP: pastikan hidung, dagu, dan mulut terdeteksi stabil tanpa jitter.
 
----
-
-## 4. Pengujian di Play Mode
-
-1. **Uji Fly Up via Angkat Dagu:**
-   - Terbang meluncur datar (`#08 Glide`).
-   - Angkat hidung dan dagu ke atas.
-   - **Verifikasi:** Kepala naga mendongak menatap langit, kamera follow terangkat ke atas, dan Fanamir menanjak naik ke atas (**Fly Up**) tanpa belok miring ke kiri atau kanan.
-2. **Uji Belok Sambil Fly Up:**
-   - Angkat dagu (naga menanjak) sambil memiringkan badan ke kanan $\rightarrow$ naga menanjak spiral ke kanan secara terkontrol.
-3. **Uji Semburan Air:**
-   - Buka mulut lebar-lebar $\rightarrow$ Fanamir menyemburkan air purba.
+### Tahap 2: Penyesuaian Pose & Controller (Unity C#)
+- [ ] Hapus ketergantungan `chest_elevation` dari pembacaan pitch di `DragonFlightController.cs`.
+- [ ] Hubungkan `HEAD_PITCH` dari UDP 5052 ke:
+  1. Rotasi visual tulang leher/kepala naga (POV look-at).
+  2. Daya angkat vertikal naga (`Fly Up` saat positif, `Descent` saat negatif).
+- [ ] Pastikan sumbu `steeringInput` (kemudi belok kiri-kanan) murni berasal dari `arm_tilt` / `torso_lean` tanpa tercemar `HEAD_PITCH`.
+- [ ] Uji Play Mode:
+  - Di darat: Angkat dagu sedikit $\rightarrow$ naga mendongak (`#03 Grounded Look Up`).
+  - Di udara: Angkat dagu $\rightarrow$ naga mendongak & terbang naik (`Fly Up`).
+  - Di udara: Tundukkan dagu sedikit $\rightarrow$ naga meluncur turun.
+  - Sambil mendongak, miringkan badan $\rightarrow$ naga menanjak sambil berbelok mulus.

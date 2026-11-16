@@ -13,6 +13,15 @@ updated: 2026-11-15
 
 ---
 
+## 2026-11-16 — Strategi 2 Tahap: Revisi Titik Wajah (Tahap 1) Lalu Penyesuaian Pose Vertikal Tanpa Dada (Tahap 2) ([[planning_revisi_titik_wajah_dan_pov]])
+- **Keputusan Alur Eksekusi:**
+  - **Tahap 1 (Revisi Titik Wajah):** Fokus pertama murni pada deteksi stabil 3 titik di Python CV (Hidung, Dagu, Mulut), sinyal normalisasi `HEAD_PITCH` (naik `+` dan turun `-`), serta rasio bukaan mulut `MOUTH_OPEN`.
+  - **Tahap 2 (Penyesuaian Beberapa Pose Terkait):**
+    - `#03 Grounded Look Up`: Dada tidak perlu diangkat/mendongak, pemain cukup mengangkat sedikit dagu untuk membuat naga mendongak ke langit.
+    - Kontrol Vertikal Terbang: Angkat dagu/hidung $\rightarrow$ naga mendongak & terbang menanjak naik (*Fly Up*); turunkan dagu sedikit $\rightarrow$ naga menunduk & meluncur turun (*Pitch Down*). Seluruh pitch vertikal dikendalikan kepala tanpa perlu membusungkan/mengangkat dada!
+    - Tegasan Kemudi Horizontal: Gerakan kepala tidak mempengaruhi belok kiri/kanan. Kemudi belok horizontal murni 100% dari *Lean & Arm Tilt*.
+- **Dampak Dokumentasi:** Memperbarui [[planning_revisi_titik_wajah_dan_pov]], [[Tasks]], dan [[Devlog]].
+
 ## 2026-11-16 — Penajaman Kontrol Titik Wajah: Hidung & Dagu untuk POV & Fly Up Vertikal ([[planning_revisi_titik_wajah_dan_pov]])
 - **Klarifikasi & Penguncian Desain:**
   - Gerakan mengangkat Hidung & Dagu menggerakkan orientasi kepala naga menengadah ke atas (POV) dengan **tujuan utama mengarahkan naga untuk TERBANG MENANJAK NAIK (Fly Up)**.
