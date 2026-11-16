@@ -13,6 +13,26 @@ updated: 2026-11-16
 
 ---
 
+## 2026-11-16 — Tahap 1 (Perbaikan Temuan Uji Kamera): Kerangka Dobel, UI Over-Area, & Deteksi Jarak Jauh
+
+### Perbaikan 3 Temuan Visual & Jarak Jauh
+1. **Kerangka Badan Dobel (`CalibrationPanelUI.cs`, `InGameFlightHUD.cs`):**
+   - Menjadikan wireframe `UISkeletonOverlayGraphic` aktif **hanya saat `!hasVideo`** (`!hasVideo && poseReceiver != null && poseReceiver.IsPoseDetected`), karena frame video UDP `5053` dari `active_cv_sender.py` sudah membawa overlay kerangka tubuh + 3 titik wajah sehingga tidak lagi menggambar dua kerangka bertumpuk.
+2. **UI Over-Area di Kalibrasi & Pause (`UISceneAndPrefabBuilder.cs`):**
+   - Memasukkan `LeftFooterActionsBar` (`TrackingStatusBadge`, `Btn_Recalibrate`, `Btn_ResetDefault`) serta `RightFooterBar` baru (`FooterStatusPill`, `FooterMotionPill` via `HorizontalLayoutGroup` + `autoSizing`) pada `PF_CalibrationPanel.prefab` ke posisi aman di dalam tepi stepped parchment `UI_Panel_Parchment_Calib_9Slice.png` (`bottom = 26 px`, `left/right = 28 px`), serta menaikkan `MirrorAndSidebar` & `PreviewViewport` (`bottom = 70 px`).
+   - Menambahkan scrim gelap (`RGBA(0.082, 0.075, 0.067, 0.960)`) pada `Pause_CalibrationSubPanel` (`PF_PauseModal.prefab`) dan merakit ulang seluruh UI via `UISceneAndPrefabBuilder.BuildAll()`.
+   - Merampingkan panel HUD telemetry OpenCV di `active_cv_sender.py` (`360x298`) agar tidak terlalu memenuhi frame kamera kecil (`480p`).
+3. **Pembacaan Titik dari Jarak Jauh (`active_cv_sender.py`, `mouth_tracker.py`, `pose_stabilizer.py`):**
+   - Menaikkan resolusi inferensi `YOLOv8n-pose` pada CUDA menjadi `imgsz=960` (tetap `640` di CPU) dengan default `--conf 0.20` serta menurunkan `CONFIDENCE_MIN` & `CORE_CONFIDENCE_MIN` ke `0.20`.
+   - Menambahkan *grace hold* pose `0.35s` di `active_cv_sender.py` (memegang pose terakhir dengan state `DEGRADED` saat 1–2 frame drop jarak jauh agar tidak berkedip `LOST`/`STANDBY`).
+   - Menghapus batas minimum crop `0.30 * min(w,h)` di `MouthTracker` saat `shoulder_width_norm` tersedia, menambahkan *upsampling* `INTER_CUBIC` crop kecil ke `224×224`, mempertahankan jangkar `_last_face_norm_xy`, fallback full-frame `640 px`, serta ambang `FaceLandmarker` `0.30` / hold `10` frame (`0.40s`).
+
+### Hasil Verifikasi Lanjutan
+- **Python CV:** `test_tahap1_face_tracking.py` (`7/7`), `test_phase1_validation.py` (`8/8`), `test_phase4_validation.py` (`7/7`), `test_additional_gestures.py` (`10/10`), `test_e2e_flight_physics.py` (`6/6`), serta uji live `active_cv_sender.py` CUDA `imgsz=960` (`10` paket UDP 44-float & JPEG `7493` byte lulus).
+- **Unity Play Mode (`MainIsland_Gameplay.unity`):** Terverifikasi visual bebas kerangka dobel (`pipSkelActive=False` & `calibSkelActive=False` saat video aktif), seluruh footer bar Kalibrasi berada rapi di dalam border perkamen, scrim Pause Calibration bersih, dan `0` compile/console errors.
+
+---
+
 ## 2026-11-16 — Tahap 1: Revisi 3 Titik Pelacakan Wajah (Hidung, Dagu, Mulut) & `HEAD_PITCH` di Python CV
 
 ### Eksekusi Utama (`[[laptop-a/planning_revisi_titik_wajah_dan_pov]]` — Tahap 1)
