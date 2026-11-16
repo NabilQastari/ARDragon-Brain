@@ -13,6 +13,13 @@ updated: 2026-11-15
 
 ---
 
+## 2026-11-16 — Penajaman Kontrol Titik Wajah: Hidung & Dagu untuk POV & Fly Up Vertikal ([[planning_revisi_titik_wajah_dan_pov]])
+- **Klarifikasi & Penguncian Desain:**
+  - Gerakan mengangkat Hidung & Dagu menggerakkan orientasi kepala naga menengadah ke atas (POV) dengan **tujuan utama mengarahkan naga untuk TERBANG MENANJAK NAIK (Fly Up)**.
+  - Sinyal elevasi kepala ini tidak mencemari atau membelokkan kemudi horizontal (Yaw/Roll belok kiri-kanan tetap 100% dikendalikan oleh *Lean & Arm Tilt*).
+  - Mulut murni digunakan untuk semburan air purba (*Water Breath*).
+- **Dampak Dokumentasi:** Memperbarui [[planning_revisi_titik_wajah_dan_pov]], [[Tasks]], dan [[Devlog]].
+
 ## 2026-11-16 — Spesifikasi Revisi Titik Wajah (Hidung, Dagu, Mulut) & Pemisahan Kontrol POV ([[planning_revisi_titik_wajah_dan_pov]])
 - **Keputusan Desain & Pemisahan Kontrol:**
   - **3 Titik Wajah Inti:** Hidung (`Nose`), Dagu (`Chin`), dan Mulut (`Mouth`).
