@@ -13,6 +13,17 @@ updated: 2026-11-15
 
 ---
 
+## 2026-11-17 — Penyusunan Checklist Finalisasi & Prasyarat Pra-Sesi 4 ([[checklist_finalisasi_pra_sesi_4]])
+- **Keputusan & Arahan Teknis:**
+  - Menyusun inventarisasi menyeluruh prasyarat teknis sebelum implementasi mekanisme tantangan desa (Sesi 4: `VillageZoneController.cs`, `Session4_VillageBuilder.cs`).
+  - Mengelompokkan pekerjaan pra-Sesi 4 ke dalam **5 Pilar Utama**:
+    1. *Pilar 1 (Kontrol & CV):* Pembersihan teks preview CV (kecuali FPS) di Python & integrasi `HEAD_PITCH` di controller Unity (Tahap 2 Face Tracking).
+    2. *Pilar 2 (Audit 15 Pose Berbasis Screenshot):* Pengujian empiris webcam oleh pemain untuk pose `#01`–`#15` (khususnya `#06 Flap`, `#07 Fly Up`, `#15 Mouth Open` yang menjadi inti tantangan 3 desa).
+    3. *Pilar 3 (Scene Markers & Navigasi Waypoint):* Penempatan dan verifikasi koordinat GameObject 3 desa (`(-562.4, 14.1, 274.3)`, `(739.6, 12.9, 7.8)`, `(39.4, 14.7, -647.6)`) serta 3 sub-marker (Danau Zephyria, Hutan Terbakar, Sky Altar Solaria) dan hookup `WaypointCompass.cs`.
+    4. *Pilar 4 (Mekanik Auto-Hover & Escape di Controller Naga):* Logika `EnterAutoHover`, `Flap to Escape`, dan auto-release saat pengisian air di Danau Zephyria mencapai 100%.
+    5. *Pilar 5 (Kesiapan Sistem VFX Effekseer):* Setup plugin `EffekseerForUnity` dan penyiapan emitter partikel kabut, api hutan, semburan air, dan hujan embun.
+- **Dampak Dokumentasi:** Membuat [[checklist_finalisasi_pra_sesi_4]], memperbarui [[laptop B Patch 1 planning]], [[Tasks]], dan [[Devlog]].
+
 ## 2026-11-17 — Planning Pembersihan Teks Preview CV & Protokol Audit 15 Pose Berbasis Screenshot ([[planning_audit_pose_dan_clean_cv_preview]])
 - **Keputusan & Arahan Teknis:**
   - **1. Pembersihan Teks Preview CV (`active_cv_sender.py` & PIP):**
