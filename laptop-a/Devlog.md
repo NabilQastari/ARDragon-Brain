@@ -13,6 +13,18 @@ updated: 2026-11-15
 
 ---
 
+## 2026-11-17 — Pengarsipan Aset Gambar Segmen 1 (Pose 01–03) & Penyeragaman Formula Segmen 2–4 ([[prompt_visual_pose_cv_kerangka]])
+- **Penyimpanan Aset Segmen 1:**
+  - Ketiga gambar hasil generasi pengguna untuk Segmen 1 telah disimpan dan diarsipkan resmi ke dua direktori proyek:
+    1. [`assets/poses_cv_guide/Pose_01_GroundedIdle.jpg`](file:///e:/Semester%205/Game/AR%20Dragon/assets/poses_cv_guide/Pose_01_GroundedIdle.jpg)
+    2. [`assets/poses_cv_guide/Pose_02_GroundedWalk.jpg`](file:///e:/Semester%205/Game/AR%20Dragon/assets/poses_cv_guide/Pose_02_GroundedWalk.jpg)
+    3. [`assets/poses_cv_guide/Pose_03_GroundedLookUp.jpg`](file:///e:/Semester%205/Game/AR%20Dragon/assets/poses_cv_guide/Pose_03_GroundedLookUp.jpg)
+    Serta duplikatnya di [`Referensi/Referensi Pose CV/`](file:///e:/Semester%205/Game/AR%20Dragon/Referensi/Referensi%20Pose%20CV/).
+  - Hasil Segmen 1 terverifikasi 100% konsisten, proporsional, dan estetik (piktogram siluet 2D solid, titik dual-tone amber/cyan, titik wajah cyan kontras tinggi, dan panah elevasi mendongak pada Pose 03).
+- **Penyelarasan Prompt Segmen 2–4:**
+  - Menyamakan seluruh teks awalan (*base prefix*) pada Segmen 2 (Pose 04–08), Segmen 3 (Pose 09–14), dan Segmen 4 (Pose 15A–15C) dengan formula presisi yang telah sukses di Segmen 1, serta memastikan kaki selalu tegak/stasioner (*straight legs*).
+- **Dampak Dokumentasi:** Memperbarui [[prompt_visual_pose_cv_kerangka]], [[Tasks]], dan [[Devlog]].
+
 ## 2026-11-17 — Koreksi Prompt Takeoff: Visual Tangan Mengepak Sayap ([[prompt_visual_pose_cv_kerangka]])
 - **Koreksi Anatomi Pose Takeoff (#04):**
   - Mengoreksi kesalahan visual Takeoff yang sebelumnya mendeskripsikan tangan mengarah ke bawah paha (inverted V), menjadi **murni pose tangan mengepak sayap (*wide wing-flapping posture* `\_o_/`)** sesuai aset resmi `UI_Pose_04_Takeoff.png`.
