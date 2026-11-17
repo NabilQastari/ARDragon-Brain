@@ -26,6 +26,18 @@ updated: 2026-11-15
   - Menghasilkan dokumen lengkap [[planning_optimasi_token_laptop_b]] berisi spesifikasi isi berkas `.antigravityignore`, blok aturan `AGENTS.md`, langkah instalasi bertahap, dan prompt eksekusi siap salin (*copy-paste*) untuk diinstruksikan langsung ke agen Laptop B.
 - **Dampak Dokumentasi:** Memperbarui [[00 - Overview]], [[Tasks]], dan [[Devlog]].
 
+## 2026-11-18 — Implementasi Vektor Kartu Pose di FigCraft: Tema Terang dengan Bahu & Kerangka CV Lengkap
+- **Penyempurnaan Desain Vektor di FigCraft (Page `Pose`):**
+  - Mengadopsi pilihan pengguna untuk **Opsi B (Light Card Theme)**: Background Card `#F8FAFC` terang bersih berpadu dengan Siluet Karakter `#0F172A` (Charcoal Gelap) yang menghasilkan kontras tajam.
+  - Menambahkan **kontur bahu solid** pada torso agar pangkal lengan menyambung secara anatomis dan tidak mengambang.
+  - Membangun **garis kerangka kawat CV (*wireframe skeleton lines*)** penuh yang menghubungkan seluruh sendi:
+    - Garis tulang belakang (*Spine*) & palang bahu (*Shoulders*) serta panggul (*Hips*).
+    - Tulang lengan dan kaki kanan warna Oranye / Amber (`#FB923C`).
+    - Tulang lengan dan kaki kiri warna Cyan / Biru (`#38BDF8`).
+    - Titik sendi bulat tebal dual-tone di setiap persendian serta titik wajah cyan di area muka.
+  - Menyelaraskan proporsi kartu menjadi `240 × 250 px` yang presisi dan seimbang.
+- **Dampak Dokumentasi:** Memperbarui [[Tasks]] dan [[Devlog]].
+
 ## 2026-11-17 — Pengarsipan Aset Gambar Segmen 2 (Pose 04–08) & Kesiapan Prompt Segmen 3 ([[prompt_visual_pose_cv_kerangka]])
 - **Penyimpanan Aset Segmen 2:**
   - Seluruh 5 gambar hasil generasi pengguna untuk Segmen 2 telah berhasil disimpan dan diarsipkan ke:
