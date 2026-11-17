@@ -26,6 +26,24 @@ updated: 2026-11-15
   - Menghasilkan dokumen lengkap [[planning_optimasi_token_laptop_b]] berisi spesifikasi isi berkas `.antigravityignore`, blok aturan `AGENTS.md`, langkah instalasi bertahap, dan prompt eksekusi siap salin (*copy-paste*) untuk diinstruksikan langsung ke agen Laptop B.
 - **Dampak Dokumentasi:** Memperbarui [[00 - Overview]], [[Tasks]], dan [[Devlog]].
 
+## 2026-11-18 — Penyelesaian Seluruh 17 Visual Pose Kontrol di FigCraft (Minimalist Vector CV Sheet)
+- **Pembangunan Seluruh 17 Kartu Pose di FigCraft (Page `Pose`, `id: 2260`):**
+  - Menyelesaikan perakitan 17 kartu pose vektor minimalis berlatar terang (*Light Card Theme* `#F8FAFC`, border `#CBD5E1`, corner radius 16px) dengan siluet stickman charcoal gelap kontras tinggi (`#0F172A`) di [`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft).
+  - Mengelompokkan kartu ke dalam 4 baris segmen rapi dan proporsional (`240 × 250 px` per kartu):
+    1. **Segmen 1 · Grounded Poses:** `#01 Grounded Idle`, `#02 Grounded Walk`, `#03 Grounded Look Up` (panah pandangan cyan).
+    2. **Segmen 2 · Core Flight & Locomotion:** `#04 Takeoff` (6-lengan motion flap blur), `#05 Lean & Arm Tilt` (palang kemudi diagonal miring dengan tubuh & kaki tegak lurus), `#06 Flap to Climb` (sayap melengkung naik + lintasan kepak), `#07 Fly Up` (pose Y 45° overhead + panah naik), `#08 Glide` (pose T 180° horizontal + garis aliran angin).
+    3. **Segmen 3 · Special Maneuvers:** `#09 Hover` (pose L siku 90° + cincin hover cyan di kaki), `#10 Gentle Descent` (pose A rendah 45° + panah turun), `#11 Fly Down` (Y-Dive menurun + speed lines), `#12 Fly Down Idle` (pose W siku tegak), `#13 Tuck to Dive` (lengan terlipat rapat di dada + sonic cone chevron di atas kepala), `#14 Propeller Dash` (lengan menyilang X di dada + cincin rotasi propeller cyan).
+    4. **Segmen 4 · Village Actions:** `#15A Zephyria · Wind Flap` (kepakan sayap ke bawah + gelombang hembusan angin), `#15B Pyrewood · Open Mouth` (titik mulut terpisah + busur semburan air/water breath), `#15C Solaria · Dew Rain` (pose lengan 11 vertikal ke atas + rintik embun bercahaya).
+- **Ketelitian Proporsi & Elemen CV (Computer Vision):**
+  - Menerapkan proporsi ramping atletis (*tapered athletic torso*): palang bahu membulat 46px, pinggang ramping 24px, celah ketiak 2.5px, celah selangkangan kaki 4px, menghindari siluet tubuh kotak yang terlalu lebar.
+  - Seluruh sendi dilengkapi kerangka kawat CV tebal (*wireframe skeleton lines*) dan titik sendi dual-tone bercahaya:
+    - Sisi Kanan: Tulang `#FB923C`, Titik Sendi `#EA580C`.
+    - Sisi Kiri: Tulang `#38BDF8`, Titik Sendi `#0284C7`.
+    - Tulang Belakang & Leher/Panggul: `#94A3B8` & `#E2E8F0`.
+    - Wajah: 5 titik cyan terang (`#00E5FF`) untuk mata, hidung, mulut, dan dagu.
+- **Verifikasi Visual:** Lembar kartu lengkap telah diperiksa dan diverifikasi konsistensi gayanya tanpa distorsi.
+- **Dampak Dokumentasi:** Memperbarui [[Tasks]] dan [[Devlog]].
+
 ## 2026-11-18 — Implementasi Vektor Kartu Pose di FigCraft: Tema Terang dengan Bahu & Kerangka CV Lengkap
 - **Penyempurnaan Desain Vektor di FigCraft (Page `Pose`):**
   - Mengadopsi pilihan pengguna untuk **Opsi B (Light Card Theme)**: Background Card `#F8FAFC` terang bersih berpadu dengan Siluet Karakter `#0F172A` (Charcoal Gelap) yang menghasilkan kontras tajam.
