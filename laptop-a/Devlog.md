@@ -13,6 +13,12 @@ updated: 2026-11-15
 
 ---
 
+## 2026-11-17 — Penyempurnaan Katalog Prompt Visual Pose CV Minimalis (Biometric Mannequin UI) ([[prompt_visual_pose_cv_kerangka]])
+- **Penyelarasan Desain Sesuai Referensi Visual Pengguna:**
+  - Menyesuaikan formula prompt 100% mengikuti referensi visual biometrik: siluet manekin manusia 3D abu-abu transparan dengan *soft rim lighting*, garis kerangka tipis presisi, titik sendi dual-tone (**Amber/Kuning** di satu sisi, **Cyan/Teal** di sisi lain, titik wajah Cyan), serta latar frame grid kotak biru gelap minimalis dengan *corner reticle brackets*.
+  - Menghapus seluruh ornamen fantasi, partikel api/air/angin, efek sihir, serta teks HUD yang membuat gambar ramai agar hasil gambar murni berfokus pada kejelasan postur anatomi Computer Vision.
+- **Dampak Dokumentasi:** Memperbarui [[prompt_visual_pose_cv_kerangka]], [[Tasks]], dan [[Devlog]].
+
 ## 2026-11-17 — Penyusunan Katalog Prompt Visual Pose CV Berbasis Titik & Kerangka ([[prompt_visual_pose_cv_kerangka]])
 - **Keputusan & Arahan Desain Visual:**
   - Menyusun set prompt image generation untuk seluruh pose kontrol *Fanamir: The Sky Guardian* dengan gaya visual murni **Computer Vision Keypoints + Skeleton Wireframe** (ala YOLOv8-pose / MediaPipe).
