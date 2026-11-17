@@ -13,6 +13,19 @@ updated: 2026-11-15
 
 ---
 
+## 2026-11-18 — Penyusunan Rencana Optimasi Token & Prompt Eksekusi untuk Laptop B ([[planning_optimasi_token_laptop_b]])
+- **Analisis & Audit 6 Kandidat Tool Optimasi Token:**
+  - Melakukan evaluasi mendalam terhadap 6 kandidat (RTK, Ponytail Antigravity IDE, Token-Saver Skill, Ponytail Original, Native Antigravity Skills, dan Rules/.antigravityignore) berdasarkan 7 parameter teknis ketat (kompatibilitas Antigravity, penghematan input/output token, otomatisasi, tumpang-tindih, potensi konflik arsitektur Unity, overhead prompt, dan verifikasi dokumentasi).
+- **Perumusan "The Optimal Lean Stack" untuk Laptop B:**
+  - Mengelompokkan solusi ke dalam kombinasi 4 pilar efisien dengan overhead mendekati nol:
+    1. **`.antigravityignore` (Wajib / Prioritas 1):** Menghentikan scanning/indexing file binary, cache, dan metadata Unity (`Library/`, `Temp/`, `obj/`, `*.meta`) serta Python (`__pycache__/`, `.pytest_cache/`, `.venv/`), menghemat 5.000–30.000+ input token per pencarian.
+    2. **RTK (Rust Token Killer):** Memangkas output log panjang terminal saat menjalankan `git status/diff` dan test suite Python CV (`pytest`) hingga 60–80%.
+    3. **Ponytail-Lite Rules:** Mengadopsi 5 prinsip minimal coding (YAGNI, standard lib first, targeted diffs) ke dalam `AGENTS.md` Laptop B dengan klausul proteksi ketat agar tidak memotong kontrak arsitektur Unity di `kontrak_integrasi_ui_dan_progress.md`.
+    4. **Clean Skills & Session Hygiene:** Mengisolasi 28 skill Blender agar tidak dimuat di workspace Laptop B, serta memanfaatkan slash command native `/compact` antar-tugas.
+- **Penerbitan Dokumen Planning & Prompt Siap Pakai:**
+  - Menghasilkan dokumen lengkap [[planning_optimasi_token_laptop_b]] berisi spesifikasi isi berkas `.antigravityignore`, blok aturan `AGENTS.md`, langkah instalasi bertahap, dan prompt eksekusi siap salin (*copy-paste*) untuk diinstruksikan langsung ke agen Laptop B.
+- **Dampak Dokumentasi:** Memperbarui [[00 - Overview]], [[Tasks]], dan [[Devlog]].
+
 ## 2026-11-17 — Pengarsipan Aset Gambar Segmen 2 (Pose 04–08) & Kesiapan Prompt Segmen 3 ([[prompt_visual_pose_cv_kerangka]])
 - **Penyimpanan Aset Segmen 2:**
   - Seluruh 5 gambar hasil generasi pengguna untuk Segmen 2 telah berhasil disimpan dan diarsipkan ke:
