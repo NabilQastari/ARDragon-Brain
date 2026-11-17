@@ -63,49 +63,51 @@ Minimalist Computer Vision motion capture diagram, flat 2D human pictogram silho
 
 ---
 
-## 📂 Segmen 2: Locomotion & Penerbangan Inti (Dasar Terbang)
+## 📂 Segmen 2: Locomotion & Penerbangan Inti (Dasar Terbang) — [STATUS: SELESAI & DISIMPAN]
+
+*Aset tersimpan di:* [`assets/poses_cv_guide/`](file:///e:/Semester%205/Game/AR%20Dragon/assets/poses_cv_guide/) & [`Referensi/Referensi Pose CV/`](file:///e:/Semester%205/Game/AR%20Dragon/Referensi/Referensi%20Pose%20CV/)
 
 ### #04 · Takeoff (Lepas Landas — Tangan Mengepak Sayap)
-* **Bentuk Pose:** Kaki di tanah siap lepas landas, kepala mendongak ke atas dengan titik muka terangkat, kedua tangan terentang lebar ke samping dengan siku ditekuk dan lengan bawah membentang ke atas-luar (`\_ o _/`) seperti sayap naga mengepak kuat.
+* **File Tersimpan:** `Pose_04_Takeoff.jpg`
 * **Prompt AI:**
 ```text
-Minimalist Computer Vision motion capture diagram, flat 2D human pictogram silhouette with smooth rounded limbs, circular head, and capsule torso. Dark matte charcoal silhouette centered in a dark slate viewport with subtle blueprint grid lines and corner brackets. Overlaid with glowing wireframe skeleton lines and bright circular joint dots: warm amber dots on the right limbs, cyan dots on the left limbs. High-contrast prominent glowing cyan facial keypoints on the upward-tilted head. The pictogram is performing a dynamic Takeoff wing flap: standing grounded with legs straight, both arms spread wide outward in a bold wing-flapping posture with elbows bent and forearms angled upward like flapping dragon wings. Bold definitive pictogram posture, clear wing-flapping gesture, zero clutter, no text, clean UI vector icon --ar 1:1 --v 6.0 --style raw
+Minimalist Computer Vision motion capture diagram, flat 2D human pictogram silhouette with smooth rounded limbs, circular head, and capsule torso. Dark matte charcoal silhouette centered in a dark slate viewport with subtle blueprint grid lines and corner brackets. Overlaid with glowing wireframe skeleton lines and bright circular joint dots: warm amber on the right, cyan on the left. High-contrast prominent glowing cyan facial keypoint dots on the upward-tilted head. The pictogram is performing a Takeoff wing flap: lower body is strictly stationary with both legs completely straight, vertical, and motionless side-by-side on the floor with zero leg bending. The upper body features a dynamic wing-flapping motion blur effect showing multi-exposure ghosted arms (6 arms total: primary horizontal arms with faint semi-transparent ghosted arms above and below) capturing an active flapping motion streak. Bold definitive pictogram posture, zero clutter, no text, clean UI vector icon --ar 1:1 --v 6.0 --style raw
 ```
 
 ---
 
 ### #05 · Lean & Arm Tilt (Kemudi Belok Kiri / Kanan)
-* **Bentuk Pose:** Kemiringan belok 35°–45°. Garis kedua lengan dan bahu membentuk satu garis diagonal miring lurus yang tajam (satu tangan tinggi, satu tangan rendah), titik muka tetap lurus menghadap depan.
+* **File Tersimpan:** `Pose_05_LeanArmTilt.jpg`
 * **Prompt AI:**
 ```text
-Minimalist Computer Vision motion capture diagram, flat 2D human pictogram silhouette with smooth rounded limbs, circular head, and capsule torso. Dark matte charcoal silhouette centered in a dark slate viewport with subtle blueprint grid lines and corner brackets. Overlaid with glowing wireframe skeleton lines and bright circular joint dots: warm amber dots on the right limbs, cyan dots on the left limbs. High-contrast prominent glowing cyan facial keypoint dots on the forward-facing head. The entire torso and straight arm bar are sharply tilted at a 40-degree banking angle, one arm reaching high and the other arm low forming a steep diagonal line, while the head remains level and forward. Legs straight. Bold definitive pictogram posture, zero clutter, no text, clean UI vector icon --ar 1:1 --v 6.0 --style raw
+Minimalist Computer Vision motion capture diagram, flat 2D human pictogram silhouette with smooth rounded limbs, circular head, and capsule torso. Dark matte charcoal silhouette centered in a dark slate viewport with subtle blueprint grid lines and corner brackets. Overlaid with glowing wireframe skeleton lines and bright circular joint dots: warm amber on the right, cyan on the left. High-contrast prominent glowing cyan facial keypoint dots on the centered level head. The entire upper torso and straight arm bar are sharply tilted at a 40-degree diagonal banking angle (one arm pointing high, one arm pointing low). Crucially, the lower body remains completely upright, straight, and motionless: both legs are perfectly vertical side-by-side with zero knee bending, no lunging, no squatting, feet flat on the floor. Bold definitive pictogram posture, zero clutter, no text, clean UI vector icon --ar 1:1 --v 6.0 --style raw
 ```
 
 ---
 
 ### #06 · Flap to Climb (Mengepak Naik Bertahap)
-* **Bentuk Pose:** Puncak kepakan sayap melayang di udara. Kedua lengan terentang lebar dan melengkung tinggi di atas garis bahu membentuk busur sayap kepakan penuh, titik muka sedikit terangkat.
+* **File Tersimpan:** `Pose_06_FlapToClimb.jpg`
 * **Prompt AI:**
 ```text
-Minimalist Computer Vision motion capture diagram, flat 2D human pictogram silhouette with smooth rounded limbs, circular head, and capsule torso. Dark matte charcoal silhouette centered in a dark slate viewport with subtle blueprint grid lines and corner brackets. Overlaid with glowing wireframe skeleton lines and bright circular joint dots: warm amber dots on the right limbs, cyan dots on the left limbs. High-contrast prominent glowing cyan facial dots on the slightly raised head. The pictogram is floating in mid-air with both arms held wide and arched high above shoulder level in a bold upward wing-flap stance, elbows curved upward. Straight legs. Bold definitive pictogram posture, zero clutter, no text, clean UI vector icon --ar 1:1 --v 6.0 --style raw
+Minimalist Computer Vision motion capture diagram, flat 2D human pictogram silhouette with smooth rounded limbs, circular head, and capsule torso. Dark matte charcoal silhouette centered in a dark slate viewport with subtle blueprint grid lines and corner brackets. Overlaid with glowing wireframe skeleton lines and bright circular joint dots: warm amber on the right, cyan on the left. High-contrast prominent glowing cyan facial dots on the slightly raised head. The pictogram is floating in mid-air with both legs held perfectly straight, parallel, and motionless vertically. The arms display a rhythmic climbing wing-flap with semi-transparent motion blur ghosting arms trailing above and below the main arm stroke (multi-arm motion blur effect), showing active flight flapping. Bold definitive pictogram posture, zero clutter, no text, clean UI vector icon --ar 1:1 --v 6.0 --style raw
 ```
 
 ---
 
 ### #07 · Fly Up / Y-Pose (Menanjak Curam ke Langit)
-* **Bentuk Pose:** **Full Y-Pose**. Kedua lengan lurus terentang tinggi ke atas membentuk huruf "Y" tegas dan simetris, kepala mendongak tajam dengan titik muka (hidung, mulut, dagu) terangkat jelas ke atas.
+* **File Tersimpan:** `Pose_07_FlyUp.jpg`
 * **Prompt AI:**
 ```text
-Minimalist Computer Vision motion capture diagram, flat 2D human pictogram silhouette with smooth rounded limbs, circular head, and capsule torso. Dark matte charcoal silhouette centered in a dark slate viewport with subtle blueprint grid lines and corner brackets. Overlaid with glowing wireframe skeleton lines and bright circular joint dots: warm amber dots on the right limbs, cyan dots on the left limbs. High-contrast prominent glowing cyan facial keypoint dots on the sharply upward-tilted head. The pictogram is in an unmistakable wide 'Y-Pose', both arms raised high overhead completely straight in a bold symmetrical 'Y', head looking directly skyward, straight legs. Bold definitive pictogram posture, zero clutter, no text, clean UI vector icon --ar 1:1 --v 6.0 --style raw
+Minimalist Computer Vision motion capture diagram, flat 2D human pictogram silhouette with smooth rounded limbs, circular head, and capsule torso. Dark matte charcoal silhouette centered in a dark slate viewport with subtle blueprint grid lines and corner brackets. Overlaid with glowing wireframe skeleton lines and bright circular joint dots: warm amber on the right, cyan on the left. High-contrast prominent glowing cyan facial keypoint dots on the sharply upward-tilted head. The pictogram is in a rigid, static wide 'Y-Pose': both arms raised high overhead completely straight in a bold symmetrical 'Y', head looking directly skyward. Both legs remain completely straight, vertical, and motionless side-by-side with zero bending. Bold definitive pictogram posture, zero clutter, no text, clean UI vector icon --ar 1:1 --v 6.0 --style raw
 ```
 
 ---
 
 ### #08 · Glide / T-Pose (Meluncur Datar Sejajar)
-* **Bentuk Pose:** **Full T-Pose Melayang**. Kedua lengan lurus sempurna 180° horizontal sejajar garis bahu di udara (*floating*), titik muka netral lurus ke depan.
+* **File Tersimpan:** `Pose_08_Glide.jpg`
 * **Prompt AI:**
 ```text
-Minimalist Computer Vision motion capture diagram, flat 2D human pictogram silhouette with smooth rounded limbs, circular head, and capsule torso. Dark matte charcoal silhouette centered in a dark slate viewport with subtle blueprint grid lines and corner brackets. Overlaid with glowing wireframe skeleton lines and bright circular joint dots: warm amber dots on the right limbs, cyan dots on the left limbs. High-contrast prominent glowing cyan facial keypoint dots on the centered, level head. The pictogram is in a pure mid-air Glide T-Pose, floating with both arms stretched completely straight horizontally at 180 degrees shoulder height forming a flat level bar, straight legs. Bold definitive pictogram posture, zero clutter, no text, clean UI vector icon --ar 1:1 --v 6.0 --style raw
+Minimalist Computer Vision motion capture diagram, flat 2D human pictogram silhouette with smooth rounded limbs, circular head, and capsule torso. Dark matte charcoal silhouette centered in a dark slate viewport with subtle blueprint grid lines and corner brackets. Overlaid with glowing wireframe skeleton lines and bright circular joint dots: warm amber on the right, cyan on the left. High-contrast prominent glowing cyan facial keypoint dots on the centered level head. The pictogram is in a pure static mid-air Glide T-Pose: both arms stretched completely straight horizontally at 180 degrees shoulder height in a flat level bar. Both legs are completely straight, vertical, and motionless side-by-side with zero bending. Bold definitive pictogram posture, zero clutter, no text, clean UI vector icon --ar 1:1 --v 6.0 --style raw
 ```
 
 ---

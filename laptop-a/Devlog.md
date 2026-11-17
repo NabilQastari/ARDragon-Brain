@@ -13,6 +13,20 @@ updated: 2026-11-15
 
 ---
 
+## 2026-11-17 — Pengarsipan Aset Gambar Segmen 2 (Pose 04–08) & Kesiapan Prompt Segmen 3 ([[prompt_visual_pose_cv_kerangka]])
+- **Penyimpanan Aset Segmen 2:**
+  - Seluruh 5 gambar hasil generasi pengguna untuk Segmen 2 telah berhasil disimpan dan diarsipkan ke:
+    1. [`assets/poses_cv_guide/Pose_04_Takeoff.jpg`](file:///e:/Semester%205/Game/AR%20Dragon/assets/poses_cv_guide/Pose_04_Takeoff.jpg) (Tangan mengepak 6 lengan motion blur)
+    2. [`assets/poses_cv_guide/Pose_05_LeanArmTilt.jpg`](file:///e:/Semester%205/Game/AR%20Dragon/assets/poses_cv_guide/Pose_05_LeanArmTilt.jpg) (Kemudi belok miring, kaki tegak lurus sempurna)
+    3. [`assets/poses_cv_guide/Pose_06_FlapToClimb.jpg`](file:///e:/Semester%205/Game/AR%20Dragon/assets/poses_cv_guide/Pose_06_FlapToClimb.jpg) (Kepakan melayang multi-arm motion blur)
+    4. [`assets/poses_cv_guide/Pose_07_FlyUp.jpg`](file:///e:/Semester%205/Game/AR%20Dragon/assets/poses_cv_guide/Pose_07_FlyUp.jpg) (Full Y-Pose simetris overhead)
+    5. [`assets/poses_cv_guide/Pose_08_Glide.jpg`](file:///e:/Semester%205/Game/AR%20Dragon/assets/poses_cv_guide/Pose_08_Glide.jpg) (Full T-Pose horizontal)
+    Serta duplikatnya di [`Referensi/Referensi Pose CV/`](file:///e:/Semester%205/Game/AR%20Dragon/Referensi/Referensi%20Pose%20CV/).
+  - Hasil Segmen 2 terverifikasi 100% konsisten, proporsional, dan estetik (efek motion blur 6-lengan pada kepakan sayap bekerja sempurna, dan kaki terkunci tegak tanpa tekukan).
+- **Kesiapan Segmen 3:**
+  - Menyusun set prompt khusus Segmen 3 (Pose 09 s/d 14: Hover Mode, Gentle Descent dengan panah turun, Fly Down Y-Dive, W-Pose Descent, Aerodynamic Tuck Dive, dan Propeller Dash dengan revolving motion blur).
+- **Dampak Dokumentasi:** Memperbarui [[prompt_visual_pose_cv_kerangka]], [[Tasks]], dan [[Devlog]].
+
 ## 2026-11-17 — Pengarsipan Aset Gambar Segmen 1 (Pose 01–03) & Penyeragaman Formula Segmen 2–4 ([[prompt_visual_pose_cv_kerangka]])
 - **Penyimpanan Aset Segmen 1:**
   - Ketiga gambar hasil generasi pengguna untuk Segmen 1 telah disimpan dan diarsipkan resmi ke dua direktori proyek:
