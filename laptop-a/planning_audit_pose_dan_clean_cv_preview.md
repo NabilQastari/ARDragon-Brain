@@ -36,15 +36,15 @@ related:
 * Teks-teks ini sering kali menutupi area kepala, dada, atau pergelangan tangan pemain, sehingga menyulitkan pemain dan pengembang untuk melihat apakah posisi fisik tubuh sudah sesuai dengan panduan visual.
 
 ### Tindakan Implementasi di Laptop B (`active_cv_sender.py`):
-1. **Nonaktifkan / Hapus Gambar Kotak & Teks Telemetri:**
-   - Hapus pemanggilan `cv2.putText()` dan `cv2.rectangle()` untuk panel HUD teks telemetri pada frame yang dirender/dikirim ke port 5053.
-   - Sembunyikan teks FPS, nama status, dan nilai numerik dari atas kanvas video.
+1. **Nonaktifkan / Hapus Gambar Kotak & Teks Telemetri (Kecuali FPS):**
+   - Hapus pemanggilan `cv2.putText()` dan `cv2.rectangle()` untuk panel HUD teks telemetri pada frame yang dirender/dikirim ke port 5053 (kotak hitam HUD, pembacaan float `HEAD_PITCH`, angka bukaan mulut `MOUTH_OPEN`, sudut lean, dan teks nama status pose).
+   - **PENGECUALIAN — PERTAHANKAN FPS:** Angka FPS tetap dipertahankan tampil di sudut layar (misal pojok kiri atas atau pojok kanan atas) dengan format teks bersih dan ringkas (`FPS: xx`), tanpa kotak hitam besar yang menghalangi pandangan.
 2. **Pertahankan Murni Visual Titik & Kerangka (*Clean Skeleton Overlay*):**
    - **Garis Tulang (Skeleton Lines):** Garis bahu, lengan atas, lengan bawah, serta torso.
    - **Titik Sendi Tubuh (Keypoints):** Lingkaran kecil pada bahu, siku, pergelangan tangan, dan pinggul.
    - **Titik Wajah Baru:** Titik Hidung (`Nose`), Dagu (`Chin`), dan Mulut (`Mouth`).
 3. **Hasil:**
-   - Tampilan video webcam menjadi sangat bersih (*clean & minimal*).
+   - Tampilan video webcam menjadi sangat bersih (*clean & minimal*), hanya menyisakan angka FPS kecil di sudut serta kerangka/titik tubuh.
    - Pemain dapat melihat dengan jelas postur tubuhnya sendiri tanpa gangguan tulisan yang menumpuk di layar.
 
 ---
@@ -103,7 +103,7 @@ Untuk memastikan seluruh 15 pose bekerja 100% akurat dan nyaman sesuai [Panduan 
 
 - [ ] **Langkah 1: Bersihkan Preview CV:**
   - Buka `active_cv_sender.py`.
-  - Matikan/komentari blok rendering teks telemetri OpenCV (hanya pertahankan `draw_skeleton()` dan `draw_keypoints()`).
+  - Matikan/komentari blok rendering teks telemetri OpenCV (hanya pertahankan angka **FPS**, `draw_skeleton()`, dan `draw_keypoints()`).
 - [ ] **Langkah 2: Siapkan Folder Tangkapan Layar:**
   - Pastikan folder tujuan screenshot siap (misal `assets/screenshots/audit_poses/`).
 - [ ] **Langkah 3: Penerimaan Screenshot & Tuning Bertahap:**

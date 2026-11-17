@@ -16,8 +16,8 @@ updated: 2026-11-15
 ## 2026-11-17 — Planning Pembersihan Teks Preview CV & Protokol Audit 15 Pose Berbasis Screenshot ([[planning_audit_pose_dan_clean_cv_preview]])
 - **Keputusan & Arahan Teknis:**
   - **1. Pembersihan Teks Preview CV (`active_cv_sender.py` & PIP):**
-    - Mengosongkan seluruh teks indikator telemetri (kotak HUD teks, angka FPS, nilai float `HEAD_PITCH`, angka bukaan mulut, dll.) pada frame preview kamera.
-    - Menampilkan **murni visual titik (*keypoints*) dan garis kerangka (*skeleton*)** agar pandangan ke tubuh pemain bersih dan tidak terhalang teks.
+    - Mengosongkan seluruh teks indikator telemetri (kotak HUD teks, nilai float `HEAD_PITCH`, angka bukaan mulut, status pose, dll.) pada frame preview kamera, **kecuali angka FPS** yang tetap ditampilkan kecil dan bersih di sudut layar.
+    - Menampilkan **murni visual titik (*keypoints*) dan garis kerangka (*skeleton*)** serta FPS agar pandangan ke tubuh pemain bersih dan tidak terhalang teks.
   - **2. Protokol Audit & Penyelarasan Pose Berbasis Screenshot:**
     - Pemain akan menguji 15 pose di hadapan webcam mengacu pada [[Panduan_15_Pose_Fanamir.pdf]].
     - Setiap pose yang gagal terdeteksi, lambat terpicu, atau tidak akurat akan di-screenshot oleh pemain (menampilkan feed kamera dengan titik dan kerangka).

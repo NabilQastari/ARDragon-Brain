@@ -85,7 +85,7 @@ related:
 ## 🦅 FOKUS 2: Validasi 15 Pose & Finalisasi Kontrol Terbang Fanamir
 
 ### 0. Pembersihan Preview CV & Protokol Screenshot ([[planning_audit_pose_dan_clean_cv_preview]])
-- **Clean Skeleton Viewport:** Kosongkan seluruh teks indikator telemetri (kotak HUD teks, FPS, angka pitch, teks status pose) pada preview CV (`active_cv_sender.py`) dan feed PIP. Tampilkan **murni visual titik (keypoints) dan garis kerangka (skeleton)** agar tubuh pemain terlihat jelas tanpa tertutup teks.
+- **Clean Skeleton Viewport (Kecuali FPS):** Kosongkan seluruh teks indikator telemetri (kotak HUD teks, angka pitch, teks status pose) pada preview CV (`active_cv_sender.py`) dan feed PIP, **kecuali angka FPS** yang tetap ditampilkan kecil dan bersih di sudut layar. Tampilkan murni visual titik (keypoints) dan garis kerangka (skeleton) agar tubuh pemain terlihat jelas tanpa tertutup teks.
 - **Audit Pose Berbasis Screenshot:** Pemain akan menguji 15 pose di depan webcam. Setiap pose yang gagal terdeteksi, lambat terpicu, atau tidak akurat akan di-screenshot oleh pemain. Laptop B menggunakan tangkapan layar tersebut untuk men-tuning nilai ambang (*threshold*), *hysteresis*, dan formula geometris di Python & Unity hingga seluruh pose akurat.
 
 ### 1. Pengujian 15 Pose di Play Mode Webcam Nyata (`MainIsland_Gameplay.unity`)
