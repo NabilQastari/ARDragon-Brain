@@ -26,6 +26,18 @@ updated: 2026-11-15
   - Menghasilkan dokumen lengkap [[planning_optimasi_token_laptop_b]] berisi spesifikasi isi berkas `.antigravityignore`, blok aturan `AGENTS.md`, langkah instalasi bertahap, dan prompt eksekusi siap salin (*copy-paste*) untuk diinstruksikan langsung ke agen Laptop B.
 - **Dampak Dokumentasi:** Memperbarui [[00 - Overview]], [[Tasks]], dan [[Devlog]].
 
+## 2026-11-18 — Refactoring Torso Trapesium & Bahu Organik Seluruh 17 Pose di FigCraft
+- **Penghapusan Total Bentuk "T-Shape" Torso:**
+  - Menghapus konstruksi dua kotak kaku (*Shoulders* 46px + *Waist* 24px) yang sebelumnya menimbulkan siluet mirip huruf "T" dan bahu kaku seperti gantungan baju.
+  - Menggantinya dengan satu bentuk vektor tunggal **Trapesium Atletis (*Athletic Trapezoid Torso*)** yang organik di seluruh 17 kartu pose di [`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft).
+- **Spesifikasi Geometri & Bahu Baru:**
+  - **Kerah Leher Halus:** Garis collar horizontal 8px di pangkal leher `(116..124, 86)`.
+  - **Kelengkungan Bahu Alami:** Menurun melandai dari kerah ke sudut sendi bahu (`y = 86 -> 88`, `w = 34.4 px`) dengan sudut membulat bezier `Q`, menyambung secara anatomis dengan pangkal lengan.
+  - **Penyempitan Trapesium ke Pinggang:** Meramping halus dari 34.4 px di bagian atas ke 24 px di panggul (`y = 138`), membentuk rasio trapesium ideal `~1.43 : 1` (sedikit lebih lebar di atas).
+  - Memberikan ruang negatif (*clearance*) alami antara tangan yang menggantung dengan pinggang di pose netral (`#01`, `#03`, `#15B`), serta transisi mulus saat lengan terangkat (`#02`, `#04`, `#07`, `#08`, dsb.).
+- **Verifikasi Lembar Lengkap:** Seluruh lembar pose di-render ulang dan dipastikan 100% konsisten, bersih, dan estetik.
+- **Dampak Dokumentasi:** Memperbarui [[Tasks]] dan [[Devlog]].
+
 ## 2026-11-18 — Penyelesaian Seluruh 17 Visual Pose Kontrol di FigCraft (Minimalist Vector CV Sheet)
 - **Pembangunan Seluruh 17 Kartu Pose di FigCraft (Page `Pose`, `id: 2260`):**
   - Menyelesaikan perakitan 17 kartu pose vektor minimalis berlatar terang (*Light Card Theme* `#F8FAFC`, border `#CBD5E1`, corner radius 16px) dengan siluet stickman charcoal gelap kontras tinggi (`#0F172A`) di [`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft).
