@@ -13,6 +13,17 @@ updated: 2026-11-15
 
 ---
 
+## 2026-11-17 — Penyusunan Katalog Prompt Visual Pose CV Berbasis Titik & Kerangka ([[prompt_visual_pose_cv_kerangka]])
+- **Keputusan & Arahan Desain Visual:**
+  - Menyusun set prompt image generation untuk seluruh pose kontrol *Fanamir: The Sky Guardian* dengan gaya visual murni **Computer Vision Keypoints + Skeleton Wireframe** (ala YOLOv8-pose / MediaPipe).
+  - Membagi pose secara sistematis ke dalam **4 Segmen Gerak Resmi**:
+    1. *Segmen 1: Grounded Poses (Pose Darat)* — Pose 01 Grounded Idle, Pose 02 Grounded Walk, Pose 03 Grounded Look Up (Head Pitch UP, dagu terangkat, dada rileks).
+    2. *Segmen 2: Locomotion & Penerbangan Inti* — Pose 04 Takeoff, Pose 05 Lean & Arm Tilt (kemudi belok kiri/kanan), Pose 06 Flap to Climb, Pose 07 Fly Up (Y-Pose + dagu naik), Pose 08 Glide (T-Pose sejajar).
+    3. *Segmen 3: Maneuver Khusus* — Pose 09 Hover Mode (tangan di depan dada), Pose 10 Gentle Descent (dagu tunduk), Pose 11 Fly Down (Y-Dive), Pose 12 Fly Down Idle (W-Descent), Pose 13 Tuck to Dive (-45° tuck), Pose 14 Propeller Dash (putaran tangan melingkar).
+    4. *Segmen 4: Village Actions (Aksi Pemulihan 3 Biome Desa)* — Pose 15A Zephyria Wind Flap (meniup kabut), Pose 15B Pyrewood Open Mouth Water Breath (semburan air via tracking bukaan mulut), Pose 15C Solaria Raise Both Hands (hujan embun suci).
+  - Menyertakan *Master Style Directive*, pembagian warna titik (Cyan untuk titik wajah Hidung/Dagu/Mulut, Amber/Emas untuk tangan/bahu, Biru Kobalt untuk torso), dan parameter teknis AI Generator (`--ar 1:1 --v 6.0 --style raw`).
+- **Dampak Dokumentasi:** Membuat [[prompt_visual_pose_cv_kerangka]], memperbarui [[Tasks]], dan [[Devlog]].
+
 ## 2026-11-17 — Penyusunan Checklist Finalisasi & Prasyarat Pra-Sesi 4 ([[checklist_finalisasi_pra_sesi_4]])
 - **Keputusan & Arahan Teknis:**
   - Menyusun inventarisasi menyeluruh prasyarat teknis sebelum implementasi mekanisme tantangan desa (Sesi 4: `VillageZoneController.cs`, `Session4_VillageBuilder.cs`).
