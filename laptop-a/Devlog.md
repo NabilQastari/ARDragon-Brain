@@ -13,6 +13,18 @@ updated: 2026-11-15
 
 ---
 
+## 2026-11-17 — Revisi Prompt Visual Pose CV: Semi-Stickman Anatomis & Pose To-The-Point ([[prompt_visual_pose_cv_kerangka]])
+- **Penyempurnaan Karakter & Penegasan Pose:**
+  - Mengubah karakter menjadi **semi-stickman dengan proporsi tubuh manusia yang akurat** (figur geometris ramping, sendi/anggota tubuh berasio anatomi manusia, kepala bulat minimalis, bebas tekstur kulit/pakaian).
+  - Menegaskan seluruh bentuk pose agar **to the point & tanpa ragu**:
+    - `#02 Grounded Walk`: Dipertegas menjadi **Full T-Pose di darat** (kaki di tanah, tangan lurus horizontal 180°).
+    - `#01 Grounded Idle`: Full I-Pose (tangan merapat lurus ke samping paha).
+    - `#07 Fly Up`: Full Y-Pose simetris overhead.
+    - `#12 Fly Down Idle`: Full W-Pose simetris di samping telinga.
+    - `#09 Hover Mode`: Full L-Arm Pose (siku 90° ke depan dada).
+    - `#13 Tuck to Dive`: Full aerodynamic tuck rapat di dada.
+- **Dampak Dokumentasi:** Memperbarui [[prompt_visual_pose_cv_kerangka]], [[Tasks]], dan [[Devlog]].
+
 ## 2026-11-17 — Penyempurnaan Katalog Prompt Visual Pose CV Minimalis (Biometric Mannequin UI) ([[prompt_visual_pose_cv_kerangka]])
 - **Penyelarasan Desain Sesuai Referensi Visual Pengguna:**
   - Menyesuaikan formula prompt 100% mengikuti referensi visual biometrik: siluet manekin manusia 3D abu-abu transparan dengan *soft rim lighting*, garis kerangka tipis presisi, titik sendi dual-tone (**Amber/Kuning** di satu sisi, **Cyan/Teal** di sisi lain, titik wajah Cyan), serta latar frame grid kotak biru gelap minimalis dengan *corner reticle brackets*.
