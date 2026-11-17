@@ -13,6 +13,17 @@ updated: 2026-11-15
 
 ---
 
+## 2026-11-17 — Planning Pembersihan Teks Preview CV & Protokol Audit 15 Pose Berbasis Screenshot ([[planning_audit_pose_dan_clean_cv_preview]])
+- **Keputusan & Arahan Teknis:**
+  - **1. Pembersihan Teks Preview CV (`active_cv_sender.py` & PIP):**
+    - Mengosongkan seluruh teks indikator telemetri (kotak HUD teks, angka FPS, nilai float `HEAD_PITCH`, angka bukaan mulut, dll.) pada frame preview kamera.
+    - Menampilkan **murni visual titik (*keypoints*) dan garis kerangka (*skeleton*)** agar pandangan ke tubuh pemain bersih dan tidak terhalang teks.
+  - **2. Protokol Audit & Penyelarasan Pose Berbasis Screenshot:**
+    - Pemain akan menguji 15 pose di hadapan webcam mengacu pada [[Panduan_15_Pose_Fanamir.pdf]].
+    - Setiap pose yang gagal terdeteksi, lambat terpicu, atau tidak akurat akan di-screenshot oleh pemain (menampilkan feed kamera dengan titik dan kerangka).
+    - Laptop B menggunakan data tangkapan layar tersebut untuk menganalisis kesalahan geometri dan merevisi nilai ambang batas (*threshold* / *hysteresis*) di `motion_recognizer.py` / `active_cv_sender.py` serta damping di `DragonFlightController.cs`.
+- **Dampak Dokumentasi:** Membuat [[planning_audit_pose_dan_clean_cv_preview]], memperbarui [[laptop B Patch 1 planning]], [[Tasks]], dan [[Devlog]].
+
 ## 2026-11-16 — Penyusunan Panduan Setup Lengkap & Prompt Onboarding Brain Antigravity + Obsidian (`prompt-setup-brain.md`)
 - **Penyusunan Master Guide & Prompt Wizard:**
   - Menyusun panduan menyeluruh berbasis arsitektur nyata project AR Dragon / Fanamir ke dalam [`prompt-setup-brain.md`](file:///e:/Semester%205/Game/AR%20Dragon/prompt-setup-brain.md).
