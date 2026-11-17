@@ -13,6 +13,12 @@ updated: 2026-11-15
 
 ---
 
+## 2026-11-17 — Koreksi Prompt Takeoff: Visual Tangan Mengepak Sayap ([[prompt_visual_pose_cv_kerangka]])
+- **Koreksi Anatomi Pose Takeoff (#04):**
+  - Mengoreksi kesalahan visual Takeoff yang sebelumnya mendeskripsikan tangan mengarah ke bawah paha (inverted V), menjadi **murni pose tangan mengepak sayap (*wide wing-flapping posture* `\_o_/`)** sesuai aset resmi `UI_Pose_04_Takeoff.png`.
+  - Kedua lengan terentang lebar ke samping dengan siku ditekuk dan lengan bawah mengarah ke atas-luar layaknya sayap naga yang sedang mengepak kuat dari darat untuk lepas landas.
+- **Dampak Dokumentasi:** Memperbarui [[prompt_visual_pose_cv_kerangka]], [[Tasks]], dan [[Devlog]].
+
 ## 2026-11-17 — Revisi Prompt Visual Pose CV: Semi-Stickman Anatomis & Pose To-The-Point ([[prompt_visual_pose_cv_kerangka]])
 - **Penyempurnaan Karakter & Penegasan Pose:**
   - Mengubah karakter menjadi **semi-stickman dengan proporsi tubuh manusia yang akurat** (figur geometris ramping, sendi/anggota tubuh berasio anatomi manusia, kepala bulat minimalis, bebas tekstur kulit/pakaian).

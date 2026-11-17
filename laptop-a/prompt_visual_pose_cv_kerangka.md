@@ -71,11 +71,11 @@ Minimalist Computer Vision motion capture diagram, semi-stickman figure with rea
 
 ## 📂 Segmen 2: Locomotion & Penerbangan Inti (Dasar Terbang)
 
-### #04 · Takeoff (Lepas Landas)
-* **Karakter Pose:** Ayunan dorongan kepak ke bawah. Dagu mendongak ke atas, kedua lengan mengayun lurus tajam ke bawah melewati paha membentuk huruf V terbalik (`/ \`).
+### #04 · Takeoff (Lepas Landas — Tangan Mengepak)
+* **Karakter Pose:** **Pose Tangan Mengepak (Wing Flap Takeoff)**. Kaki di darat siap lepas landas, dagu mendongak ke atas, kedua lengan terentang lebar ke samping dengan siku ditekuk membentuk busur sayap mengepak yang tegas (`\_ o _/`) layaknya sayap naga yang sedang mengepak kuat untuk lepas landas ke udara.
 * **Prompt AI:**
 ```text
-Minimalist Computer Vision motion capture diagram, semi-stickman figure with realistic human anatomical proportions. Sleek geometric stick figure with slender dark limbs, centered in a dark slate viewport with faint blueprint grid and corner brackets. Glowing skeleton lines and bright circular joint dots: warm amber on the right side and cyan on the left side. Chin and head are tilted upward, while both arms are driven straight downwards past the hips in an aggressive downward thrust forming an inverted V-shape. Bold definitive silhouette, zero clutter, no text, clean UI vector icon --ar 1:1 --v 6.0 --style raw
+Minimalist Computer Vision motion capture diagram, semi-stickman figure with realistic human anatomical proportions. Sleek geometric stick figure with slender dark limbs, centered in a dark slate viewport with faint blueprint grid and corner brackets. Glowing skeleton lines and bright circular joint dots: warm amber on the right side and cyan on the left side. The stickman is performing a dynamic Takeoff wing flap: standing grounded with chin tilted upward, both arms spread wide outward in a bold wing-flapping posture with elbows bent and forearms angled upward like flapping dragon wings. Bold definitive silhouette, clear wing-flapping arm posture, zero clutter, no text, clean UI vector icon --ar 1:1 --v 6.0 --style raw
 ```
 
 ---
