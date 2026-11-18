@@ -13,6 +13,9 @@ updated: 2026-11-18
 
 ---
 
+## 2026-11-18 — Arsip Memori Sesi: Pembaruan UI `Fanamir` (`v1.7` & `v1.8` Boot Flow) ([[Pembaruan UI Fanamir v1.7 dan v1.8]])
+- **Ringkasan Sesi:** Mengarsipkan seluruh keputusan desain dan eksekusi UI sesi ini: pengubahan branding publik ke **`Fanamir: The Sky Guardian`**, penambahan **Quest Objective Panel (`SCREEN 02`)**, **Quest Narrative Box Auto-Play *hands-free* (`SCREEN 08`)**, slider ke-5 **`Text Auto-Next` (`SCREEN 05`)**, ekspor `140` PNG komponen + `9` desain `1920×1080` (`v1.7`), serta perancangan **Splash Screen (`SCREEN 09`)** dan **Start Screen (`SCREEN 10` · `PRESS ANY BUTTON TO START`)** menggunakan komponen eksisting (`11` desain referensi total `v1.8`, prompt §5 & §6 di [[kontrak_integrasi_ui_dan_progress]]). Catatan lengkap disimpan di [[Pembaruan UI Fanamir v1.7 dan v1.8]].
+
 ## 2026-11-18 — Arsip Memori Sesi: Perencanaan Optimasi Token Laptop B ([[Perencanaan Optimasi Token Laptop B]])
 - **Ringkasan Sesi:** Melakukan analisis 6 kandidat tool optimasi token (RTK, Ponytail Antigravity IDE, Token-Saver Skill, Ponytail Original, Native Antigravity Skills, dan Rules/.antigravityignore) khusus untuk lingkungan Laptop B (Unity 6 C# dan Python CV). Merumuskan arsitektur *The Optimal Lean Stack* (kombinasi `.antigravityignore` masif, kompresor terminal CLI `rtk`, aturan minimal coding Ponytail-Lite di `AGENTS.md`, isolasi skill Blender, dan hygiene `/compact`). Menyusun berkas panduan [[planning_optimasi_token_laptop_b]] dan prompt eksekusi siap pakai untuk Laptop B. Catatan lengkap disimpan di [[Perencanaan Optimasi Token Laptop B]].
 
