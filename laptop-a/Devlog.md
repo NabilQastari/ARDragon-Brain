@@ -26,6 +26,14 @@ updated: 2026-11-15
   - Menghasilkan dokumen lengkap [[planning_optimasi_token_laptop_b]] berisi spesifikasi isi berkas `.antigravityignore`, blok aturan `AGENTS.md`, langkah instalasi bertahap, dan prompt eksekusi siap salin (*copy-paste*) untuk diinstruksikan langsung ke agen Laptop B.
 - **Dampak Dokumentasi:** Memperbarui [[00 - Overview]], [[Tasks]], dan [[Devlog]].
 
+## 2026-11-18 — Perbaikan Arah Kemudi & Sudut Lengan Pose 05 (Lean & Arm Tilt) di FigCraft
+- **Penyelarasan Arah Lean Tubuh dan Kemiringan Lengan:**
+  - Memperbaiki ketidaksesuaian arah pada kartu `#05 Lean & Arm Tilt`: sebelumnya tubuh condong ke kanan (ke arah sisi Cyan), namun lengan Orange berada di bawah dan Cyan di atas (berlawanan dengan arah lean).
+  - Menyinkronkan arah kemudi sesuai referensi gerak pesawat/kemudi belok (*banking*): saat tubuh condong ke kanan (ke sisi belok kiri stickman / viewer's right), lengan kanan (Orange) terangkat tinggi ke atas-kiri (`-30°`), dan lengan kiri (Cyan) menukik ke bawah-kanan (`+30°`).
+  - Menyesuaikan kemiringan bahu trapesium torso (`M 129 91 ...`), garis tulang belakang (*spine wireframe*), clavicle, dan seluruh titik sendi agar sejajar rapi dengan garis lengan miring, sementara kedua kaki tetap tegak lurus sempurna.
+- **Verifikasi Visual:** Lembar Segmen 2 dan seluruh lembar pose 17 kartu telah di-render ulang dan diverifikasi.
+- **Dampak Dokumentasi:** Memperbarui [[Devlog]].
+
 ## 2026-11-18 — Refactoring Torso Trapesium & Bahu Organik Seluruh 17 Pose di FigCraft
 - **Penghapusan Total Bentuk "T-Shape" Torso:**
   - Menghapus konstruksi dua kotak kaku (*Shoulders* 46px + *Waist* 24px) yang sebelumnya menimbulkan siluet mirip huruf "T" dan bahu kaku seperti gantungan baju.
