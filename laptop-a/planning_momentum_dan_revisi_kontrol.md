@@ -80,35 +80,42 @@ Revisi ini menggabungkan kecepatan pose yang sebelumnya terpisah-pisah ke dalam 
 
 ---
 
-## 4. Pembaruan UI Unity (`SCREEN 01`, `SCREEN 02`, `SCREEN 07`)
+## 4. Pembaruan UI Unity (`SCREEN 01`, `SCREEN 02`, `SCREEN 07`) & Paket Delta Aset
 
-1. **Impor 3 Aset PNG Modular Baru/Terbarui ke Unity (`Assets/UI/Components/`):**
-   - `05_HUD/UI_HUD_Momentum_Track_206x20.png` (recessed track dengan tick `25%/50%/75%`).
-   - `05_HUD/UI_HUD_Momentum_Fill_200x14.png` (fill bar amber gold `#E5AD44`, set di Unity sebagai `Image.Type = Filled`, `FillMethod = Horizontal`).
-   - `06_Poses/UI_Pose_09_HoverMode.png` (ikon medali L-pose + kepak lengan bawah, tanpa CV dots).
-   - Referensi layout terbaru di `docs/UI_Designs_Reference/`: `01_Calibration_MotionTutorial.png`, `02_InGame_FlightHUD.png`, `07_PoseGuide_OverlayModal.png`.
+1. **Paket Delta Siap Impor (`assets/Export_Delta_LaptopB/` & `Export_Delta_LaptopB.zip`):**
+   - Berisi **tepat 28 file baru/terbarui** terhadap `UI_Unity_Exportv2.zip` + `poses_cv_vector.zip` (lihat `MANIFEST_DELTA.md`):
+     - **15 Ikon Medali UI Bersih (`06_Poses/UI_Pose_01..15.png`):** Menggantikan kartu berkerangka/titik CV yang sempat terpasang di UI medali Unity dengan **siluet stickman bersih UI (tanpa kerangka maupun titik CV)** + pembaruan `#09` L-Flap flutter.
+     - **2 Komponen Momentum Bar (`05_HUD/UI_HUD_Momentum_Track_206x20.png`, `UI_HUD_Momentum_Fill_200x14.png`):** Set fill bar sebagai `Image.Type = Filled`, `FillMethod = Horizontal`.
+     - **5 Referensi Desain `1920×1080` (`UI_Unity_Export/Designs/`):** `01_Calibration_MotionTutorial.png`, `02_InGame_FlightHUD.png`, `07_PoseGuide_OverlayModal.png` (ditambah `09_SplashScreen.png` & `10_StartScreen.png` sebagai pelengkap zip v2).
+     - **4 Aset Vector CV (`poses_cv_vector/`):** `Pose_06B_SteepClimb_ChinUpFlap.png`, `Pose_09_Hover.png`, `Pose_09B_SlowGlide_LPose.png`, `All_19_Poses_Sheet.png`.
+     - **2 Buku Panduan Terbaru (`docs/`):** `Panduan_19_Pose_Fanamir_CV.pdf` & `.docx`.
 2. **HUD Gameplay `Momentum Dock` (`InGameFlightHUD.cs` + `UISceneAndPrefabBuilder.cs`):**
    - Pasang `MomentumDock` (`420 × 40`, parchment plaque) tepat di atas `TelemetryDock` (`y` offset `+48 px` di atas `TelemetryDock`, anchor kanan bawah) sesuai [`02_InGame_FlightHUD.png`](file:///e:/Semester%205/Game/AR%20Dragon/assets/UI_Unity_Export/Designs/02_InGame_FlightHUD.png).
    - Method publik `SetMomentum(float normalized01, bool canYClimb)` untuk mengisi bar horizontal dan memperbarui badge kanan (`"{pct}% · Y-OK"` warna emas `#E5AD44` saat `> 0.02f`, atau `"0% · EMPTY"` abu-abu netral saat kosong).
-3. **`PoseGuideCatalog.cs` & `PoseGuideOverlayUI.cs`:**
-   - Selaraskan teks kartu `#06`, `#07`, `#08`, `#09`, `#13`, `#14` (plus informasi `#06B Chin-Up Steep Climb` dan `#09B Slow Glide`) persis dengan teks yang sudah diperbarui di `SCREEN 01` & `SCREEN 07`.
+3. **`PoseGuideCatalog.cs`, `CalibrationPanelUI.cs`, & `PoseGuideOverlayUI.cs`:**
+   - Gunakan ke-`15` sprite medali bersih `06_Poses/UI_Pose_01..15` (tanpa CV skeleton/dots, tata letak `3×5` sesuai `07_PoseGuide_OverlayModal.png`), lalu selaraskan teks `#06, #07, #08, #09, #13, #14` persis dengan desain terbaru.
 
 ---
 
 ## 5. 🤖 Prompt Siap Pakai untuk AI Agent Laptop B
 
-> Salin seluruh blok prompt di bawah ini dan kirimkan ke AI Agent di **Laptop B** setelah memastikan `brain/` sudah di-pull dan folder `assets/UI_Unity_Export/` + `assets/poses_cv_vector/` tersinkron ke Laptop B.
+> Salin seluruh blok prompt di bawah ini dan kirimkan ke AI Agent di **Laptop B** setelah memastikan `brain/` sudah di-pull dan paket **`Export_Delta_LaptopB/`** (atau `Export_Delta_LaptopB.zip`) sudah diletakkan di workspace Laptop B.
 
 ```markdown
-Tugas: Implementasikan sistem **Momentum Terpadu (`0–100%`)** dan revisi kontrol penerbangan (`#06B Steep Climb Chin-Up Flap`, `#07 Momentum Y-Glide Up`, `#08 Momentum Cruise`, `#09A L-Flap Hover Brake`, `#09B Slow Glide`, `#13/#14` akumulasi bertahap berulang) beserta **Momentum Bar HUD (`SCREEN 02`)** & pembaruan teks/ikon **Pose Guide (`SCREEN 01`/`07`)** sesuai spesifikasi terbaru dari Laptop A di `brain/laptop-a/planning_momentum_dan_revisi_kontrol.md`.
+Tugas: Terapkan seluruh pembaruan aset delta dari `Export_Delta_LaptopB/` (ikon guide UI bersih tanpa titik/kerangka CV + komponen Momentum Bar), implementasikan sistem **Momentum Terpadu (`0–100%`)** dan revisi kontrol penerbangan (`#06B Steep Climb Chin-Up Flap`, `#07 Momentum Y-Glide Up`, `#08 Momentum Cruise`, `#09A L-Flap Hover Brake`, `#09B Slow Glide`, `#13/#14` akumulasi bertahap berulang) beserta **Momentum Bar HUD (`SCREEN 02`)** & pembaruan **Pose Guide (`SCREEN 01`/`07`)** sesuai spesifikasi Laptop A di `brain/laptop-a/planning_momentum_dan_revisi_kontrol.md`.
 
 ⚠️ BATASAN WAJIB — ZERO REGRESSION 6 POSE TERKUNCI:
 Jangan merusak logika deteksi/threshold 6 pose CV yang sudah teruji (`#01` Idle, `#02` Walk, `#04` Takeoff, `#05` Lean & Arm Tilt, `#08` Glide, `#13` Tuck to Dive). Pertahankan kelulusan 100%.
 
-### 1. BACA DOKUMEN ACUAN & CEK ASET TERBARU
+### 1. BACA DOKUMEN ACUAN & SALIN PAKET DELTA (`Export_Delta_LaptopB/`)
 1. Jalankan `git -C brain pull`. Patuhi `AGENTS.md` Laptop B (`brain/laptop-a/` read-only, log hanya di `brain/laptop-b/`).
-2. Baca tuntas `brain/laptop-a/planning_momentum_dan_revisi_kontrol.md`.
-3. Periksa referensi desain UI baru: `assets/UI_Unity_Export/Designs/02_InGame_FlightHUD.png`, `01_Calibration_MotionTutorial.png`, `07_PoseGuide_OverlayModal.png` serta komponen baru di `assets/UI_Unity_Export/Components/05_HUD/UI_HUD_Momentum_*` dan `06_Poses/UI_Pose_09_HoverMode.png`.
+2. Baca tuntas `brain/laptop-a/planning_momentum_dan_revisi_kontrol.md` dan `Export_Delta_LaptopB/MANIFEST_DELTA.md`.
+3. Salin isi paket delta ke direktori project (timpa yang lama):
+   - `Export_Delta_LaptopB/UI_Unity_Export/Components/05_HUD/*` -> `AR Dragon Sky Guardian/Assets/UI/Components/05_HUD/`
+   - `Export_Delta_LaptopB/UI_Unity_Export/Components/06_Poses/UI_Pose_01..15*.png` -> `AR Dragon Sky Guardian/Assets/UI/Components/06_Poses/` *(GANTI/BERSIHKAN kartu `Pose_01..15C` berkerangka CV dari `Assets/UI/Components/06_Poses/`! UI medali game harus memakai siluet bersih `UI_Pose_01..15.png` tanpa kerangka & titik CV!)*
+   - `Export_Delta_LaptopB/UI_Unity_Export/Designs/*` -> `docs/UI_Designs_Reference/`
+   - `Export_Delta_LaptopB/poses_cv_vector/*` -> `assets/poses_cv_vector/` (arsip referensi CV 19 pose + `All_19_Poses_Sheet.png`)
+   - `Export_Delta_LaptopB/docs/*` -> `docs/` & root (`Panduan_19_Pose_Fanamir_CV.pdf`/`.docx`).
 
 ### 2. PERUBAHAN PYTHON CV (`ARDragonSkyGuardian_CV/`)
 1. **Pisahkan `#09A Hover (L-Pose + Flutter)` vs `#09B Slow Glide (L-Pose Diam)`:**
@@ -140,9 +147,9 @@ Jangan merusak logika deteksi/threshold 6 pose CV yang sudah teruji (`#01` Idle,
    - Bedakan animasi **`#09A` (sayap mengepak ringan menahan udara)** vs **`#09B` (sayap setengah tertekuk kompak Slow Glide)**.
 
 ### 4. PEMBARUAN UI HUD MOMENTUM BAR & POSE GUIDE (`SCREEN 01`, `SCREEN 02`, `SCREEN 07`)
-1. Impor komponen baru/terbarui dari `assets/UI_Unity_Export/Components/` (`05_HUD/UI_HUD_Momentum_Track_206x20.png`, `05_HUD/UI_HUD_Momentum_Fill_200x14.png`, `06_Poses/UI_Pose_09_HoverMode.png`) ke `Assets/UI/Components/` & daftarkan di `UISpriteSetupUtility.cs`.
+1. Pastikan seluruh `15` sprite medali **`UI_Pose_01..15.png` (siluet bersih tanpa titik/kerangka CV)** dan **`UI_HUD_Momentum_Track_206x20.png` + `UI_HUD_Momentum_Fill_200x14.png`** terdaftar di `UISpriteSetupUtility.cs` lalu jalankan `UISpriteSetupUtility.SetupAllSprites()`.
 2. **Tambahkan `MomentumDock` di `InGameFlightHUD.cs` (`UISceneAndPrefabBuilder.cs`)** tepat di atas `TelemetryDock` (`420×40`, sesuai `02_InGame_FlightHUD.png`), lengkap dengan `SetMomentum(float norm01, bool canYClimb)` yang terhubung langsung ke `DragonFlightController.CurrentMomentum` secara live!
-3. **Perbarui teks & deskripsi `PoseGuideCatalog.cs`** untuk `#06`, `#07`, `#08`, `#09`, `#13`, `#14` (sesuai `07_PoseGuide_OverlayModal.png` & `01_Calibration_MotionTutorial.png`) lalu jalankan `UISceneAndPrefabBuilder.BuildAll()`.
+3. **Kembalikan `SCREEN 07` (`PoseGuideOverlayUI.cs`, `PF_PoseGuideOverlay.prefab`, `PoseGuideCatalog.cs`) & `SCREEN 01` (`CalibrationPanelUI.cs`)** ke `15` kartu utama (`3×5` persis `07_PoseGuide_OverlayModal.png`) memakai sprite medali bersih `UI_Pose_01..15`, dan perbarui teks `#06` (menjelaskan juga `#06B Chin-Up Steep Climb`), `#07`, `#08`, `#09` (`HOVER / SLOW GLIDE`), `#13`, `#14` — lalu jalankan `UISceneAndPrefabBuilder.BuildAll()`. *(Sub-varian `#06B` & `#09B` tetap dipetakan highlight live ke kartu `#06` / `#09` saat aktif).*
 
 ### 5. VERIFIKASI LENGKAP & UPDATE `brain/laptop-b/`
 1. Tambahkan unit test Python CV & Play Mode / physics test Unity untuk memverifikasi:
