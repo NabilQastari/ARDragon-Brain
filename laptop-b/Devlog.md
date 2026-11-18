@@ -4,12 +4,28 @@ tags:
   - devlog
   - laptop-b
 owner: Laptop B
-updated: 2026-11-16
+updated: 2026-11-18
 ---
 
 # 🛠️ Devlog — Laptop B
 
 > Catatan kronologis pengembangan kode, debugging, pengujian Unity/Python, dan hasil build dari **Laptop B**. Kembali ke [[00 - Overview]].
+
+---
+
+## 2026-11-18 — Implementasi & Konfigurasi Optimasi Token Laptop B (*The Optimal Lean Stack*)
+
+### Eksekusi Utama (`[[laptop-a/planning_optimasi_token_laptop_b]]`)
+1. **`.antigravityignore` di Root Workspace:**
+   - Membuat `.antigravityignore` sesuai template Bagian 3A (`planning_optimasi_token_laptop_b.md`) untuk mengecualikan direktori build/temp/metadata Unity (`/[Ll]ibrary/`, `/[Tt]emp/`, `/[Oo]bj/`, `/[Bb]uild/`, `/[Bb]uilds/`, `/[Ll]ogs/`, `/[Uu]ser[Ss]ettings/`, `/[Mm]emoryCaptures/`, `*.meta`, dll.), cache IDE/Python (`**/__pycache__/`, `**/*.pyc`, `.pytest_cache/`, `.venv/`, dll.), model/aset 3D berat (`*.blend`, `*.fbx`, `*.obj`, dll.), arsip & dokumen (`*.zip`, `*.xlsx`, `*.docx`, `*.pdf`, dll.), media dump, serta isolasi `brain/laptop-a/memories/` dan `brain/.obsidian/`.
+2. **Instalasi Rust Token Killer (`rtk`):**
+   - Mengecek `rtk --version` (belum terpasang), lalu menginstal `rtk-ai.rtk` versi `1.2.0` melalui `winget install rtk-ai.rtk` (binary terpasang di `C:\Users\ASUS\AppData\Local\Microsoft\WinGet\Packages\rtk-ai.rtk_Microsoft.Winget.Source_8wekyb3d8bbwe\rtk.exe` dan terdaftar di User `PATH`; memerlukan restart shell/IDE agar panggilan bare `rtk` mewarisi User `PATH` terbaru).
+3. **Pembaruan `AGENTS.md`:**
+   - Menambahkan section `## ⚡ Aturan Efisiensi Token & Eksekusi Minimalis (Laptop B)` yang mencakup aturan kompresi terminal via `rtk`, prinsip coding minimalis (*Ponytail-Lite / YAGNI* dengan pengecualian wajib menjaga kontrak `kontrak_integrasi_ui_dan_progress.md`, *Hybrid UI*, `[SerializeField]`, dan namespace `DragonWingAR.*`), serta *Session Hygiene* (`/compact`).
+
+### Hasil Verifikasi (Sanity Check)
+- **`rtk.exe --version` & `rtk.exe git status`:** Menampilkan `rtk 1.2.0` dan ringkasan status Git yang padat (`* master...origin/master`, exit code `0`).
+- **Keterbacaan Skrip Inti:** Berkas `.cs` (`Assets/_Scripts/`), `.py` & `.json` (`ARDragonSkyGuardian_CV/`), serta `.md` (`AGENTS.md`, `brain/`) tetap terbaca dan terindeks normal tanpa terblokir `.antigravityignore`.
 
 ---
 
