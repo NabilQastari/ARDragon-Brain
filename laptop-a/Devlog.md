@@ -26,6 +26,16 @@ updated: 2026-11-15
   - Menghasilkan dokumen lengkap [[planning_optimasi_token_laptop_b]] berisi spesifikasi isi berkas `.antigravityignore`, blok aturan `AGENTS.md`, langkah instalasi bertahap, dan prompt eksekusi siap salin (*copy-paste*) untuk diinstruksikan langsung ke agen Laptop B.
 - **Dampak Dokumentasi:** Memperbarui [[00 - Overview]], [[Tasks]], dan [[Devlog]].
 
+## 2026-11-18 — Perbaikan Pose #14 Propeller Dash & Penguatan Visual Motion Blur (#14, #15A, #06) di FigCraft
+- **Perbaikan Pose & Gerak `#14 · Propeller Dash`:**
+  - Mengubah pose yang sebelumnya menyilang di depan dada menjadi pose mekanika CV sebenarnya: **kedua lengan atas melebar lurus horizontal ke samping** (`180°` dari bahu ke siku), dan **kedua lengan bawah berputar melingkar** (*twin propeller orbit*) mengelilingi sumbu siku.
+  - Menambahkan jejak gerak rotasi penuh (*4-phase motion-blur ghost forearms* lengkap dengan tulang & titik pergelangan transparan), cincin orbit melingkar di kedua siku, serta panah arah putaran cyan di puncak dan dasar lingkaran orbit.
+- **Penguatan Visual Gerak Dinamis pada `#15A · Zephyria Wind Flap` & `#06 · Flap to Climb`:**
+  - **`#15A · Zephyria Wind Flap`:** Menambahkan dua lapis bayangan lengan atas (*ghost arms* dari posisi tinggi & tengah), busur lintasan ayunan melengkung ke bawah dengan panah ujung cyan (`↓`), serta gelombang hembusan angin dua lapis di bawah tangan agar gerakan kepakan turun ke bawah tidak terlihat statis.
+  - **`#06 · Flap to Climb`:** Melengkapi efek *multi-exposure motion blur* (2 lapis *ghost arms* bawah/tengah lengkap dengan titik sendi transparan) serta busur lintasan kepak melengkung naik dengan panah arah panjat cyan di kedua ujung sayap.
+- **Verifikasi Visual:** Seluruh kartu pose di halaman `Pose` [`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft) telah di-screenshot dan disimpan ulang.
+- **Dampak Dokumentasi:** Memperbarui [[Devlog]].
+
 ## 2026-11-18 — Perbaikan Arah Kemudi & Sudut Lengan Pose 05 (Lean & Arm Tilt) di FigCraft
 - **Penyelarasan Arah Lean Tubuh dan Kemiringan Lengan:**
   - Memperbaiki ketidaksesuaian arah pada kartu `#05 Lean & Arm Tilt`: sebelumnya tubuh condong ke kanan (ke arah sisi Cyan), namun lengan Orange berada di bawah dan Cyan di atas (berlawanan dengan arah lean).
