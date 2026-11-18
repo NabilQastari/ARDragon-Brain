@@ -13,6 +13,26 @@ updated: 2026-11-18
 
 ---
 
+## 2026-11-18 — Eksekusi Pilar 1 Pra-Sesi 4: Clean CV Preview & `DragonHeadLookController` (`HEAD_PITCH` Tahap 2)
+
+### Eksekusi Utama (`[[laptop-a/checklist_finalisasi_pra_sesi_4]]`, `[[laptop-a/planning_revisi_titik_wajah_dan_pov]]`)
+1. **`DragonHeadLookController.cs` & Integrasi `HEAD_PITCH` Murni (`DragonFlightController.cs`):**
+   - Menambahkan komponen `DragonHeadLookController` (`Neck_01` `25%`, `Neck_02` `35%`, `Head` `40%`, batas dongak `+28°` / tunduk `-22°` di sumbu pitch lokal terhadap rig `Dragon_Model.fbx`) murni dari `FlightCommand.HeadPitch` (`tokens[43]`) tanpa memengaruhi `yaw`/`roll` horizontal maupun `TurnInput`.
+   - Menghubungkan ke `DragonFlightController.cs`: mode darat `#03 Grounded Look Up` menjaga posisi/yaw diam dengan pembatasan pitch badan (`<= 5°`) saat rig kepala siap; mode udara mengikuti pitch kepala halus (`cameraPitchFollowFactor`) serta memicu transisi **`Fly Up`** (`HeadPitch > 0.12f`) dan **`Pitch Down`** (`HeadPitch < -0.12f`) tanpa ketergantungan `chest_elevation`.
+   - Memasang & menyambungkan `DragonHeadLookController` di `LiveDragonPreviewController.cs` (live preview kalibrasi `SCREEN 01`), `UISceneAndPrefabBuilder.cs` (preview rig & `/Dragon_Player` di `UpgradeGameplayScene`), serta `DragonFlightTestSceneBuilder.cs`, lalu menjalankan ulang `UISceneAndPrefabBuilder.BuildAll()` (`0` errors).
+2. **Verifikasi Visual Clean CV Preview & Regresi Python (`active_cv_sender.py`):**
+   - Memverifikasi output JPEG UDP port `5053` melalui `draw_debug_overlay()` + `VideoUDPSender` (`4892` bytes, `320×180`): frame hanya menampilkan skeleton, keypoints, 3 titik wajah (Hidung, Dagu, Bibir), dan angka `FPS: 30` di sudut kiri atas (nol kotak HUD/teks telemetri).
+   - Menjalankan ulang ke-9 rangkaian test Python CV (`test_tahap1_face_tracking.py`, `test_phase1_validation.py`, `test_phase2_validation.py`, `test_phase4_validation.py`, `test_phase5_validation.py`, `test_phase6_final_session.py`, `test_additional_gestures.py`, `test_e2e_flight_physics.py`, `test_all_17_poses_alignment.py`) via `ARDragonSkyGuardian_CV\venv\Scripts\python.exe` — seluruhnya **100% PASS**.
+3. **Verifikasi Play Mode Unity 6 (`0` Errors, `0` Warnings):**
+   - `MainIsland_Gameplay.unity` via UDP `5052` (protokol 44-token):
+     - Grounded + `HEAD_PITCH = +0.75` $\rightarrow$ `#03 Grounded Look Up`, `headDeg = 15.67°`, `speed = 0.00`, `vy = 0.00`, `turn = 0.000`, posisi & `yaw = 345.00°` tetap diam.
+     - Airborne + `HEAD_PITCH = +0.75` (tanpa chest flag) $\rightarrow$ `#07 Fly Up` (`vy = 4.87 m/s`, `headDeg = 20.55°`, `bodyPitch = 13.03°`, `turn = 0.000`, `yaw = 345.00°` terkunci).
+     - Airborne + `HEAD_PITCH = -0.75` $\rightarrow$ `Pitch Down` (`vy = -3.86 m/s`, `headDeg = -16.15°`, `bodyPitch = -14.02°`, `turn = 0.000`, `yaw = 345.00°` terkunci).
+     - Airborne + `HEAD_PITCH = +0.75` + `Lean/Steering = +0.65` $\rightarrow$ `Fly Up` (`vy = 4.87 m/s`, `headDeg = 20.55°`) sekaligus berbelok mulus (`turn = 0.650`, `yaw` bergerak ke `338.89°`).
+   - `Test_Dragon_Flight.unity` (`headReady = True`, `0` errors, `0` warnings) & `MainMenu_Lobby.unity` (`LiveDragonPreviewController` + `DragonHeadLookController` `headReady = True`, `headDeg = 20.55°`, `0` errors, `0` warnings).
+
+---
+
 ## 2026-11-18 — Penyelarasan 17 Pose Kontrol (`#03, #06, #07, #09–#12, #14, #15A–C`), Tahap 2 `HEAD_PITCH`, Clean CV Preview, & UI `SCREEN 01`/`07`
 
 ### Eksekusi Utama (`[[laptop-a/panduan_detail_pose_dan_sync_laptop_b]]`, `[[laptop-a/planning_revisi_titik_wajah_dan_pov]]`, `[[laptop-a/planning_audit_pose_dan_clean_cv_preview]]`)
