@@ -13,6 +13,35 @@ updated: 2026-11-18
 
 ---
 
+## 2026-11-18 — Penyelarasan 17 Pose Kontrol (`#03, #06, #07, #09–#12, #14, #15A–C`), Tahap 2 `HEAD_PITCH`, Clean CV Preview, & UI `SCREEN 01`/`07`
+
+### Eksekusi Utama (`[[laptop-a/panduan_detail_pose_dan_sync_laptop_b]]`, `[[laptop-a/planning_revisi_titik_wajah_dan_pov]]`, `[[laptop-a/planning_audit_pose_dan_clean_cv_preview]]`)
+1. **Proteksi Non-Regresi 6 Pose Teruji (`#01, #02, #04, #05, #08, #13`):**
+   - Mempertahankan penuh logika & ambang `UpperArmLocomotionGate` (`0.42 / 0.30`), `ContinuousLeanClassifier` / `AdaptiveThresholdEngine`, serta `TuckDiveClassifier` (`1.25 / 1.30`, `0.12s`) tanpa regresi.
+2. **Perbaikan Classifier Python CV (`pose_stabilizer.py`, `mouth_tracker.py`, `motion_recognizer.py`, `cv_locomotion_config.json`):**
+   - **`#03` & `#15B` (`mouth_tracker.py`):** Menurunkan deadzone `HEAD_PITCH` (`2.2° -> 1.6°`) dan ambang `MOUTH_OPEN` (`ON=0.35`, `OFF=0.25`, `mar_scaled=(mar-0.04)*2.65`, `jaw_open*1.10`) agar dongakan & bukaan mulut lebih responsif tanpa drift netral.
+   - **`#06` & `#15A` (`FlapStrokeClassifier`):** Menambahkan hysteresis kecepatan (`0.36 / 0.24`), jendela penahan `0.34s`, serta evaluasi daya kepakan pada kedua fase `UPSTROKE` dan `DOWNSTROKE` (termasuk menyapu turun `#15A` dari posisi terangkat).
+   - **`#07` vs `#15C` (`FlyUpClassifier` & `GestureStateMachine`):** Menambahkan deteksi **Open Y-Pose** (`avg_flap_height >= 0.36`, `wingspan_ratio >= 1.55`, `avg_elbow_angle >= 132°`, siku sejajar/di atas bahu, ditahan stabil `0.14s`) di samping jalur legacy *chest elevation + flap*, dan memisahkan tegas dari `#15C Solaria Dew Rain` (**Double I-Pose `11`** sempit `0.45..1.40` di atas kepala).
+   - **`#09 Hover` (`HoverClassifier`):** Menyelaraskan ke **L-Pose `90°`** (`55°..130°`, `forearm_lateral_spread >= 1.05`, `wingspan_ratio >= 1.15`) baik dalam mode **tahan statis (`hover_power >= 0.65`)** maupun kepakan ringan lengan bawah (`wrist_vert_speed >= 0.25`), dengan rilis instan saat lengan diluruskan diam.
+   - **`#10 Gentle Descent` (`GentleDescentClassifier`, `pose_stabilizer.py`):** Mengubah logika dari *Tucked T-Pose* menjadi **Low-A Pose** (`left/right_arm_down_angle_deg` dalam `24°..66°`, siku lurus `>= 135°`, `wingspan_ratio >= 1.38`, `avg_flap_height <= -0.22`) yang terpisah aman dari `#01 Idle` maupun `#08 Glide`.
+   - **`#11 Y-Dive` & `#12 W-Pose` (`FlyDownClassifier`):** Memisahkan `#12 W-Pose` berdasarkan siku turun rendah (`>= 0.16 * tl` di bawah bahu), sudut siku `15°..118°`, dan lengan bawah vertikal (`<= 0.65 * sw`, `wingspan <= 2.40`) tanpa terkendala `is_arms_tucked`, serta `#11 Y-Dive` berdasarkan siku sejajar/di bawah bahu dengan lengan bawah melebar keluar (`80°..152°`).
+   - **`#14 Propeller Dash` (`PropellerRotationClassifier`):** Mengukur orbit pergelangan terhadap **siku masing-masing (`le`/`re`)** sambil memvalidasi bentangan lengan atas horizontal `180°` (`abs(le_x - ls_x)/sw >= 0.30`), dan mengangkat prioritas `PROPELLER_DASH` ke urutan teratas agar tidak tertutup `FlyDownY`.
+3. **Clean CV Preview (`active_cv_sender.py`):**
+   - Menghapus kotak HUD telemetri besar serta label teks (`NOSE`, `CHIN`, `MOUTH`, `LIPS`) pada frame `draw_debug_overlay()` (port `5053`), menyisakan **skeleton + keypoints + 3 titik wajah + indikator ringkas `FPS: xx`** di pojok kiri atas, serta meneruskan `head_pitch` ke `gesture_sm.update()`.
+4. **Tahap 2 `HEAD_PITCH` & Sinkronisasi Unity (`IPoseProvider.cs`, `UDPPoseReceiver.cs`, `IFlightInputProvider.cs`, `DefaultFlightInputMapper.cs`, `DragonFlightController.cs`):**
+   - Membaca `tokens[43]` (`HeadPitch`) di `UDPPoseReceiver.cs`, menyelaraskan `_smoothedMouth > 0.35f` (`#15B`), dan memperketat `_isHandsHighUp` ke Double I-Pose `11` (`wristSpanRatio <= 1.40f && !IsFlyUp`).
+   - Menghapus fallback paksa `|| isUpperArmsTucked` pada `isGentle` di `DefaultFlightInputMapper.cs` saat stream gate aktif agar `#01 Idle` tidak tertukar `#10 Gentle Descent`.
+   - Menghubungkan `HeadPitch` murni ke `DragonFlightController.cs` untuk `#03 Grounded Look Up`, `#07 Fly Up` (termasuk static Y-Pose), dan trim vertikal tanpa memengaruhi kemudi `TurnInput`.
+5. **Pembaruan 17 Kartu Pose & Teks UI (`SCREEN 01` & `SCREEN 07`):**
+   - Mengekstrak `assets/poses_cv_vector/` (`Pose_01_GroundedIdle.png` .. `Pose_15C_Solaria_DewRain.png`), menyalin ke `Assets/UI/Components/06_Poses/`, dan mendaftarkannya di `UISpriteSetupUtility.cs` (`157` PNG, `75` border, `17/17` official pose sprites).
+   - Memperbarui `PoseGuideCatalog.cs` (`PoseCount = 17` untuk `#01..#14, #15A, #15B, #15C`), `PoseGuideOverlayUI.cs`, `CalibrationPanelUI.cs` (live `#03`, `#15B`, `#15C`), dan `UISceneAndPrefabBuilder.cs` (grid `3×6` modal `POSE GUIDE · ALL 17 POSES`, badge `17 POSES`, serta teks `ARM GATE RULE` dengan `Low-A = Gentle Descent`), lalu menjalankan `BuildAll()`.
+
+### Hasil Verifikasi
+- **Python CV (9 Suite, 100% PASS):** `test_tahap1_face_tracking.py` (`7/7`), `test_phase1_validation.py` (`8/8`), `test_phase2_validation.py` (`6/6`), `test_phase4_validation.py` (`7/7`), `test_phase5_validation.py` (`7/7`), `test_phase6_final_session.py` (`7/7`), `test_additional_gestures.py` (`10/10`), `test_e2e_flight_physics.py` (`6/6`), dan `test_all_17_poses_alignment.py` (6 pose terkunci zero-regresi + 11 pose update + clean CV preview).
+- **Unity 6 (`6000.3.7f1`):** `UISpriteSetupUtility.SetupAllSprites()` (`157` sprites, `17/17` pose sprites), `UISceneAndPrefabBuilder.BuildAll()` (`0` errors, `0` warnings), Play Mode `MainMenu_Lobby.unity` (kartu `1×4` & modal `SCREEN 07` 17 kartu + highlight `#15B`), `MainIsland_Gameplay.unity` (UDP `#03 Grounded Look Up`, `#15B` + `#15C`), dan `Test_Dragon_Flight.unity` (UDP `#07 Fly Up`) seluruhnya **lulus dengan `0` errors & `0` warnings**.
+
+---
+
 ## 2026-11-18 — Implementasi & Konfigurasi Optimasi Token Laptop B (*The Optimal Lean Stack*)
 
 ### Eksekusi Utama (`[[laptop-a/planning_optimasi_token_laptop_b]]`)
