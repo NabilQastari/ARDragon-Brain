@@ -167,10 +167,10 @@ Sesuaikan classifier Python CV & kontroler Unity khusus untuk pose berikut (tanp
    - Pastikan overlay video `5053` bersih menampilkan **keypoints + skeleton + 3 titik wajah + hanya angka FPS** (hapus teks HUD telemetri yang menutupi tubuh pemain sesuai `planning_audit_pose_dan_clean_cv_preview.md`).
 
 ### 3. PEMBARUAN VISUAL & TEKS UI (`SCREEN 01` & `SCREEN 07`)
-1. Impor 17 gambar PNG pose resmi terbaru dari `assets/poses_cv_vector/` (`Pose_01_GroundedIdle.png` s.d. `Pose_15C_Solaria_DewRain.png`) ke Unity (`Assets/UI/Components/06_Poses/`) dan daftarkan di `Assets/Editor/UISpriteSetupUtility.cs`.
+1. Impor ke-`15` ikon medali UI bersih terbaru (**tanpa kerangka/titik CV**) dari `assets/UI_Unity_Export/Components/06_Poses/` (`UI_Pose_01_GroundedIdle.png` s.d. `UI_Pose_15_VillageActions.png`) ke Unity (`Assets/UI/Components/06_Poses/`) dan pastikan terdaftar di `Assets/Editor/UISpriteSetupUtility.cs`. Gunakan pula `assets/UI_Unity_Export/Designs/01_Calibration_MotionTutorial.png` & `07_PoseGuide_OverlayModal.png` sebagai referensi visual layout terbaru. *(Catatan: gambar di `assets/poses_cv_vector/` memuat titik & kerangka CV untuk acuan teknis/arsip CV, sedangkan medali `06_Poses/` memakai siluet bersih khusus UI game).*
 2. Perbarui **`PoseGuideCatalog.cs`**, **`PoseGuideOverlayUI.cs`** (`PF_PoseGuideOverlay.prefab` — `SCREEN 07`), dan **`CalibrationPanelUI.cs`** (`SCREEN 01`):
-   - Tampilkan gambar kartu pose baru pada setiap slot.
-   - Perbarui deskripsi instruksi pose (termasuk `#09` L-Pose, `#10` Low-A, `#14` lengan melebar + lengan bawah berputar, dan `#15A/B/C`).
+   - Tampilkan sprite medali baru `06_Poses/UI_Pose_01..15` pada setiap slot.
+   - Perbarui deskripsi instruksi pose (termasuk `#03` look up skyward, `#07` wide Y-shape, `#09` 90° L-pose, `#10` Low-A ~45°, `#13` folded chest arms, `#14` upper arms wide horizontal + forearms spin in circles at elbows, dan `#15` Zephyria/Pyrewood/Solaria 11).
    - Pastikan highlight live (`SLOT 1 · ACTIVE` & modal `ACTIVE`) sinkron untuk semua pose, lalu jalankan `UISceneAndPrefabBuilder.BuildAll()`.
 
 ### 4. VERIFIKASI & PEMBARUAN `brain/laptop-b/`

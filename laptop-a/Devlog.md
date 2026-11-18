@@ -13,6 +13,23 @@ updated: 2026-11-18
 
 ---
 
+## 2026-11-18 — Penyelarasan Ikon & Deskripsi Pose UI Calibration + Pose Guide (`SCREEN 01` & `SCREEN 07`, Tanpa CV Skeleton)
+- **Konteks Permintaan Pengguna:** Menyelaraskan ikon siluet *stickman* pada bagian *guide* menu Kalibrasi (`SCREEN 01`) dan modal `Pose Guide · All 15 Poses` (`SCREEN 07`) di [`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft) agar sesuai bentuk pose final terbaru (`#01`–`#15`), **tetap bergaya siluet bersih UI tanpa kerangka kawat maupun titik CV**.
+- **Pembaruan di FigCraft & Ekspor (`scale: 1` PNG):**
+  - Memperbarui ke-`15` komponen modular medali `06_Poses/UI_Pose_01..15` (`1687..1701`, `64×64` px) pada page `03 - Unity Export Kit` serta menyinkronkan seluruh kartu pose di artboard **`SCREEN 01 - Calibration`** (`id: 314`, 4 kartu Recent Poses `#08, #06, #04, #13`) dan **`SCREEN 07 - Pose Guide Overlay Modal`** (`id: 1893`, seluruh 15 kartu):
+    - `#02 Grounded Walk` & `#08 Glide`: kaki lurus sejajar `||` dan lengan T-pose horizontal.
+    - `#03 Grounded Look Up`: kaki sejajar + kepala mendongak + panah atas `↑` (`Look up / tilt head skyward (arms down at sides)...`).
+    - `#04 Takeoff` & `#06 Flap to Climb`: lengkung kepak sayap/lengan + tanda gerak dinamis simetris.
+    - `#05 Lean & Arm Tilt`: arah kemiringan torso dan kemiringan lengan searah + kaki lurus sejajar.
+    - `#07 Fly Up`: bentangan lengan Y lebar di atas kepala + panah atas `↑`.
+    - `#09 Hover Mode`: lengan atas menempel, siku tekuk `90°` (**L-pose**) + busur melayang di bawah kaki.
+    - `#10 Gentle Descent`: mengganti *Tucked T-Pose* menjadi kedua lengan lurus serong bawah `~45°` (**Low-A pose**) + panah bawah `↓`.
+    - `#11 Fly Down (Pose Y)`, `#12 Fly Down Idle (Pose W)`, & `#13 Tuck to Dive`: pose `Y`-dive, `W`-pose, dan lipatan lengan rapat di dada atas (`Fold forearms tightly across upper chest...`).
+    - `#14 Propeller Dash`: lengan atas melebar horizontal `180°` + lengan bawah vertikal + lengkung rotasi melingkar di kedua siku (`Spread upper arms wide horizontally & spin forearms in circles at elbows...`).
+    - `#15 Village Actions`: pose ganda `11` (`Solaria`) + gelombang angin ke bawah (`Zephyria`) dan pembaruan teks ringkas `#15A/B/C`.
+  - Menjalankan verifikasi screenshot `SCREEN 01`, `SCREEN 07`, dan ke-15 ikon modular, menyimpan [`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft) (`2,725,286` B), serta mengekspor ulang ke-15 PNG ke [`assets/UI_Unity_Export/Components/06_Poses/`](file:///e:/Semester%205/Game/AR%20Dragon/assets/UI_Unity_Export/Components/06_Poses/) dan 2 referensi `1920×1080` (`01_Calibration_MotionTutorial.png` & `07_PoseGuide_OverlayModal.png`) ke [`assets/UI_Unity_Export/Designs/`](file:///e:/Semester%205/Game/AR%20Dragon/assets/UI_Unity_Export/Designs/).
+- **Pembaruan Dokumentasi & Sinkronisasi Laptop B:** Memperbarui bagian UI pada [[panduan_detail_pose_dan_sync_laptop_b]] agar Laptop B mengimpor ke-15 ikon medali bersih `06_Poses/UI_Pose_01..15.png` (bukan menimpa medali dengan kartu kerangka CV `poses_cv_vector/`), serta mencatat progres di [[Tasks]] dan [[Devlog]].
+
 ## 2026-11-18 — Arsip Memori Sesi: Pembaruan UI `Fanamir` (`v1.7` & `v1.8` Boot Flow) ([[Pembaruan UI Fanamir v1.7 dan v1.8]])
 - **Ringkasan Sesi:** Mengarsipkan seluruh keputusan desain dan eksekusi UI sesi ini: pengubahan branding publik ke **`Fanamir: The Sky Guardian`**, penambahan **Quest Objective Panel (`SCREEN 02`)**, **Quest Narrative Box Auto-Play *hands-free* (`SCREEN 08`)**, slider ke-5 **`Text Auto-Next` (`SCREEN 05`)**, ekspor `140` PNG komponen + `9` desain `1920×1080` (`v1.7`), serta perancangan **Splash Screen (`SCREEN 09`)** dan **Start Screen (`SCREEN 10` · `PRESS ANY BUTTON TO START`)** menggunakan komponen eksisting (`11` desain referensi total `v1.8`, prompt §5 & §6 di [[kontrak_integrasi_ui_dan_progress]]). Catatan lengkap disimpan di [[Pembaruan UI Fanamir v1.7 dan v1.8]].
 
