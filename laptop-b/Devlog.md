@@ -13,6 +13,26 @@ updated: 2026-11-18
 
 ---
 
+## 2026-11-18 — Peningkatan `#14 Propeller Dash` (Deteksi CV Orbit Siku, Fisika Burst `30 m/s`, & Animasi Sayap Heliks)
+
+### Eksekusi Utama
+1. **Penyempurnaan Classifier CV (`ARDragonSkyGuardian_CV/motion_recognizer.py`, `cv_locomotion_config.json`, `test_all_17_poses_alignment.py`):**
+   - Mengonfigurasi blok `propeller_dash` di `cv_locomotion_config.json`: mempercepat respons pemicu (`min_rotation_accum_rad: 2.75`, `min_angular_velocity: 2.2`, `min_side_angular_velocity: 0.8`, `min_orbit_radius_sw: 0.20`), serta menambah hysteresis rentangan lengan atas (`spread_horiz_enter/exit: 0.28 / 0.21`, `spread_vert_enter/exit: 0.62 / 0.78`, dan jarak antar-siku `1.42 / 1.26 * sw`).
+   - Menambahkan pelindung singularitas foreshortening 2D (`radius_norm < 0.13`), pembatalan lonjakan cabang `|dtheta| > 2.2`, debounce 2-frame terhadap jitter arah balik, larangan akumulasi rotasi saat lengan atas rapat (`Hover`), serta `grace_hold_sec: 0.28s` dengan peluruhan eksponensial yang tetap terjaga di atas `0.40` hanya saat kecepatan sudut masih aktif (`est_omega >= 1.15`).
+   - Menambah `reset()` saat tracking hilang dan `COOLDOWN_DASH_TO_FLAP = 0.16s` pada `GestureStateMachine`.
+2. **Peningkatan Fisika, Kamera, & Animasi Sayap Unity (`DragonFlightController.cs`, `DragonWingAnimator.cs`, `CalibrationPanelUI.cs`, `MainIsland_Gameplay.unity`, `Test_Dragon_Flight.unity`):**
+   - Menambahkan **impuls lonjakan masuk (`dashBurstImpulse = 6.5f`, cooldown `0.55s`)**, menaikkan `maxDashSpeed` (`26 -> 30 m/s`) dan `dashThrustAccel` (`22 -> 28 m/s²`), mendukung dash sprint di darat (`walkSpeed * 2.2`, tanpa takeoff tidak disengaja), serta sinkronisasi nilai terserialisasi pada `/Dragon_Player` di kedua scene terbang.
+   - Menambahkan efek kecepatan kamera saat Dash (`_dashSurgeVisual01`: tambahan `+5°` FOV surge & pullback `localPosition.z` hingga `-0.55 m`) dalam `UpdateCameraPolish()`.
+   - Mengubah animasi sayap `PropellerDash` di `DragonWingAnimator.cs` menjadi gerakan **heliks/orbital kuadratur (`sin`/`cos` pada `ForearmFlapUp`, `ForearmSweepBack`, `ForearmPitchUp`)** berfrekuensi `2.15×–2.75×` serta menyelaraskan simulasi speed `30f` di `CalibrationPanelUI.cs`.
+
+### Hasil Verifikasi
+- **Python CV:** **9/9 suite lulus 100%** (termasuk skenario baru kecepatan rotasi nyaman `~3.3 rad/s` + drop foreshortening 2-frame serta pemeriksaan nol-regresi pada Hover, Low-A, 1D Flap, Chest-front, dan pose terkunci).
+- **Unity Play Mode (`0` Compile/Runtime Errors & `0` Warnings):**
+  - `MainIsland_Gameplay.unity`: Grounded Dash (`grounded=True`, `state=Propeller Dash`, `speed=7.89 m/s`), Airborne Dash (`state=Propeller Dash`, `speed=30.00 m/s`, `fov=73.99°`, `camZ=-6.83`, `vy=1.37 m/s`, `headDeg=7.15°`, `turn=0.45`, `wingRegime=PropellerDash`), serta rilis halus ke `Glide`.
+  - `MainMenu_Lobby.unity`: Live preview `#14 Propeller Dash` terverifikasi `wingRegime=PropellerDash` dengan `0` errors/warnings.
+
+---
+
 ## 2026-11-18 — Eksekusi Pilar 1 Pra-Sesi 4: Clean CV Preview & `DragonHeadLookController` (`HEAD_PITCH` Tahap 2)
 
 ### Eksekusi Utama (`[[laptop-a/checklist_finalisasi_pra_sesi_4]]`, `[[laptop-a/planning_revisi_titik_wajah_dan_pov]]`)
