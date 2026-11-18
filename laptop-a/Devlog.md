@@ -13,6 +13,9 @@ updated: 2026-11-18
 
 ---
 
+## 2026-11-18 — Arsip Memori Sesi: Perencanaan Optimasi Token Laptop B ([[Perencanaan Optimasi Token Laptop B]])
+- **Ringkasan Sesi:** Melakukan analisis 6 kandidat tool optimasi token (RTK, Ponytail Antigravity IDE, Token-Saver Skill, Ponytail Original, Native Antigravity Skills, dan Rules/.antigravityignore) khusus untuk lingkungan Laptop B (Unity 6 C# dan Python CV). Merumuskan arsitektur *The Optimal Lean Stack* (kombinasi `.antigravityignore` masif, kompresor terminal CLI `rtk`, aturan minimal coding Ponytail-Lite di `AGENTS.md`, isolasi skill Blender, dan hygiene `/compact`). Menyusun berkas panduan [[planning_optimasi_token_laptop_b]] dan prompt eksekusi siap pakai untuk Laptop B. Catatan lengkap disimpan di [[Perencanaan Optimasi Token Laptop B]].
+
 ## 2026-11-18 — Panduan Setup Lengkap & Prompt Onboarding Brain Antigravity + Obsidian ([[Panduan Setup Brain Antigravity Obsidian]])
 - **Penyusunan Master Guide & Prompt Wizard:**
   - Menyusun panduan menyeluruh berbasis arsitektur nyata project AR Dragon / Fanamir ke dalam [`prompt-setup-brain.md`](file:///e:/Semester%205/Game/AR%20Dragon/prompt-setup-brain.md).
@@ -289,7 +292,7 @@ updated: 2026-11-18
     - Selama narasi timer berhenti (PAUSE); selama tantangan desa timer terus berjalan (TIDAK PAUSE).
   - **3. Daftar Audio & SFX (`AudioManager.cs` Sesi 5):** 3 BGM (`BGM_Lobby`, `BGM_Flight_Adventure`, `BGM_Village_Challenge`), 5 SFX Naga/Penerbangan (`Flap`, `GlideWind`, `DiveWhoosh`, `WaterBreath`, `DewSummonChime`), 4 SFX Interaksi Misi (`WaterAbsorb`, `FireExtinguish`, `SmogDisperse`, `VillageRestoredFanfare`), dan 5 SFX UI/Loop (`UIClick`, `QuestAccepted`, `DialogueNext`, `VictoryFanfare`, `DefeatGong`).
 
-## 2026-11-15 — Perencanaan Pemasangan Skill VFX Effekseer di Laptop B ([[rencana_skill_vfx_effekseer_laptop_b]])
+## 2026-11-15 — Perencanaan Pemasangan Skill VFX Effekseer di Laptop B ([[rencana_skill_vfx_effekseer_laptop_b]] & [[Perencanaan Skill VFX Effekseer]])
 - **Latar Belakang & Kebutuhan:**
   - Menindaklanjuti kebutuhan sistem VFX untuk pemulihan 3 desa pada Sesi 4 ([[mekanisme_tantangan_desa]]), disusun dokumen panduan komprehensif bagi Laptop B untuk mengadopsi paket *Agent Skills* open-source **`kanaworksai-hue/effekseer-vfx-skill`**.
 - **Poin-Poin Utama Rencana ([[rencana_skill_vfx_effekseer_laptop_b]]):**
