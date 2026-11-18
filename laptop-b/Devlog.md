@@ -4,12 +4,42 @@ tags:
   - devlog
   - laptop-b
 owner: Laptop B
-updated: 2026-11-18
+updated: 2026-11-19
 ---
 
 # 🛠️ Devlog — Laptop B
 
 > Catatan kronologis pengembangan kode, debugging, pengujian Unity/Python, dan hasil build dari **Laptop B**. Kembali ke [[00 - Overview]].
+
+---
+
+## 2026-11-19 — Sistem Momentum Terpadu (`0–100%`), Revisi Kontrol (`v4.0`), Delta Aset Bersih, & HUD Momentum Bar
+
+### Eksekusi Utama (`[[laptop-a/planning_momentum_dan_revisi_kontrol]]`)
+1. **Pemasangan Paket Delta Aset (`Export_Delta_LaptopB/`):**
+   - Menyalin `UI_HUD_Momentum_Track_206x20.png` & `UI_HUD_Momentum_Fill_200x14.png` ke `AR Dragon Sky Guardian/Assets/UI/Components/05_HUD/`.
+   - Menghapus `17` kartu `Pose_01..15C.png` berkerangka CV dari `Assets/UI/Components/06_Poses/` dan menggantinya dengan `15` ikon medali siluet bersih `UI_Pose_01..15*.png`.
+   - Menyalin referensi desain terbaru ke `docs/UI_Designs_Reference/`, vektor CV `Pose_06B`, `Pose_09`, `Pose_09B`, & `All_19_Poses_Sheet.png` ke `assets/poses_cv_vector/`, serta `Panduan_19_Pose_Fanamir_CV.pdf`/`.docx` ke `docs/` dan root workspace.
+2. **Pembaruan Python CV (`ARDragonSkyGuardian_CV/motion_recognizer.py`, `test_all_17_poses_alignment.py`, `test_momentum_and_control_revision.py`):**
+   - Memisahkan `#09A Hover Active` (`L-Pose + flutter`, `wrist_vert_speed >= 0.25`, `hover_power = 0.65..1.0`, hysteresis exit `< 0.20` dengan jendela `0.28s`) vs `#09B Slow Glide` (`L-Pose diam`, `hover_power = 0.25`), dan mengekspos flag `is_hover_flapping` & `is_slow_glide` sambil menjaga protokol UDP 44-token kompatibel.
+   - Memastikan `#07 Fly Up` hanya dipicu oleh Open Y-Pose (bukan `HEAD_PITCH` sendirian) serta menjaga `is_flapping=False` saat tahan Open Y-Pose agar `#06B` (Flap + `HEAD_PITCH > 0.12`) dan `#07` tidak saling tumpang-tindih.
+   - Menstabilkan `flap_frequency` sejak awal stroke pada `FlapStrokeClassifier` (`effective_freq`) untuk integrasi momentum kepakan yang mulus di Unity.
+3. **Fisika Momentum Terpadu & Animasi Sayap Unity (`DragonFlightController.cs`, `DragonLocomotionConfig.cs`/`.asset`, `DragonWingAnimator.cs`, `IPoseProvider.cs`, `UDPPoseReceiver.cs`, `IFlightInputProvider.cs`, `DefaultFlightInputMapper.cs`):**
+   - Menambahkan `CurrentMomentum` (`0..1`), `CanFlyUpClimb`, `IsSteepClimbFlap`, `IsSlowGlide`, dan `IsHoverActiveBrake` di `DragonFlightController.cs` beserta 24 parameter momentum di `DragonLocomotionConfig` (`AddMomentumSoftCapped` anti-pemangkasan & `DrainMomentum`):
+     - `#01` / Grounded / Landing: reset `0%`; `#04` Takeoff: gradual cap `0.15f`; `#06` Flap (dagu netral): `+0.06/flap` soft-cap `0.30f` (tanpa memotong `> 0.30f`); **`#06B Steep Climb Flap`** (`HeadPitch > 0.12f` + Flap): tanpa butuh momentum, pitch `~+24°`, naik `+6.5..+8.0 m/s`, soft-cap `0.20f`.
+     - `#11` Y-Dive (`+0.12/s`, cap `0.55f`), `#13` Tuck Dive (`+0.16/s` -> `1.0f`), `#14` Propeller Dash (`+0.07/360°`, cap rate `~0.18/s` -> `1.0f`).
+     - `#08` Glide (`14 -> 27 m/s`, drag `-0.035/s`), **`#07` Fly Up** (hapus pemicu `HeadPitch` tunggal; butuh `CurrentMomentum > 0` zoom climb `+7..+9.5 m/s` & `-0.25/s`, atau *gentle stall* `-1.2 m/s` saat `0%`), **`#09A` Hover Active** (air brake `-0.40/s`, tetap maju melambat saat momentum `> 0` hingga `0 m/s`), **`#09B` Slow Glide** (`~7 m/s`, `-0.6 m/s`, drag `-0.10/s`), `#10` (`-0.20/s`), `#12` (`-0.40/s`), & Auto-Hover desa (`-0.85/s`).
+   - Memperbarui `DragonWingAnimator.cs`: memisahkan `FlyUp` (12 tulang sayap terangkat membentuk siluet **Y**), `SteepClimbFlap`, `Hover` (`#09A` kepak ringan menahan udara), dan `SlowGlide` (`#09B` sayap setengah terlipat kompak).
+4. **Pembaruan UI HUD & Pose Guide (`UISpriteSetupUtility.cs`, `InGameFlightHUD.cs`, `PoseGuideCatalog.cs`, `PoseGuideOverlayUI.cs`, `CalibrationPanelUI.cs`, `UISceneAndPrefabBuilder.cs`):**
+   - Menjalankan `UISpriteSetupUtility.SetupAllSprites()` (`142` PNG, `76` border, `15/15` ikon medali bersih `UI_Pose_01..15`).
+   - Memasang `MomentumDock` (`420×40`) tepat di atas `TelemetryDock` pada `SCREEN 02` (`SetMomentum(float, bool)` live ke `DragonFlightController.CurrentMomentum` dengan badge `"{pct}% · Y-OK"` / `"0% · EMPTY"`).
+   - Mengembalikan `SCREEN 07` (`PF_PoseGuideOverlay.prefab`, `3×5` 15 kartu utama) dan `SCREEN 01` (`15 POSES`) dengan pembaruan deskripsi `#06/#06B`, `#07`, `#08`, `#09A/#09B`, `#13`, `#14`, `#15`, lalu menjalankan `UISceneAndPrefabBuilder.BuildAll()`.
+
+### Hasil Verifikasi
+- **Python CV:** **10/10 suite lulus 100%** (9 suite regresi + `test_momentum_and_control_revision.py` baru; zero regression pada 6 pose terkunci `#01, #02, #04, #05, #08, #13`).
+- **Unity Play Mode (`0` Errors & `0` Warnings):**
+  - `MainIsland_Gameplay.unity` & `Test_Dragon_Flight.unity` via `MomentumFlightVerificationRunner` (UDP `5052` 44-token): terverifikasi `Idle=(0.00, '0% · EMPTY')`, `Flap=0.14->0.30 (vy=4.69)`, `Steep06B=(vy=8.00, pitch=22.8°, SteepClimbFlap)`, `DiveFull=1.00`, `NoTrunc=0.99`, `GlideSpd=26.7 m/s`, `YClimb=(vy=8.33, FlyUp)`, `YStall=(mom=0.01, vy=-1.01)`, `DashMom=0.57`, `SlowGlide09B=(spd=10.90, SlowGlide)`, `Hover09A=(early=9.66->final=0.00, Hover)`, dan live `MomentumDock` (`79% · Y-OK`) + capture visual Game View.
+  - `MainMenu_Lobby.unity`: terverifikasi `SCREEN 07` (`3×5`, `15/15` kartu `UI_Pose_*` bersih + highlight `#07 ACTIVE`) dengan `0` errors & `0` warnings.
 
 ---
 
