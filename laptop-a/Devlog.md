@@ -33,8 +33,10 @@ updated: 2026-11-15
 - **Penguatan Visual Gerak Dinamis pada `#15A · Zephyria Wind Flap` & `#06 · Flap to Climb`:**
   - **`#15A · Zephyria Wind Flap`:** Menambahkan dua lapis bayangan lengan atas (*ghost arms* dari posisi tinggi & tengah), busur lintasan ayunan melengkung ke bawah dengan panah ujung cyan (`↓`), serta gelombang hembusan angin dua lapis di bawah tangan agar gerakan kepakan turun ke bawah tidak terlihat statis.
   - **`#06 · Flap to Climb`:** Melengkapi efek *multi-exposure motion blur* (2 lapis *ghost arms* bawah/tengah lengkap dengan titik sendi transparan) serta busur lintasan kepak melengkung naik dengan panah arah panjat cyan di kedua ujung sayap.
-- **Verifikasi Visual:** Seluruh kartu pose di halaman `Pose` [`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft) telah di-screenshot dan disimpan ulang.
-- **Dampak Dokumentasi:** Memperbarui [[Devlog]].
+- **Ekspor Gambar PNG (`scale: 2x`) ke Folder Resmi:**
+  - Membuat folder khusus [`assets/poses_cv_vector/`](file:///e:/Semester%205/Game/AR%20Dragon/assets/poses_cv_vector/) dan mengekspor seluruh 17 kartu pose (`Pose_01_GroundedIdle.png` s/d `Pose_15C_Solaria_DewRain.png`, ukuran `480×500 px`) beserta lembar penuh `All_17_Poses_Sheet.png` (total 18 file PNG bersih).
+- **Verifikasi Visual:** Seluruh kartu pose di halaman `Pose` [`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft) serta hasil ekspor PNG di [`assets/poses_cv_vector/`](file:///e:/Semester%205/Game/AR%20Dragon/assets/poses_cv_vector/) telah diperiksa dan terverifikasi tajam.
+- **Dampak Dokumentasi:** Memperbarui [[Devlog]] dan [[Tasks]].
 
 ## 2026-11-18 — Perbaikan Arah Kemudi & Sudut Lengan Pose 05 (Lean & Arm Tilt) di FigCraft
 - **Penyelarasan Arah Lean Tubuh dan Kemiringan Lengan:**
