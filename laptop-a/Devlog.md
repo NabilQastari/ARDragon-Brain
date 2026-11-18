@@ -13,6 +13,13 @@ updated: 2026-11-18
 
 ---
 
+## 2026-11-18 — Penerbitan Buku Panduan Pose Baru Edisi Vector Stickman + CV Detection (`Panduan_17_Pose_Fanamir_CV.docx` & `.pdf`, `v3.0`)
+- **Pembuatan Manual Visual Baru (`11` Halaman, `2,521,358` B DOCX / `916,576` B PDF):**
+  - Membangun skrip generator baru (`generate_cv_pose_manual.py`) untuk menerbitkan [`Panduan_17_Pose_Fanamir_CV.docx`](file:///e:/Semester%205/Game/AR%20Dragon/Panduan_17_Pose_Fanamir_CV.docx) & [`Panduan_17_Pose_Fanamir_CV.pdf`](file:///e:/Semester%205/Game/AR%20Dragon/Panduan_17_Pose_Fanamir_CV.pdf) (beserta salinan di [`docs/`](file:///e:/Semester%205/Game/AR%20Dragon/docs/)).
+  - Memasangkan langsung seluruh **`17` gambar kartu vektor Stickman + CV Keypoints** (`assets/poses_cv_vector/Pose_01_GroundedIdle.png` s.d. `Pose_15C_Solaria_DewRain.png`) pada kolom visual kartu pose 2-kolom anti-pecah (*`w:cantSplit`*), serta menyertakan **Quick Reference Sheet** [`All_17_Poses_Sheet.png`](file:///e:/Semester%205/Game/AR%20Dragon/assets/poses_cv_vector/All_17_Poses_Sheet.png) di Halaman 3.
+  - Seluruh isi disesuaikan dengan pembaruan skema pose final: legenda warna sendi YOLOv8n-pose (Oranye kanan, Cyan kiri, 5 titik wajah + panah/lengkungan motion), kemudi searah `#05`, pemisahan tegas `#07 Y-Pose` vs `#15C Solaria Double-I (11)`, `#09 Hover (90° L-Pose)`, `#10 Gentle Descent (Low-A ~45°)`, `#14 Propeller Dash` (lengan atas melebar horizontal `180°` + lengan bawah berputar di siku), aksi 3 desa `#15A/B/C`, 3 combo manuver, dan standar setup webcam.
+  - Seluruh 11 halaman PDF diverifikasi secara visual via `pypdf` dan inspeksi gambar halaman per halaman tanpa kartu terpotong atau header tabel yatim.
+
 ## 2026-11-18 — Penyelarasan Ikon & Deskripsi Pose UI Calibration + Pose Guide (`SCREEN 01` & `SCREEN 07`, Tanpa CV Skeleton)
 - **Konteks Permintaan Pengguna:** Menyelaraskan ikon siluet *stickman* pada bagian *guide* menu Kalibrasi (`SCREEN 01`) dan modal `Pose Guide · All 15 Poses` (`SCREEN 07`) di [`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft) agar sesuai bentuk pose final terbaru (`#01`–`#15`), **tetap bergaya siluet bersih UI tanpa kerangka kawat maupun titik CV**.
 - **Pembaruan di FigCraft & Ekspor (`scale: 1` PNG):**
