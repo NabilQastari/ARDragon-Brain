@@ -13,6 +13,19 @@ updated: 2026-11-15
 
 ---
 
+## 2026-11-18 — Penyusunan Panduan Detail 17 Pose & Prompt Sinkronisasi Laptop B ([[panduan_detail_pose_dan_sync_laptop_b]])
+- **Dokumentasi Detail 17 Pose Resmi:**
+  - Merumuskan penjelasan teknis dan gameplay untuk seluruh 17 pose (`#01` s/d `#15C`) yang merujuk langsung ke 18 berkas ekspor terbaru di [`assets/poses_cv_vector/`](file:///e:/Semester%205/Game/AR%20Dragon/assets/poses_cv_vector/).
+- **Audit Gap Kode Laptop B vs Gambar Pose Baru:**
+  - Memetakan perbedaan kritis antara classifier lama Laptop B dengan bentuk visual resmi pada gambar:
+    - `#14 Propeller Dash`: lengan atas melebar horizontal lurus ke samping (`180°`) + lengan bawah berputar melingkar mengelilingi siku (*twin orbital propeller*), menggantikan deskripsi lama tangan di depan dada.
+    - `#10 Gentle Descent`: pose Low-A serong bawah (`~45°`) alih-alih *Tucked T-Pose*.
+    - `#09 Hover`: L-Arm Pose (`90°`) yang dapat ditahan stabil (maupun dengan kepakan ringan lengan bawah).
+    - `#07 Fly Up (Y-Pose)` vs `#15C Solaria (Double I-Pose 11)`: memisahkan lebar rentang pergelangan serong (`Y`) dari posisi lurus sejajar vertikal (`11`).
+    - Penyelarasan `#03 Grounded Look Up` (`HEAD_PITCH` Tahap 2 Unity), `#05 Lean & Arm Tilt` searah, `#15A` ayunan kepak bawah, serta pembaruan UI `PoseGuideCatalog.cs` & `PoseGuideOverlayUI.cs` (`SCREEN 07`).
+- **Penerbitan Prompt Laptop B:** Menyertakan prompt implementasi siap salin di [[panduan_detail_pose_dan_sync_laptop_b]].
+- **Dampak Dokumentasi:** Memperbarui [[Tasks]] dan [[Devlog]].
+
 ## 2026-11-18 — Penyusunan Rencana Optimasi Token & Prompt Eksekusi untuk Laptop B ([[planning_optimasi_token_laptop_b]])
 - **Analisis & Audit 6 Kandidat Tool Optimasi Token:**
   - Melakukan evaluasi mendalam terhadap 6 kandidat (RTK, Ponytail Antigravity IDE, Token-Saver Skill, Ponytail Original, Native Antigravity Skills, dan Rules/.antigravityignore) berdasarkan 7 parameter teknis ketat (kompatibilitas Antigravity, penghematan input/output token, otomatisasi, tumpang-tindih, potensi konflik arsitektur Unity, overhead prompt, dan verifikasi dokumentasi).
