@@ -16,13 +16,17 @@ updated: 2026-11-15
 ## 2026-11-18 — Penyusunan Panduan Detail 17 Pose & Prompt Sinkronisasi Laptop B ([[panduan_detail_pose_dan_sync_laptop_b]])
 - **Dokumentasi Detail 17 Pose Resmi:**
   - Merumuskan penjelasan teknis dan gameplay untuk seluruh 17 pose (`#01` s/d `#15C`) yang merujuk langsung ke 18 berkas ekspor terbaru di [`assets/poses_cv_vector/`](file:///e:/Semester%205/Game/AR%20Dragon/assets/poses_cv_vector/).
-- **Audit Gap Kode Laptop B vs Gambar Pose Baru:**
-  - Memetakan perbedaan kritis antara classifier lama Laptop B dengan bentuk visual resmi pada gambar:
-    - `#14 Propeller Dash`: lengan atas melebar horizontal lurus ke samping (`180°`) + lengan bawah berputar melingkar mengelilingi siku (*twin orbital propeller*), menggantikan deskripsi lama tangan di depan dada.
-    - `#10 Gentle Descent`: pose Low-A serong bawah (`~45°`) alih-alih *Tucked T-Pose*.
-    - `#09 Hover`: L-Arm Pose (`90°`) yang dapat ditahan stabil (maupun dengan kepakan ringan lengan bawah).
-    - `#07 Fly Up (Y-Pose)` vs `#15C Solaria (Double I-Pose 11)`: memisahkan lebar rentang pergelangan serong (`Y`) dari posisi lurus sejajar vertikal (`11`).
-    - Penyelarasan `#03 Grounded Look Up` (`HEAD_PITCH` Tahap 2 Unity), `#05 Lean & Arm Tilt` searah, `#15A` ayunan kepak bawah, serta pembaruan UI `PoseGuideCatalog.cs` & `PoseGuideOverlayUI.cs` (`SCREEN 07`).
+- **Audit Gap Kode Laptop B vs Gambar Pose Baru (Berbasis Hasil Uji Webcam):**
+  - **6 Pose Terkunci Lolos Uji (*Zero Regression*, jangan ubah logika CV-nya):** `#01 Grounded Idle`, `#02 Grounded Walk`, `#04 Takeoff`, `#05 Lean & Arm Tilt`, `#08 Glide`, dan `#13 Tuck to Dive`.
+  - **11 Pose Target Perbaikan (`#03, #06, #07, #09, #10, #11, #12, #14, #15A/B/C`):**
+    - `#03 Grounded Look Up`: sambungkan penuh Tahap 2 `HEAD_PITCH` murni di Unity.
+    - `#06 Flap to Climb`: tuning responsivitas & hysteresis kepakan udara.
+    - `#07 Fly Up (Y-Pose)` vs `#15C Solaria (Double I-Pose 11)`: pisahkan bentangan serong lebar `Y` dari vertikal sejajar `11`.
+    - `#09 Hover`: dukung tahan **L-Arm Pose (`90°`)** stabil selain kepak ringan lengan bawah.
+    - `#10 Gentle Descent`: ganti dari *Tucked T-Pose* menjadi **Low-A Pose (`~45°` serong bawah)**.
+    - `#11 Fly Down (Y-Dive)` & `#12 Fly Down Idle (W-Pose)`: tuning batas sudut siku & posisi pergelangan agar akurat dan mudah dibentuk.
+    - `#14 Propeller Dash`: lengan atas melebar horizontal `180°` ke samping + lengan bawah berputar melingkar mengelilingi siku.
+    - `#15A` kepak bawah tegas, `#15B` bukaan mulut `MOUTH_OPEN`, serta pembaruan UI `PoseGuideCatalog.cs` & `PoseGuideOverlayUI.cs` (`SCREEN 07`).
 - **Penerbitan Prompt Laptop B:** Menyertakan prompt implementasi siap salin di [[panduan_detail_pose_dan_sync_laptop_b]].
 - **Dampak Dokumentasi:** Memperbarui [[Tasks]] dan [[Devlog]].
 

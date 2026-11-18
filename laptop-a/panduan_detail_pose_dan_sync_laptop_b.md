@@ -77,95 +77,104 @@ related:
 
 ---
 
-## 🔍 Bagian 2: Audit Perbedaan Implementasi Lama Laptop B vs Gambar Pose Baru
+## 🔍 Bagian 2: Status Pengujian Pose & Titik Perbaikan Laptop B
 
-Berdasarkan catatan terakhir di `brain/laptop-b/` (`Devlog.md`, `Tasks.md`, `Rework CV dan Kontrol Terbang Baru.md`, dan `On-Ground Mechanics dan Uji 16 Skenario.md`), terdapat **7 titik penyesuaian penting** yang harus disinkronkan oleh Laptop B:
+> **Hasil Uji Empiris Pengguna (Terkonfirmasi):**
+> - ✅ **6 Pose SUDAH SESUAI & TERUJI BAIK (LOCKED — JANGAN UBAH LOGIKA DETEKSI/THRESHOLD CV-NYA):**
+>   - **`#01` Grounded Idle**, **`#02` Grounded Walk**, **`#04` Takeoff**, **`#05` Lean & Arm Tilt**, **`#08` Glide**, **`#13` Tuck to Dive**.
+>   - *(Untuk 6 pose ini, cukup perbarui gambar kartu/deskripsi di UI Guide agar seragam dengan aset `assets/poses_cv_vector/`, tanpa merusak classifier/threshold yang sudah bekerja!)*
+> - 🛠️ **Pose yang PERLU DIPERBAIKI / DISELARASKAN KE GAMBAR BARU:**
+>   - **`#03` Grounded Look Up**, **`#06` Flap to Climb**, **`#07` Fly Up (Y-Pose)**, **`#09` Hover (L-Pose)**, **`#10` Gentle Descent (Low-A)**, **`#11` Fly Down (Y-Dive)**, **`#12` Fly Down Idle (W-Pose)**, **`#14` Propeller Dash**, serta aksi desa **`#15A`**, **`#15B`**, **`#15C`**.
 
-1. **`#14 Propeller Dash`:**
-   - *Implementasi/Teks Lama:* Beberapa catatan lama menyebut tangan berputar di depan dada / bersilangan.
-   - *Gambar Baru (`Pose_14_PropellerDash.png`):* **Lengan atas melebar lurus horizontal ke samping (`180°`)**, dan **hanya lengan bawah yang berputar melingkar mengelilingi siku**. `PropellerRotationClassifier` (`motion_recognizer.py`) & deskripsi UI harus memastikan syarat `is_arms_away` (siku terentang jauh dari torso) + orbit pergelangan di sekitar posisi siku terpenuhi.
-2. **`#10 Gentle Descent`:**
-   - *Implementasi Lama (`GentleDescentClassifier`):* Menggunakan *Tucked T-Pose* (lengan atas rapat torso + lengan bawah membentang).
-   - *Gambar Baru (`Pose_10_GentleDescent.png`):* Menggunakan **Low-A Pose (`~45°` ke samping bawah)**. Klasifier harus mendeteksi lengan relatif lurus mengarah ke bawah-samping (~`30°–55°` di bawah bahu), terpisah bersih dari `#01 Idle` (`< 20°`) dan `#08 Glide` (`> 70°`–`110°`).
-3. **`#09 Hover (L-Pose)`:**
-   - *Implementasi Lama (`HoverClassifier`):* Mensyaratkan `wrist_vert_speed >= 0.40` (harus terus mengayun cepat).
-   - *Gambar Baru (`Pose_09_Hover.png`):* Menunjukkan **L-Pose siku `90°`** yang jelas. Klasifier perlu mengizinkan tahan **L-Pose stabil** (lengan atas dekat tubuh + siku ditekuk `~65°–125°` + pergelangan sejajar ketinggian siku) selain kepakan ringan lengan bawah agar lebih responsif dan sesuai gambar panduan.
-4. **`#07 Fly Up (Y-Pose)` vs `#15C Solaria (Double I-Pose `11`)`:**
-   - *Implementasi Lama (`FlyUpClassifier`):* Hanya membaca `chest_elevation` + kepak.
-   - *Gambar Baru:* **`#07 Fly Up`** adalah **Y-Pose terbuka (`~45°` serong atas, lebar pergelangan $\gg$ lebar bahu)** + kepala mendongak (`HEAD_PITCH`), sedangkan **`#15C Solaria`** adalah **Double I-Pose vertikal sejajar `11` (lebar pergelangan $\approx$ lebar bahu, kedua lengan tegak ke atas)**. Keduanya harus dibedakan tegas berdasarkan rasio jarak horizontal antar-pergelangan terhadap `shoulder_width`!
-5. **`#03 Grounded Look Up`:**
-   - *Status Laptop B (`Tasks.md` item 56):* Tahap 1 (`mouth_tracker.py` token 43 `HEAD_PITCH`) sudah selesai di Python, namun **Tahap 2 di Unity (`DragonFlightController.cs`)** masih perlu disambungkan penuh ke `HEAD_PITCH` murni agar `#03` merespons langsung dongakan kepala pada gambar.
-6. **`#15A Zephyria Wind Flap`:**
-   - *Gambar Baru (`Pose_15A_Zephyria_WindFlap.png`):* Menekankan **ayunan kepak ke bawah yang tegas** (*downstroke sweep* menuju samping paha) yang siap dipicu saat berada di zona Desa Zephyria (Sesi 4).
-7. **Aset Visual UI & Katalog Pose Unity (`Assets/UI/Components/06_Poses/`, `PoseGuideCatalog.cs`, `PoseGuideOverlayUI.cs`, `CalibrationPanelUI.cs`):**
-   - Mengganti atau menyambungkan **17 gambar pose baru** dari [`assets/poses_cv_vector/`](file:///e:/Semester%205/Game/AR%20Dragon/assets/poses_cv_vector/) (`Pose_01..15C.png`) ke UI Kalibrasi & Modal Pose Guide (`SCREEN 07`), serta memperbarui seluruh judul/instruksi teks di `PoseGuideCatalog.cs` (termasuk memisahkan/menampilkan varian `#15A`, `#15B`, `#15C` atau 17 pose) agar 100% sinkron dengan gambar dan perilaku CV.
+Rincian penyesuaian yang harus dikerjakan di Laptop B untuk pose yang masih kurang bagus/belum sesuai:
+
+1. **`#03 Grounded Look Up`:**
+   - *Target Gambar (`Pose_03_GroundedLookUp.png`):* Berdiri netral dengan tangan di samping badan sambil mendongakkan kepala (`HEAD_PITCH > 0`).
+   - *Perbaikan:* Selesaikan integrasi **Tahap 2 (`HEAD_PITCH` murni dari `mouth_tracker.py` token 43)** pada `DragonFlightController.cs` dan tuning sensitivitas dongak kepala agar `#03` responsif mendongak tanpa tertukar takeoff.
+2. **`#06 Flap to Climb`:**
+   - *Target Gambar (`Pose_06_FlapToClimb.png`):* Kepakan ritmis naik di area bahu/atas saat sudah mengudara.
+   - *Perbaikan:* Perbaiki responsivitas & hysteresis `FlapStrokeClassifier` agar kepakan terasa ringan/tegas, terpisah bersih dari `#07 Fly Up` dan tidak mudah bocor kembali ke `#08 Glide` di tengah ayunan.
+3. **`#07 Fly Up (Y-Pose)` vs `#15C Solaria (Double I-Pose `11`)`:**
+   - *Target Gambar `#07` (`Pose_07_FlyUp.png`):* Kedua lengan lurus **terbuka membentuk huruf Y serong atas (~`45°`, `wrist_span / shoulder_width` lebar $\ge 1.55$)** + kepala mendongak.
+   - *Target Gambar `#15C` (`Pose_15C_Solaria_DewRain.png`):* Kedua lengan lurus **vertikal sejajar angka `11` (`wrist_span / shoulder_width` sempit ~`0.7–1.35`)**.
+   - *Perbaikan:* Jangan lagi hanya bergantung pada `chest_elevation` + kepak di `FlyUpClassifier`; gunakan bentuk Y-Pose terbuka di atas bahu untuk `#07` dan pisahkan tegas dari `#15C`!
+4. **`#09 Hover (L-Pose)`:**
+   - *Target Gambar (`Pose_09_Hover.png`):* **L-Pose siku `90°`** (lengan atas merapat ke torso, lengan bawah membentang mendatar di ketinggian siku/dada).
+   - *Perbaikan:* `HoverClassifier` sebelumnya mewajibkan `wrist_vert_speed >= 0.40`. Longgarkan/sesuaikan agar **L-Pose stabil** (maupun kepakan ringan lengan bawah) langsung terdeteksi mulus sebagai Hover tanpa harus mengayun cepat terus-menerus.
+5. **`#10 Gentle Descent (Low-A Pose)`:**
+   - *Target Gambar (`Pose_10_GentleDescent.png`):* **Low-A Pose (~`45°` serong ke samping bawah)** dengan lengan relatif lurus, BUKAN *Tucked T-Pose*.
+   - *Perbaikan:* Ubah `GentleDescentClassifier` dari logika lama *Tucked T-Pose* menjadi deteksi **Low-A Pose** (`~30°–55°` di bawah bahu, lengan relatif lurus, tidak mengepak), terpisah aman dari `#01 Idle` dan `#08 Glide`.
+6. **`#11 Fly Down (Y-Dive)` & `#12 Fly Down Idle (W-Pose)`:**
+   - *Target Gambar `#11` (`Pose_11_FlyDown.png`):* Lengan atas melebar horizontal setinggi bahu, siku ditekuk ke atas-luar membentuk Y bersiku lebar.
+   - *Target Gambar `#12` (`Pose_12_FlyDownIdle.png`):* Siku ditekuk turun rendah di sisi pinggang, kedua lengan bawah tegak lurus vertikal ke atas di sisi kepala (**Full W-Pose**).
+   - *Perbaikan:* Audit dan tuning sudut siku (`elbow_angle`), posisi siku relatif terhadap bahu, serta arah lengan bawah di `FlyDownClassifier` agar `#11` dan `#12` mudah dibentuk & konsisten di depan webcam nyata tanpa saling tertukar dengan `#07`, `#06`, atau `#08`.
+7. **`#14 Propeller Dash`:**
+   - *Target Gambar (`Pose_14_PropellerDash.png`):* **Kedua lengan atas melebar lurus horizontal `180°` ke samping**, lalu **kedua lengan bawah berputar melingkar mengelilingi sumbu siku**.
+   - *Perbaikan:* Sesuaikan `PropellerRotationClassifier` (`motion_recognizer.py`) agar memvalidasi lengan atas yang terentang mendatar ke samping (`is_arms_away` / siku terpisah lebar dari torso) dan mengandalkan orbit pergelangan mengelilingi siku masing-masing (bukan di depan dada).
+8. **`#15A Zephyria`, `#15B Pyrewood`, `#15C Solaria` (Village Actions):**
+   - Pastikan deteksi ayunan kepak bawah tegas (`#15A`), bukaan mulut `MOUTH_OPEN` responsif (`#15B`), dan Double I-Pose vertikal `11` (`#15C`) siap dipakai / teruji.
+9. **Aset Visual UI & Katalog Pose Unity (`Assets/UI/Components/06_Poses/`, `PoseGuideCatalog.cs`, `PoseGuideOverlayUI.cs`, `CalibrationPanelUI.cs`):**
+   - Mengganti atau menyambungkan **17 gambar pose baru** dari [`assets/poses_cv_vector/`](file:///e:/Semester%205/Game/AR%20Dragon/assets/poses_cv_vector/) (`Pose_01..15C.png`) ke UI Kalibrasi & Modal Pose Guide (`SCREEN 07`), serta memperbarui seluruh deskripsi instruksi di `PoseGuideCatalog.cs`.
 
 ---
 
 ## 🤖 Bagian 3: Prompt Siap Pakai untuk AI Agent Laptop B
 
-> Salin seluruh blok prompt di bawah ini dan kirimkan ke AI Agent di **Laptop B** setelah mem-pull repo `brain/` atau memastikan folder [`assets/poses_cv_vector/`](file:///e:/Semester%205/Game/AR%20Dragon/assets/poses_cv_vector/) sudah tersalin/tersedia di workspace Laptop B.
+> Salin seluruh blok prompt di bawah ini dan kirimkan ke AI Agent di **Laptop B** setelah memastikan `brain/` sudah di-pull dan folder [`assets/poses_cv_vector/`](file:///e:/Semester%205/Game/AR%20Dragon/assets/poses_cv_vector/) tersedia di workspace Laptop B.
 
 ```markdown
-Tugas: Audit dan selaraskan sistem deteksi pose Python CV (`ARDragonSkyGuardian_CV/`), kontroler & animasi Unity (`AR Dragon Sky Guardian/Assets/_Scripts/`), serta UI Calibration & Pose Guide (`SCREEN 01` & `SCREEN 07`) di Laptop B agar 100% sesuai dengan 17 gambar pose vektor terbaru di `assets/poses_cv_vector/` dan spesifikasi resmi di `brain/laptop-a/panduan_detail_pose_dan_sync_laptop_b.md`.
+Tugas: Perbaiki & selaraskan pose-pose kontrol yang masih belum sesuai / kurang bagus di Python CV (`ARDragonSkyGuardian_CV/`), kontroler Unity (`AR Dragon Sky Guardian/Assets/_Scripts/`), serta perbarui visual kartu & teks UI Pose Guide (`SCREEN 01` & `SCREEN 07`) di Laptop B agar 100% cocok dengan 17 gambar pose di `assets/poses_cv_vector/` dan `brain/laptop-a/panduan_detail_pose_dan_sync_laptop_b.md`.
+
+⚠️ BATASAN PENTING — POSE YANG SUDAH LOLOS UJI (JANGAN DIUBAH LOGIKA CV-NYA!):
+Pose **`#01` Grounded Idle, `#02` Grounded Walk, `#04` Takeoff, `#05` Lean & Arm Tilt, `#08` Glide, dan `#13` Tuck to Dive** sudah dites di webcam nyata dan dinyatakan **SUDAH SESUAI**.
+- **DILARANG merusak atau mengubah threshold/classifier 6 pose tersebut!** Pertahankan kelulusannya 100% (regresi nol).
+- Fokus perbaikan logika deteksi CV & kontroler hanya pada pose berikut: **`#03`, `#06`, `#07`, `#09`, `#10`, `#11`, `#12`, `#14`**, serta **`#15A`, `#15B`, `#15C`**.
 
 ### 1. BACA KONTEKS & ATURAN WAJIB TERLEBIH DAHULU
-1. Jalankan `git -C brain pull` terlebih dahulu. Patuhi aturan `AGENTS.md` Laptop B (dilarang mengedit file di `brain/laptop-a/`, catat seluruh pembaruan hanya di `brain/laptop-b/`).
+1. Jalankan `git -C brain pull` terlebih dahulu. Patuhi `AGENTS.md` Laptop B (dilarang mengedit `brain/laptop-a/`, catat log hanya di `brain/laptop-b/`).
 2. Baca tuntas dokumen spesifikasi dari Laptop A (read-only):
-   - `brain/laptop-a/panduan_detail_pose_dan_sync_laptop_b.md` (rujukan utama 17 pose & tabel gap!)
+   - `brain/laptop-a/panduan_detail_pose_dan_sync_laptop_b.md`
    - `brain/laptop-a/planning_revisi_titik_wajah_dan_pov.md` (Tahap 2 Unity `HEAD_PITCH`)
    - `brain/laptop-a/planning_audit_pose_dan_clean_cv_preview.md`
-3. Periksa aset gambar baru di `assets/poses_cv_vector/` (`Pose_01_GroundedIdle.png` s.d. `Pose_15C_Solaria_DewRain.png` + `All_17_Poses_Sheet.png`).
-4. Periksa implementasi eksisting di Laptop B:
-   - Python CV: `ARDragonSkyGuardian_CV/pose_stabilizer.py`, `motion_recognizer.py`, `mouth_tracker.py`, `active_cv_sender.py`, `udp_sender.py`, `cv_locomotion_config.json`, dan seluruh file `test_*.py`.
-   - Unity C#: `UDPPoseReceiver.cs`, `IPoseProvider.cs`, `DefaultFlightInputMapper.cs`, `DragonFlightController.cs`, `DragonWingAnimator.cs`, `PoseGuideCatalog.cs`, `PoseGuideOverlayUI.cs`, `CalibrationPanelUI.cs`, `UISpriteSetupUtility.cs`, `UISceneAndPrefabBuilder.cs`.
+3. Lihat langsung gambar panduan baru di `assets/poses_cv_vector/` (`Pose_01_GroundedIdle.png` s.d. `Pose_15C_Solaria_DewRain.png`).
+4. Audit implementasi terkait di Laptop B (`pose_stabilizer.py`, `motion_recognizer.py`, `mouth_tracker.py`, `active_cv_sender.py`, `cv_locomotion_config.json`, `UDPPoseReceiver.cs`, `DefaultFlightInputMapper.cs`, `DragonFlightController.cs`, `DragonWingAnimator.cs`, `PoseGuideCatalog.cs`, `PoseGuideOverlayUI.cs`, `CalibrationPanelUI.cs`).
 
-### 2. PENYELARASAN DETEKSI POSE PYTHON CV (`ARDragonSkyGuardian_CV/`)
-Sesuaikan classifier dan geometri keypoint di `pose_stabilizer.py`, `motion_recognizer.py`, `mouth_tracker.py`, `active_cv_sender.py`, dan `cv_locomotion_config.json` agar cocok tepat dengan ke-17 gambar di `assets/poses_cv_vector/`:
-1. **`#14 Propeller Dash` (`PropellerRotationClassifier`):**
-   - Pastikan syarat utama pose adalah **kedua lengan atas direntangkan melebar horizontal ke samping** (`is_arms_away` / `upper_arm_openness` tinggi, sudut bahu-siku mendatar), dan **kedua lengan bawah berputar melingkar mengelilingi siku** (*wrist orbit* di sekitar `elbow`, BUKAN menyilang di depan dada).
-   - Validasi arah & kecepatan sudut `est_omega` berbasis pergerakan pergelangan mengelilingi posisi siku masing-masing, tetap aman dari jitter mikro.
-2. **`#10 Gentle Descent` (`GentleDescentClassifier`):**
-   - Ubah/sesuaikan dari logika lama *Tucked T-Pose* menjadi **Low-A Pose (~`45°` serong ke samping bawah)**: kedua lengan relatif lurus mengarah ke samping-bawah (`arm_openness` sedang, sudut lengan terhadap vertikal torso di rentang ~`30°–55°`, pergelangan di bawah ketinggian siku & siku di bawah bahu, tidak mengepak).
-   - Pastikan terpisah tegas dari `#01 Grounded Idle` (lengan rapat paha `< 22°`) dan `#08 Glide` (T-Pose horizontal `~75°–105°`).
-3. **`#09 Hover` (`HoverClassifier`):**
-   - Selaraskan dengan gambar **L-Pose (`90°`)**: lengan atas merapat ke samping torso (`upper_arm_proximity <= threshold`), siku ditekuk jelas (`avg_elbow_angle` sekitar `60°–125°`), dan pergelangan tangan terangkat setinggi area siku/dada.
-   - Izinkan **L-Pose stabil** (atau dengan kepakan ringan lengan bawah) langsung mengaktifkan `HOVER` agar sesuai dengan gambar panduan tanpa memaksa pemain terus mengayun cepat.
-4. **`#07 Fly Up (Y-Pose)` vs `#15C Solaria (Double I-Pose `11`)` & `#06 Flap to Climb`:**
-   - **`#07 Fly Up (Y-Pose)`:** Deteksi saat kedua lengan diangkat lurus terbuka membentuk **huruf Y serong ke atas** (pergelangan jauh di atas bahu, sudut lengan serong atas terbuka dengan `wrist_span / shoulder_width` lebar mis. `>= 1.55`, bukan vertikal sejajar) dan/atau didukung `HEAD_PITCH` mendongak.
-   - **`#15C Solaria (Double I-Pose `11`):** Bedakan secara eksplisit dari `#07` — kedua lengan diangkat **lurus vertikal sejajar di atas bahu** (`wrist_span / shoulder_width` sempit ~`0.7–1.35`, pergelangan tinggi di atas kepala) untuk aksi *Dew Rain* Desa Solaria.
-   - **`#06 Flap to Climb`:** Deteksi ayunan kepakan ritmis naik-turun di area atas/tengah dengan hysteresis bersih agar tidak mudah bocor ke `#07` atau `#08`.
-5. **`#11 Fly Down (Y-Dive)` & `#12 Fly Down Idle (W-Pose)` (`FlyDownClassifier`):**
-   - **`#11 Y-Dive`:** Lengan atas melebar horizontal setinggi bahu, siku ditekuk ke atas-luar (`elbow_angle` tertekuk, pergelangan di atas siku dan lebih lebar dari siku).
-   - **`#12 W-Pose`:** Siku ditekuk turun rendah di samping rusuk/pinggang, lengan bawah tegak lurus vertikal ke atas di sisi kiri/kanan kepala membentuk huruf **W** simetris.
-6. **`#02 Grounded Walk` vs `#01 Grounded Idle` & `#03 Grounded Look Up`:**
-   - Pastikan di darat: `#01 Idle` = lengan rapat ke tubuh (`0 m/s`), `#02 Grounded Walk` = T-Pose horizontal di darat (`is_arms_away` memicu jalan maju sambil kaki tetap tegak lurus diam), dan `#03 Grounded Look Up` = kepala mendongak murni dari `HEAD_PITCH` (`mouth_tracker.py` 3 titik wajah, tanpa ketergantungan `chest_elevation`).
-7. **`#05 Lean & Arm Tilt`:**
-   - Pastikan arah *torso lean* dan *arm tilt* searah dan konsisten pada mode mirror webcam (condong + miring kanan = belok kanan; condong + miring kiri = belok kiri) tanpa ada sumbu terbalik.
+### 2. PERBAIKAN POSE YANG MASIH KURANG BAGUS / BELUM SESUAI
+Sesuaikan classifier Python CV & kontroler Unity khusus untuk pose berikut (tanpa menyebabkan regresi pada `#01, #02, #04, #05, #08, #13`):
+
+1. **`#03 Grounded Look Up` (`DragonFlightController.cs`, `mouth_tracker.py`):**
+   - Selesaikan **Tahap 2 `HEAD_PITCH` murni**: sambungkan `HeadPitch` (`tokens[43]`) untuk `#03 Grounded Look Up` agar saat kepala mendongak di darat (lengan santai di samping badan), naga mendongak mulus dan tidak tercampur `chest_elevation`.
+2. **`#06 Flap to Climb` (`FlapStrokeClassifier` di `motion_recognizer.py`):**
+   - Perbaiki responsivitas & hysteresis kepakan di udara agar ayunan naik-turun terasa ringan, konsisten, dan tidak bertabrakan dengan `#07 Fly Up` atau `#08 Glide`.
+3. **`#07 Fly Up (Y-Pose)` vs `#15C Solaria (Double I-Pose `11`):**
+   - **`#07 Fly Up`:** Deteksi berdasarkan pose **Y terbuka ke atas** (`~45°` di atas bahu, `wrist_span / shoulder_width` lebar mis. `>= 1.55`, siku relatif lurus) +/atau dukungan `HEAD_PITCH` mendongak (jangan hanya bergantung pada `chest_elevation` yang sulit terdeteksi).
+   - **`#15C Solaria (Dew Rain)`:** Bedakan tegas dari `#07` — kedua lengan diangkat **lurus vertikal sejajar angka `11`** di sisi kepala (`wrist_span / shoulder_width` sempit ~`0.7–1.35`, pergelangan tinggi di atas kepala).
+4. **`#09 Hover` (`HoverClassifier`):**
+   - Ubah agar sesuai gambar **L-Pose (`90°`)**: lengan atas merapat di samping tubuh (`upper_arm_proximity`), siku ditekuk jelas (`~60°–125°`), dan pergelangan tangan di ketinggian area siku/dada.
+   - **Wajib:** Izinkan **L-Pose stabil** (maupun dengan kepakan ringan lengan bawah) langsung mengaktifkan `HOVER`, jangan memaksa `wrist_vert_speed >= 0.40` terus-menerus.
+5. **`#10 Gentle Descent` (`GentleDescentClassifier`):**
+   - Ubah dari logika lama *Tucked T-Pose* menjadi **Low-A Pose (~`45°` serong ke samping bawah)**: kedua lengan relatif lurus mengarah serong bawah (`~30°–55°` di bawah bahu, tanpa kepakan). Pastikan tidak bentrok dengan `#01 Idle` (lengan rapat paha) maupun `#08 Glide` (horizontal `180°`).
+6. **`#11 Fly Down (Y-Dive)` & `#12 Fly Down Idle (W-Pose)` (`FlyDownClassifier`):**
+   - **`#11 Y-Dive`:** Lengan atas mendatar sejajar bahu, siku ditekuk ke atas-luar membentuk Y bersiku lebar.
+   - **`#12 W-Pose`:** Siku ditekuk turun rendah di sisi luar pinggang, lengan bawah tegak lurus vertikal ke atas sejajar kanan-kiri kepala (**W** simetris).
+   - Tuning batas sudut siku & relasi posisi pergelangan-siku-bahu agar kedua pose ini mudah dipicu dan akurat di webcam.
+7. **`#14 Propeller Dash` (`PropellerRotationClassifier`):**
+   - Perbaiki pose menjadi: **kedua lengan atas melebar lurus horizontal `180°` ke samping**, dan **kedua lengan bawah berputar melingkar mengelilingi siku** (*wrist orbit* di sekitar `elbow`, BUKAN di depan dada).
+   - Pastikan logika deteksi memverifikasi rentangan lengan atas ke samping (`is_arms_away`) + kecepatan sudut orbit pergelangan terhadap siku masing-masing.
 8. **`#15A Zephyria Wind Flap` & `#15B Pyrewood Open Mouth`:**
-   - Pastikan `#15A` mendeteksi ayunan kepak menyapu ke bawah yang kuat (*downward sweep velocity* + transisi ke posisi lengan bawah), dan `#15B` membaca bukaan mulut `MOUTH_OPEN` secara akurat & responsif dari `MouthTracker`.
+   - Pastikan ayunan kepak bawah tegas (`#15A`) dan bukaan mulut `MOUTH_OPEN` (`#15B`, threshold nyaman & responsif) siap terdeteksi bersih.
 9. **Clean CV Preview (`active_cv_sender.py`):**
-   - Pastikan preview CV port `5053` bersih menampilkan **keypoints + garis kerangka tubuh + 3 titik wajah + hanya angka FPS** (sesuai `planning_audit_pose_dan_clean_cv_preview.md`) tanpa kotak teks telemetri yang menutupi tubuh pemain.
+   - Pastikan overlay video `5053` bersih menampilkan **keypoints + skeleton + 3 titik wajah + hanya angka FPS** (hapus teks HUD telemetri yang menutupi tubuh pemain sesuai `planning_audit_pose_dan_clean_cv_preview.md`).
 
-### 3. PENYELARASAN CONTROLLER & ANIMASI UNITY (`AR Dragon Sky Guardian/Assets/_Scripts/`)
-1. Selesaikan **Revisi Tahap 2 (`HEAD_PITCH` murni)** pada `UDPPoseReceiver.cs`, `DefaultFlightInputMapper.cs`, dan `DragonFlightController.cs`:
-   - Hubungkan `HeadPitch` (`tokens[43]`) murni untuk `#03 Grounded Look Up`, kontrol dongak/tukik kepala, dan aksentuasi `#07 Fly Up` / `Pitch Down` tanpa tercampur `chest_elevation`.
-   - Pastikan tidak ada regresi pada mode darat (`Grounded Idle`, `Grounded Walk` T-Pose, `Takeoff`), udara (`Glide`, `Flap`, `Hover` L-Pose, `Gentle Descent` Low-A, `Fly Down Y/W`, `Tuck Dive`, `Propeller Dash`), maupun parameter `DragonLocomotionConfig.asset`.
-2. Periksa `DragonWingAnimator.cs` agar animasi 12 tulang sayap merespons setiap pose baru dengan mulus (terutama transisi `PropellerDash`, `GentleDescent` Low-A, `Hover` L-Pose, dan `FlyUp` Y-Pose).
-
-### 4. PEMBARUAN UI POSE GUIDE & KALIBRASI (`SCREEN 01` & `SCREEN 07`)
-1. Impor/perbarui sprite ikon pose di Unity (`Assets/UI/Components/06_Poses/` atau folder khusus CV poses) menggunakan ke-17 gambar PNG resmi terbaru dari `assets/poses_cv_vector/` (`Pose_01_GroundedIdle.png` s.d. `Pose_15C_Solaria_DewRain.png`), dan daftarkan di `Assets/Editor/UISpriteSetupUtility.cs`.
+### 3. PEMBARUAN VISUAL & TEKS UI (`SCREEN 01` & `SCREEN 07`)
+1. Impor 17 gambar PNG pose resmi terbaru dari `assets/poses_cv_vector/` (`Pose_01_GroundedIdle.png` s.d. `Pose_15C_Solaria_DewRain.png`) ke Unity (`Assets/UI/Components/06_Poses/`) dan daftarkan di `Assets/Editor/UISpriteSetupUtility.cs`.
 2. Perbarui **`PoseGuideCatalog.cs`**, **`PoseGuideOverlayUI.cs`** (`PF_PoseGuideOverlay.prefab` — `SCREEN 07`), dan **`CalibrationPanelUI.cs`** (`SCREEN 01`):
-   - Tampilkan visual kartu pose baru yang kontras dan seragam.
-   - Perbarui seluruh teks judul, sub-judul mekanik, dan deskripsi instruksi pemain pada ke-17 pose (termasuk memecah atau menampilkan jelas `#15A Zephyria · Wind Flap`, `#15B Pyrewood · Open Mouth`, `#15C Solaria · Dew Rain` pada grid `PoseGuideOverlayUI` tanpa terpotong di kanvas `1920×1080`, serta memperbarui deskripsi `#02 Grounded Walk`, `#05 Lean & Arm Tilt`, `#09 Hover`, `#10 Gentle Descent`, dan `#14 Propeller Dash`).
-   - Pastikan highlight pose aktif (`SLOT 1 · ACTIVE` di Calibration MRU strip & highlight `ACTIVE` di `PoseGuideOverlayUI`) tetap sinkron live dengan state CV dari `UDPPoseReceiver` (termasuk saat uji pose `#01–#15C`).
-3. Jalankan `UISceneAndPrefabBuilder.BuildAll()` agar seluruh scene (`MainMenu_Lobby.unity`, `MainIsland_Gameplay.unity`, `Test_Dragon_Flight.unity`) dan prefab tersinkronisasi bersih.
+   - Tampilkan gambar kartu pose baru pada setiap slot.
+   - Perbarui deskripsi instruksi pose (termasuk `#09` L-Pose, `#10` Low-A, `#14` lengan melebar + lengan bawah berputar, dan `#15A/B/C`).
+   - Pastikan highlight live (`SLOT 1 · ACTIVE` & modal `ACTIVE`) sinkron untuk semua pose, lalu jalankan `UISceneAndPrefabBuilder.BuildAll()`.
 
-### 5. VERIFIKASI & PEMBARUAN `brain/laptop-b/`
-1. Jalankan seluruh test suite Python CV (`.\ARDragonSkyGuardian_CV\venv\Scripts\python.exe`) — tambahkan/perbarui skenario unit test untuk pose yang direvisi (`PropellerDash` wide-arm + elbow-orbit, `GentleDescent` Low-A, `Hover` L-Pose, `FlyUp` Y-Pose vs `Solaria` 11-Pose, `Lean & Arm Tilt` searah) dan pastikan **100% PASS**.
-2. Uji compile & Play Mode Unity (`MainMenu_Lobby.unity`, `MainIsland_Gameplay.unity`, `Test_Dragon_Flight.unity`):
-   - `0` compiler errors & `0` runtime console errors/warnings.
-   - Uji visual `SCREEN 01` & `SCREEN 07` menampilkan 17 pose baru dengan bersih dan highlight live bekerja sesuai pose.
-   - Uji pengiriman paket UDP `5052/5053/5054` (simulasi seluruh 17 pose dan verifikasi live webcam jika tersedia).
-3. Dokumentasikan seluruh perubahan di **`brain/laptop-b/Devlog.md`** dan **`brain/laptop-b/Tasks.md`**, lalu jalankan `git -C brain add laptop-b/ && git -C brain commit && git -C brain push`.
+### 4. VERIFIKASI & PEMBARUAN `brain/laptop-b/`
+1. Jalankan seluruh test suite Python CV (`.\ARDragonSkyGuardian_CV\venv\Scripts\python.exe`) + tambahkan unit test baru untuk `#03, #06, #07, #09, #10, #11, #12, #14, #15A/B/C`, sekaligus **verifikasi regresi nol pada `#01, #02, #04, #05, #08, #13`** (**100% PASS**).
+2. Uji compile & Play Mode Unity (`MainMenu_Lobby.unity`, `MainIsland_Gameplay.unity`, `Test_Dragon_Flight.unity`) dengan `0` errors & `0` warnings.
+3. Catat hasil perbaikan di **`brain/laptop-b/Devlog.md`** dan **`brain/laptop-b/Tasks.md`**, lalu `git -C brain add laptop-b/ && git -C brain commit && git -C brain push`.
 ```
