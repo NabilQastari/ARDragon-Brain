@@ -4,7 +4,7 @@ tags:
   - devlog
   - laptop-a
 owner: Laptop A
-updated: 2026-11-15
+updated: 2026-11-18
 ---
 
 # 📝 Devlog — Laptop A
@@ -12,6 +12,17 @@ updated: 2026-11-15
 > Catatan kronologis keputusan desain, ide, arsitektur, dan pembaruan dokumentasi dari **Laptop A**. Kembali ke [[00 - Overview]].
 
 ---
+
+## 2026-11-18 — Panduan Setup Lengkap & Prompt Onboarding Brain Antigravity + Obsidian ([[Panduan Setup Brain Antigravity Obsidian]])
+- **Penyusunan Master Guide & Prompt Wizard:**
+  - Menyusun panduan menyeluruh berbasis arsitektur nyata project AR Dragon / Fanamir ke dalam [`prompt-setup-brain.md`](file:///e:/Semester%205/Game/AR%20Dragon/prompt-setup-brain.md).
+  - Merancang tag `<SYSTEM_ONBOARDING_INSTRUCTION>` agar ketika pengguna mem-paste dokumen ke chat Antigravity di project baru mana pun, AI langsung bertindak sebagai Onboarding Wizard interaktif langkah-demi-langkah.
+  - Mendokumentasikan 5 pilar sistem Brain: Git sub-repo mandiri terisolasi, arsitektur anti-collision multi-device (0% merge conflict), graf visual Obsidian, otomasi SOP `AGENTS.md`, dan standarisasi protokol memori 5-bagian (`"jadikan sesi ini memori"`).
+  - Mengonfirmasi universalitas arsitektur untuk proyek game, web/mobile SaaS, AI/ML research, skripsi/tesis, maupun solo developer.
+  - Catatan memori sesi lengkap diarsipkan di [[Panduan Setup Brain Antigravity Obsidian]].
+
+## 2026-11-18 — Arsip Memori Sesi: Model Kepulauan 3D, Rumah (`5` Varian), & Pohon (`12` Varian, `3.0–10.0 m`) ([[Model Kepulauan 3D Rumah dan Pohon]])
+- **Ringkasan Sesi (Eksekusi 2026-11-14 s/d 2026-11-15):** Merangkum seluruh iterasi pembangunan dan penyempurnaan [`Pulau_Archipelago.blend`](file:///e:/Semester%205/Game/AR%20Dragon/assets/upgrade%20model%20pulau/Pulau_Archipelago.blend) (`2,077,219` B, skala `1:6`, `352` objek) — mulai dari peninggian dataran tengah gunung Central (`27.50 m` / puncak `37.50 m`), penyederhanaan Biome 1 ke `1` danau bertepian tanah, penyambungan 4 daratan di level rendah bawah air dalam 1 mesh *watertight* `SM_Archipelago_Terrain` (`48,376` tris) bertransisi rumput-ke-tanah, ekspansi `5` varian rumah (`27` unit) & `12` varian pohon dengan variasi tinggi bertingkat `3.0–10.0 m` (`316` unit: pohon sehat, kering *Drought*, sebagian gosong & hangus tanpa daun *Wildfire*), penataan ulang area *Wildfire* & *Drought*, hingga penghapusan model naga statis di gunung Central (`qa_check.py` & `scene_audit.py` lulus). Catatan lengkap disimpan di [[Model Kepulauan 3D Rumah dan Pohon]].
 
 ## 2026-11-18 — Penyusunan Panduan Detail 17 Pose & Prompt Sinkronisasi Laptop B ([[panduan_detail_pose_dan_sync_laptop_b]])
 - **Dokumentasi Detail 17 Pose Resmi:**
