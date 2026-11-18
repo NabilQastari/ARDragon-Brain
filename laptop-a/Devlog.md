@@ -13,6 +13,9 @@ updated: 2026-11-18
 
 ---
 
+## 2026-11-18 — Arsip Memori Sesi: Revisi Kontrol Wajah, Clean CV Preview, & Checklist Pra-Sesi 4 ([[Revisi Kontrol Wajah dan Pra Sesi 4]])
+- **Ringkasan Sesi:** Mengarsipkan seluruh rangkaian keputusan desain kontrol wajah 3 titik (Hidung, Dagu, Mulut) & decoupling `HEAD_PITCH` dari dada/kemudi horizontal ([[planning_revisi_titik_wajah_dan_pov]]), aturan pembersihan teks preview OpenCV/PIP kecuali `FPS` ([[planning_audit_pose_dan_clean_cv_preview]]), penyusunan 5 Pilar prasyarat menuju tantangan desa ([[checklist_finalisasi_pra_sesi_4]]), serta sinkronisasi status terbaru bahwa **Pilar 1 (Clean CV Preview + `DragonHeadLookController` & `HEAD_PITCH` Unity) dan Pilar 2 (Penyelarasan 17 Pose + Upgrade `#14 Propeller Dash`)** telah selesai dieksekusi di Laptop B (`9/9` suite Python & Unity Play Mode `0` errors). Menetapkan fokus sesi berikutnya untuk langsung berdiskusi dan memfinalisasi rancangan **Tantangan Desa (Sesi 4)** bersama **Pilar 3–5**. Catatan memori lengkap disimpan di [[Revisi Kontrol Wajah dan Pra Sesi 4]].
+
 ## 2026-11-18 — Penerbitan Buku Panduan Pose Baru Edisi Vector Stickman + CV Detection (`Panduan_17_Pose_Fanamir_CV.docx` & `.pdf`, `v3.0`)
 - **Pembuatan Manual Visual Baru (`11` Halaman, `2,521,358` B DOCX / `916,576` B PDF):**
   - Membangun skrip generator baru (`generate_cv_pose_manual.py`) untuk menerbitkan [`Panduan_17_Pose_Fanamir_CV.docx`](file:///e:/Semester%205/Game/AR%20Dragon/Panduan_17_Pose_Fanamir_CV.docx) & [`Panduan_17_Pose_Fanamir_CV.pdf`](file:///e:/Semester%205/Game/AR%20Dragon/Panduan_17_Pose_Fanamir_CV.pdf) (beserta salinan di [`docs/`](file:///e:/Semester%205/Game/AR%20Dragon/docs/)).
