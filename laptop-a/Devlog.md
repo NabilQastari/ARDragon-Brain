@@ -30,6 +30,10 @@ updated: 2026-11-18
   - Dokumen mencakup format margin akademik (Kiri 4 cm, Atas 3 cm, Kanan 3 cm, Bawah 3 cm), jenis huruf Times New Roman (12 pt, spasi 1.5, justified), isi lengkap Bab I, Bab II, Bab III, dan Bab IV (bagian implementasi yang sudah selesai di Sesi 4).
   - **Penyematan 12 Gambar Laptop A:** Menjalankan script Python (`scratch/generate_capstone_docx.py`) yang berhasil menyematkan 12 gambar berkualitas tinggi yang ada di Laptop A (diagram topologi COCO, flowchart GDLC, arsitektur UDP ganda, denah kepulauan, preview rig naga X-Ray, sheet 19 pose CV, desain UI Main Menu, Kalibrasi, HUD, Quest Narrative, Village Challenge, dan render kepulauan 3D) ke dalam file `.docx` (ukuran file ~4.6 MB).
   - **5 Placeholder Khusus Laptop B:** Menyisakan kotak bertanda tegas untuk 5 gambar yang memerlukan eksekusi/lingkungan runtime Unity & webcam di Laptop B (Webcam 3 titik wajah, Clean CV Preview FPS Only, Unity Scene View Marker Desa, In-Game Billboard Marker $\le 150\text{ m}$, dan Foto Pengujian Tester).
+- **Penerbitan Panduan Screenshot Mandiri untuk Laptop B ([[panduan_screenshot_mandiri_dan_laporan]]):**
+  - Menyusun panduan teknis bagi Laptop B untuk melakukan *capture* mandiri (C# `ScreenCapture`, Python OpenCV `cv2.imwrite`, dan terminal `ImageGrab`).
+  - Menetapkan folder *staging* resmi: `docs/figures/raw_screenshots/`.
+  - Memetakan 5 placeholder gambar laporan ke nama file yang disarankan serta SOP pasca-sesi agar setiap perkembangan otomatis didokumentasikan visualnya.
 - **Perencanaan Pasca Sesi 4: Dynamic FOV, Skybox Fantasi, & Blueprint Animasi Naga ([[planning_vfx_fov_skybox_dan_animasi]]):**
   - **Dynamic FOV & Speed Sense:** Merumuskan parameter adaptif kamera di mana FOV melebar dari `60°` (cruising) hingga `80°` saat *Tuck to Dive* dan `85°` saat *Propeller Dash* disertai tarikan mundur kamera (`-6.0m` ke `-7.5m`) untuk sensasi kecepatan terbang imersif.
   - **Skybox Fantasi & Horizon Fog:** Merancang atmosfer langit stylized (Ghibli/Genshin style) dengan gradasi biru-cyan hangat, awan kumulus bertingkat, dan penyelarasan warna kabut URP (*Horizon Fog Blending*) untuk menghilangkan batas kliping lautan.
