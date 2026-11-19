@@ -13,6 +13,21 @@ updated: 2026-11-18
 
 ---
 
+## 2026-11-19 — Finalisasi Penuh Mekanisme Tantangan 3 Desa, Auto-Hover, World Markers, & Blueprint Sesi 4 ([[mekanisme_tantangan_desa]])
+- **Keputusan Desain & Parameter Final Sesi 4 Disetujui Pengguna:**
+  - **Bentuk Zona Silinder:** Menggunakan silinder vertikal (jarak XZ + threshold ketinggian Y) untuk mencegah aktivasi saat terbang tinggi: Silinder Narasi ($R = 35\text{ m}, Y \le 40\text{ m}$), Silinder Tantangan lebih lebar ($R = 48\text{–}50\text{ m}$).
+  - **Auto-Hover & Anchor:** Naga ditarik halus (*lerp*) ke titik jangkar spesifik menghadap pusat bencana lingkungan; memutar animasi hover tanpa pemain perlu bergerak.
+  - **Mekanik Escape & Anti-Konflik Zephyria:** Karena Desa Zephyria memakai gestur *Flap* untuk menyapu kabut, pemain escape dari tantangan Zephyria menggunakan **Tuck to Dive (`#13`)** atau **Propeller Dash (`#14`)**. Di zona lain, *Flap* / *Dive* / *Dash* berfungsi normal untuk escape.
+  - **Cooldown Re-Trigger & Momentum:** Wajib keluar radius + cooldown **`3.5 detik`**. Momentum dibekukan saat auto-hover, dan saat escape / auto-release diberikan **dorongan maju (*launch thrust*, momentum ~30–35%)** agar tidak *stall*.
+  - **Isolasi UI Narasi:** Saat narasi aktif, seluruh HUD lain disembunyikan sementara, menyisakan **HANYA** `PF_QuestNarrativeBox` (`SCREEN 08`) dan `QuestObjectivePanel` (`SCREEN 02`).
+  - **Sistem No Decay:** Diterapkan seragam ke seluruh desa—progres pengisian bar tidak akan berkurang saat pemain beristirahat atau escape sementara.
+  - **Balancing Target Waktu:** Zephyria Flap (~8–10 kepakan / ~8–10s), Danau Zephyria (isi air auto ~4–5s lalu Auto-Release), Pyrewood Hutan (Open Mouth `#15B` ~6–8s), Solaria Sky Altar (Double I-Pose `11` `#15C` ~7–9s).
+  - **World-Space Billboard Markers (< 150m):** Ditambahkan marker melayang di udara di atas balai desa / sub-marker dengan nama lokasi dan indikator jarak (*Camera.main Billboard*).
+  - **Kamera & Victory Trigger:** Kamera tetap memakai *Fixed Flight Cam* standar. Saat desa terakhir mencapai 100%, naga auto-hover selebrasi 2.5–3 detik diiringi fanfare kemenangan, lalu langsung memunculkan `PF_FinishModal` (Opsi A).
+- **Pembaruan Dokumen:** Memperbarui [[mekanisme_tantangan_desa]], [[checklist_finalisasi_pra_sesi_4]], [[Tasks]], dan [[Devlog]].
+
+---
+
 ## 2026-11-18 — Perancangan Sistem Momentum Terpadu, Pembaruan UI HUD & Guide, & Buku Panduan `v4.0` (`19` Pose CV) ([[planning_momentum_dan_revisi_kontrol]])
 - **Diskusi & Keputusan Desain Mekanisme (`[[planning_momentum_dan_revisi_kontrol]]`):**
   - Memperkenalkan reservoir kontinu **`Momentum` (`0–100%`)** berbasis hukum inersia tunggal: selama masih ada momentum, Fanamir terus melaju maju dan pengereman hanya melambat bertahap (`~2.2–2.5 detik`), tidak berhenti mendadak `0 m/s`.

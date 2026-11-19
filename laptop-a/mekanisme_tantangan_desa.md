@@ -1,213 +1,211 @@
 ---
-title: Mekanisme Tantangan Desa & Flow Misi (Sesi 4 & 5)
+title: Mekanisme Tantangan Desa & Flow Misi (Sesi 4 & 5) — Final Approved
 tags:
   - gameplay
   - quest
   - village
   - laptop-a
   - mechanics
+  - sesi-4
 owner: Laptop A
-updated: 2026-11-15
+updated: 2026-11-19
+status: approved
 ---
 
 # 📜 Mekanisme Tantangan Desa & Flow Quest — Fanamir: The Sky Guardian
 
-Dokumen ini adalah **Single Source of Truth** untuk alur misi desa (*Quest Narrative, Auto-Hover, Sub-Objectives, Challenge Gestures, & Free Play Mode*) yang akan diimplementasikan pada **Sesi 4** (`VillageZoneController.cs`, `Session4_VillageBuilder.cs`, VFX) dan **Sesi 5** (`GameManager.cs`, Scoring/Stars, Free Play) di Laptop B.
+Dokumen ini adalah **Single Source of Truth Final** untuk implementasi mekanisme tantangan 3 desa (*Desa Zephyria, Desa Pyrewood, Desa Solaria*), sistem interaksi silinder, *Auto-Hover*, *Flap/Dive to Escape*, pelacakan sub-objektif, *World-Space Floating Markers*, isolasi UI narasi, dan *Victory Trigger* pada **Sesi 4** (`VillageZoneController.cs`, `Session4_VillageBuilder.cs`, World Markers, UI Integration) serta penyelarasan menuju **Sesi 5** (`GameManager.cs`, Scoring/Stars, Free Play) di Laptop B.
 
 ---
 
-## 1. Identitas & Tematik 3 Desa
+## 1. Identitas, Tematik, & Titik Jangkar 3 Desa
 
-| Biome | Nama Resmi Desa | Masalah Lingkungan | Vibe & Visual |
+| Biome & Nama Resmi Desa | Masalah Krisis Lingkungan | Koordinat Pad Desa (`MainIsland_Gameplay`) | Titik Sub-Objektif & Ketinggian Tantangan |
 | :--- | :--- | :--- | :--- |
-| **Biome 1** (Smog Valley) | **Desa Zephyria** *(Valley of Winds)* | Kabut asap tebal / polusi udara dari lembah | Lembah hijau basah tertutup asap pekat (`SM_Rocks_Biome1`, Danau Utama) |
-| **Biome 2** (Wildfire Woods) | **Desa Pyrewood** *(Cinder Forest)* | Kebakaran hutan hebat melalap pepohonan | Hutan pinus terbakar, abu beterbangan, pohon hangus |
-| **Biome 3** (Drought Plateau) | **Desa Solaria** *(Arid Highlands)* | Kekeringan ekstrem, tanah retak & tandus | Tebing batu tinggi terik, 2 cekungan danau kering (*dry basins*) |
+| **Biome 1 — Desa Zephyria** *(Valley of Winds)* | Kabut polusi pekat merayap dari lembah jurang | `(-562.40, 14.10, 274.30)` | • **Zona Narasi Desa:** Pad pemukiman desa `(Y ~ 14.1m)`<br>• **Zona Tantangan Kabut:** Melayang di atas lembah `(-562.40, 39.10, 274.30)` (`Y ~ +25m`) |
+| **Biome 2 — Desa Pyrewood** *(Cinder Forest)* | Hutan pinus terbakar hebat oleh sambaran petir | `(739.60, 12.90, 7.80)` | • **Zona Narasi Desa:** Pad pemukiman desa `(Y ~ 12.9m)`<br>• **Sub-Objektif 1 (Danau Zephyria Biome 1):** Di atas air `SM_Biome1_Water_01` `(-450.0, 16.0, 180.0)`<br>• **Sub-Objektif 2 (Hutan Terbakar Biome 2):** Di atas pepohonan hangus `(770.0, 25.0, 50.0)` |
+| **Biome 3 — Desa Solaria** *(Arid Highlands)* | Kekeringan ekstrem, tanah retak & mata air kering | `(39.40, 14.70, -647.60)` | • **Zona Narasi Desa:** Pad pemukiman plateau `(Y ~ 14.7m)`<br>• **Zona Tantangan Sky Altar:** Puncak tebing plato `(39.40, 54.70, -647.60)` (`Y ~ +40m`) |
 
 ---
 
-## 2. Alur Interaksi & State Mesin Desa
+## 2. Arsitektur Interaksi Zona & State Mesin Desa
 
-Setiap desa memiliki 2 lingkaran radius interaksi:
-1. **Radius Narasi / Misi (`Radius = 35m`, ground level desa):**
-   - Ketika Fanamir masuk ke dalam radius desa:
-     - Naga **Auto-Hover** (terbang di tempat) dan perlahan menghadap ke arah balai desa.
-     - **Timer Stage PAUSE** (waktu permainan berhenti berhitung sementara).
-     - Tampil kotak narasi **`PF_QuestNarrativeBox` (`SCREEN 08`)** dengan auto-play (`3.2s – 5.0s` per baris dialog, *hands-free*).
-     - **Mekanisme Pembatalan (Escape):** Pemain dapat membatalkan auto-hover dan narasi kapan saja cukup dengan **mengepakkan sayap (Flap gestur)** untuk terbang menjauh. Narasi akan menutup dan timer stage kembali berjalan.
-     - **Pengambilan Misi:** Jika pemain menunggu di auto-hover sampai narasi selesai, quest otomatis diambil (`Accepted`). **Quest Objective HUD** di atas Vitality Bar diperbarui.
-
-2. **Radius Zona Tantangan (Spawn setelah quest diambil):**
-   - Lingkaran radius baru muncul di lokasi spesifik tantangan (bisa di atas desa, di danau, atau di hutan).
-   - Ketika Fanamir masuk ke zona tantangan:
-     - Naga masuk **Auto-Hover Tantangan**.
-     - **Timer Stage TIDAK PAUSE** (waktu tetap berjalan, tantangan harus diselesaikan dengan cepat untuk meraih bintang 3!).
-     - Muncul overlay tantangan **`PF_VillageChallengeOverlay` (`SCREEN 03`)** dengan indikator gestur dan progres bar.
-     - Pemain juga tetap bisa **escape** (lepas dari auto-hover) kapan saja dengan **mengepakkan sayap (Flap)** jika ingin reposisi.
-
----
-
-## 3. Detail Mekanisme Tantangan per Desa
-
-### A. Desa Zephyria (Biome 1 — Smog Valley)
-* **Kondisi Awal:** Lembah tertutup partikel kabut/smog tebal.
-* **Spawn Radius Tantangan:** Muncul di atas desa pada ketinggian sedikit lebih tinggi dari radius desa (`Y ~ +25m` di atas dataran desa).
-* **Mekanisme Tantangan (Opsi A - Linear Hold):**
-  - Gestur: **Flap Wings (Kepakkan Sayap)** secara ritmik/kontinyu.
-  - Setiap kepakkan sayap menghembuskan angin kencang yang menyapu partikel kabut (`Smog VFX`).
-  - Bar progres terisi dari `0%` $\rightarrow$ `100%` seiring kepakkan.
-  - Jika pemain istirahat/berhenti sejenak, progres tidak berkurang (no decay).
-* **Penyelesaian (100%):**
-  - Partikel kabut menghilang total, cuaca menjadi cerah.
-  - Auto-hover lepas, sub-objective tercentang selesai.
-
----
-
-### B. Desa Pyrewood (Biome 2 — Wildfire Woods)
-* **Kondisi Awal:** Hutan di samping desa terbakar api berkobar dan asap hitam.
-* **Spawn Radius Tantangan:** Memunculkan **2 titik radius aktif**:
-  1. **Radius Danau (Lake Water Source di Biome 1):**
-     - Sub-misi: *"Ambil air dari Danau Zephyria untuk mengisi cadangan air (0/100)"*.
-     - Naga terbang ke danau Biome 1 dan masuk ke dalam radius danau.
-     - Naga masuk auto-hover di atas permukaan air.
-     - Kapasitas air naga (`Water Energy`) terisi secara otomatis dari `0` sampai `100%`.
-     - **Auto-Release:** Begitu kapasitas air penuh `100%`, auto-hover **langsung terlepas otomatis** (naga bebas terbang tanpa harus bingung cara keluar).
-  2. **Radius Hutan Terbakar (Burned Forest di Biome 2):**
-     - Sub-misi: *"Padamkan api hutan dengan semprotan air"*.
-     - Naga terbang kembali ke Biome 2 dan memasuki radius hutan terbakar.
-     - Naga masuk auto-hover tantangan. (Bisa escape dengan kepak sayap jika melintas tanpa sengaja).
-     - Gestur Tantangan: **Open Mouth (Membuka Mulut)**.
-     - Ketika mulut terbuka, naga menyemburkan semburan air sejuk (`WaterBreath VFX`) ke pepohonan yang terbakar.
-     - Api berangsur padam, bar progress kebakaran terisi hingga `100%`.
-* **Penyelesaian (100%):**
-  - Seluruh kobaran api padam, menyisakan uap air sejuk.
-  - Hutan diselamatkan, auto-hover lepas.
-
----
-
-### C. Desa Solaria (Biome 3 — Drought Plateau)
-* **Kondisi Awal:** Tanah retak kering tandus, terik matahari membakar, danau kering kerontang.
-* **Analisis & Rancangan Tantangan (Ritual Embun Suci / Dew Summoning):**
-  - *Kenapa rancangan ini terbaik?*
-    - Desa A melatih kardio tangan samping (**Flap Wings**).
-    - Desa B melatih navigasi antar-pulau + ekspresi wajah (**Open Mouth**).
-    - Desa C melengkapi latihan kebugaran exergaming dengan melatih **peregangan bahu & postur atas** menggunakan pose CV **`Fly Up / Hands Up` (Mengangkat Kedua Tangan ke Atas)**!
-* **Spawn Radius Tantangan:** Muncul di langit tinggi di atas puncak tebing Desa Solaria (`Y ~ +40m` di atas plateau).
-* **Mekanisme Tantangan (Opsi A - Linear Hold):**
-  - Naga terbang mendaki ke titik ketinggian tersebut dan masuk auto-hover.
-  - Gestur Tantangan: **Raise Both Hands (Angkat Kedua Tangan Tinggi ke Atas)** secara stabil.
-  - Lore: Fanamir adalah *Ancient Dew Dragon* (Naga Penjaga Embun). Dengan mengangkat kedua tangan ke langit, Fanamir memfokuskan energi langit untuk memanggil awan mendung dan memicu badai hujan embun pemulih (*Blessed Dew Rain*).
-  - Partikel awan berkumpul, petir embun biru berkilau, dan hujan lebat mulai membasahi tanah retak.
-  - Progres bar pemulihan terisi dari `0%` $\rightarrow$ `100%`.
-* **Penyelesaian (100%):**
-  - Hujan membasahi tanah, cekungan danau kering terisi air jernih, rumput savana mulai hijau kembali.
-  - Auto-hover lepas, seluruh desa Biome 3 berhasil diselamatkan!
-
----
-
-## 4. Flow Teks Quest Objective HUD (`SCREEN 02`)
-
-Hierarki tampilan teks pada Quest Objective Panel:
+Interaksi zona menggunakan **Silinder Vertikal (XZ Distance + Threshold Ketinggian Y)** untuk mencegah aktivasi tak sengaja saat pemain terbang tinggi melintas:
 
 ```text
-[GLOBAL OBJECTIVE]
-"Pulihkan seluruh desa kepulauan (0/3)"
+       ┌────────────────────────────────────────────────────────┐
+       │                ZONA 1: NARASI DESA                     │
+       │ • Bentuk: Silinder Vertikal (R = 35m, Y <= 40m)        │
+       │ • Kondisi: Pemain terbang rendah mendekati desa        │
+       │ • Aksi: Ditarik ke Anchor Desa, Hadap Balai Desa       │
+       │ • Kamera: Fixed Flight Cam (standar tanpa disorientasi)│
+       │ • Timer Stage: PAUSE (Berhenti)                        │
+       │ • UI: ISOLASI PENUH -> Hanya Quest Box & Objective     │
+       │ • Escape: Flap / Tuck Dive / Dash -> Reset baris 1     │
+       └───────────────────────────┬────────────────────────────┘
+                                   │ Narasi selesai (Accepted)
+                                   ▼
+       ┌────────────────────────────────────────────────────────┐
+       │                ZONA 2: TANTANGAN SPESIFIK              │
+       │ • Bentuk: Silinder Vertikal Lebih Lebar (R = 45–50m)   │
+       │ • Lokasi: Di atas lembah / Danau / Hutan / Sky Altar   │
+       │ • Aksi: Ditarik ke Anchor Tantangan, Hadap Pusat Krisis│
+       │ • Timer Stage: BERJALAN (Aktif untuk kalkulasi skor)   │
+       │ • UI: PF_VillageChallengeOverlay (Progress Bar + Pose) │
+       │ • Progres: NO DECAY (Tidak berkurang saat jeda/escape) │
+       │ • Escape Zephyria: Tuck Dive (#13) / Propeller Dash    │
+       │ • Escape Zona Lain: Flap (#06) / Tuck Dive / Dash      │
+       └────────────────────────────────────────────────────────┘
+```
 
-Saat misi desa diambil (misal Desa Zephyria):
-[VILLAGE OBJECTIVE]
-"Selesaikan misi Desa Zephyria (0%)"
-  └─ "Kepakkan sayap untuk membersihkan polusi kabut"
+### A. Detail Zona 1 — Narasi Desa
+1. **Trigger Silinder:** Jarak horizontal $XZ \le 35\text{ m}$ dan ketinggian naga $Y \le 40\text{ m}$ (jika melintas di atas $Y > 40\text{ m}$, narasi tidak terpicu).
+2. **Auto-Hover & Anchor:** Naga ditarik halus (*lerp position & rotation*) ke **Titik Jangkar Narasi Desa**, otomatis memainkan animasi terbang di tempat (*hover*), dan badan naga berputar menghadap balai desa.
+3. **Kamera:** Menggunakan **Fixed Flight Cam (Opsi B)** — kamera tetap di posisi *chase camera* normal agar pemain tidak mengalami disorientasi pandangan.
+4. **Isolasi UI Narasi:** Saat narasi aktif, seluruh widget HUD (dock telemetri, kompas, PIP kamera) **disembunyikan sementara**, menyisakan **HANYA**:
+   - `PF_QuestNarrativeBox` (`SCREEN 08`, teks auto-play dialog 3-baris).
+   - `QuestObjectivePanel` (`SCREEN 02`, kiri atas).
+5. **Timer Stage:** **PAUSE** (waktu misi berhenti berhitung selama narasi diputar).
+6. **Mekanik Escape & Reset:** Pemain dapat membatalkan auto-hover kapan saja dengan gestur **Flap (`#06`)**, **Tuck Dive (`#13`)**, atau **Propeller Dash (`#14`)**.
+   - Jika *escape* terjadi di tengah narasi, timer stage kembali berjalan, UI HUD normal kembali, dan quest belum diambil.
+   - **Aturan Reset:** Jika pemain masuk kembali ke desa tersebut, **narasi diulang dari baris 1**.
+   - **Cooldown Anti Re-Trigger:** Pemain wajib keluar dari silinder radius dan ada jeda aman **`3.5 detik`** sebelum zona desa dapat terpicu kembali.
 
-Saat di Desa Pyrewood:
-[VILLAGE OBJECTIVE]
-"Selesaikan misi Desa Pyrewood (0%)"
-  ├─ "Ambil air dari Danau Zephyria (Kapasitas: 0/100)"
-  └─ "Padamkan api hutan dengan membuka mulut"
+### B. Detail Zona 2 — Zona Tantangan Spesifik
+1. **Trigger Silinder:** Muncul setelah narasi desa selesai (`Accepted`). Radius silinder dibuat **lebih lebar ($R = 45\text{–}50\text{ m}$)** agar naga yang terbang kencang ($20\text{–}30\text{ m/s}$) mudah memasukinya tanpa meleset.
+2. **Auto-Hover & Anchor:** Naga ditarik halus ke **Titik Jangkar Tantangan** dan berputar menghadap pusat bencana lingkungan.
+3. **Timer Stage:** **BERJALAN** (waktu terus berkurang demi perhitungan bintang 1–3).
+4. **Tampilan UI:** Memunculkan overlay tantangan **`PF_VillageChallengeOverlay` (`SCREEN 03`)** dengan instruksi gestur dan progress bar $0\% \rightarrow 100\%$.
+5. **Aturan No Decay:** Seluruh progres pengisian bar mengadopsi aturan **No Decay (Zero Regression)**: jika pemain berhenti bergerak untuk mengatur napas atau melakukan *escape* sementara, progres **tetap bertahan** pada angka terakhir yang dicapai.
+6. **Mekanik Escape Khusus Zona Tantangan:**
+   - **Desa Zephyria:** Karena *Flap* adalah gestur inti untuk membersihkan kabut, **Flap TIDAK MEMBATALKAN auto-hover**. Untuk escape/keluar sebelum selesai, pemain menggunakan gestur **Tuck to Dive (`#13`)** atau **Propeller Dash (`#14`)**.
+   - **Danau Zephyria / Hutan Pyrewood / Solaria:** Pemain dapat escape menggunakan **Flap (`#06`)**, **Tuck Dive (`#13`)**, atau **Propeller Dash (`#14`)**.
+   - **Cooldown:** Wajib keluar dari silinder + jeda **`3.5 detik`** sebelum zona bisa terpicu lagi.
+7. **Perilaku Momentum:** Saat memasuki Auto-Hover, momentum penerbangan naga dibekukan (*frozen*). Saat *escape* maupun *auto-release*, naga diberikan **dorongan dorong awal (*launch thrust*, momentum ~30–35%)** ke arah depan agar langsung meluncur mulus tanpa macet (*stall*).
 
-Saat di Desa Solaria:
-[VILLAGE OBJECTIVE]
-"Selesaikan misi Desa Solaria (0%)"
-  └─ "Terbang tinggi dan angkat kedua tangan untuk memanggil hujan embun"
+---
+
+## 3. Detail Mekanisme & Balancing per Tantangan Desa
+
+### A. Desa Zephyria (Biome 1 — Smog Valley)
+* **Krisis:** Kabut asap tebal meracuni lembah hijau.
+* **Titik Tantangan:** Di atas pemukiman desa `(-562.40, 39.10, 274.30)` ($Y \approx +25\text{ m}$ di atas tanah).
+* **Gestur:** **Flap Wings (Kepakkan Sayap)** secara berulang (`#06` / `#15A`).
+* **Balancing:**
+  - Butuh akumulasi **`8–10` kali kepakan** sayap bertenaga (~`10%–12%` per kepakan).
+  - Durasi target: **`~8–10 detik`**.
+  - **No Decay:** Berhenti mengepak tidak mengurangi bar progres.
+* **Penyelesaian (100%):** Kabut menghilang, auto-hover terlepas dengan dorongan maju, status desa tercentang pulih.
+
+### B. Desa Pyrewood (Biome 2 — Wildfire Woods) — 2 Tahap
+* **Krisis:** Hutan pinus di samping pemukiman dilalap api membara.
+* **Tahap 1 — Pengisian Air (Danau Zephyria Biome 1):**
+  - Pemain dipandu terbang menuju Danau Zephyria `SM_Biome1_Water_01`.
+  - Masuk silinder danau ($R = 45\text{ m}$, di atas permukaan air) $\rightarrow$ naga auto-hover.
+  - Tampil `PF_VillageChallengeOverlay` dengan judul *"Mengisi Cadangan Air Purba (0% → 100%)"*.
+  - Bar terisi secara otomatis dengan laju `20%–25%/detik` (durasi **`4–5 detik`**).
+  - **Auto-Release:** Tepat saat air mencapai `100%`, auto-hover **langsung terlepas otomatis** disertai dorongan terbang maju (*launch thrust*).
+* **Tahap 2 — Pemadaman Hutan Terbakar (Hutan Biome 2):**
+  - Naga terbang kembali ke Biome 2 menuju area hutan terbakar.
+  - Masuk silinder hutan ($R = 50\text{ m}$) $\rightarrow$ naga auto-hover menghadap kobaran api pohon hangus.
+  - Tampil `PF_VillageChallengeOverlay` memandu gestur **Open Mouth (`#15B`, Water Breath)**.
+  - **Deteksi CV (Hysteresis):** Aktif saat `MOUTH_OPEN > 0.35`, mati saat `MOUTH_OPEN < 0.25`.
+  - **Balancing:** Butuh akumulasi menahan mulut terbuka selama **`~6–8 detik`** (~`14%–16%/detik`).
+  - **No Decay:** Menutup mulut sejenak tidak mengurangi bar progres pemadaman api.
+* **Penyelesaian (100%):** Api padam berganti kepulan uap air sejuk, auto-hover lepas dengan dorongan maju, hutan selamat.
+
+### C. Desa Solaria (Biome 3 — Drought Plateau)
+* **Krisis:** Kekeringan tanah retak tandus di plato batu terik.
+* **Titik Tantangan:** Sky Altar Solaria di udara puncak tebing `(39.40, 54.70, -647.60)` ($Y \approx +40\text{ m}$ di atas plato).
+* **Gestur:** **Double I-Pose `11` (`#15C`, Dew Summoning)**.
+  - Kedua tangan terangkat lurus vertikal sejajar di atas kepala (terpisah tegas dari `#07 Fly Up` serong Y).
+* **Balancing:**
+  - Butuh menahan pose `11` secara stabil selama **`~7–9 detik`** (~`12%–14%/detik`).
+  - **No Decay:** Menurunkan tangan untuk istirahat tidak mengurangi bar progres.
+* **Penyelesaian (100%):** Hujan embun turun, 2 cekungan danau kering terisi air, tanah kembali hijau, auto-hover lepas dengan dorongan maju.
+
+---
+
+## 4. World-Space Billboard Markers (< 150m) & Navigasi
+
+Selain navigasi makro pada `WaypointCompass` di bagian atas HUD, sistem dilengkapi **World-Space Billboard Marker (Opsi A)**:
+1. **Jarak Pemicu:** Saat jarak naga dengan target desa/sub-objektif $\le 150\text{ m}$.
+2. **Visual Komponen:**
+   - Ikon medali/crest desa melayang di udara tepat di atas balai desa / titik tantangan ($Y + 12\text{ m}$).
+   - Teks nama lokasi + indikator jarak dinamis: misal `DESA ZEPHYRIA · 85m` atau `DANAU ZEPHYRIA · 120m`.
+3. **Billboard Behaviour:** Selalu menghadap ke kamera pemain (*Camera.main Billboard*).
+4. **Distance Scaling:** Ukuran ikon dan teks membesar/mengecil secara halus mengikuti jarak kamera sehingga selalu terbaca jelas tanpa menutupi lingkungan.
+
+---
+
+## 5. Kebebasan Urutan Misi (Open-World Multi-Village)
+
+Pada **Stage 02 (2 Desa)** dan **Stage 03 (3 Desa)**:
+- Pemain **BEBAS memilih urutan desa** mana saja yang ingin diselamatkan terlebih dahulu (*non-linear freedom*).
+- `WaypointCompass` dan `QuestObjectivePanel` secara otomatis mengarahkan ke **desa terdekat yang belum diselesaikan**, atau berganti fokus ke desa yang sedang didekati pemain.
+- Progres `GlobalVitalityBar` bertambah secara proporsional:
+  - **Stage 01 (1 Desa):** `0% → 100%`.
+  - **Stage 02 (2 Desa):** `0% → 50% → 100%`.
+  - **Stage 03 (3 Desa):** `0% → 33% → 67% → 100%`.
+
+---
+
+## 6. Selesai Misi & Victory Trigger (Opsi A)
+
+Begitu desa terakhir pada stage tersebut berhasil dipulihkan (Global Vitality mencapai $100\%$):
+1. **Auto-Hover Selebrasi:** Naga langsung masuk auto-hover di tempat.
+2. **Jingle Kemenangan Singkat:** Pemain menikmati pemandangan desa yang telah pulih selama **`~2.5–3.0 detik`** diiringi suara fanfare kemenangan (*Victory Fanfare*).
+3. **Trigger Finish Modal:** Layar **`PF_FinishModal` (`SCREEN 04`)** langsung muncul di layar:
+   - Evaluasi bintang $1–3$ berdasarkan sisa waktu stage.
+   - Tombol `LEVEL BERIKUTNYA` (jika Stage 01/02), `COBA LAGI`, atau `KEMBALI KE LOBBY`.
+   - Pemain **tidak perlu** terbang kembali ke Center Peak untuk menyelesaikan misi.
+
+---
+
+## 7. Naskah Narasi Auto-Play (`PF_QuestNarrativeBox`)
+
+Dialog dimainkan otomatis 3 baris (*hands-free auto-play*, kecepatan diatur slider `Text Auto-Next`, default 5.0 detik/baris):
+
+### A. Desa Zephyria (Tetua Rowan)
+* **Baris 1:** *"Fanamir! Syukurlah kau mendengar seruan kami. Kabut polusi gelap telah merayap dari jurang dan mencekik seluruh lembah kami!"*
+* **Baris 2:** *"Warga kami terbatuk-batuk dan tanaman mulai layu. Udara ini terlalu pekat untuk ditembus!"*
+* **Baris 3:** *"Terbanglah ke atas desa, lalu **kepakkan sayapmu sekuat tenaga** untuk menyapu bersih kabut beracun ini!"*
+
+### B. Desa Pyrewood (Penjaga Rimba Keith)
+* **Baris 1:** *"Tolong kami, Naga Pelindung! Sambaran petir telah membakar seisi hutan pinus di samping desa kami!"*
+* **Baris 2:** *"Kobaran api merembet cepat ke pemukiman, dan air sumur kami tak cukup untuk memadamkannya!"*
+* **Baris 3:** *"Cepatlah **ambil air di Danau Zephyria**, lalu kembali ke hutan dan **buka mulutmu untuk menyemburkan air**!"*
+
+### C. Desa Solaria (Tetua Mira)
+* **Baris 1:** *"Wahai Fanamir yang agung... Terik surya tanpa henti telah mengeringkan seluruh mata air di dataran batu ini."*
+* **Baris 2:** *"Tanah kami pecah merekah, danau mengering, dan kehidupan kami terancam jika tak ada setetes air pun."*
+* **Baris 3:** *"**Terbanglah tinggi ke puncak tebing**, lalu **angkat kedua tanganmu lurus ke langit** untuk memanggil hujan embun suci pemulih tanah!"*
+
+---
+
+## 8. Ringkasan Parameter & Konstanta Teknis untuk Kode C#
+
+```csharp
+// Parameter Silinder & Jarak
+public const float NARRATIVE_RADIUS = 35.0f;
+public const float NARRATIVE_MAX_ALTITUDE = 40.0f;
+public const float CHALLENGE_RADIUS = 48.0f;
+public const float WORLD_MARKER_VISIBLE_DIST = 150.0f;
+
+// Parameter Cooldown & Transisi
+public const float ESCAPE_COOLDOWN_SEC = 3.5f;
+public const float LAUNCH_MOMENTUM_IMPULSE = 32.0f; // Dorongan maju saat escape/auto-release
+
+// Parameter Kecepatan Progres (No Decay)
+public const float ZEPHYRIA_FLAP_PER_STROKE = 0.11f;   // 8-10 kepakan = 100%
+public const float PYREWOOD_LAKE_FILL_RATE = 0.22f;    // ~4.5 detik = 100%
+public const float PYREWOOD_MOUTH_FIRE_RATE = 0.15f;   // ~6.7 detik tahan mulut = 100%
+public const float SOLARIA_DEW_SUMMON_RATE = 0.125f;   // ~8.0 detik tahan pose 11 = 100%
+
+// Hysteresis Bukaan Mulut Pyrewood
+public const float MOUTH_OPEN_ENTER = 0.35f;
+public const float MOUTH_OPEN_EXIT = 0.25f;
 ```
 
 ---
-
-## 5. Mode Permainan di Lobby (`SCREEN 00`)
-
-Pada Lobby Selection, terdapat 4 Kartu Level:
-1. **Stage 01:** Desa Zephyria (Tantangan Kabut Asap) — Tutorial & Easy.
-2. **Stage 02:** Desa Zephyria + Desa Pyrewood (Kabut & Hutan Terbakar) — Medium.
-3. **Stage 03:** Ketiga Desa Sekaligus (Zephyria + Pyrewood + Solaria) — Hard / Final Exam.
-4. **Free Play Mode (Level 4 - Jelajah Bebas):**
-   - **Status Awal:** `LOCKED` (Terkunci dengan gembok emas).
-   - **Syarat Terbuka:** Terbuka otomatis setelah pemain menyelesaikan **Stage 01, Stage 02, dan Stage 03** (masing-masing minimal meraih 1 Bintang).
-   - **Aturan Free Play:**
-     - Bebas tanpa batasan waktu (Timer nonaktif / `FREE FLIGHT`).
-     - Seluruh pulau dalam kondisi hijau asri & bersih.
-     - Pemain bebas terbang mengeksplorasi seluruh archipelago, melatih 15 pose gestur, dan menikmati pemandangan *Fanamir: The Sky Guardian*.
-
----
-
-## 6. Naskah Narasi Dialog Desa (`PF_QuestNarrativeBox` · `SCREEN 08`)
-
-Narasi diputar secara *hands-free auto-play* (3 baris teks, durasi `3.5s – 5.0s` per baris sesuai setting slider `Text Auto-Next`):
-
-### A. Desa Zephyria (Pembicara: `TETUA ROWAN · ELDER ROWAN`)
-* **Line 1/3:** *"Fanamir! Syukurlah kau mendengar seruan kami. Kabut polusi gelap telah merayap dari jurang dan mencekik seluruh lembah kami!"*
-* **Line 2/3:** *"Warga kami terbatuk-batuk dan tanaman mulai layu. Udara ini terlalu pekat untuk ditembus!"*
-* **Line 3/3:** *"Terbanglah sedikit lebih tinggi ke atas desa, lalu **kepakkan sayapmu sekuat tenaga** untuk menyapu bersih kabut beracun ini!"*
-
-### B. Desa Pyrewood (Pembicara: `PENJAGA RIMBA KEITH · RANGER KEITH`)
-* **Line 1/3:** *"Tolong kami, Naga Pelindung! Sambaran petir telah membakar seisi hutan pinus di samping desa kami!"*
-* **Line 2/3:** *"Kobaran api merembet sangat cepat ke pemukiman, dan air di sumur kami tak cukup untuk memadamkannya!"*
-* **Line 3/3:** *"Cepatlah **terbang ke Danau Zephyria untuk mengisi cadangan air**, lalu kembali ke hutan dan **buka mulutmu untuk menyemburkan air**!"*
-
-### C. Desa Solaria (Pembicara: `TETUA MIRA · ELDER MIRA`)
-* **Line 1/3:** *"Wahai Fanamir yang agung... Terik surya tanpa henti telah mengeringkan seluruh mata air di dataran batu ini."*
-* **Line 2/3:** *"Tanah kami pecah merekah, danau mengering, dan kehidupan kami terancam jika tak ada setetes air pun."*
-* **Line 3/3:** *"**Terbanglah tinggi ke puncak tebing**, lalu **angkat kedua tanganmu ke langit** untuk memanggil hujan embun suci pemulih tanah!"*
-
----
-
-## 7. Parameter Waktu (Timer), Skor Bintang, & Win/Loss Condition (Sesi 5)
-
-Mengingat dimensi kepulauan `2400 × 2400 m` (kecepatan terbang jelajah `~20–25 m/s` dan waktu jelajah antar biome `~25–35s`), batas waktu dan bintang dirancang seimbang dan adil:
-
-| Parameter | Stage 01 (Tutorial) | Stage 02 (Medium) | Stage 03 (Hard / Final) |
-| :--- | :--- | :--- | :--- |
-| **Desa Aktif** | Desa Zephyria (1 Desa) | Zephyria + Pyrewood (2 Desa) | Zephyria + Pyrewood + Solaria (3 Desa) |
-| **Batas Waktu Total** | **120 Detik** (2 Menit) | **240 Detik** (4 Menit) | **360 Detik** (6 Menit) |
-| **Status Timer saat Narasi** | **PAUSE** (Berhenti) | **PAUSE** (Berhenti) | **PAUSE** (Berhenti) |
-| **Status Timer saat Tantangan** | **BERJALAN** (Aktif) | **BERJALAN** (Aktif) | **BERJALAN** (Aktif) |
-| ⭐⭐⭐ **3 Bintang** | Selesai, sisa waktu $\ge 60\text{s}$ | Selesai, sisa waktu $\ge 90\text{s}$ | Selesai, sisa waktu $\ge 120\text{s}$ |
-| ⭐⭐ **2 Bintang** | Selesai, sisa waktu $20–59\text{s}$ | Selesai, sisa waktu $30–89\text{s}$ | Selesai, sisa waktu $30–119\text{s}$ |
-| ⭐ **1 Bintang** | Selesai sebelum batas waktu | Selesai sebelum batas waktu | Selesai sebelum batas waktu |
-| ❌ **Defeat / Gagal** | Waktu habis (`0s`) & desa belum pulih | Waktu habis (`0s`) & ada desa belum pulih | Waktu habis (`0s`) & ada desa belum pulih |
-
----
-
-## 8. Daftar Kebutuhan Audio & SFX (`AudioManager.cs` · Sesi 5)
-
-### A. Background Music (BGM)
-1. `BGM_Lobby.mp3`: Musik perkamen akustik/harpa fantasi tenang saat berada di Start Screen & Main Menu Lobby.
-2. `BGM_Flight_Adventure.mp3`: Musik petualangan orkestra megah yang memberi rasa kebebasan saat terbang melintasi kepulauan.
-3. `BGM_Village_Challenge.mp3`: Musik dinamis dengan tempo drum mantap saat naga berada di dalam zona tantangan aktif.
-
-### B. Sound Effects (SFX)
-1. **Fanamir & Penerbangan:**
-   - `SFX_Dragon_Flap.wav`: Suara kepakan sayap naga bertenaga menghembus angin.
-   - `SFX_Dragon_GlideWind.wav`: Desau angin halus (*ambient loop*) saat naga meluncur (*Glide*).
-   - `SFX_Dragon_DiveWhoosh.wav`: Desau angin kencang berkecepatan tinggi saat naga menukik (*Tuck Dive*).
-   - `SFX_Water_Breath.wav`: Semburan air bertekanan deras saat pose buka mulut di hutan terbakar.
-   - `SFX_Dew_Summon_Chime.wav`: Bunyi dentang kristal suci saat pose mengangkat tangan ke langit memanggil hujan embun.
-2. **Interaksi Misi & Lingkungan:**
-   - `SFX_Water_Absorb.wav`: Suara gelembung air mengisi cadangan energi naga di danau Biome 1.
-   - `SFX_Fire_Extinguish.wav`: Suara desisan uap dan api padam tersiram air.
-   - `SFX_Smog_Disperse.wav`: Hembusan angin kencang menyapu dan melarutkan kabut asap.
-   - `SFX_Village_Restored_Fanfare.wav`: Jingle sukacita saat suatu desa berhasil pulih 100%.
-3. **UI & Game Loop:**
-   - `SFX_UI_Click.wav`: Ketukan tombol perkamen RPG.
-   - `SFX_Quest_Accepted.wav`: Denting gulungan perkamen misi resmi dibuka.
-   - `SFX_Dialogue_Next.wav`: Suara tuts halus saat auto-play berganti baris teks narasi.
-   - `SFX_Victory_Fanfare.wav`: Fanfare kemenangan orkestra dan suara gemerincing bintang emas saat Finish Modal muncul.
-   - `SFX_Defeat_Gong.wav`: Suara gong berat saat waktu habis / misi gagal.
+*Navigasi Vault:* [[00 - Overview]] | [[Tasks]] | [[Devlog]] | [[checklist_finalisasi_pra_sesi_4]] | [[kontrak_integrasi_ui_dan_progress]]

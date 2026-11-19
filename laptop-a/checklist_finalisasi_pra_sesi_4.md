@@ -93,22 +93,22 @@ Sebelum logika tantangan desa ditulis, pemain perlu memastikan seluruh pose yang
 
 ## 🗺️ Pilar 3: Scene Gameplay, Koordinat, & Navigasi Waypoint (`MainIsland_Gameplay.unity`)
 
-### 3.1. Penempatan & Verifikasi Marker 3 Desa di Hierarki Unity
-Pastikan GameObject penanda (*marker*) desa telah terpasang rapi di atas permukaan tanah dan tidak melayang atau tertanam:
+### 3.1. Penempatan & Verifikasi Marker 3 Desa & Sub-Marker di Hierarki Unity
 - [ ] **Desa Zephyria (Biome 1 — Smog Valley):** `(-562.40, 14.10, 274.30)`
-  - Ground level interaction pad (`Radius = 35m`).
+  - Silinder Narasi: $R = 35\text{ m}, Y \le 40\text{ m}$.
+  - Silinder Tantangan Kabut: $R = 48\text{ m}$ pada ketinggian `(-562.40, 39.10, 274.30)` ($Y \approx +25\text{ m}$).
 - [ ] **Desa Pyrewood (Biome 2 — Wildfire Woods):** `(739.60, 12.90, 7.80)`
-  - Ground level interaction pad (`Radius = 35m`).
+  - Silinder Narasi: $R = 35\text{ m}, Y \le 40\text{ m}$.
+  - Sub-Marker 1 (Danau Zephyria Biome 1): Silinder $R = 45\text{ m}$ di atas air `SM_Biome1_Water_01`.
+  - Sub-Marker 2 (Hutan Terbakar Biome 2): Silinder $R = 50\text{ m}$ di atas pepohonan hangus.
 - [ ] **Desa Solaria (Biome 3 — Drought Plateau):** `(39.40, 14.70, -647.60)`
-  - Ground level interaction pad (`Radius = 35m`).
+  - Silinder Narasi: $R = 35\text{ m}, Y \le 40\text{ m}$.
+  - Silinder Tantangan Sky Altar: Silinder $R = 48\text{ m}$ pada ketinggian `(39.40, 54.70, -647.60)` ($Y \approx +40\text{ m}$).
+- [ ] **World-Space Billboard Markers (< 150m):**
+  - Pasang marker melayang di atas balai desa / sub-marker yang aktif saat jarak $\le 150\text{ m}$ menghadap kamera + label nama dan jarak.
 
-### 3.2. Penempatan Marker Sub-Objektif Spesifik
-- [ ] **Marker Danau Zephyria (Water Source Biome 1):** Titik auto-hover pengisian cadangan air (`Water Energy` 0–100%).
-- [ ] **Marker Hutan Terbakar (Burned Forest Biome 2):** Titik auto-hover pemadaman kebakaran dengan semprotan air.
-- [ ] **Marker Sky Altar / Tebing Tinggi Solaria (Biome 3):** Titik auto-hover di ketinggian tebing (`Y ~ +40m`) untuk ritual pemanggilan hujan embun.
-
-### 3.3. Integrasi Waypoint Compass HUD (`WaypointCompass.cs`)
-- [ ] Hubungkan `WaypointCompass` di HUD atas (`SCREEN 02`) dengan penanda aktif.
+### 3.2. Integrasi Waypoint Compass HUD (`WaypointCompass.cs`)
+- [ ] Hubungkan `WaypointCompass` di HUD atas (`SCREEN 02`) dengan penanda aktif / desa terdekat yang belum selesai.
 - [ ] Verifikasi jarum kompas menunjuk akurat ke arah desa tujuan saat naga terbang berputar (`Vector3.SignedAngle`).
 - [ ] Tampilkan label nama lokasi dan jarak meter yang berkurang seiring naga mendekat.
 
@@ -119,14 +119,21 @@ Pastikan GameObject penanda (*marker*) desa telah terpasang rapi di atas permuka
 Tantangan desa membutuhkan transisi penerbangan khusus agar pemain tidak kesulitan mengendalikan naga saat berdialog atau melakukan aksi tantangan:
 
 - [ ] **Fungsi `EnterAutoHover(Vector3 targetCenter, Quaternion targetOrientation)`:**
-  - Kecepatan horizontal naga melambat secara halus ke `0 m/s`.
+  - Kecepatan horizontal naga melambat secara halus ke `0 m/s` dan momentum dibekukan (*frozen*).
   - Ketinggian naga dipertahankan stabil di udara (*gentle vertical bobbing* $\pm 0.3\text{ m}$).
-  - Badan naga perlahan berotasi menghadap titik pusat desa / objek tantangan.
-- [ ] **Mekanisme Pembatalan Darurat / Escape (`Flap to Escape`):**
+  - Badan naga perlahan ditarik halus (*lerp*) ke titik jangkar (*anchor*) dan berotasi menghadap titik pusat desa / krisis lingkungan.
+- [ ] **Mekanisme Pembatalan Darurat / Escape (`Flap/Dive to Escape`):**
   - **PENTING:** Pemain tidak boleh merasa "terkunci" atau terjebak dalam auto-hover!
-  - Jika pemain mengepakkan sayap (*Flap gesture*), auto-hover langsung dibatalkan, naga menerima dorongan terbang maju, dan pemain bebas terbang kembali.
+  - **Di Zona Narasi & Danau/Hutan/Solaria:** Gestur **Flap (`#06`)**, **Tuck Dive (`#13`)**, atau **Propeller Dash (`#14`)** membatalkan auto-hover.
+  - **Khusus Zona Tantangan Zephyria:** Karena *Flap* adalah gestur tantangan kabut, pemain escape menggunakan **Tuck Dive (`#13`)** atau **Propeller Dash (`#14`)**.
+  - **Dorongan Maju (*Launch Thrust*):** Saat escape atau auto-release, naga langsung diberikan dorongan momentum awal ~30–35% agar meluncur mulus ke depan.
+  - **Cooldown Re-Trigger:** Wajib keluar dari silinder radius + cooldown **`3.5 detik`** sebelum zona bisa terpicu lagi.
 - [ ] **Mekanisme `Auto-Release` (Khusus Danau Biome 1):**
   - Saat mengisi air di Danau Zephyria, begitu kapasitas mencapai `100%`, auto-hover terlepas secara otomatis dan naga kembali meluncur maju.
+- [ ] **Isolasi UI saat Narasi:**
+  - Saat narasi aktif, seluruh HUD lain disembunyikan sementara, hanya menyisakan `PF_QuestNarrativeBox` dan `QuestObjectivePanel`.
+- [ ] **Victory Trigger Selesai Stage:**
+  - Begitu desa terakhir di stage mencapai 100%, naga auto-hover di tempat selama 2.5–3 detik merayakan pemulihan diiringi fanfare, lalu langsung memunculkan `PF_FinishModal`.
 
 ---
 
