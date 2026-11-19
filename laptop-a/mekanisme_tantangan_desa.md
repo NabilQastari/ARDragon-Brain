@@ -183,56 +183,28 @@ Dialog dimainkan otomatis 3 baris (*hands-free auto-play*, kecepatan diatur slid
 
 ---
 
-## 8. Parameter Waktu (Timer), Rumus Bintang 1–3, & Pembukaan Level Sementara
+## 7. Parameter Waktu (Timer), Skor Bintang, & Win/Loss Condition (Alokasi Resmi: Sesi 5)
 
-### A. Pembukaan Seluruh Level Sementara (Testing Mode)
-Untuk mempermudah pengujian gameplay di Laptop B tanpa harus menyelesaikan level secara berurutan:
+> *Catatan Roadmap:* Sistem batas waktu ketat, kalkulasi 1–3 bintang, kondisi Defeat, dan evaluasi `FinishModalUI` secara penuh dialokasikan pada **Sesi 5 (`GameManager.cs`)**. Pada **Sesi 4**, fokus murni pada mekanisme interaksi desa, auto-hover, sub-marker, dan pengisian progres tantangan (No Decay).
+
+### A. Pembukaan Seluruh Level Sementara (Testing Mode — Sesi 4)
+Agar pemain/developer dapat langsung menguji mekanisme tantangan di ketiga desa tanpa terhambat sistem progresi:
 - **Default Stage Lock:** Sementara seluruh kartu level (**Stage 01, Stage 02, Stage 03**) **dibuka penuh (`UNLOCKED`)** di Lobby `SCREEN 00`.
 - Scrim gembok (`UI_Scrim_LockedCard_Overlay`) dinonaktifkan, tombol charcoal `LOCKED` diganti menjadi tombol hijau `PLAY`, dan pemain bebas memilih serta menguji Stage mana pun langsung dari Lobby.
 - Parameter konfigurasi: `DragonGameSettings.UnlockAllStagesForTesting = true`.
 
-### B. Tabel Batas Waktu & Rumus Bintang 1–3
-
-Mengacu pada dimensi pulau $2400 \times 2400\text{ m}$ dan kecepatan jelajah $20\text{–}25\text{ m/s}$:
+### B. Tabel Acuan Batas Waktu & Kriteria Bintang (Untuk Sesi 5)
 
 | Parameter | Stage 01 (Tutorial) | Stage 02 (Medium) | Stage 03 (Hard / Final) |
 | :--- | :--- | :--- | :--- |
 | **Desa Aktif** | Desa Zephyria (1 Desa) | Zephyria + Pyrewood (2 Desa) | Zephyria + Pyrewood + Solaria (3 Desa) |
 | **Batas Waktu Total** | **120 Detik** (2 Menit) | **240 Detik** (4 Menit) | **360 Detik** (6 Menit) |
 | **Status Timer saat Narasi** | **PAUSE** (Berhenti) | **PAUSE** (Berhenti) | **PAUSE** (Berhenti) |
-| **Status Timer saat Tantangan / Terbang** | **BERJALAN** (Aktif) | **BERJALAN** (Aktif) | **BERJALAN** (Aktif) |
+| **Status Timer saat Tantangan** | **BERJALAN** (Aktif) | **BERJALAN** (Aktif) | **BERJALAN** (Aktif) |
 | ⭐⭐⭐ **3 Bintang** | Selesai, sisa waktu $\ge 60\text{s}$ | Selesai, sisa waktu $\ge 90\text{s}$ | Selesai, sisa waktu $\ge 120\text{s}$ |
 | ⭐⭐ **2 Bintang** | Selesai, sisa waktu $20–59\text{s}$ | Selesai, sisa waktu $30–89\text{s}$ | Selesai, sisa waktu $30–119\text{s}$ |
-| ⭐ **1 Bintang** | Selesai sebelum batas waktu habis ($> 0\text{s}$) | Selesai sebelum batas waktu habis ($> 0\text{s}$) | Selesai sebelum batas waktu habis ($> 0\text{s}$) |
+| ⭐ **1 Bintang** | Selesai sebelum batas waktu | Selesai sebelum batas waktu | Selesai sebelum batas waktu |
 | ❌ **Defeat / Gagal** | Waktu habis (`0s`) & desa belum pulih | Waktu habis (`0s`) & ada desa belum pulih | Waktu habis (`0s`) & ada desa belum pulih |
-
-### C. Logika Perhitungan Bintang & Penyimpanan Hasil
-```csharp
-public static int CalculateStars(int stageId, float remainingSeconds)
-{
-    if (remainingSeconds <= 0f) return 0;
-    
-    switch (stageId)
-    {
-        case 1:
-            if (remainingSeconds >= 60f) return 3;
-            if (remainingSeconds >= 20f) return 2;
-            return 1;
-        case 2:
-            if (remainingSeconds >= 90f) return 3;
-            if (remainingSeconds >= 30f) return 2;
-            return 1;
-        case 3:
-            if (remainingSeconds >= 120f) return 3;
-            if (remainingSeconds >= 30f) return 2;
-            return 1;
-        default:
-            return 1;
-    }
-}
-```
-* **Penyimpanan Bintang:** Skor bintang tertinggi disimpan ke `PlayerPrefs` (misal `Stage_1_BestStars`, `Stage_2_BestStars`, `Stage_3_BestStars`) sehingga slot bintang emas pada kartu level Lobby (`SCREEN 00`) terisi permanen setelah pemain menyelesaikan misi.
-* **Tampilan Kalah (Defeat):** Jika waktu habis (`0s`), game memanggil `FinishModalUI.ShowDefeat(...)` dengan opsi `COBA LAGI` atau `KEMBALI KE LOBBY`.
 
 ---
 
