@@ -25,6 +25,9 @@ updated: 2026-11-18
   - **World-Space Billboard Markers (< 150m):** Ditambahkan marker melayang di udara di atas balai desa / sub-marker dengan nama lokasi dan indikator jarak (*Camera.main Billboard*).
   - **Kamera & Victory Trigger:** Kamera tetap memakai *Fixed Flight Cam* standar. Saat desa terakhir mencapai 100%, naga auto-hover selebrasi 2.5–3 detik diiringi fanfare kemenangan, lalu langsung memunculkan `PF_FinishModal` (Opsi A).
 - **Pembaruan Dokumen:** Memperbarui [[mekanisme_tantangan_desa]], [[checklist_finalisasi_pra_sesi_4]], [[Tasks]], dan [[Devlog]].
+- **Addendum Sesi 4 (Sistem Bintang & Buka Semua Level):**
+  - **Pembukaan Semua Level Sementara:** Mengaktifkan flag `DragonGameSettings.UnlockAllStagesForTesting = true` agar Stage 01, 02, dan 03 di Lobby `SCREEN 00` terbuka penuh (`PLAY`) tanpa terhalang scrim kunci untuk mempermudah testing.
+  - **Rumus Bintang 1–3 & Countdown Timer:** Memasukkan perhitungan bintang berbasis sisa waktu (Stage 01: 3★ $\ge 60s$, 2★ $20-59s$; Stage 02: 3★ $\ge 90s$, 2★ $30-89s$; Stage 03: 3★ $\ge 120s$, 2★ $30-119s$), timer countdown di HUD, kondisi Defeat saat `0s`, serta persistensi bintang ke `PlayerPrefs` dan slot bintang Lobby `SCREEN 00`.
 
 ---
 
