@@ -7,7 +7,7 @@ tags:
   - game-design
   - architecture
 status: active
-updated: 2026-11-15
+updated: 2026-11-19
 ---
 
 # 🐉 Fanamir: The Sky Guardian — Overview
@@ -56,6 +56,7 @@ updated: 2026-11-15
 - [[laptop-a/rencana_skill_vfx_effekseer_laptop_b]] — Panduan & rencana instalasi skill `kanaworksai-hue/effekseer-vfx-skill` (Effekseer Unity 6 URP) untuk pembuatan VFX pemulihan 3 desa & penerbangan Fanamir di Laptop B.
 - [[laptop-a/planning_optimasi_token_laptop_b]] — Cetak biru & panduan konfigurasi optimasi token (*The Optimal Lean Stack*: `.antigravityignore`, RTK CLI compressor, Ponytail-lite rules) untuk Laptop B.
 - [[laptop-a/panduan_screenshot_mandiri_dan_laporan]] — Panduan bagi Laptop B untuk melakukan *screenshot* mandiri otomatis (Unity C#, Python CV, OS-level) dan menampungnya di `docs/figures/raw_screenshots/` sebagai bahan pembaruan Laporan Capstone.
+- [[laptop-a/planning_momentum_dan_revisi_kontrol]] — Perancangan sistem momentum kontinu ($0–100\%$), Y-Glide, Steep Climb, Hover Flutter vs Slow Glide, dan spesifikasi paket delta ekspor Laptop B.
 - [[laptop-a/Tasks]] & [[laptop-a/Devlog]] — Pelacakan tugas desain/arsitektur & catatan perkembangan Laptop A.
 
 ### Eksekusi & Pengembangan Program ([[laptop-b/Tasks|Laptop B]])

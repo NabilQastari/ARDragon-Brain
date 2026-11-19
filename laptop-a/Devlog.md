@@ -4,12 +4,17 @@ tags:
   - devlog
   - laptop-a
 owner: Laptop A
-updated: 2026-11-18
+updated: 2026-11-19
 ---
 
 # 📝 Devlog — Laptop A
 
 > Catatan kronologis keputusan desain, ide, arsitektur, dan pembaruan dokumentasi dari **Laptop A**. Kembali ke [[00 - Overview]].
+
+---
+
+## 2026-11-19 — Arsip Memori Sesi: Mekanisme Momentum, Pembaruan Pose v4, & Paket Delta Ekspor ([[Mekanisme Momentum dan Pembaruan Pose v4]], [[planning_momentum_dan_revisi_kontrol]])
+- **Ringkasan Memori Sesi:** Mengarsipkan rangkaian keputusan perancangan sistem momentum kontinu ($0–100\%$) naga Fanamir, aturan inersia dan pengereman perlahan ($\sim 2.2–2.5\text{s}$), soft-cap laju penambahan bertahap per pose, pemisahan `#07 Fly Up` sebagai *Y-Glide Up* (sayap 3D Y-dihedral, gentle stall) vs `#06B Steep Climb` (chin-up flap $+7\text{ m/s}$), pemisahan `#09A Hover` (flutter lengan bawah ke $0\text{ m/s}$) vs `#09B Slow Glide` ($\sim 6–8\text{ m/s}$), perbaruan 15 medali siluet UI bersih (tanpa kerangka/titik CV) pada Kalibrasi `SCREEN 01` & Guide `SCREEN 07`, penambahan `Momentum Dock` $420 \times 40\text{ px}$ pada HUD `SCREEN 02`, penyusunan paket delta 28 file `assets/Export_Delta_LaptopB/` (`Export_Delta_LaptopB.zip`), penerbitan manual visual resmi `v4.0` 12 halaman (`Panduan_19_Pose_Fanamir_CV.pdf` & `.docx`), serta penyusunan master prompt sinkronisasi untuk Laptop B di [[planning_momentum_dan_revisi_kontrol]]. Catatan lengkap diarsipkan di [[Mekanisme Momentum dan Pembaruan Pose v4]].
 
 ---
 
