@@ -13,6 +13,45 @@ updated: 2026-11-19
 
 ---
 
+## 2026-11-19 — Implementasi Sesi 4 (Mekanisme Tantangan 3 Desa, Sub-Marker, Auto-Hover & Escape, World Billboard, Isolasi UI, & Stage Testing Unlock)
+
+### Eksekusi Utama (`[[laptop-a/mekanisme_tantangan_desa]]`, `[[laptop-a/checklist_finalisasi_pra_sesi_4]]`, `[[laptop-a/kontrak_integrasi_ui_dan_progress]]`)
+1. **Pembukaan Semua Stage untuk Testing (`DragonGameSettings.cs`, `MissionsPanelUI.cs`, `UISceneAndPrefabBuilder.cs`):**
+   - Menambahkan `public static bool UnlockAllStagesForTesting = true;` dan pelacakan `SelectedStageIndex` (`GetActiveStageIndexOrDefault(3)`) pada `DragonGameSettings.cs`.
+   - Memperbarui `MissionsPanelUI.cs` & `UISceneAndPrefabBuilder.BuildMissionsPanel()` agar Stage 01, Stage 02, dan Stage 03 seluruhnya terbuka saat flag aktif: menyembunyikan `LockedScrim`, mengganti badge menjadi `STAGE XX · OPEN` (`UI_Tag_Stage_Green_Blank`), mengganti tombol menjadi **`PLAY`** hijau (`UI_Btn_Primary_Green_9Slice`), serta meluncurkan `MainIsland_Gameplay.unity` dengan konfigurasi desa aktif (`Stage 01`: 1 desa Zephyria, `Stage 02`: 2 desa Zephyria+Pyrewood, `Stage 03`: 3 desa lengkap).
+2. **Pilar 3: Marker Silinder & World-Space Billboard (`WorldSpaceVillageMarker.cs`, `Session4_VillageBuilder.cs`):**
+   - Merakit hierarki `/VillageZones_Session4` di `MainIsland_Gameplay.unity` melalui menu `DragonWingAR/Session 4/Build Village Zones and Markers`:
+     - **Desa Zephyria (Biome 1):** Pad `(-562.40, 14.10, 274.30)` (`R=35m, Y<=40m`) & Challenge Kabut `(-562.40, 39.10, 274.30)` (`R=48m`).
+     - **Desa Pyrewood (Biome 2):** Pad `(739.60, 12.90, 7.80)` (`R=35m, Y<=40m`), Sub-Marker 1 Danau Zephyria `(-292.27, 13.62, 663.83)` (`R=45m` di atas `SM_Biome1_Water_01`), & Sub-Marker 2 Hutan Terbakar `(797.77, 13.68, 147.97)` (`R=50m` di sentroid 59 pohon hangus Biome 2).
+     - **Desa Solaria (Biome 3):** Pad `(39.40, 14.70, -647.60)` (`R=35m, Y<=40m`) & Challenge Sky Altar `(39.40, 54.70, -647.60)` (`R=48m`, `Y ~ +40m`).
+   - Membuat `WorldSpaceVillageMarker.cs` (`Y+12m`, aktif saat jarak `<= 150m`, billboard menghadap `Camera.main.transform.rotation`, distance-scaling halus, teks dinamis `"<LOKASI> · XXm"`) serta cincin batas zona non-colliding (`Mat_ZoneRing_S4.mat`).
+3. **Pilar 4: Auto-Hover, Escape Engine, & Launch Thrust (`DragonFlightController.cs`, `DragonWingAnimator.cs`):**
+   - Mengimplementasikan `EnterAutoHover(Vector3 anchorPosition, Quaternion anchorRotation, bool isZephyriaChallenge = false)` & `ExitAutoHover(bool applyLaunchThrust = true)`: lerp posisi & rotasi (`smoothSpeed = 3.0f`), kecepatan horizontal turun mulus ke `0 m/s`, animasi sayap `wingRegime == "Hover"` diprioritaskan di `DragonWingAnimator.cs`, serta momentum dibekukan selama hover.
+   - Menambahkan **Escape Engine** (`OnAutoHoverEscaped`): gestur **Flap (`#06`)**, **Tuck Dive (`#13`)**, atau **Propeller Dash (`#14`)** membatalkan auto-hover (kecuali di **Zona Tantangan Zephyria**, di mana **Flap TIDAK membatalkan auto-hover** sehingga hanya Tuck Dive / Propeller Dash yang escape), diikuti **Launch Thrust** (`autoHoverLaunchMomentum = 0.35f`, `autoHoverLaunchSpeed = 17.5 m/s`) agar naga tidak stall.
+4. **State Mesin Desa, Isolasi UI, & Logika Tantangan (`VillageZoneController.cs`, `InGameFlightHUD.cs`):**
+   - State mesin per desa (`Unvisited` $\rightarrow$ `NarrativeActive` $\rightarrow$ `QuestAccepted` $\rightarrow$ `ChallengeActive` $\rightarrow$ `Restored`) lengkap dengan **Exit Cooldown** (wajib keluar silinder + jeda `3.5 detik`).
+   - **Isolasi UI Narasi (`InGameFlightHUD.SetNarrativeIsolationMode(bool)`):** saat `NarrativeActive`, `MomentumDock`, `TelemetryDock`, `PIP_CameraPanel`, `WaypointCompass`, `MissionCapsule`, `GlobalVitalityBar`, & `Btn_EscPause` disembunyikan sehingga layar **HANYA** menampilkan `PF_QuestNarrativeBox` (`SCREEN 08` auto-play 3 baris) & `QuestObjectivePanel` (`SCREEN 02`); escape di tengah narasi mengembalikan UI normal dan mereset narasi ke baris 1.
+   - **Tantangan No-Decay & Feature-to-UI Sync:** Zephyria (`+0.11f/kepakan`), Pyrewood Tahap 1 Danau (`+0.22f/s` + Auto-Release 100%), Pyrewood Tahap 2 Hutan (`MOUTH_OPEN > 0.35` aktif / `< 0.25` mati, `+0.15f/s`), Solaria Sky Altar (Double I-Pose `11` `#15C`, `+0.125f/s`), update `PF_VillageChallengeOverlay` (`SCREEN 03`), `WaypointCompass` dinamis ke desa/sub-marker terdekat, `SetVillageCount`, `SetGlobalVitality` (`100%` / `50%->100%` / `33%->67%->100%`), serta highlight `#15` `CalibrationPanelUI`.
+
+### Status Perubahan UI (Feature-to-UI Sync)
+| Elemen UI | Status Sebelum | Status Sekarang | API / Sinkronisasi |
+| :--- | :--- | :--- | :--- |
+| `Stage 02` & `Stage 03` Cards (`SCREEN 00`) | Placeholder Terkunci | **Live (Mode Testing)** | `DragonGameSettings.UnlockAllStagesForTesting`, `MissionsPanelUI` |
+| `WaypointCompass` (`SCREEN 02`) | Dormant (`false`) | **Live** | `InGameFlightHUD.SetWaypointTarget` / `ClearWaypoint` |
+| `QuestObjectivePanel` & `GlobalVitalityBar` (`SCREEN 02`) | Placeholder `0%` | **Live** | `SetQuestObjective`, `SetVillageCount`, `SetGlobalVitality` |
+| `PF_QuestNarrativeBox` (`SCREEN 08`) | Dormant (`false`) | **Live** | `ShowNarrativeSequence` + `SetNarrativeIsolationMode` |
+| `PF_VillageChallengeOverlay` (`SCREEN 03`) | Dormant (`false`) | **Live** | `ShowChallenge`, `UpdateProgress`, `HideChallenge` |
+
+### Hasil Verifikasi Unity 6 (`6000.3.7f1`)
+- **Build & Kompilasi:** `UISceneAndPrefabBuilder.BuildAll()` & `Session4_VillageBuilder.BuildVillageZonesAndMarkers()` lulus bersih (`compilationFailed: false`, `0` error/warning baru).
+- **Play Mode `MainMenu_Lobby.unity`:** Ketiga kartu Stage `01/02/03` tampil tanpa `LockedScrim` dengan tombol hijau `PLAY`; klik Stage 02 `PLAY` memuat `MainIsland_Gameplay.unity` (`stage=2`, `activeVillages=2`, `VILLAGES 0/2`, `0%`, `DESA ZEPHYRIA · 638m`).
+- **Play Mode `MainIsland_Gameplay.unity` (`Session4VerificationRunner` + `MomentumFlightVerificationRunner`):**
+  - `MomentumFlightVerificationRunner`: **`ALL MOMENTUM & FLIGHT PHYSICS CHECKS PASSED (100%)`** (zero-regression pada 6 pose terkunci & Momentum `0–100%`).
+  - `Session4VerificationRunner`: **`ALL SESSION 4 VILLAGE, SUB-MARKER, AUTO-HOVER, ESCAPE, BILLBOARD & UI ISOLATION CHECKS PASSED (100%)`** (`WorldSpaceVillageMarker` >150m/<=150m & billboard kamera, isolasi UI narasi, escape reset baris 1, cooldown keluar silinder + `3.5s`, Flap Zephyria no-escape & No-Decay, TuckDive escape + Launch Thrust `>=30%`/`>=16 m/s`, Danau auto-fill & Auto-Release, Hutan hysteresis `0.35/0.25`, Solaria pose `11`, & Vitality Stage 1/2/3).
+- **Play Mode `Test_Dragon_Flight.unity`:** Non-regresi lulus (`0` console errors, `0` console warnings).
+
+---
+
 ## 2026-11-19 — Sistem Momentum Terpadu (`0–100%`), Revisi Kontrol (`v4.0`), Delta Aset Bersih, & HUD Momentum Bar
 
 ### Eksekusi Utama (`[[laptop-a/planning_momentum_dan_revisi_kontrol]]`)
