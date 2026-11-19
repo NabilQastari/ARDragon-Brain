@@ -13,6 +13,26 @@ updated: 2026-11-19
 
 ---
 
+## 2026-11-19 (Patch Fix) — Perbaikan Transisi Pasca-Zephyria (Launch Thrust Grace, Guard `Restored`, & UDP 5052 Reuse)
+
+### Temuan Investigasi & Perbaikan
+1. **`DragonFlightController.cs` & `MainIsland_Gameplay.unity` (`ExitAutoHover` & `_launchThrustGraceTimer`):**
+   - Menyelaraskan nilai terserialisasi `/Dragon_Player` di `MainIsland_Gameplay.unity` (`Session4_VillageBuilder.cs`) ke `autoHoverLaunchMomentum = 0.35f` (`35%`) dan `autoHoverLaunchSpeed = 17.5f` m/s (sebelumnya masih terserialisasi `0.32f` / `17f`).
+   - Memastikan `ExitAutoHover(bool)` selalu mereset `_isHovering`, `_hasHoverAnchor`, `_isZephyriaChallengeHover`, dan `_hoverWaitEscapeRelease` ke `false`, serta menambahkan `_launchThrustGraceTimer = 0.60f` agar rem udara pasif (`#09A Hover` / `#12 FlyDownW`) saat pemain menurunkan tangan seusai 10 kepakan tidak langsung memangkas momentum ke `0%` dan menghentikan laju maju sebelum keluar silinder (sementara manuver aktif `Glide`, `Flap`, `FlyUp`, `TuckDive`, `PropellerDash`, & `TurnInput` tetap responsif seketika).
+2. **`VillageZoneController.cs` (Guard `Restored`, Cooldown `3.5s`, & Pelepasan UI Defensif):**
+   - Menambahkan pengecekan eksplisit `state != Unvisited` / `state == Restored` pada `EnterNarrativeSession` dan `EnterChallengeSession`, serta memanggil `_sessionTrigger?.StartExitCooldown(ExitCooldownSeconds)` saat tantangan desa selesai.
+   - Pada `CompleteVillageRestoration` & Auto-Release Danau Pyrewood: memanggil `flightController.ExitAutoHover(true)` tanpa syarat tambahan `IsHovering` serta memastikan `challengeUI?.HideChallenge()`, `narrativeUI?.HideNarrative()`, dan `hud?.SetNarrativeIsolationMode(false)` bersih.
+3. **`UDPPoseReceiver.cs` (Perbaikan Socket Port `5052` Lintas Scene):**
+   - Menangani temuan log console sesi uji manual (`[UDPPoseReceiver] Gagal mengikat port 5052: Only one usage of each socket address`) dengan mengaktifkan `ExclusiveAddressUse = false` + `SocketOptionName.ReuseAddress` sebelum `Bind` di `StartUDPListener()` dan penutupan + `Dispose()` + `Join(200)` thread yang bersih di `StopUDPListener()`.
+
+### Hasil Verifikasi
+- `MomentumFlightVerificationRunner.RunPlayModeVerificationAsync()`: **100% PASS**.
+- `Session4VerificationRunner.RunPlayModeVerificationAsync()`: **100% PASS** (termasuk verifikasi pasca-`Restored` di dalam silinder `R=48m`: `IsHovering=False`, Launch Thrust aktif, bebas re-trigger, kemudi & glide bergerak `>20m` dalam `1.6s`).
+- Simulasi Stage 02 Pasca-Zephyria -> Pyrewood (`0.4s` transisi arm-drop `#09A` + `Glide/Lean/Flap`): `release=(mom=0.35, spd=17.59)`, `spdAfterDrop=18.20`, `distMoved=48.9m`, `vit=50%`, `wp='DESA PYREWOOD · 1294m'`, `isolated=False`.
+- Transisi berulang `MainMenu_Lobby` $\leftrightarrow$ `MainIsland_Gameplay` dengan stream UDP 5052 30Hz aktif: `UDPConnected=True`, `0` errors, `0` warnings.
+
+---
+
 ## 2026-11-19 — Implementasi Sesi 4 (Mekanisme Tantangan 3 Desa, Sub-Marker, Auto-Hover & Escape, World Billboard, Isolasi UI, & Stage Testing Unlock)
 
 ### Eksekusi Utama (`[[laptop-a/mekanisme_tantangan_desa]]`, `[[laptop-a/checklist_finalisasi_pra_sesi_4]]`, `[[laptop-a/kontrak_integrasi_ui_dan_progress]]`)
