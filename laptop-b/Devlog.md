@@ -13,9 +13,17 @@ updated: 2026-11-21
 
 ---
 
+## 2026-11-21 — Memori Sesi: Kamera Dinamis, Navigasi Pause, & 3 Titik Wajah (Tahap 1)
+- **Catatan Memori:** [[Kamera Dinamis dan Titik Wajah]]
+- **Ringkasan:** Mengarsipkan memori sesi implementasi kamera dinamis (`16:9`, `4:3`, `9:16`), perapian HUD PIP & navigasi Pause $\rightarrow$ Calibration (`PlayerPrefs`), deteksi 3 titik wajah (`Nose`, `Chin`, `Mouth` $\rightarrow$ `HEAD_PITCH` / `MOUTH_OPEN`), serta perbaikan kerangka dobel, batas footer UI kalibrasi, dan pembacaan titik jarak jauh (`imgsz=960`, upsample `224×224`, grace hold `0.35s`).
+
 ## 2026-11-21 — Memori Sesi: Penataan Struktur Folder Proyek
 - **Catatan Memori:** [[Penataan Struktur Folder Proyek]]
 - **Ringkasan:** Mengarsipkan memori sesi penataan struktur folder proyek (`assets/blender/`, `assets/blender/scripts/`, `assets/vfx/`, `assets/archives/`, `assets/screenshots/`, `docs/`, dan `tools/`) serta pembersihan root tanpa mengubah path inti Unity & Python CV.
+
+## 2026-11-21 — Memori Sesi: Fisika Terbang Fly Up, Hover Mode, dan Gentle Descent di Unity
+- **Catatan Memori:** [[Fisika Terbang Fly Up Hover Descent]]
+- **Ringkasan:** Menyelesaikan integrasi Phase B pada skrip Unity C# (`UDPPoseReceiver.cs`, `IFlightInputProvider.cs`, `DefaultFlightInputMapper.cs`, `DragonFlightController.cs`, `InGameFlightHUD.cs`) beserta keyboard fallback (`H`, `G`, `U`), verifikasi kompilasi Unity 6 (`0` errors), dan pengujian `test_e2e_flight_physics.py` (`6/6`), `test_additional_gestures.py` (`10/10`), `test_phase5_validation.py` (`7/7`), serta `test_phase6_final_session.py` (`7/7`).
 
 ## 2026-11-21 — Memori Sesi: Setup Obsidian Brain Laptop B
 - **Catatan Memori:** [[Setup Obsidian Brain Laptop B]]
@@ -254,7 +262,7 @@ updated: 2026-11-21
    - Menambahkan section `## ⚡ Aturan Efisiensi Token & Eksekusi Minimalis (Laptop B)` yang mencakup aturan kompresi terminal via `rtk`, prinsip coding minimalis (*Ponytail-Lite / YAGNI* dengan pengecualian wajib menjaga kontrak `kontrak_integrasi_ui_dan_progress.md`, *Hybrid UI*, `[SerializeField]`, dan namespace `DragonWingAR.*`), serta *Session Hygiene* (`/compact`).
 
 ### Hasil Verifikasi (Sanity Check)
-- **`rtk.exe --version` & `rtk.exe git status`:** Menampilkan `rtk 1.2.0` dan ringkasan status Git yang padat (`* master...origin/master`, exit code `0`).
+- **`rtk --version` & `rtk git status`:** Awalnya terverifikasi via `rtk.exe` (`rtk 1.2.0`, `* master...origin/master`, exit code `0`); setelah restart sesi/IDE, pemanggilan bare `rtk --version` & `rtk git -C brain status` terverifikasi aktif langsung dari `PATH`.
 - **Keterbacaan Skrip Inti:** Berkas `.cs` (`Assets/_Scripts/`), `.py` & `.json` (`ARDragonSkyGuardian_CV/`), serta `.md` (`AGENTS.md`, `brain/`) tetap terbaca dan terindeks normal tanpa terblokir `.antigravityignore`.
 
 ---
@@ -568,6 +576,7 @@ updated: 2026-11-21
   - **Kebersihan Root:** Menghapus file sementara `test_profile_tmp.json` di root, sementara `AR Dragon Sky Guardian/` dan `ARDragonSkyGuardian_CV/` tetap di root agar referensi path `PythonProcessManager.cs` dan impor modul Python CV tetap utuh.
 
 ## 2026-11-13 — Prioritas 4: Sinkronisasi `InGameFlightHUD` & Trigger Kalibrasi Unity -> Python CV (UDP Port 5054)
+- **Catatan Memori Sesi:** [[Audit dan Penyempurnaan Kontrol Webcam]] (merangkum Baseplate rumput, audit 15 kendala, Prioritas 1–4, perbaikan mirror webcam/mode duduk/vertikal, & peninjauan status UI Laptop A).
 - **Aksi:**
   - **Sinkronisasi HUD & Wireframe (`InGameFlightHUD.cs`):**
     - Menyelaraskan laju turun `Gentle Descent` (`-1.6 m/s` fallback + bacaan dinamis `flightController.CurrentVerticalVelocity`) dan `Glide` (`~ -1.0 m/s` + pitch live), menambahkan `[FLY DOWN Y]` / `[FLY DOWN W]` ke baris aksi HUD, memperlebar kartu HUD (`360 -> 415 px`) serta panduan bawah (`740 -> 880 px`), dan menambahkan prioritas `Propeller Dash`, `Fly Down Y`, & `Fly Down W` di `DrawSkeletonWireframe()`.
