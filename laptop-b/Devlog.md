@@ -4,12 +4,31 @@ tags:
   - devlog
   - laptop-b
 owner: Laptop B
-updated: 2026-11-20
+updated: 2026-11-21
 ---
 
 # 🛠️ Devlog — Laptop B
 
 > Catatan kronologis pengembangan kode, debugging, pengujian Unity/Python, dan hasil build dari **Laptop B**. Kembali ke [[00 - Overview]].
+
+---
+
+## 2026-11-21 (Patch Fix) — Pembagian Tantangan per Level (Lvl 1/2/3 = 1/2/3 Desa) & Integrasi Finish UI (`PF_FinishModal`)
+
+### Temuan Investigasi & Perbaikan
+1. **Akar Masalah Tantangan Tergabung di Level 1:**
+   - `DragonGameSettings.GetActiveStageIndexOrDefault(int fallback = 3)` dan `VillageZoneController.defaultStageIfUnset = 3` (tersimpan di `MainIsland_Gameplay.unity` & `Session4_VillageBuilder.cs`) menyebabkan sesi yang langsung Play di `MainIsland_Gameplay` atau melalui tombol `READY TO FLY` di `CalibrationPanelUI` (ketika `SelectedStageIndex == 0`) jatuh ke Stage 3 (seluruh 3 desa aktif).
+   - Selain itu, `DragonGameSettings.SelectedStageIndex` tidak direset pada `SubsystemRegistration`, sehingga nilai `3` dari sesi Play Mode sebelumnya bertahan di memori saat Domain Reload tidak penuh.
+   - **Perbaikan:** Menetapkan default Stage `1` pada `GetActiveStageIndexOrDefault(1)`, `VillageZoneController.defaultStageIfUnset = 1`, `Session4_VillageBuilder.cs`, `MainIsland_Gameplay.unity`, serta `CalibrationPanelUI.OnReadyToFlyClicked()`, dan menambahkan `[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]` `ResetStaticSessionState()` pada `DragonGameSettings.cs` agar tiap mulai Play Mode bersih di Stage `1` (`Lvl 1 = 1 Zephyria`, `Lvl 2 = 2 Zephyria+Pyrewood`, `Lvl 3 = 3 Zephyria+Pyrewood+Solaria`).
+2. **Integrasi Finish UI, Timer Stage, Bintang, & Next Level (`VillageZoneController.cs`, `FinishModalUI.cs`, `MissionsPanelUI.cs`, `DragonGameSettings.cs`):**
+   - Menghubungkan `VillageZoneController.finishModal` (`PF_FinishModal`) ke alur akhir stage: setelah desa terakhir stage pulih (`ClearedVillageCount >= ActiveVillageCount`), naga lepas dengan Launch Thrust dan `PF_FinishModal` tampil otomatis setelah jeda selebrasi `2.5s` (`ShowVictory` + menyimpan bintang `1–3` ke `DragonGameSettings.RecordStageCompletion` & menyembunyikan tombol `NEXT LEVEL` di Stage 3).
+   - Menambahkan timer per stage sesuai `mekanisme_tantangan_desa.md` (`120s` / `240s` / `360s`, jeda saat narasi, `hud.SetMissionTimer`, & `ShowDefeat` jika waktu habis), memperbarui `FinishModalUI` (`HandleNextLevelClicked` lanjut ke Stage 2/3 & manajemen `Time.timeScale`), serta menampilkan capaian bintang tersimpan + durasi pada kartu Lobby `MissionsPanelUI`.
+
+### Hasil Verifikasi Unity 6 (`6000.3.7f1`)
+- `Session4_VillageBuilder.BuildVillageZonesAndMarkers()`: berhasil memperbarui `MainIsland_Gameplay.unity` (`defaultStageIfUnset: 1`, `finishModal` terhubung).
+- Play Mode `MainIsland_Gameplay.unity` (`InitialBoot: stage=1, count=1` + `Session4VerificationRunner.RunPlayModeVerificationAsync()`): **`ALL SESSION 4 VILLAGE, SUB-MARKER, AUTO-HOVER, ESCAPE, BILLBOARD & UI ISOLATION CHECKS PASSED (100%)`** (termasuk kemunculan otomatis `PF_FinishModal` seusai Stage 1, Stage 2 `2` desa, & Stage 3 `3` desa).
+- Play Mode `MainIsland_Gameplay.unity` (`MomentumFlightVerificationRunner.RunPlayModeVerificationAsync()`): **`ALL MOMENTUM & FLIGHT PHYSICS CHECKS PASSED (100%)`**.
+- Transisi `FinishModalUI` `Btn_NextLevel` (`Stage 1 -> Stage 2`, `stage=2, count=2`) & penyembunyian `Btn_NextLevel` di Stage 3 terverifikasi lulus; `MainMenu_Lobby.unity` tombol Stage 2 memuat `MainIsland_Gameplay` (`LoadedStage=2, Villages=2`). `0` compilation errors.
 
 ---
 
