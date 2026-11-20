@@ -13,6 +13,10 @@ updated: 2026-11-21
 
 ---
 
+## 2026-11-21 — Memori Sesi: Setup Optimasi Token Laptop B
+- **Catatan Memori:** [[Setup Optimasi Token Laptop B]]
+- **Ringkasan:** Mengarsipkan memori sesi implementasi *The Optimal Lean Stack* di Laptop B (`.antigravityignore`, instalasi `rtk 1.2.0` via `winget` & verifikasi aktif di `PATH`, serta penambahan aturan efisiensi token & *Ponytail-Lite / YAGNI* di `AGENTS.md`).
+
 ## 2026-11-21 — Memori Sesi: Penyelarasan 17 Pose dan Propeller Dash
 - **Catatan Memori:** [[Penyelarasan 17 Pose dan Propeller Dash]]
 - **Ringkasan:** Mengarsipkan memori sesi penyelarasan 17 pose kontrol (nol regresi pada 6 pose terkunci), penyelesaian Pilar 1 Pra-Sesi 4 (Clean CV Preview UDP `5053` + `DragonHeadLookController` `HEAD_PITCH` Tahap 2), dan peningkatan `#14 Propeller Dash` (deteksi orbit siku CV anti-foreshortening, impuls burst `6.5f` / `30 m/s`, camera surge, serta animasi sayap heliks).
