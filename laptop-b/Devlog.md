@@ -13,6 +13,33 @@ updated: 2026-11-21
 
 ---
 
+## 2026-11-21 — Implementasi Sesi 4B: Paket Visual & Flight Feel (VFX Effekseer URP, Dynamic FOV 60°–85°, & Skybox/Fog Dinamis)
+
+### Eksekusi Utama (`[[laptop-a/planning_vfx_fov_skybox_dan_animasi]]`, `[[laptop-a/prompt_eksekusi_vfx_skybox_dan_fov_laptop_b]]`, `[[laptop-a/panduan_screenshot_mandiri_dan_laporan]]`)
+1. **Instalasi Skill Agen & Plugin Effekseer Unity 6 URP:**
+   - Memasang skill `effekseer-vfx` & `vfx-review` ke `.agents/skills/` dari `kanaworksai-hue/effekseer-vfx-skill` beserta toolchain `EffekseerCore 1.80.7` + `.NET 9.0.20` (`~/.cache/effekseer-vfx`), dan menginisialisasi workspace `vfx/` (`vfx init --no-plugin`).
+   - Memasang package `EffekseerForUnity` `1.80.8` via UPM (`https://github.com/effekseer/EffekseerForUnity_Release.git?path=Assets/Effekseer` — branch `#package` pada repo non-release tidak tersedia), mendaftarkan `EffekseerURPRenderPassFeature` pada `Assets/Settings/PC_Renderer.asset` & `Assets/Settings/Mobile_Renderer.asset`, serta membuat `Assets/Resources/EffekseerSettings.asset` (`RendererType = Unity`, `enableDistortion = false`).
+2. **Pembuatan & Kompilasi 7 Berkas Partikel Effekseer (`AR Dragon Sky Guardian/Assets/VFX/Effekseer/`):**
+   - Menulis 7 brief (`vfx/briefs/VFX_*.json`) & 7 resep (`vfx/src/VFX_*.py`), lulus `vfx brief-validate` + `vfx lint` (`0` errors, `0` warnings) dan terkompilasi via `EffekseerCore` menjadi 7 `.efkefc` + `resources/` (`VFX_Zephyria_WindGust.efkefc`, `VFX_Lake_WaterSiphon.efkefc`, `VFX_Pyrewood_WaterBreath.efkefc`, `VFX_Pyrewood_ExtinguishSteam.efkefc`, `VFX_Solaria_CelestialDewRain.efkefc`, `VFX_Flight_WingtipTrails.efkefc`, `VFX_Flight_SonicDashShockwave.efkefc`), seluruhnya terimpor sebagai `EffekseerEffectAsset` di Unity.
+3. **Dynamic Camera FOV (60°–85°) & Jarak Z (`DragonFlightController.cs`):**
+   - Memperbarui `UpdateCameraPolish()` dengan `Mathf.SmoothDamp` (`cameraSmoothTime = 0.30s`) untuk FOV & Offset Z kamera: Grounded/Auto-Hover (`60°`, `-6.0 m`), Cruising Glide (`65°–68°`, `-6.3 m`), Tuck to Dive `#13` (`78°–80°`, `-7.2 m` + micro-rumble), dan Propeller Dash `#14` (`85°`, `-7.5 m`), serta `SetExternalCameraRumble()` untuk semburan air `#15B`.
+4. **Skybox & URP Fog Dinamis (`BiomeAtmosphereController.cs`, `DynamicBiomeSkybox.shader`, `Mat_DynamicBiomeSkybox.mat`):**
+   - Mengimplementasikan shader skybox URP kustom (`DragonWingAR/DynamicBiomeSkybox`) sehingga `_HorizonColor` identik 100% dengan `RenderSettings.fogColor` (menghilangkan patahan tepi laut & artefak hijau horizon).
+   - Menangani transisi `<250 m` untuk 3 biome krisis (Zephyria smog kelabu-hijau `150 m`, Pyrewood langit oranye pekat + partikel abu melingkar lembut, Solaria langit terik berdebu) serta transisi restorasi `2.75 detik` saat `VillageZoneController.CompleteVillageRestoration()` dipanggil.
+5. **Integrasi Gameplay (`DragonVfxController.cs`, `VillageZoneController.cs`, `Session4_VillageBuilder.cs`):**
+   - Memasang socket & `DragonVfxController` pada `/Dragon_Player` (tracking ujung tulang `Wing_Finger_Outer.L/R` untuk `WingtipTrails` saat `speed >= 18 m/s` atau belok tajam, `SonicDashShockwave` saat `#14`, `WindGust`, `WaterSiphon`, dan `WaterBreath`) serta emitter desa (`Pyrewood_ExtinguishSteam`, `Solaria_CelestialDewRain`) di `MainIsland_Gameplay.unity`.
+
+### Hasil Verifikasi Play Mode (`Unity 6000.3.7f1`) & Screenshot Mandiri
+- `VFXAtmosphereVerificationRunner.RunPlayModeVerificationAsync()`: **`ALL SESI 4B VFX, DYNAMIC FOV & BIOME ATMOSPHERE CHECKS PASSED (100%)`** (`Glide=(fov=64.99, z=-6.30)`, `Dive=(fov=78.88, z=-7.20)`, `Dash=(fov=85.00, z=-7.50)`, `Hover=(fov=60.07, z=-6.00)`, `ZephCrisisFog=243m -> RestoredFog=3999m`, `0` compile/runtime errors).
+- Non-regresi Sesi 4 & Momentum (`MainIsland_Gameplay.unity`): `Session4VerificationRunner.RunPlayModeVerificationAsync()` (**100% PASS**) & `MomentumFlightVerificationRunner.RunPlayModeVerificationAsync()` (**100% PASS**).
+- **Tangkapan Layar Mandiri (`docs/figures/raw_screenshots/`):**
+  - `docs/figures/raw_screenshots/SS_Sesi4B_Flight_PropellerDash_FOV85.png`
+  - `docs/figures/raw_screenshots/SS_Sesi4B_Zephyria_SmogAndWindGust.png`
+  - `docs/figures/raw_screenshots/SS_Sesi4B_Pyrewood_WaterBreath_Steam.png`
+  - `docs/figures/raw_screenshots/SS_Sesi4B_Solaria_CelestialDewRain.png`
+
+---
+
 ## 2026-11-21 (Patch Fix) — Pembagian Tantangan per Level (Lvl 1/2/3 = 1/2/3 Desa) & Integrasi Finish UI (`PF_FinishModal`)
 
 ### Temuan Investigasi & Perbaikan
