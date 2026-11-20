@@ -13,6 +13,22 @@ updated: 2026-11-21
 
 ---
 
+## 2026-11-21 — Memori Sesi: Implementasi Sesi 5 Game Loop dan Scoring
+- **Catatan Memori:** [[Implementasi Sesi 5 Game Loop dan Scoring]]
+- **Ringkasan:** Mengarsipkan memori sesi implementasi `GameManager.cs` (`CountdownStart` 3..2..1..TERBANG!, jeda timer saat narasi, evaluasi `TimeUp` lulus $\ge 1$ bintang), pembakuan formula 3 bintang berbasis `Global Vitality` (`33.4% / 66.7% / 100%`), progresi pembukaan level berjenjang + mode Free Play di `PlayerPrefs`, animasi bintang sekuensial `FinishModalUI.cs`, sinkronisasi `MissionsPanelUI.cs`, serta 2 screenshot mandiri (`SS_Sesi5_FinishModal_Victory.png`, `SS_Sesi5_Lobby_StageProgress.png`).
+
+## 2026-11-21 — Memori Sesi: Implementasi Sesi 4B VFX dan Atmosfer
+- **Catatan Memori:** [[Implementasi Sesi 4B VFX dan Atmosfer]]
+- **Ringkasan:** Mengarsipkan memori sesi pemasangan skill `effekseer-vfx` + plugin `EffekseerForUnity` (`1.80.8`) di Unity 6 URP, kompilasi 7 berkas partikel `.efkefc`, Dynamic Camera FOV (`60°–85°`) & jarak Z (`-6.0m .. -7.5m`), shader `DynamicBiomeSkybox.shader` + `BiomeAtmosphereController.cs` (transisi krisis `<250m` & restorasi `2.75s`), integrasi `DragonVfxController.cs`, serta 4 screenshot mandiri Sesi 4B.
+
+## 2026-11-21 — Memori Sesi: Implementasi Sesi 4 Tantangan Desa
+- **Catatan Memori:** [[Implementasi Sesi 4 Tantangan Desa]]
+- **Ringkasan:** Mengarsipkan memori sesi implementasi tantangan 3 desa (`VillageZoneController.cs`), sub-marker 2 tahap Pyrewood, `WorldSpaceVillageMarker.cs`, `EnterAutoHover`/`ExitAutoHover` + Escape Engine + Launch Thrust (`_launchThrustGraceTimer = 0.60s`), isolasi UI narasi (`PF_QuestNarrativeBox`), perbaikan `ReuseAddress` UDP `5052`, proteksi kalibrasi belok kanan CV, serta pembagian stage `Lvl 1/2/3 = 1/2/3 Desa`.
+
+## 2026-11-21 — Memori Sesi: Sistem Momentum Terpadu dan Revisi Kontrol
+- **Catatan Memori:** [[Sistem Momentum Terpadu dan Revisi Kontrol]]
+- **Ringkasan:** Mengarsipkan memori sesi sistem momentum kontinu (`0–100%`, *Soft-Cap Gradual Builder*), pemisahan `#09A Hover Active` vs `#09B Slow Glide` dan `#06B Steep Climb Flap` vs `#07 Fly Up`, pemasangan paket delta `Export_Delta_LaptopB/` (`15` ikon medali bersih `UI_Pose_01..15*.png` + `MomentumDock` HUD), serta verifikasi 10 suite Python CV & Unity Play Mode (`MomentumFlightVerificationRunner`).
+
 ## 2026-11-21 — Implementasi Sesi 5 Dasar: Pembakuan Game Loop, Countdown Awal, Skor 3 Bintang Global Vitality, & Progresi Level
 
 ### Eksekusi Utama (`[[laptop-a/arsitektur_sesi_5_gameloop_dan_scoring]]`, `[[laptop-a/prompt_eksekusi_sesi_5_gameloop_dan_scoring_laptop_b]]`, `[[laptop-a/mekanisme_tantangan_desa]]`, `[[laptop-a/panduan_screenshot_mandiri_dan_laporan]]`)
