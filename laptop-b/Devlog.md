@@ -13,6 +13,32 @@ updated: 2026-11-21
 
 ---
 
+## 2026-11-21 — Implementasi Sesi 5 Dasar: Pembakuan Game Loop, Countdown Awal, Skor 3 Bintang Global Vitality, & Progresi Level
+
+### Eksekusi Utama (`[[laptop-a/arsitektur_sesi_5_gameloop_dan_scoring]]`, `[[laptop-a/prompt_eksekusi_sesi_5_gameloop_dan_scoring_laptop_b]]`, `[[laptop-a/mekanisme_tantangan_desa]]`, `[[laptop-a/panduan_screenshot_mandiri_dan_laporan]]`)
+1. **Pembakuan Formula Bintang & Persistensi `PlayerPrefs` (`DragonGameSettings.cs`):**
+   - Membakukan formula bintang berbasis **Progres Vitalitas Global** (`CalculateStars`: `>= 1.000f -> 3`, `>= 0.667f -> 2`, `>= 0.334f -> 1`, `< 0.334f -> 0`).
+   - Mematikan `UnlockAllStagesForTesting = false` untuk mode permainan normal, menyelaraskan key `PlayerPrefs` (`Fanamir_Stage01..03_Unlocked`, `Fanamir_FreePlay_Unlocked`, `Fanamir_Stage01..03_BestStars`, `Fanamir_Stage01..03_BestTime`), serta pembukaan sekuensial saat meraih $\ge 1$ bintang (`Stage 1 -> Stage 2 -> Stage 3 -> Free Play Mode`).
+2. **`GameManager.cs`, State Machine, Countdown 3 Detik, & Jeda Narasi (`GameManager.cs`, `DragonFlightController.cs`, `VillageZoneController.cs`):**
+   - Menambahkan `GameManager.cs` (`GameState`: `LevelInit`, `CountdownStart`, `Playing`, `Paused`, `TimeUp`, `Victory`) dan `DragonFlightController.ControlsLocked` untuk mengunci kendali terbang dengan aman saat fase `CountdownStart` (`3.. 2.. 1.. TERBANG!`) maupun saat `TimeUp` (melambat mulus ke hover).
+   - Menghubungkan `VillageZoneController.ComputeGlobalVitality()` secara kontinu (termasuk Stage 2: 1 desa pulih = `50%` = `1` Bintang, desa kedua $+16.7\%$ = `66.7%` = `2` Bintang; Stage 3: `1/2/3` desa = `1/2/3` Bintang) serta mode **Free Play** (`StageIndex = 4`, 3 desa aktif tanpa batas waktu).
+   - Memastikan timer misi (`120s` / `240s` / `360s`) **PAUSE** otomatis saat narasi `PF_QuestNarrativeBox` aktif dan **RESUME** setelah selesai; saat `TimeUp (00:00)`, pemain dengan progres $\ge 33.4\%$ ($\ge 1$ bintang) tetap dinyatakan **LULUS** dan membuka stage berikutnya, sedangkan $< 33.4\%$ menampilkan status **WAKTU HABIS**.
+3. **Penyempurnaan UI Sesi 5 (`FinishModalUI.cs`, `MissionsPanelUI.cs`, `InGameFlightHUD.cs`, `CalibrationPanelUI.cs`, `UISceneAndPrefabBuilder.cs`, `Session4_VillageBuilder.cs`):**
+   - `FinishModalUI.cs` (`SCREEN 04`): animasi pengisian bintang berurutan `0.40s` berbasis `WaitForSecondsRealtime` (`Time.timeScale == 0`), statistik `Waktu Bermain (MM:SS)`, `Desa Pulih (X / N)`, dan `VITALITAS GLOBAL (%)`, serta navigasi `LEVEL BERIKUTNYA` / `MODE FREE PLAY` (pasca Stage 3), `COBA LAGI`, dan `KEMBALI KE LOBBY`.
+   - `MissionsPanelUI.cs` (`SCREEN 00`): menampilkan bintang perolehan, rekor waktu tercepat (`BEST MM:SS`), gembok dinamis `LOCKED`/`PLAY`, dan tombol `Btn_FreePlay` (`FREE PLAY · LOCKED` $\rightarrow$ `FREE PLAY · OPEN`).
+   - `InGameFlightHUD.cs`: menambahkan `CountdownOverlay` (`SetCountdownDisplay`), mode `FREE PLAY` pada `MissionCapsule`, serta membersihkan penanda `// TODO [SYNC-GAMEPLAY]`.
+   - Merakit ulang seluruh prefab & scene via `UISceneAndPrefabBuilder.BuildAll()` dan `Session4_VillageBuilder.BuildVillageZonesAndMarkers()`.
+
+### Hasil Verifikasi Play Mode (`Unity 6000.3.7f1`) & Screenshot Mandiri
+- `Session5GameLoopVerificationRunner.RunPlayModeVerificationAsync()`: **`ALL SESSION 5 GAME LOOP, COUNTDOWN, NARRATIVE FREEZE, GLOBAL VITALITY STARS, UNLOCK & FINISH MODAL CHECKS PASSED (100%)`** (`0` console errors).
+- Non-regresi `MainIsland_Gameplay.unity`: `MomentumFlightVerificationRunner` (**100% PASS**, `0` errors) & `Session4VerificationRunner` (**100% PASS**, `0` errors).
+- Verifikasi `MainMenu_Lobby.unity`: kartu Stage `01/02/03`, bintang, rekor waktu, lock/unlock sekuensial, & tombol `FREE PLAY · OPEN` pasca Stage 3 terverifikasi (`0` errors, `0` warnings).
+- **Tangkapan Layar Mandiri (`docs/figures/raw_screenshots/`):**
+  - `docs/figures/raw_screenshots/SS_Sesi5_FinishModal_Victory.png`
+  - `docs/figures/raw_screenshots/SS_Sesi5_Lobby_StageProgress.png`
+
+---
+
 ## 2026-11-21 — Memori Sesi: Setup Optimasi Token Laptop B
 - **Catatan Memori:** [[Setup Optimasi Token Laptop B]]
 - **Ringkasan:** Mengarsipkan memori sesi implementasi *The Optimal Lean Stack* di Laptop B (`.antigravityignore`, instalasi `rtk 1.2.0` via `winget` & verifikasi aktif di `PATH`, serta penambahan aturan efisiensi token & *Ponytail-Lite / YAGNI* di `AGENTS.md`).
