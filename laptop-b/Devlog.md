@@ -13,6 +13,14 @@ updated: 2026-11-21
 
 ---
 
+## 2026-11-21 — Memori Sesi: Penataan Struktur Folder Proyek
+- **Catatan Memori:** [[Penataan Struktur Folder Proyek]]
+- **Ringkasan:** Mengarsipkan memori sesi penataan struktur folder proyek (`assets/blender/`, `assets/blender/scripts/`, `assets/vfx/`, `assets/archives/`, `assets/screenshots/`, `docs/`, dan `tools/`) serta pembersihan root tanpa mengubah path inti Unity & Python CV.
+
+## 2026-11-21 — Memori Sesi: Setup Obsidian Brain Laptop B
+- **Catatan Memori:** [[Setup Obsidian Brain Laptop B]]
+- **Ringkasan:** Menyimpan dokumentasi lengkap sesi setup Obsidian Brain, migrasi 4 catatan `.md` lokal, penyederhanaan nama 5 file memori di `brain/laptop-b/memories/`, pembaruan `[[wikilinks]]`, serta pembuatan `AGENTS.md` di Laptop B.
+
 ## 2026-11-21 — Implementasi Sesi 4B: Paket Visual & Flight Feel (VFX Effekseer URP, Dynamic FOV 60°–85°, & Skybox/Fog Dinamis)
 
 ### Eksekusi Utama (`[[laptop-a/planning_vfx_fov_skybox_dan_animasi]]`, `[[laptop-a/prompt_eksekusi_vfx_skybox_dan_fov_laptop_b]]`, `[[laptop-a/panduan_screenshot_mandiri_dan_laporan]]`)
