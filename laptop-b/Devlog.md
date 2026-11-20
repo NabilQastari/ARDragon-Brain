@@ -25,6 +25,10 @@ updated: 2026-11-21
 - **Catatan Memori:** [[Fisika Terbang Fly Up Hover Descent]]
 - **Ringkasan:** Menyelesaikan integrasi Phase B pada skrip Unity C# (`UDPPoseReceiver.cs`, `IFlightInputProvider.cs`, `DefaultFlightInputMapper.cs`, `DragonFlightController.cs`, `InGameFlightHUD.cs`) beserta keyboard fallback (`H`, `G`, `U`), verifikasi kompilasi Unity 6 (`0` errors), dan pengujian `test_e2e_flight_physics.py` (`6/6`), `test_additional_gestures.py` (`10/10`), `test_phase5_validation.py` (`7/7`), serta `test_phase6_final_session.py` (`7/7`).
 
+## 2026-11-21 — Memori Sesi: Pembaruan UI Fanamir dan Boot Flow
+- **Catatan Memori:** [[Pembaruan UI Fanamir dan Boot Flow]]
+- **Ringkasan:** Menyimpan ringkasan lengkap pembaruan UI `v1.6.1` hingga `v1.8` (**Fanamir: The Sky Guardian**, modal Pose Guide `SCREEN 07`, Quest Narrative `SCREEN 08` Auto-Play, Lobby berlatar pulau penuh tanpa panel perkamen luar, serta alur boot `BootFlowController` `Splash SCREEN 09` $\rightarrow$ `Start SCREEN 10` $\rightarrow$ Lobby) agar mudah dirujuk lintas sesi.
+
 ## 2026-11-21 — Memori Sesi: Setup Obsidian Brain Laptop B
 - **Catatan Memori:** [[Setup Obsidian Brain Laptop B]]
 - **Ringkasan:** Menyimpan dokumentasi lengkap sesi setup Obsidian Brain, migrasi 4 catatan `.md` lokal, penyederhanaan nama 5 file memori di `brain/laptop-b/memories/`, pembaruan `[[wikilinks]]`, serta pembuatan `AGENTS.md` di Laptop B.
