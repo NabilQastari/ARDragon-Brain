@@ -550,6 +550,10 @@ updated: 2026-11-21
   - Kompilasi Unity (`Assets/Refresh`) selesai tanpa error maupun warning (`compilationFailed: false`, `consoleErrors: 0`).
   - Uji Play Mode pada `Test_Dragon_Flight.unity`: zero proses Python CV saat startup (`selectedCameraIndex = -1`, status `STANDBY`), dropdown menampilkan 7 kamera `[0..6]` dengan tombol `Scan` sejajar, mode `Latar Belakang` pada `[6] OBS Virtual Camera` mengalirkan live PIP in-game tanpa jendela eksternal, peralihan ke `Jendela Preview` membuka window OpenCV (`MainWindowHandle` non-zero) sambil tetap streaming PIP, dan tombol `Matikan` + keluar Play Mode menghentikan seluruh proses anak Python CV dengan bersih (`0` console error/warning, scene `isDirty: false`).
 
+## 2026-11-21 — Inventarisasi Total Pose Kombinasi Tangan di Brain
+- **Aksi:** Mengaudit dokumentasi kontrol terkini (`v6.0 Sky Peck` + `v6.1 On-Ground & Arm-Proximity Locomotion`) pada [[konteks]], [[On-Ground Mechanics dan Uji 16 Skenario]], dan [[Rework CV dan Kontrol Terbang Baru]] untuk merangkum total kombinasi pose tangan (**10 pose lokomosi/terbang → 13 state kontrol**, **2 pose khusus aksi desa**, dan **1 modifier kemudi *Arm Tilt***).
+- **Catatan Memori:** [[Inventarisasi Pose Kombinasi Tangan]]
+
 ## 2026-11-14 — Penataan Struktur Folder Proyek (`assets/`, `docs/`, `tools/`)
 - **Aksi:**
   - **Aset (`assets/`):**
