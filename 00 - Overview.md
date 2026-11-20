@@ -58,6 +58,7 @@ updated: 2026-11-19
 - [[laptop-a/panduan_screenshot_mandiri_dan_laporan]] — Panduan bagi Laptop B untuk melakukan *screenshot* mandiri otomatis (Unity C#, Python CV, OS-level) dan menampungnya di `docs/figures/raw_screenshots/` sebagai bahan pembaruan Laporan Capstone.
 - [[laptop-a/planning_momentum_dan_revisi_kontrol]] — Perancangan sistem momentum kontinu ($0–100\%$), Y-Glide, Steep Climb, Hover Flutter vs Slow Glide, dan spesifikasi paket delta ekspor Laptop B.
 - [[laptop-a/prompt_eksekusi_vfx_skybox_dan_fov_laptop_b]] — Master prompt dan panduan eksekusi teknis bagi Laptop B untuk mengimplementasikan Paket Visual Sesi 4B (VFX Effekseer, Dynamic FOV 60°–85°, & Skybox Dinamis 3 Biome).
+- [[laptop-a/arsitektur_sesi_5_gameloop_dan_scoring]] — Arsitektur pengontrol game loop (`GameManager.cs`), timer countdown, formula skor bintang berbasis progres global (33.4%, 66.7%, 100%), dan progresi level.
 - [[laptop-a/Tasks]] & [[laptop-a/Devlog]] — Pelacakan tugas desain/arsitektur & catatan perkembangan Laptop A.
 
 ### Eksekusi & Pengembangan Program ([[laptop-b/Tasks|Laptop B]])

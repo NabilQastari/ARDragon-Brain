@@ -193,18 +193,21 @@ Agar pemain/developer dapat langsung menguji mekanisme tantangan di ketiga desa 
 - Scrim gembok (`UI_Scrim_LockedCard_Overlay`) dinonaktifkan, tombol charcoal `LOCKED` diganti menjadi tombol hijau `PLAY`, dan pemain bebas memilih serta menguji Stage mana pun langsung dari Lobby.
 - Parameter konfigurasi: `DragonGameSettings.UnlockAllStagesForTesting = true`.
 
-### B. Tabel Acuan Batas Waktu & Kriteria Bintang (Untuk Sesi 5)
+### B. Tabel Acuan Batas Waktu & Kriteria Bintang Berbasis Progres Global (Sesi 5)
 
-| Parameter | Stage 01 (Tutorial) | Stage 02 (Medium) | Stage 03 (Hard / Final) |
-| :--- | :--- | :--- | :--- |
-| **Desa Aktif** | Desa Zephyria (1 Desa) | Zephyria + Pyrewood (2 Desa) | Zephyria + Pyrewood + Solaria (3 Desa) |
-| **Batas Waktu Total** | **120 Detik** (2 Menit) | **240 Detik** (4 Menit) | **360 Detik** (6 Menit) |
-| **Status Timer saat Narasi** | **PAUSE** (Berhenti) | **PAUSE** (Berhenti) | **PAUSE** (Berhenti) |
-| **Status Timer saat Tantangan** | **BERJALAN** (Aktif) | **BERJALAN** (Aktif) | **BERJALAN** (Aktif) |
-| ⭐⭐⭐ **3 Bintang** | Selesai, sisa waktu $\ge 60\text{s}$ | Selesai, sisa waktu $\ge 90\text{s}$ | Selesai, sisa waktu $\ge 120\text{s}$ |
-| ⭐⭐ **2 Bintang** | Selesai, sisa waktu $20–59\text{s}$ | Selesai, sisa waktu $30–89\text{s}$ | Selesai, sisa waktu $30–119\text{s}$ |
-| ⭐ **1 Bintang** | Selesai sebelum batas waktu | Selesai sebelum batas waktu | Selesai sebelum batas waktu |
-| ❌ **Defeat / Gagal** | Waktu habis (`0s`) & desa belum pulih | Waktu habis (`0s`) & ada desa belum pulih | Waktu habis (`0s`) & ada desa belum pulih |
+Sesuai keputusan desain yang disetujui, **penilaian bintang didasarkan murni pada persentase Progres Vitalitas Global (`Global Vitality`)**, bukan sisa waktu. Timer bertindak sebagai batas waktu maksimal permainan:
+
+| Parameter / Ambang | Stage 01 (Tutorial) | Stage 02 (Medium) | Stage 03 (Hard / Final) | Mode Free Play |
+| :--- | :--- | :--- | :--- | :--- |
+| **Desa Aktif** | Desa Zephyria (1 Desa) | Zephyria + Pyrewood (2 Desa) | Zephyria + Pyrewood + Solaria (3 Desa) | 3 Desa Bebas |
+| **Batas Waktu Total** | **120 Detik** (2 Menit) | **240 Detik** (4 Menit) | **360 Detik** (6 Menit) | **Tanpa Batas Waktu** ($\infty$) |
+| **Status Timer saat Narasi** | **PAUSE** (Berhenti) | **PAUSE** (Berhenti) | **PAUSE** (Berhenti) | Tidak ada timer |
+| **Status Timer saat Tantangan** | **BERJALAN** (Aktif) | **BERJALAN** (Aktif) | **BERJALAN** (Aktif) | Tidak ada timer |
+| ⭐⭐⭐ **3 Bintang** | **Global Vitality = 100%** (Desa Zephyria pulih tuntas) | **Global Vitality = 100%** (Kedua desa pulih tuntas) | **Global Vitality = 100%** (Ketiga desa pulih tuntas) | Mode santai tanpa bintang |
+| ⭐⭐ **2 Bintang** | **Global Vitality $\ge 66.7\%$** (Kepakan $\ge 67\%$) | **Global Vitality $\ge 66.7\%$** (1 desa pulih $50\%$ + desa kedua $\ge 17\%$) | **Global Vitality $\ge 66.7\%$** (Minimal 2 desa pulih tuntas) | Mode santai tanpa bintang |
+| ⭐ **1 Bintang** | **Global Vitality $\ge 33.4\%$** (Kepakan $\ge 34\%$) | **Global Vitality $\ge 33.4\%$** (1 desa pulih $50\%$ / belum $66.7\%$) | **Global Vitality $\ge 33.4\%$** (Minimal 1 desa pulih tuntas) | Mode santai tanpa bintang |
+| ❌ **0 Bintang / Gagal** | Waktu habis & Global $< 33.4\%$ | Waktu habis & Global $< 33.4\%$ | Waktu habis & Global $< 33.4\%$ | Bebas gagal |
+| 🔓 **Syarat Buka Level Berikutnya** | **Minimal 1 Bintang** ($\ge 33.4\%$) | **Minimal 1 Bintang** ($\ge 33.4\%$) | **Minimal 1 Bintang** $\rightarrow$ Buka **Free Play** | Terbuka permanen |
 
 ---
 

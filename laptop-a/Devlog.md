@@ -23,7 +23,13 @@ updated: 2026-11-19
   - **Katalog 7 Efek Partikel Effekseer:** Membakukan 7 berkas efek partikel `.efkefc`: (1) `VFX_Zephyria_WindGust`, (2) `VFX_Lake_WaterSiphon`, (3) `VFX_Pyrewood_WaterBreath`, (4) `VFX_Pyrewood_ExtinguishSteam`, (5) `VFX_Solaria_CelestialDewRain`, (6) `VFX_Flight_WingtipTrails`, dan (7) `VFX_Flight_SonicDashShockwave`.
 - **Penerbitan Master Prompt Eksekusi untuk Laptop B ([[prompt_eksekusi_vfx_skybox_dan_fov_laptop_b]]):**
   - Menyusun dokumen master prompt siap pakai yang berisi 5 tahapan instruksi lengkap: (1) instalasi skill agen + package Unity URP Effekseer, (2) pembuatan 7 partikel `.efkefc`, (3) implementasi `DynamicFlightCameraController.cs`, (4) implementasi `BiomeAtmosphereController.cs`, dan (5) penyambungan emitter ke `VillageZoneController.cs` serta tangkapan layar mandiri ke `docs/figures/raw_screenshots/`.
-- **Pembaruan Dokumen:** Memperbarui [[planning_vfx_fov_skybox_dan_animasi]], [[prompt_eksekusi_vfx_skybox_dan_fov_laptop_b]], [[00 - Overview]], [[Tasks]], dan [[Devlog]].
+- **Perancangan Arsitektur Sesi 5: Game Loop, Timer Countdown, & Penilaian 3 Bintang ([[arsitektur_sesi_5_gameloop_dan_scoring]]):**
+  - Mengunci aturan sistem bintang universal berbasis Progres Global Vitalitas: $33.4\%$ (1 Bintang), $66.7\%$ (2 Bintang), dan $100\%$ (3 Bintang).
+  - Menetapkan aturan adil Stage 2 di mana 1 desa pulih ($50\%$) bernilai 1 Bintang karena belum mencapai $66.7\%$.
+  - Mengunci syarat kelulusan membuka stage berikutnya cukup dengan **minimal 1 Bintang** ($\ge 33.4\%$).
+  - Menetapkan timer countdown (Stage 1: 120s, Stage 2: 240s, Stage 3: 360s, Free Play: $\infty$) yang otomatis **PAUSE** saat narasi auto-play 3 baris aktif.
+  - Merumuskan arsitektur `GameManager.cs` (Lifecycle State Machine, evaluasi persisten `PlayerPrefs`, dan integrasi `PF_FinishModal` `SCREEN 04`).
+- **Pembaruan Dokumen:** Memperbarui [[planning_vfx_fov_skybox_dan_animasi]], [[prompt_eksekusi_vfx_skybox_dan_fov_laptop_b]], [[mekanisme_tantangan_desa]], [[arsitektur_sesi_5_gameloop_dan_scoring]], [[00 - Overview]], [[Tasks]], dan [[Devlog]].
 
 ---
 
