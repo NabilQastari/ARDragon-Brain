@@ -4,12 +4,28 @@ tags:
   - devlog
   - laptop-b
 owner: Laptop B
-updated: 2026-11-19
+updated: 2026-11-20
 ---
 
 # 🛠️ Devlog — Laptop B
 
 > Catatan kronologis pengembangan kode, debugging, pengujian Unity/Python, dan hasil build dari **Laptop B**. Kembali ke [[00 - Overview]].
+
+---
+
+## 2026-11-20 (Patch Fix) — Perbaikan Bug Kontrol Terkunci Belok Kanan Terus (`player_calibrator.py`, `motion_recognizer.py`, & `active_cv_sender.py`)
+
+### Temuan Investigasi & Perbaikan
+1. **Akar Masalah (`ARDragonSkyGuardian_CV/player_profile.json`):**
+   - Berkas profil kalibrasi lokal (`2026-11-19 20:40:39`) tersimpan dengan nilai korup/ekstrem (`shoulder_width=0.044`, `torso_length=0.085`, `neutral_lean_bias_deg=-22.856°`).
+   - Pada `AdaptiveThresholdEngine.compute_adaptive_steering()`, kompensasi `corrected_angle = raw_lean_angle_deg - (-22.856°)` menghasilkan `+22.856°` saat pemain berdiri/duduk tegak (`0°`), sehingga UDP mengirim `steering_input = +1.0` (`LEAN_RIGHT`) terus-menerus (bahkan tetap `LEAN_RIGHT` saat condong kiri `-15°`).
+   - Berkas korup `ARDragonSkyGuardian_CV/player_profile.json` telah dihapus agar kembali ke Profil Standar (`neutral_lean_bias_deg=0.0°`).
+2. **Validasi & Clamp Kalibrasi (`ARDragonSkyGuardian_CV/player_calibrator.py`):**
+   - Menambahkan `AdaptiveThresholdEngine.is_profile_valid()` (`shoulder_width >= 0.07`, `torso_length >= 0.11`, `abs(neutral_lean_bias_deg) <= 12.0°`) serta batas aman runtime `neutral_bias` ke `[-8.0°, +8.0°]` pada `_recalculate_adaptive_parameters()`.
+   - Memvalidasi sampel netral di `_finalize_calibration()` agar kalibrasi pada deteksi parsial/miring ekstrem ditolak tanpa menimpa/menyimpan JSON korup, serta menolak profil korup di `load_profile()` agar otomatis fallback ke `get_default_profile()`.
+3. **Proteksi Oklusi Pergelangan & Fallback Pinggul (`ARDragonSkyGuardian_CV/motion_recognizer.py`, `active_cv_sender.py`):**
+   - Di `GestureStateMachine.update()`, `arm_tilt_norm` / flap height delta hanya dicampurkan ke kemudi ketika kedua pergelangan tangan terdeteksi yakin (`conf >= 0.20`), mencegah posisi fallback pergelangan yang keluar frame memicu kemudi miring palsu.
+   - Di `active_cv_sender.py` fallback pinggul duduk, menstabilkan penyebut horizontal bahu (`>= 0.05 * aspect_scale_x`) dan menolkan `seated_lean_deg` saat bahu bersilang (`raw_rs_x - raw_ls_x < 0.04`).
 
 ---
 
