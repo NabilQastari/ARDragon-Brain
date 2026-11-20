@@ -13,6 +13,14 @@ updated: 2026-11-21
 
 ---
 
+## 2026-11-21 — Memori Sesi: Penyelarasan 17 Pose dan Propeller Dash
+- **Catatan Memori:** [[Penyelarasan 17 Pose dan Propeller Dash]]
+- **Ringkasan:** Mengarsipkan memori sesi penyelarasan 17 pose kontrol (nol regresi pada 6 pose terkunci), penyelesaian Pilar 1 Pra-Sesi 4 (Clean CV Preview UDP `5053` + `DragonHeadLookController` `HEAD_PITCH` Tahap 2), dan peningkatan `#14 Propeller Dash` (deteksi orbit siku CV anti-foreshortening, impuls burst `6.5f` / `30 m/s`, camera surge, serta animasi sayap heliks).
+
+## 2026-11-21 — Memori Sesi: Integrasi Pulau v2, Scene `MainIsland_Gameplay`, & Sinkronisasi UI Missions
+- **Catatan Memori:** [[Integrasi Pulau v2 dan Sinkronisasi UI]]
+- **Ringkasan:** Mengarsipkan memori sesi ekspor `Pulau_Archipelago.fbx` (`349` mesh gameplay), konversi `69` tekstur PBR (`*_R.png` -> `*_MS.png` URP Smoothness), pembuatan `PF_Pulau_Archipelago.prefab` (`2400×2400 m`, `5` `MeshCollider`), perakitan `MainIsland_Gameplay.unity` (Build Index `1`) beserta Feature-to-UI Sync yang menjaga keutuhan `Test_Dragon_Flight.unity`, perbaikan `StarSlot_1..3` & `FinishModal` `STAR 01..03`, serta penguncian default Stage 02–03 di `MissionsPanelUI`.
+
 ## 2026-11-21 — Memori Sesi: Kamera Dinamis, Navigasi Pause, & 3 Titik Wajah (Tahap 1)
 - **Catatan Memori:** [[Kamera Dinamis dan Titik Wajah]]
 - **Ringkasan:** Mengarsipkan memori sesi implementasi kamera dinamis (`16:9`, `4:3`, `9:16`), perapian HUD PIP & navigasi Pause $\rightarrow$ Calibration (`PlayerPrefs`), deteksi 3 titik wajah (`Nose`, `Chin`, `Mouth` $\rightarrow$ `HEAD_PITCH` / `MOUTH_OPEN`), serta perbaikan kerangka dobel, batas footer UI kalibrasi, dan pembacaan titik jarak jauh (`imgsz=960`, upsample `224×224`, grace hold `0.35s`).
@@ -348,6 +356,7 @@ updated: 2026-11-21
 ---
 
 ## 2026-11-15 — Integrasi Model Pulau v2 (`Pulau_Archipelago.fbx`), Setup URP, Scene `MainIsland_Gameplay`, & Feature-to-UI Sync
+- **Catatan Memori:** [[Integrasi Pulau v2 dan Sinkronisasi UI]]
 
 ### Eksekusi Utama
 - **Ekspor & Persiapan Aset Kepulauan 3-Biome (`assets/blender/upgrade model pulau/Pulau_Archipelago.blend`):**
