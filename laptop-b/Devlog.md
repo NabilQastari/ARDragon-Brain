@@ -29,6 +29,10 @@ updated: 2026-11-21
 - **Catatan Memori:** [[Kamera Dinamis dan Titik Wajah]]
 - **Ringkasan:** Mengarsipkan memori sesi implementasi kamera dinamis (`16:9`, `4:3`, `9:16`), perapian HUD PIP & navigasi Pause $\rightarrow$ Calibration (`PlayerPrefs`), deteksi 3 titik wajah (`Nose`, `Chin`, `Mouth` $\rightarrow$ `HEAD_PITCH` / `MOUTH_OPEN`), serta perbaikan kerangka dobel, batas footer UI kalibrasi, dan pembacaan titik jarak jauh (`imgsz=960`, upsample `224×224`, grace hold `0.35s`).
 
+## 2026-11-21 — Memori Sesi: Dynamic Wings Movement & Kontrol Input Kamera
+- **Catatan Memori:** [[Dynamic Wings dan Kontrol Kamera]]
+- **Ringkasan:** Mengarsipkan memori sesi kontrol dropdown kamera DirectShow + dual mode aktivasi YOLO (`Latar Belakang` vs `Jendela Preview`), ekspor ulang `Dragon_Model.fbx` 47 tulang & implementasi `DragonWingAnimator.cs`, serta perbaikan *rest-pose front lift* lewat penetralan basis airfoil *zero-twist*, penghapusan bias positif `PitchUp`, dan pelipatan jari bebas tumpang-tindih.
+
 ## 2026-11-21 — Memori Sesi: Penataan Struktur Folder Proyek
 - **Catatan Memori:** [[Penataan Struktur Folder Proyek]]
 - **Ringkasan:** Mengarsipkan memori sesi penataan struktur folder proyek (`assets/blender/`, `assets/blender/scripts/`, `assets/vfx/`, `assets/archives/`, `assets/screenshots/`, `docs/`, dan `tools/`) serta pembersihan root tanpa mengubah path inti Unity & Python CV.
