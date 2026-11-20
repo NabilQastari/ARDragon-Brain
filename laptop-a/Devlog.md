@@ -21,7 +21,9 @@ updated: 2026-11-19
     - Memasuki radius desa ($<250\text{m}$), langit dan kabut URP bertransisi dinamis mengikuti status krisis biome: Zephyria (*toxic smog* kelabu-hijau), Pyrewood (kabut asap hitam & bara api membara), Solaria (terik menyengat gersang kekuningan & kabut debu panas).
     - Tepat saat tantangan 100% selesai (*Restored*), atmosfer secara dramatis dibersihkan dalam transisi $2.5–3\text{ detik}$ menjadi langit cerah toska/hutan/keemasan yang segar dan hidup.
   - **Katalog 7 Efek Partikel Effekseer:** Membakukan 7 berkas efek partikel `.efkefc`: (1) `VFX_Zephyria_WindGust`, (2) `VFX_Lake_WaterSiphon`, (3) `VFX_Pyrewood_WaterBreath`, (4) `VFX_Pyrewood_ExtinguishSteam`, (5) `VFX_Solaria_CelestialDewRain`, (6) `VFX_Flight_WingtipTrails`, dan (7) `VFX_Flight_SonicDashShockwave`.
-- **Pembaruan Dokumen:** Memperbarui [[planning_vfx_fov_skybox_dan_animasi]], [[Tasks]], dan [[Devlog]].
+- **Penerbitan Master Prompt Eksekusi untuk Laptop B ([[prompt_eksekusi_vfx_skybox_dan_fov_laptop_b]]):**
+  - Menyusun dokumen master prompt siap pakai yang berisi 5 tahapan instruksi lengkap: (1) instalasi skill agen + package Unity URP Effekseer, (2) pembuatan 7 partikel `.efkefc`, (3) implementasi `DynamicFlightCameraController.cs`, (4) implementasi `BiomeAtmosphereController.cs`, dan (5) penyambungan emitter ke `VillageZoneController.cs` serta tangkapan layar mandiri ke `docs/figures/raw_screenshots/`.
+- **Pembaruan Dokumen:** Memperbarui [[planning_vfx_fov_skybox_dan_animasi]], [[prompt_eksekusi_vfx_skybox_dan_fov_laptop_b]], [[00 - Overview]], [[Tasks]], dan [[Devlog]].
 
 ---
 
