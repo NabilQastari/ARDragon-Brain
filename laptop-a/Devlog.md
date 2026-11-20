@@ -29,7 +29,9 @@ updated: 2026-11-19
   - Mengunci syarat kelulusan membuka stage berikutnya cukup dengan **minimal 1 Bintang** ($\ge 33.4\%$).
   - Menetapkan timer countdown (Stage 1: 120s, Stage 2: 240s, Stage 3: 360s, Free Play: $\infty$) yang otomatis **PAUSE** saat narasi auto-play 3 baris aktif.
   - Merumuskan arsitektur `GameManager.cs` (Lifecycle State Machine, evaluasi persisten `PlayerPrefs`, dan integrasi `PF_FinishModal` `SCREEN 04`).
-- **Pembaruan Dokumen:** Memperbarui [[planning_vfx_fov_skybox_dan_animasi]], [[prompt_eksekusi_vfx_skybox_dan_fov_laptop_b]], [[mekanisme_tantangan_desa]], [[arsitektur_sesi_5_gameloop_dan_scoring]], [[00 - Overview]], [[Tasks]], dan [[Devlog]].
+- **Penerbitan Master Prompt Eksekusi Sesi 5 Dasar untuk Laptop B ([[prompt_eksekusi_sesi_5_gameloop_dan_scoring_laptop_b]]):**
+  - Menyusun dokumen master prompt siap pakai bagi Laptop B untuk membakukan penilaian bintang progres global, transisi countdown 3s awal, TimeUp evaluation, dan progresi gembok level berjenjang.
+- **Pembaruan Dokumen:** Memperbarui [[planning_vfx_fov_skybox_dan_animasi]], [[prompt_eksekusi_vfx_skybox_dan_fov_laptop_b]], [[mekanisme_tantangan_desa]], [[arsitektur_sesi_5_gameloop_dan_scoring]], [[prompt_eksekusi_sesi_5_gameloop_dan_scoring_laptop_b]], [[00 - Overview]], [[Tasks]], dan [[Devlog]].
 
 ---
 
