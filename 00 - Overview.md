@@ -46,21 +46,40 @@ updated: 2026-11-19
 ## 🧠 Peta Pengetahuan Vault (`brain/`)
 
 ### Dokumen Desain & Arsitektur ([[laptop-a/Tasks|Laptop A]])
+
+#### 📌 Dokumen Inti & Pelacakan
 - [[laptop-a/konteks]] — *Single Source of Truth* arsitektur teknis Unity, UDP, dan gestur.
 - [[laptop-a/prd]] — *Product Requirements Document* & roadmap sesi pengembangan.
-- [[laptop-a/rencana_desain_ui]] — Spesifikasi UI Boot Flow (*Splash* & *Start Screen*), Lobby, Kalibrasi, HUD, & Finish Modal (*Fantasy Parchment-and-Ink Tabletop Card UI*).
-- [[laptop-a/panduan_aset_ui_unity]] — Panduan impor Unity 6, nilai *9-Slice* (`L, T, R, B`), & perakitan layar untuk **`140` PNG komponen + `11` PNG desain referensi `1920×1080`** di [`UI_Unity_Export/`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/).
-- [[laptop-a/kontrak_integrasi_ui_dan_progress]] — Matriks *Live vs Placeholder vs Dormant UI*, protokol sinkronisasi otomatis *Progress ↔ UI*, & prompt implementasi UI untuk Laptop B.
-- [[laptop-a/mekanisme_tantangan_desa]] — Rancangan gameplay tantangan 3 desa (Zephyria, Pyrewood, Solaria), state mesin narasi vs tantangan, dan mode *Free Play*.
-- [[laptop-a/laptop B Patch 1 planning]] — Rencana detail perbaikan patch 1 untuk Laptop B (CV, dynamic camera, smooth UI, Sesi 4 & 5).
-- [[laptop-a/rencana_skill_vfx_effekseer_laptop_b]] — Panduan & rencana instalasi skill `kanaworksai-hue/effekseer-vfx-skill` (Effekseer Unity 6 URP) untuk pembuatan VFX pemulihan 3 desa & penerbangan Fanamir di Laptop B.
-- [[laptop-a/planning_optimasi_token_laptop_b]] — Cetak biru & panduan konfigurasi optimasi token (*The Optimal Lean Stack*: `.antigravityignore`, RTK CLI compressor, Ponytail-lite rules) untuk Laptop B.
-- [[laptop-a/panduan_screenshot_mandiri_dan_laporan]] — Panduan bagi Laptop B untuk melakukan *screenshot* mandiri otomatis (Unity C#, Python CV, OS-level) dan menampungnya di `docs/figures/raw_screenshots/` sebagai bahan pembaruan Laporan Capstone.
-- [[laptop-a/planning_momentum_dan_revisi_kontrol]] — Perancangan sistem momentum kontinu ($0–100\%$), Y-Glide, Steep Climb, Hover Flutter vs Slow Glide, dan spesifikasi paket delta ekspor Laptop B.
-- [[laptop-a/prompt_eksekusi_vfx_skybox_dan_fov_laptop_b]] — Master prompt dan panduan eksekusi teknis bagi Laptop B untuk mengimplementasikan Paket Visual Sesi 4B (VFX Effekseer, Dynamic FOV 60°–85°, & Skybox Dinamis 3 Biome).
-- [[laptop-a/arsitektur_sesi_5_gameloop_dan_scoring]] — Arsitektur pengontrol game loop (`GameManager.cs`), timer countdown, formula skor bintang berbasis progres global (33.4%, 66.7%, 100%), dan progresi level.
-- [[laptop-a/prompt_eksekusi_sesi_5_gameloop_dan_scoring_laptop_b]] — Master prompt dan panduan eksekusi Sesi 5 Dasar bagi Laptop B (pembakuan bintang progres global, countdown 3s, TimeUp evaluation, dan progresi gembok level).
 - [[laptop-a/Tasks]] & [[laptop-a/Devlog]] — Pelacakan tugas desain/arsitektur & catatan perkembangan Laptop A.
+
+#### 🎨 UI & UX (`laptop-a/ui-ux/`)
+- [[laptop-a/ui-ux/rencana_desain_ui|rencana_desain_ui]] — Spesifikasi UI Boot Flow (*Splash* & *Start Screen*), Lobby, Kalibrasi, HUD, & Finish Modal (*Fantasy Parchment-and-Ink Tabletop Card UI*).
+- [[laptop-a/ui-ux/panduan_aset_ui_unity|panduan_aset_ui_unity]] — Panduan impor Unity 6, nilai *9-Slice* (`L, T, R, B`), & perakitan layar untuk **`140` PNG komponen + `11` PNG desain referensi `1920×1080`** di [`UI_Unity_Export/`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/).
+- [[laptop-a/ui-ux/kontrak_integrasi_ui_dan_progress|kontrak_integrasi_ui_dan_progress]] — Matriks *Live vs Placeholder vs Dormant UI*, protokol sinkronisasi otomatis *Progress ↔ UI*, & prompt implementasi UI untuk Laptop B.
+
+#### 🎮 Gameplay & Mekanik (`laptop-a/gameplay-mechanics/`)
+- [[laptop-a/gameplay-mechanics/mekanisme_tantangan_desa|mekanisme_tantangan_desa]] — Rancangan gameplay tantangan 3 desa (Zephyria, Pyrewood, Solaria), state mesin narasi vs tantangan, dan mode *Free Play*.
+- [[laptop-a/gameplay-mechanics/planning_momentum_dan_revisi_kontrol|planning_momentum_dan_revisi_kontrol]] — Perancangan sistem momentum kontinu ($0–100\%$), Y-Glide, Steep Climb, Hover Flutter vs Slow Glide, dan spesifikasi paket delta ekspor Laptop B.
+- [[laptop-a/gameplay-mechanics/arsitektur_sesi_5_gameloop_dan_scoring|arsitektur_sesi_5_gameloop_dan_scoring]] — Arsitektur pengontrol game loop (`GameManager.cs`), timer countdown, formula skor bintang berbasis progres global (33.4%, 66.7%, 100%), dan progresi level.
+- [[laptop-a/gameplay-mechanics/prompt_eksekusi_sesi_5_gameloop_dan_scoring_laptop_b|prompt_eksekusi_sesi_5_gameloop_dan_scoring_laptop_b]] — Master prompt dan panduan eksekusi Sesi 5 Dasar bagi Laptop B (pembakuan bintang progres global, countdown 3s, TimeUp evaluation, dan progresi gembok level).
+- [[laptop-a/gameplay-mechanics/planning_kamera_dinamis_dan_navigasi_pause|planning_kamera_dinamis_dan_navigasi_pause]] — Perancangan sistem kamera dinamis 5-state, aspect ratio lock, dan navigasi in-game pause ke kalibrasi.
+
+#### 👁️ Computer Vision & Kontrol (`laptop-a/cv-control/`)
+- [[laptop-a/cv-control/panduan_detail_pose_dan_sync_laptop_b|panduan_detail_pose_dan_sync_laptop_b]] — Panduan detail 17 pose kontrol & sinkronisasi implementasi Laptop B (Python CV + Unity).
+- [[laptop-a/cv-control/planning_audit_pose_dan_clean_cv_preview|planning_audit_pose_dan_clean_cv_preview]] — Pembersihan preview CV (FPS only) & protokol audit 15 pose berbasis screenshot.
+- [[laptop-a/cv-control/planning_revisi_titik_wajah_dan_pov|planning_revisi_titik_wajah_dan_pov]] — Perencanaan revisi 3 titik wajah (hidung, dagu, mulut) & penyesuaian pose vertikal fly-up.
+- [[laptop-a/cv-control/prompt_visual_pose_cv_kerangka|prompt_visual_pose_cv_kerangka]] — Prompt generator visual pose titik & kerangka CV (piktogram siluet resmi).
+
+#### ✨ Visual & VFX (`laptop-a/visual-vfx/`)
+- [[laptop-a/visual-vfx/rencana_skill_vfx_effekseer_laptop_b|rencana_skill_vfx_effekseer_laptop_b]] — Panduan & rencana instalasi skill `kanaworksai-hue/effekseer-vfx-skill` (Effekseer Unity 6 URP) untuk pembuatan VFX pemulihan 3 desa & penerbangan Fanamir di Laptop B.
+- [[laptop-a/visual-vfx/planning_vfx_fov_skybox_dan_animasi|planning_vfx_fov_skybox_dan_animasi]] — Perencanaan terpadu sistem VFX Effekseer, Dynamic FOV ($60^\circ–85^\circ$), Skybox adaptif 3 Biome, & blueprint animasi Fanamir.
+- [[laptop-a/visual-vfx/prompt_eksekusi_vfx_skybox_dan_fov_laptop_b|prompt_eksekusi_vfx_skybox_dan_fov_laptop_b]] — Master prompt dan panduan eksekusi teknis bagi Laptop B untuk mengimplementasikan Paket Visual Sesi 4B (VFX Effekseer, Dynamic FOV 60°–85°, & Skybox Dinamis 3 Biome).
+
+#### 🤝 Handoff & Eksekusi Laptop B (`laptop-a/handoff-laptop-b/`)
+- [[laptop-a/handoff-laptop-b/laptop B Patch 1 planning|laptop B Patch 1 planning]] — Rencana detail perbaikan patch 1 untuk Laptop B (CV, dynamic camera, smooth UI, Sesi 4 & 5).
+- [[laptop-a/handoff-laptop-b/checklist_finalisasi_pra_sesi_4|checklist_finalisasi_pra_sesi_4]] — Checklist finalisasi & prasyarat pra-Sesi 4 (mekanisme tantangan desa & kontrol CV).
+- [[laptop-a/handoff-laptop-b/planning_optimasi_token_laptop_b|planning_optimasi_token_laptop_b]] — Cetak biru & panduan konfigurasi optimasi token (*The Optimal Lean Stack*: `.antigravityignore`, RTK CLI compressor, Ponytail-lite rules) untuk Laptop B.
+- [[laptop-a/handoff-laptop-b/panduan_screenshot_mandiri_dan_laporan|panduan_screenshot_mandiri_dan_laporan]] — Panduan bagi Laptop B untuk melakukan *screenshot* mandiri otomatis (Unity C#, Python CV, OS-level) dan menampungnya di `docs/figures/raw_screenshots/` sebagai bahan pembaruan Laporan Capstone.
 
 ### Eksekusi & Pengembangan Program ([[laptop-b/Tasks|Laptop B]])
 - [[laptop-b/Tasks]] & [[laptop-b/Devlog]] — Pelacakan tugas implementasi kode, integrasi Unity/Python, & log pengujian Laptop B.

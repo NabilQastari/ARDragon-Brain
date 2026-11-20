@@ -13,6 +13,21 @@ updated: 2026-11-19
 
 ---
 
+## 2026-11-21 — Restrukturisasi & Penataan Folder Kategori Brain Laptop A
+- **Aksi Penataan Ruang Kerja:**
+  - Melakukan penataan menyeluruh terhadap 19 file dokumentasi lepas yang sebelumnya bertumpuk di root `brain/laptop-a/`.
+  - Membuat 5 subfolder kategori modular berbasis domain pengembangan:
+    1. `ui-ux/`: Berkas perencanaan antarmuka, aset Unity 6, dan kontrak integrasi UI (`rencana_desain_ui.md`, `panduan_aset_ui_unity.md`, `kontrak_integrasi_ui_dan_progress.md`).
+    2. `gameplay-mechanics/`: Berkas rancangan gameplay tantangan 3 desa, fisika terbang & momentum, game loop, sistem scoring, kamera dinamis, serta prompt eksekusi sesi 5 (`mekanisme_tantangan_desa.md`, `planning_momentum_dan_revisi_kontrol.md`, `arsitektur_sesi_5_gameloop_dan_scoring.md`, `prompt_eksekusi_sesi_5_gameloop_dan_scoring_laptop_b.md`, `planning_kamera_dinamis_dan_navigasi_pause.md`).
+    3. `cv-control/`: Berkas panduan 17 pose kontrol, protokol audit pose berbasis screenshot, revisi 3 titik wajah, dan generator prompt visual pose CV (`panduan_detail_pose_dan_sync_laptop_b.md`, `planning_audit_pose_dan_clean_cv_preview.md`, `planning_revisi_titik_wajah_dan_pov.md`, `prompt_visual_pose_cv_kerangka.md`).
+    4. `visual-vfx/`: Berkas perencanaan skill VFX Effekseer, dynamic FOV, skybox 3 biome adaptif, blueprint animasi naga, dan master prompt eksekusi visual (`rencana_skill_vfx_effekseer_laptop_b.md`, `planning_vfx_fov_skybox_dan_animasi.md`, `prompt_eksekusi_vfx_skybox_dan_fov_laptop_b.md`).
+    5. `handoff-laptop-b/`: Berkas perencanaan patch, checklist pra-sesi 4, cetak biru optimasi token (*The Optimal Lean Stack*), dan SOP screenshot mandiri untuk Laptop B (`laptop B Patch 1 planning.md`, `checklist_finalisasi_pra_sesi_4.md`, `planning_optimasi_token_laptop_b.md`, `panduan_screenshot_mandiri_dan_laporan.md`).
+  - **Kepatuhan Arsitektur Anti-Collision & AGENTS.md:**
+    - Mempertahankan dokumen inti pelacakan (`Tasks.md`, `Devlog.md`, `konteks.md`, `prd.md`) dan folder catatan memori (`memories/`) tetap berada di root `brain/laptop-a/` agar simetris dan konsisten dengan `brain/laptop-b/` serta mematuhi aturan penulisan di `AGENTS.md`.
+    - Memperbarui peta navigasi visual pada `brain/00 - Overview.md`.
+
+---
+
 ## 2026-11-21 — Finalisasi Desain Visual & Flight Feel: Dynamic FOV (85°), Dynamic Skybox 3 Biome, & Katalog 7 VFX Effekseer ([[planning_vfx_fov_skybox_dan_animasi]])
 - **Keputusan Desain Disetujui Pengguna:**
   - **Dynamic Camera FOV:** Ditetapkan rentang FOV `60°` (normal/hover), `65°–68°` (glide cruising), `78°–80°` (tuck dive), dan batas atas **`85°`** saat melesat kencang (*Propeller Dash*) dengan `Mathf.SmoothDamp` ($0.30\text{s}$) dan tarikan mundur kamera (`-6.0m` ke `-7.5m`).
