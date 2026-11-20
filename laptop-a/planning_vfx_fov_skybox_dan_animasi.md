@@ -36,16 +36,30 @@ Saat naga terbang dalam skala kepulauan $2400 \times 2400\text{ m}$, kecepatan t
 
 ---
 
-## 2. Skybox Fantasi & Penyatuan Atmosfer (Atmospheric Blending)
+## 2. Skybox Fantasi Dinamis & Penyatuan Atmosfer 3 Biome (Atmospheric Blending)
 
-### A. Konsep Visual: *Stylized Ghibli / Genshin Fantasy Sky*
-Saat ini langit di `MainIsland_Gameplay.unity` masih menggunakan background bawaan URP yang cenderung datar. Kita membutuhkan Skybox bertema fantasi petualangan:
-1. **Gradasi Langit:** Biru azur cerah di zenit puncak langit, melandai ke cyan hangat dan putih-emas lembut di garis cakrawala (*horizon*).
-2. **Awan Kumulus Bertingkat:** Awan kapas stylized semi-kartun yang bergerak perlahan (*subtle panning/rotation*) di ketinggian $400\text{–}600\text{ m}$.
-3. **Matahari & Rim Lighting:** Matahari hangat di arah sudut $45^\circ$ yang menghasilkan *soft rim-light* di punggung naga dan atap rumah desa.
-4. **Penyatuan Warna Kabut (Horizon Fog Blending):**
-   - Menyelaraskan warna `RenderSettings.fogColor` URP persis dengan warna horizon Skybox.
-   - Hal ini menghilangkan garis potong tepi laut pada jarak batas kliping kamera ($4200\text{ m}$), sehingga lautan tampak menyatu tak terbatas dengan langit kabut di kejauhan.
+### A. Konsep Visual: *Dynamic Biome-Adaptive Fantasy Atmosphere*
+Sistem atmosfer game Fanamir dirancang secara **dinamis** melalui controller `BiomeAtmosphereController.cs`. Langit dan kabut beradaptasi secara organik mengikuti lokasi dan status pemulihan naga:
+
+1. **Area Laut Lepas / Kepulauan Netral (Default):**
+   - **Skybox:** Gradasi biru azur cerah di zenit puncak langit, melandai ke cyan hangat dan putih-emas lembut di garis cakrawala (*horizon*), dilengkapi awan kumulus stylized semi-kartun di ketinggian $400\text{–}600\text{ m}$.
+   - **Penyatuan Warna Kabut (*Horizon Fog Blending*):** Menyelaraskan warna `RenderSettings.fogColor` URP persis dengan warna horizon Skybox sehingga batas kliping laut ($>2000\text{ m}$) menyatu mulus tanpa patahan visual.
+
+2. **Desa Zephyria (Lembah Polusi / *Smog Valley*):**
+   - **Saat Krisis (Unvisited / In-Progress):** Langit muram kelabu kekuningan/kehijauan beracun (*toxic haze*), matahari redup temaram, kabut URP tebal kelabu memendekkan jarak pandang ($\sim 150\text{ m}$).
+   - **Saat Pulih (100% Restored):** Kabut tersapu dalam $3\text{ detik}$, bertransformasi menjadi **biru toska jernih berkilau angin segar**.
+
+3. **Desa Pyrewood (Hutan Kebakaran / *Wildfire Woods*):**
+   - **Saat Krisis (Unvisited / In-Progress):** Langit oranye pekat membara tertutup kepulan asap hitam pekat (*smoke plume*), kabut bara merah-oranye hangat, partikel abu beterbangan.
+   - **Saat Pulih (100% Restored):** Bara padam menjadi uap putih sejuk, warna langit berangsur netral menjadi **biru cerah berpadu dengan hijaunya dedaunan pohon yang selamat**.
+
+4. **Desa Solaria (Dataran Tinggi Kekeringan / *Drought Plateau*):**
+   - **Saat Krisis (Unvisited / In-Progress):** Terik matahari menyengat ekstrem (*blinding harsh sun*), warna langit pudar kekuningan pucat berdebu tanpa awan, kabut tipis panas bergelombang (*heat shimmer & dust haze*).
+   - **Saat Pulih (100% Restored):** Begitu Ritual Embun Suci dipanggil, pilar cahaya menembus awan, langit berubah menjadi **biru keemasan yang menyejukkan (*radiant golden-blue sky*)** diiringi rintik-rintik embun berkilau.
+
+5. **Mekanisme Transisi Halus (Unity URP):**
+   - **Transisi Masuk (Radius $\approx 250\text{ m}$):** Menginterpolasi (*lerp*) material langit & parameter kabut secara lembut ($2.5\text{ detik}$).
+   - **Transisi Selebrasi (Kemenangan 100%):** Berjalan bersamaan dengan animasi selebrasi auto-hover $2.5\text{ detik}$, menghasilkan efek "langit terbuka / pembersihan dramatis".
 
 ---
 
@@ -70,14 +84,27 @@ Saat ini `DragonWingAnimator.cs` baru mengendalikan **12 tulang sayap**. Untuk m
 
 ---
 
-## 4. Matriks Sinergi VFX Effekseer + Animasi + Kamera
+## 4. Katalog Efek Visual Effekseer & Matriks Sinergi
 
-| Fase / Aksi | Animasi Fanamir | Efek Visual Partikel (Effekseer) | Respon Kamera / Atmosfer |
+### A. Daftar 7 Efek Visual Utama (Effekseer Unity 6 URP)
+| No | Kategori | Nama Efek Visual (`.efkefc`) | Deskripsi Visual di Layar | Pemicu Gameplay |
+| :---: | :--- | :--- | :--- | :--- |
+| 1 | **Desa Zephyria** | `VFX_Zephyria_WindGust` | Gelombang bilah angin sabit toska transparan yang berhembus kuat ke arah lembah desa. | Setiap kepakan sayap (`#06 Flap`) di dalam zona tantangan Zephyria. |
+| 2 | **Danau Zephyria** | `VFX_Lake_WaterSiphon` | Spiral partikel air jernih berkilau yang tersedot naik ke dada naga saat mengisi daya. | Saat naga auto-hover di atas Danau Zephyria (`Sub-Marker`). |
+| 3 | **Desa Pyrewood** | `VFX_Pyrewood_WaterBreath` | Semburan jet air deras berkabut dari soket mulut naga yang menghujam titik kebakaran hutan. | Buka mulut / tangkup dada (`#15B Water Breath`) di zona Pyrewood. |
+| 4 | **Desa Pyrewood** | `VFX_Pyrewood_ExtinguishSteam` | Letupan uap air putih tebal disertai desisan saat semburan air memadamkan kobaran api pohon. | Kontak semburan air dengan pohon/tanah yang terbakar. |
+| 5 | **Desa Solaria** | `VFX_Solaria_CelestialDewRain` | Pilar cahaya suci keemasan dari langit + taburan partikel embun berkilau membasahi tanah gersang. | Pose kedua tangan terangkat ke langit (`#15C Dew Rain`) di Solaria. |
+| 6 | **Terbang Naga** | `VFX_Flight_WingtipTrails` | Pita uap tipis bercahaya di ujung kedua sayap naga saat meluncur kencang atau belok tajam. | Kecepatan $\ge 18\text{ m/s}$ atau belok tajam (*banking*). |
+| 7 | **Terbang Naga** | `VFX_Flight_SonicDashShockwave` | Cincin gelombang kejut sonik (*shockwave cone ring*) yang meledak di belakang naga. | Manuver melesat kencang *Propeller Dash* (`#14`). |
+
+### B. Matriks Sinergi VFX + Animasi + Kamera
+| Fase / Aksi | Animasi Fanamir | Efek Visual Partikel (Effekseer) | Respon Kamera & Atmosfer |
 | :--- | :--- | :--- | :--- |
-| **Menukik Cepat** (`#13`) | Sayap terlipat rapat, kaki menempel perut, ekor lurus | Kerucut angin distorsi (*Dive Wind Cone*) + jejak partikel uap | FOV melebar hingga `80°`, kamera menjauh, desau angin kencang |
-| **Semburan Air** (`#15B`) | Kepala mengarah ke hutan, rahang bawah terbuka lebar | Kolom jet air deras berkabut (*WaterBreath Stream*) dari soket mulut | Kamera sedikit bergetar (*subtle impulse rumble*), api hutan berubah uap air |
-| **Ritual Embun** (`#15C`) | Pose sayap melayang stabil, kepala mendongak ke langit | Cincin pilar cahaya langit (*Beacon*) + partikel hujan kristal emas-biru | Pencahayaan langit sedikit meredup memberi kontras pada rintik embun berkilau |
-| **Pembersihan Kabut** (`#15A`) | Kepakan sayap kuat dan berulang mendorong angin ke bawah | Hembusan gelombang angin sabit hijau toska (*Wind Blades*) | Partikel kabut kelabu di lembah terurai (*fade out*) menjadi udara cerah |
+| **Menukik Cepat** (`#13`) | Sayap terlipat rapat, kaki menempel perut, ekor lurus | Kerucut angin distorsi (*Dive Wind Cone*) + jejak partikel uap | FOV melebar hingga `80°`, kamera mundur (`-7.2 m`), desau angin kencang |
+| **Melesat Kencang** (`#14`) | Lengan atas melebar, putaran siku propeller | Cincin gelombang kejut uap sonik di ekor | FOV impulsif melonjak ke **`85°`**, kamera mundur (`-7.5 m`) |
+| **Semburan Air** (`#15B`) | Kepala mengarah ke hutan, rahang bawah terbuka lebar | Kolom jet air deras berkabut dari soket mulut | Kamera bergetar mikro (*impulse rumble*), api hutan berubah uap air |
+| **Ritual Embun** (`#15C`) | Pose sayap melayang stabil, kepala mendongak ke langit | Cincin pilar cahaya langit + partikel hujan kristal emas-biru | Pencahayaan langit sedikit meredup memberi kontras pada rintik embun |
+| **Pembersihan Kabut** (`#15A`) | Kepakan sayap kuat dan berulang mendorong angin ke bawah | Hembusan gelombang angin sabit toska | Kabut kelabu di lembah terurai (*fade out*) menjadi udara cerah |
 
 ---
 *Navigasi Vault:* [[00 - Overview]] | [[Tasks]] | [[Devlog]] | [[mekanisme_tantangan_desa]] | [[rencana_skill_vfx_effekseer_laptop_b]]

@@ -13,6 +13,18 @@ updated: 2026-11-19
 
 ---
 
+## 2026-11-21 — Finalisasi Desain Visual & Flight Feel: Dynamic FOV (85°), Dynamic Skybox 3 Biome, & Katalog 7 VFX Effekseer ([[planning_vfx_fov_skybox_dan_animasi]])
+- **Keputusan Desain Disetujui Pengguna:**
+  - **Dynamic Camera FOV:** Ditetapkan rentang FOV `60°` (normal/hover), `65°–68°` (glide cruising), `78°–80°` (tuck dive), dan batas atas **`85°`** saat melesat kencang (*Propeller Dash*) dengan `Mathf.SmoothDamp` ($0.30\text{s}$) dan tarikan mundur kamera (`-6.0m` ke `-7.5m`).
+  - **Skybox & Atmosfer Dinamis 3 Biome (`BiomeAtmosphereController.cs`):** 
+    - Wilayah netral laut lepas mengusung langit cerah fantasi bergaya Ghibli/Genshin dengan awan kumulus bertingkat + penyatuan kabut cakrawala URP (*Horizon Fog Blending*).
+    - Memasuki radius desa ($<250\text{m}$), langit dan kabut URP bertransisi dinamis mengikuti status krisis biome: Zephyria (*toxic smog* kelabu-hijau), Pyrewood (kabut asap hitam & bara api membara), Solaria (terik menyengat gersang kekuningan & kabut debu panas).
+    - Tepat saat tantangan 100% selesai (*Restored*), atmosfer secara dramatis dibersihkan dalam transisi $2.5–3\text{ detik}$ menjadi langit cerah toska/hutan/keemasan yang segar dan hidup.
+  - **Katalog 7 Efek Partikel Effekseer:** Membakukan 7 berkas efek partikel `.efkefc`: (1) `VFX_Zephyria_WindGust`, (2) `VFX_Lake_WaterSiphon`, (3) `VFX_Pyrewood_WaterBreath`, (4) `VFX_Pyrewood_ExtinguishSteam`, (5) `VFX_Solaria_CelestialDewRain`, (6) `VFX_Flight_WingtipTrails`, dan (7) `VFX_Flight_SonicDashShockwave`.
+- **Pembaruan Dokumen:** Memperbarui [[planning_vfx_fov_skybox_dan_animasi]], [[Tasks]], dan [[Devlog]].
+
+---
+
 ## 2026-11-19 — Arsip Memori Sesi: Mekanisme Momentum, Pembaruan Pose v4, & Paket Delta Ekspor ([[Mekanisme Momentum dan Pembaruan Pose v4]], [[planning_momentum_dan_revisi_kontrol]])
 - **Ringkasan Memori Sesi:** Mengarsipkan rangkaian keputusan perancangan sistem momentum kontinu ($0–100\%$) naga Fanamir, aturan inersia dan pengereman perlahan ($\sim 2.2–2.5\text{s}$), soft-cap laju penambahan bertahap per pose, pemisahan `#07 Fly Up` sebagai *Y-Glide Up* (sayap 3D Y-dihedral, gentle stall) vs `#06B Steep Climb` (chin-up flap $+7\text{ m/s}$), pemisahan `#09A Hover` (flutter lengan bawah ke $0\text{ m/s}$) vs `#09B Slow Glide` ($\sim 6–8\text{ m/s}$), perbaruan 15 medali siluet UI bersih (tanpa kerangka/titik CV) pada Kalibrasi `SCREEN 01` & Guide `SCREEN 07`, penambahan `Momentum Dock` $420 \times 40\text{ px}$ pada HUD `SCREEN 02`, penyusunan paket delta 28 file `assets/Export_Delta_LaptopB/` (`Export_Delta_LaptopB.zip`), penerbitan manual visual resmi `v4.0` 12 halaman (`Panduan_19_Pose_Fanamir_CV.pdf` & `.docx`), serta penyusunan master prompt sinkronisasi untuk Laptop B di [[planning_momentum_dan_revisi_kontrol]]. Catatan lengkap diarsipkan di [[Mekanisme Momentum dan Pembaruan Pose v4]].
 
