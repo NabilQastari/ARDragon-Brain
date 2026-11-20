@@ -243,6 +243,8 @@ updated: 2026-11-21
 
 ## 2026-11-18 — Implementasi & Konfigurasi Optimasi Token Laptop B (*The Optimal Lean Stack*)
 
+*(Lihat ringkasan memori sesi di [[Setup Optimasi Token Laptop B]].)*
+
 ### Eksekusi Utama (`[[laptop-a/planning_optimasi_token_laptop_b]]`)
 1. **`.antigravityignore` di Root Workspace:**
    - Membuat `.antigravityignore` sesuai template Bagian 3A (`planning_optimasi_token_laptop_b.md`) untuk mengecualikan direktori build/temp/metadata Unity (`/[Ll]ibrary/`, `/[Tt]emp/`, `/[Oo]bj/`, `/[Bb]uild/`, `/[Bb]uilds/`, `/[Ll]ogs/`, `/[Uu]ser[Ss]ettings/`, `/[Mm]emoryCaptures/`, `*.meta`, dll.), cache IDE/Python (`**/__pycache__/`, `**/*.pyc`, `.pytest_cache/`, `.venv/`, dll.), model/aset 3D berat (`*.blend`, `*.fbx`, `*.obj`, dll.), arsip & dokumen (`*.zip`, `*.xlsx`, `*.docx`, `*.pdf`, dll.), media dump, serta isolasi `brain/laptop-a/memories/` dan `brain/.obsidian/`.
