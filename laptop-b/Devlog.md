@@ -4,12 +4,38 @@ tags:
   - devlog
   - laptop-b
 owner: Laptop B
-updated: 2026-11-21
+updated: 2026-11-22
 ---
 
 # 🛠️ Devlog — Laptop B
 
 > Catatan kronologis pengembangan kode, debugging, pengujian Unity/Python, dan hasil build dari **Laptop B**. Kembali ke [[00 - Overview]].
+
+---
+
+## 2026-11-22 — Peningkatan Ketahanan Camera Motion Blur pada `#14 Propeller Dash` (`pose_stabilizer.py`, `motion_recognizer.py`, `active_cv_sender.py`, `cv_locomotion_config.json`)
+
+### Temuan Akar Masalah Camera Motion Blur pada `#14 Propeller Dash`
+1. **Pembekuan Pergelangan Tangan oleh *Velocity Outlier Gate* (`RobustKeypointTracker.update_joint`):**
+   - Saat lengan bawah diputar cepat untuk memicu `#14 Propeller Dash`, *motion blur* kamera menurunkan confidence YOLO pada `lw`/`rw` ke rentang `0.08–0.45` (`< CONFIDENCE_HIGH = 0.50`, atau `< CONFIDENCE_MIN = 0.20`), sekaligus menghasilkan perpindahan antar-frame `step > max_step` (`3.2 * sw_scale * dt`). Akibatnya, `update_joint()` menolak perpindahan tersebut dan mengembalikan `prev_x, prev_y` (membekukan titik pergelangan di tempat).
+2. **Kolapsnya Titik Pergelangan ke Siku & Penyusutan Radius Orbit 2D Akibat *Motion Blur* + Perspektif Kerucut 3D:**
+   - Pada frame yang mengalami *motion blur* berat, *heatmap* YOLO untuk pergelangan tangan menyatu sepanjang bayangan lengan bawah menuju siku yang stasioner/tajam, atau lintasan putar 3D yang condong ke depan kamera terproyeksi menjadi elips kecil (`radius ~ 0.06–0.15 * sw`) yang titik pusatnya bergeser dari titik siku `le`/`re` (sehingga sudut `atan2(lw - le)` hanya berayun bolak-balik dan tidak pernah mengakumulasi `2\pi`).
+3. **Reset Akumulasi Sudut oleh *Single-Frame Blur-Streak Reversal*, *Phase Aliasing* `>126°–180°`, & *Elbow Wobble*:**
+   - Lonjakan 1 frame ke ujung belakang bayangan *motion blur* (`|dtheta| >= 0.45`), lompatan fase `126°–235°` setelah 1–2 frame blur terlewat, atau goyangan keypoint siku selama 1 frame (`not upper_arms_spread`) sebelumnya langsung me-reset `accumulated_angle` ke `0.0`.
+
+### Perbaikan & Peningkatan Pipeline CV
+1. **Pemulihan Piksel *Elbow-Annulus Motion-Blur Recovery* (`pose_stabilizer.py`, `active_cv_sender.py`):**
+   - Menambahkan `recover_motion_blurred_wrists()` yang mengevaluasi *temporal frame difference* berbobot gradien spasial frame saat ini (`diff * (grad_curr + 6.0)`, untuk menekan bayangan frame `t-1`) di dalam cincin lengan bawah (`0.13 * sw .. 0.80 * sw`, di luar area torso) di sekitar siku `le`/`re` ketika confidence pergelangan turun `< 0.42` atau titik pergelangan kolaps ke siku (`< 0.16 * sw`).
+   - Mengirimkan koordinat `raw_lw`/`raw_rw` ber-lag rendah ke `GestureStateMachine` (`0.60 * raw + 0.40 * filtered` di `PropellerRotationClassifier`) agar radius putaran tidak menyusut oleh low-pass filter.
+2. **Filter & *Velocity Gating* Ramah Motion Blur (`pose_stabilizer.py`):**
+   - Menurunkan ambang penerimaan pergelangan yang terikat secara anatomis ke siku (`<= 1.25 * sw`) hingga `BLUR_WRIST_CONF_MIN = 0.08` (`BLUR_ELBOW_CONF_MIN = 0.12`), menaikkan `beta` One-Euro Filter pergelangan ke `0.75`, dan membebaskan pergelangan yang terikat siku (`<= 0.98 * sw`) dari penolakan/pembekuan `conf < 0.50` dengan batas langkah `max_step = 7.5 * sw_scale * eff_dt`.
+3. **Pelacakan Orbit *Dual-Center*, *Phase Unwrapping*, & Debounce Blur (`motion_recognizer.py`, `cv_locomotion_config.json`):**
+   - **Dual-Center Orbital Tracking:** Melacak sudut putaran terhadap **Siku (`le`/`re`)** sekaligus **Sentroid Lintasan Pergelangan (`rel_history` 10 frame)** yang dikunci oleh syarat *2D circularity* (`span_x >= 0.055 * sw`, `span_y >= 0.055 * sw`, `aspect_2d >= 0.20`, `|sin(dtheta)| >= 0.10`) sehingga putaran kerucut 3D yang bergeser dari siku tetap terdeteksi penuh sementara kepakan 1D vertikal (`#04`, `#06`, `#15A`) tetap ditolak 100%.
+   - **Spin-Direction Phase Unwrapping & Streak Debounce:** Meng-unwrap lompatan sudut maju `125°–245°` lintas 1–3 frame blur searah putaran aktif (`accum >= 0.45`), menghapus reset 1-frame `|dtheta| >= 0.45` (wajib `2–3` frame berlawanan berturut-turut untuk reset), menambahkan *elbow-spread grace* `4` frame terhadap goyangan blur siku, serta memperbarui konfigurasi `cv_locomotion_config.json` (`min_rotation_accum_rad: 2.15`, `min_angular_velocity: 1.85`, `min_side_angular_velocity: 0.45`, `min_orbit_radius_sw: 0.11`, `min_angle_radius_sw: 0.065`, `grace_hold_sec: 0.42`).
+
+### Hasil Verifikasi (`ARDragonSkyGuardian_CV`)
+- `test_all_17_poses_alignment.py` (termasuk suite baru `test_propeller_dash_motion_blur_resilience`: low-conf `0.12..0.32` + *streak reversal* + *elbow wobble*, *3D forward-angled cone* di luar siku, serta *pixel-level Elbow-Annulus Motion-Blur Recovery* saat `c_w = 0.02`): **100% PASS** (`0` regresi pada 6 pose terkunci `#01, #02, #04, #05, #08, #13` dan seluruh 17 pose).
+- Regresi penuh `test_phase1_validation.py`, `test_phase2_validation.py`, `test_phase4_validation.py`, `test_additional_gestures.py`, `test_momentum_and_control_revision.py`, `test_tahap1_face_tracking.py`, & `test_e2e_flight_physics.py`: **100% PASS**.
 
 ---
 
