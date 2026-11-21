@@ -74,6 +74,8 @@ updated: 2026-11-19
 - [[laptop-a/visual-vfx/rencana_skill_vfx_effekseer_laptop_b|rencana_skill_vfx_effekseer_laptop_b]] — Panduan & rencana instalasi skill `kanaworksai-hue/effekseer-vfx-skill` (Effekseer Unity 6 URP) untuk pembuatan VFX pemulihan 3 desa & penerbangan Fanamir di Laptop B.
 - [[laptop-a/visual-vfx/planning_vfx_fov_skybox_dan_animasi|planning_vfx_fov_skybox_dan_animasi]] — Perencanaan terpadu sistem VFX Effekseer, Dynamic FOV ($60^\circ–85^\circ$), Skybox adaptif 3 Biome, & blueprint animasi Fanamir.
 - [[laptop-a/visual-vfx/prompt_eksekusi_vfx_skybox_dan_fov_laptop_b|prompt_eksekusi_vfx_skybox_dan_fov_laptop_b]] — Master prompt dan panduan eksekusi teknis bagi Laptop B untuk mengimplementasikan Paket Visual Sesi 4B (VFX Effekseer, Dynamic FOV 60°–85°, & Skybox Dinamis 3 Biome).
+- [[laptop-a/visual-vfx/arsitektur_animasi_naga_fanamir|arsitektur_animasi_naga_fanamir]] — Arsitektur sistem animasi tubuh prosedural naga (`DragonBodyAnimator.cs`: artikulasi rahang buka mulut `Bone_Jaw`, liukan ekor dinamis `Tail Sway`, lengkungan punggung, dan lipatan kaki cakar aerodinamis).
+- [[laptop-a/visual-vfx/prompt_eksekusi_animasi_naga_laptop_b|prompt_eksekusi_animasi_naga_laptop_b]] — Master prompt dan panduan eksekusi implementasi `DragonBodyAnimator.cs` bagi Laptop B.
 
 #### 🤝 Handoff & Eksekusi Laptop B (`laptop-a/handoff-laptop-b/`)
 - [[laptop-a/handoff-laptop-b/laptop B Patch 1 planning|laptop B Patch 1 planning]] — Rencana detail perbaikan patch 1 untuk Laptop B (CV, dynamic camera, smooth UI, Sesi 4 & 5).

@@ -13,6 +13,18 @@ updated: 2026-11-19
 
 ---
 
+## 2026-11-22 — Finalisasi Arsitektur Animasi Tubuh Naga Fanamir & Master Prompt Laptop B ([[visual-vfx/arsitektur_animasi_naga_fanamir]])
+- **Keputusan Desain Animasi Prosedural (`DragonBodyAnimator.cs`):**
+  - Mengunci arsitektur animasi tubuh modular untuk menggerakkan 35 tulang pada rig `ARM_Dragon` (47 tulang):
+    1. **Artikulasi Rahang Buka Mulut (`Bone_Jaw`):** Rotasi lokal `0°` (tertutup) hingga `-30°` (terbuka lebar) terhubung langsung ke telemetri `MOUTH_OPEN` CV saat Water Breath `#15B`, dengan auto-trigger `-25°` saat selebrasi kemenangan desa (*Victory Roar*).
+    2. **Liukan Ekor Dinamis & Punggung (`Spine & Tail Sway`):** Distribusi lenturan ekor berjenjang (*wave lag* $15\%$ di `Tail_01` hingga $100\%$ di `Tail_05`) saat belok, osilasi santai $0.6\text{ Hz}$ saat meluncur (*cruising*), dan lengkungan aerodinamis cembung ke bawah saat *Tuck Dive* (`#13`) serta melenting ke atas saat *Fly Up* (`#07`).
+    3. **Lipatan Kaki & Cakar Aerodinamis:** Kaki depan dan belakang melipat rapat ke bawah tubuh (*Flight Tuck*) saat meluncur cepat ($\ge 12\text{ m/s}$), dan menjuntai turun rileks (*Hover Drop*) saat auto-hover di desa atau kecepatan $< 6\text{ m/s}$.
+  - **Pendekatan Teknis:** Menggunakan skrip prosedural Unity `DragonBodyAnimator.cs` (`[DefaultExecutionOrder(55)]`) agar responsif seketika terhadap input kemudi dan CV tanpa delay/clipping animasi baking.
+- **Penerbitan Master Prompt Eksekusi:** Menyusun `brain/laptop-a/visual-vfx/prompt_eksekusi_animasi_naga_laptop_b.md` siap salin bagi Laptop B.
+- **Pembaruan Dokumen:** Memperbarui [[visual-vfx/arsitektur_animasi_naga_fanamir]], [[visual-vfx/prompt_eksekusi_animasi_naga_laptop_b]], [[00 - Overview]], [[Tasks]], dan [[Devlog]].
+
+---
+
 ## 2026-11-21 — Restrukturisasi & Penataan Folder Kategori Brain Laptop A
 - **Aksi Penataan Ruang Kerja:**
   - Melakukan penataan menyeluruh terhadap 19 file dokumentasi lepas yang sebelumnya bertumpuk di root `brain/laptop-a/`.
