@@ -4,12 +4,25 @@ tags:
   - devlog
   - laptop-a
 owner: Laptop A
-updated: 2026-11-19
+updated: 2026-11-22
 ---
 
 # 📝 Devlog — Laptop A
 
 > Catatan kronologis keputusan desain, ide, arsitektur, dan pembaruan dokumentasi dari **Laptop A**. Kembali ke [[00 - Overview]].
+
+---
+
+## 2026-11-22 — Audit Komprehensif Sisa Tugas Proyek & Penyelarasan Status Dual-Laptop
+- **Sinkronisasi Progres Eksekusi Laptop B:**
+  - Melakukan audit silang terhadap catatan terkini di `brain/laptop-b/Devlog.md` dan `brain/laptop-b/Tasks.md`.
+  - Mengonfirmasi penyelesaian 100% PASS seluruh fitur inti Sesi 4 (Tantangan 3 Desa), Sesi 4B (Paket VFX Effekseer 7 partikel, Dynamic FOV `60°–85°`, Dynamic Skybox 3 Biome), Sesi 5 Dasar (`GameManager.cs`, countdown 3s, timer, scoring bintang global, progresi gembok level), animasi tubuh prosedural naga `DragonBodyAnimator.cs`, serta pemulihan kontrol keyboard in-game & mitigasi `SIO_UDP_CONNRESET`.
+- **Inventarisasi Sisa Pekerjaan Proyek (Gap Analysis):**
+  1. **Sistem Audio & SFX (`AudioManager.cs`):** Diperlukan implementasi pengontrol audio untuk BGM (Lobby, Jelajah Santai, Krisis Biome, Fanfare Kemenangan) dan SFX (Flap whoosh, Dive wind, Water breath stream, Dew bell, Star chime, UI click) guna menyambungkan `DragonGameSettings.OnBgmVolumeChanged` & `OnSfxVolumeChanged`.
+  2. **Build Standalone Windows & Launcher (`start_game.bat`):** Pembuatan release build `.exe` Windows 64-bit dan skrip launcher satu-klik yang mengotomatisasi runtime game bersama background process Python CV tanpa terminal manual.
+  3. **Pengujian Pengguna Nyata (Live Webcam Playtest):** Pengujian fisik langsung di depan webcam dengan pemain manusia selama 15–30 menit untuk mengukur kenyamanan 19 pose tubuh, kelelahan fisik (fatigue), dan stabilitas deteksi pada variasi pencahayaan ruangan nyata.
+  4. **Penyelesaian Bab Laporan Capstone (`docs/Laporan_Capstone_Fanamir.md` & `.docx`):** Pengisian 4 subbab placeholder (Subbab 4.6 Hasil Uji Fungsional Sesi 5, Subbab 4.7 Analisis Kinerja Sistem FPS/RAM/VRAM/UDP, Subbab 4.8 Evaluasi Kebugaran & UX, Bab 5 Kesimpulan & Saran) serta penyisipan 5 screenshot live aktual dari Laptop B.
+- **Pembaruan Dokumen:** Memperbarui [[Tasks.md]] dan [[Devlog.md]] di `brain/laptop-a/`.
 
 ---
 
