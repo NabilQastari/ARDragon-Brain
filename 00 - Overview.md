@@ -77,6 +77,7 @@ updated: 2026-11-19
 - [[laptop-a/visual-vfx/arsitektur_animasi_naga_fanamir|arsitektur_animasi_naga_fanamir]] — Arsitektur sistem animasi tubuh prosedural naga (`DragonBodyAnimator.cs`: artikulasi rahang buka mulut `Bone_Jaw`, liukan ekor dinamis `Tail Sway`, lengkungan punggung, dan lipatan kaki cakar aerodinamis).
 - [[laptop-a/visual-vfx/prompt_eksekusi_animasi_naga_laptop_b|prompt_eksekusi_animasi_naga_laptop_b]] — Master prompt dan panduan eksekusi implementasi `DragonBodyAnimator.cs` bagi Laptop B.
 - [[laptop-a/visual-vfx/planning_perbaikan_animasi_dan_pose|planning_perbaikan_animasi_dan_pose]] — Cetak biru komprehensif perbaikan animasi & pose: siklus jalan 4 kaki di tanah, elevasi dada & buoyant hover, kepala dinamis CV 3-sumbu, dual-track sayap bebas 1:1 vs pose terkunci, kepakan bertenaga keras Propeller Dash, dan anatomi kaki terbang aerodinamis.
+- [[laptop-a/visual-vfx/prompt_eksekusi_animasi_tahap_1_laptop_b|prompt_eksekusi_animasi_tahap_1_laptop_b]] — Master prompt dan panduan eksekusi teknis Tahap 1 bagi Laptop B: anatomi kaki terbang aerodinamis sesuai referensi resmi & elevasi dada +16° saat hover di `DragonBodyAnimator.cs`.
 
 #### 🤝 Handoff & Eksekusi Laptop B (`laptop-a/handoff-laptop-b/`)
 - [[laptop-a/handoff-laptop-b/laptop B Patch 1 planning|laptop B Patch 1 planning]] — Rencana detail perbaikan patch 1 untuk Laptop B (CV, dynamic camera, smooth UI, Sesi 4 & 5).

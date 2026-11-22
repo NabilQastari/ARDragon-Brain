@@ -13,6 +13,24 @@ updated: 2026-11-23
 
 ---
 
+## 2026-11-23 — Penerbitan Master Prompt Peningkatan Animasi Naga Tahap 1 untuk Laptop B ([[prompt_eksekusi_animasi_tahap_1_laptop_b]])
+- **Persetujuan Roadmap Bertahap (Phased Execution):**
+  - Bersama pengguna membakukan pembagian 4 tahap perbaikan animasi naga Fanamir secara terisolasi dan bertingkat dari yang paling sederhana (*quick win*) hingga sistem sayap penuh:
+    - **Tahap 1:** Anatomi Kaki Terbang Aerodinamis (sesuai referensi gambar) & Elevasi Dada saat Hover $+16^\circ$ di `DragonBodyAnimator.cs`.
+    - **Tahap 2:** Kepala Dinamis 3-Sumbu (CV Yaw, Pitch, Roll) & Siklus Kaki Jalan di Tanah (`GroundedWalk`).
+    - **Tahap 3:** Overhaul Kepakan Sayap Bertenaga Keras ($3.8\text{ Hz}$) pada `#14 Propeller Dash`.
+    - **Tahap 4:** Arsitektur Sayap Dual-Track & Hand Tracking Bebas 1:1 vs Pose Khusus Terkunci.
+- **Penyusunan Master Prompt Eksekusi Tahap 1:**
+  - Menyusun dokumen instruksi teknis siap salin di `brain/laptop-a/visual-vfx/prompt_eksekusi_animasi_tahap_1_laptop_b.md`.
+  - Menginstruksikan modifikasi terarah pada `DragonBodyAnimator.cs`:
+    1. Kaki Depan: Melipat rapi ke arah belakang di bawah tulang dada (*tucked neatly under chest*).
+    2. Kaki Belakang: Lurus memanjang ke belakang merapat di sepanjang pangkal ekor (*extended backward along tail*).
+    3. Sikap Hover: Dada terangkat tegap $+16^\circ$ (`Spine_01..02`) dengan osilasi apung magis vertikal ($0.40\text{ Hz}, \pm 0.18\text{ m}$), dan kaki menjuntai turun rileks (*Hover Drop*).
+    4. Pengujian Play Mode non-regresi via `DragonAnimationVerificationRunner.cs` dan pengambilan screenshot mandiri ke `docs/figures/raw_screenshots/`.
+- **Pembaruan Dokumen:** Memperbarui [[00 - Overview]], [[Tasks]], [[Devlog]], dan [[planning_perbaikan_animasi_dan_pose]].
+
+---
+
 ## 2026-11-23 — Perancangan & Penerbitan Planning Perbaikan Animasi dan Pose Naga Fanamir ([[planning_perbaikan_animasi_dan_pose]])
 - **Latar Belakang & Masukan Pengguna:**
   - Melakukan evaluasi mendalam terhadap pergerakan naga Fanamir bersama pengguna: (1) belum adanya siklus langkah kaki saat berjalan di darat, (2) postur hover (air idle) yang kurang tepat di mana dada harus lebih terangkat, (3) pergerakan kepala yang harus dinamis mengikuti CV secara 1:1, (4) pembatasan dynamic wings movement hanya untuk pose simpel (T-Pose, Y-Pose, Flap, Hover) sementara pose lainnya adalah pose/animasi khusus terkunci, (5) pelacakan sayap bebas yang harus lebih setia mengikuti posisi tangan pemain, (6) perombakan animasi Propeller Dash agar sayap mengepak jauh lebih keras dan bertenaga, serta (7) standarisasi anatomi kaki saat terbang mengacu lembar referensi resmi pengguna (`Ref_Dragon_Flight_Leg_Anatomy.jpg`).
