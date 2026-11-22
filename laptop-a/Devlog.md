@@ -13,6 +13,21 @@ updated: 2026-11-23
 
 ---
 
+## 2026-11-23 — Evaluasi Kritis Hasil Play Mode Tahap 1 & Penerbitan Master Prompt Revisi ([[evaluasi_dan_revisi_pose_tahap_1]], [[prompt_eksekusi_animasi_tahap_1_laptop_b]])
+- **Evaluasi Dua Tangkapan Layar Pengguna:**
+  - Meninjau 2 screenshot Play Mode dari pengguna:
+    1. `media_1795371061619_6c01e67b.jpg` (`GLIDE T-POSE`, $17.5\text{ m/s}$): Kaki belakang tampak remuk dan menciut ke dalam perut akibat sudut rotasi negatif ekstrim (`HindTuckPitchDeg = {-88°, 32°, -52°, -65°}`) yang salah arah sumbu, bukan lurus memanjang ke belakang. Kaki depan membentuk benjolan ganjil di bawah dada.
+    2. `media_1795371062054_05928680.jpg` (`HOVER #09A`, $0.0\text{ m/s}$): Tubuh naga $100\%$ datar horizontal (sama sekali tidak ada tanda elevasi dada terangkat di kamera), dan keempat kaki berdiri tegak lurus kaku $90^\circ$ ke bawah persis seperti naga berdiri di atas lantai/meja.
+- **Akar Masalah & Solusi Desain:**
+  - **Kaki Terbang:** Menginstruksikan pelurusan sendi paha, tulang kering, dan cakar ke arah belakang (-Z visual) hampir lurus ($\sim 0^\circ\text{--}15^\circ$) sejajar dan menyatu dengan pangkal ekor (*streamlined along tail*), serta merapatkan kaki depan rata di bawah rongga dada (*flat under chest*).
+  - **Sikap Hover:** Menginstruksikan elevasi kemiringan tubuh nyata (*attitude pitch*) naik $+18^\circ \sim +22^\circ$ pada `Visual_Dragon` / rotasi kumulatif Spine agar dada terangkat tegap di kamera dan permata dada (*Chest Gem*) memancar jelas, serta mengubah kaki saat hover menjadi menjuntai tertekuk santai ke bawah-belakang ($\sim 35^\circ\text{--}40^\circ$) layaknya naga yang melayang bebas di udara (bukan berdiri kaku $90^\circ$).
+- **Pembaruan Dokumen:**
+  - Membuat catatan analisis di `brain/laptop-a/visual-vfx/evaluasi_dan_revisi_pose_tahap_1.md`.
+  - Memperbarui master prompt di `brain/laptop-a/visual-vfx/prompt_eksekusi_animasi_tahap_1_laptop_b.md`.
+  - Memperbarui [[00 - Overview]], [[Tasks]], dan [[Devlog]].
+
+---
+
 ## 2026-11-23 — Penerbitan Master Prompt Peningkatan Animasi Naga Tahap 1 untuk Laptop B ([[prompt_eksekusi_animasi_tahap_1_laptop_b]])
 - **Persetujuan Roadmap Bertahap (Phased Execution):**
   - Bersama pengguna membakukan pembagian 4 tahap perbaikan animasi naga Fanamir secara terisolasi dan bertingkat dari yang paling sederhana (*quick win*) hingga sistem sayap penuh:
