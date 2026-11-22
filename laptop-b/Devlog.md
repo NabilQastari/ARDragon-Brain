@@ -4,12 +4,40 @@ tags:
   - devlog
   - laptop-b
 owner: Laptop B
-updated: 2026-11-22
+updated: 2026-11-23
 ---
 
 # 🛠️ Devlog — Laptop B
 
 > Catatan kronologis pengembangan kode, debugging, pengujian Unity/Python, dan hasil build dari **Laptop B**. Kembali ke [[00 - Overview]].
+
+---
+
+## 2026-11-23 — Peningkatan Animasi Naga Fanamir Tahap 1: Anatomi Kaki Terbang Aerodinamis & Elevasi Dada Hover (`DragonBodyAnimator.cs`, `DragonAnimationVerificationRunner.cs`)
+
+### Eksekusi Utama (`[[laptop-a/visual-vfx/planning_perbaikan_animasi_dan_pose]]`, `[[laptop-a/visual-vfx/prompt_eksekusi_animasi_tahap_1_laptop_b]]`)
+1. **Perbaikan Anatomi Kaki Terbang (*Flight Tuck*, `legTuckWeight -> 1.0f`, Kecepatan $\ge 12\text{ m/s}$):**
+   - Menambahkan dukungan sumbu roll lokal (`AxisRoll`) dan *inward roll* simetris (`sideSign = +1` `.L`, `-1` `.R`) pada `DragonBodyAnimator.cs`.
+   - **Kaki Depan (*Forelegs* — `Shoulder_Front`, `UpperArm_Front`, `Forearm_Front`, `Paw_Front`):** Menyelaraskan sudut lipatan (`FrontTuckPitchDeg = { -6f, -62f, -32f, -42f }`, `FrontTuckRollInDeg = { 4f, 0f, 0f, 0f }`) sehingga kaki depan terlipat rapi ke arah belakang menempel di bawah rongga dada (*under chest*) dengan cakar menghadap ke belakang (`pawY = -0.13`) tanpa menjuntai ke bawah.
+   - **Kaki Belakang (*Hindlegs* — `Thigh_Hind`, `Shin_Hind`, `Metatarsus_Hind`, `Foot_Hind`):** Menyelaraskan sudut ekstensi (`HindTuckPitchDeg = { -88f, 32f, -52f, -65f }`, `HindTuckRollInDeg = { 10f, 0f, 0f, 0f }`) sehingga paha, tulang kering, dan cakar belakang melurus merapat sejajar di sepanjang pangkal ekor (`footZ = -0.98`, *streamlined rearward pose*).
+2. **Postur Hover (*Air Idle* / `IsHovering` / `IsHoverActiveBrake` / Kecepatan $< 6\text{ m/s}$):**
+   - **Elevasi Dada (`+16°`):** Menambahkan elevasi pitch dada $+8^\circ$ pada `Spine_01` dan $+8^\circ$ pada `Spine_02` yang dihaluskan dengan `Mathf.SmoothDamp` (`0.25s`) agar tubuh naga tegap memperlihatkan permata dada (*Chest Gem*) ke arah depan-bawah.
+   - **Buoyant Hover Bobbing:** Menambahkan osilasi apung vertikal lembut (`0.40 Hz`, amplitudo `0.18 m`, `bobSpan = 0.36 m`) pada `visualRoot.localPosition` (di-reset bersih di `OnDisable()`).
+   - **Kaki Hover Drop (`legTuckWeight -> 0.0f`):** Memperbarui sudut rileks kaki depan (`{ 0f, -25f, 8f, -20f }`) dan kaki belakang (`{ -35f, 12f, -16f, -38f }`) sehingga keempat kaki menjuntai santai siap menapak daratan.
+
+### Hasil Verifikasi Play Mode (`Unity 6000.3.7f1`) & Screenshot Mandiri
+- Kompilasi skrip Unity: `0` errors, `0` warnings baru (domain reload `codeLoadCount = 21`).
+- Scene `/Dragon_Player` terverifikasi memiliki `DragonBodyAnimator` di `MainIsland_Gameplay.unity` dan `Test_Dragon_Flight.unity`; scene aktif dikembalikan ke `MainMenu_Lobby.unity` (Build Index `0`).
+- `DragonAnimationVerificationRunner.RunPlayModeVerificationAsync()` di `MainIsland_Gameplay.unity`: **`ALL DRAGON BODY ANIMATION CHECKS PASSED (100%)`** (`0` console errors, `0` console warnings):
+  - `Jaw(closed=0.0, partial=-14.0, open=-30.0, roar=-25.0)`
+  - `Tail(right tip=20.0/root=3.0, left tip=-20.0, undulation=48.5)`
+  - `Spine(dive=-6.0, flyUp=5.0, hoverChest=+16.0°, bobSpan=0.36m)`
+  - `Legs(dive spd=20.8 tuck=1.00 thigh=88° footZ=-0.98 pawY=-0.13, hover spd=0.0 tuck=0.00 thigh=35° transition=0.43s)`
+  - `WingRegimes=[GroundedIdle,GentleDescent,Glide,TuckDive,FlyUp,Hover]`
+- Non-regresi `MomentumFlightVerificationRunner.RunPlayModeVerificationAsync()`: **`ALL MOMENTUM & FLIGHT PHYSICS CHECKS PASSED (100%)`** (`0` console errors, `0` console warnings).
+- **Tangkapan Layar Mandiri (`docs/figures/raw_screenshots/`):**
+  - `docs/figures/raw_screenshots/SS_Animasi_Tahap1_FlightLegs.png`
+  - `docs/figures/raw_screenshots/SS_Animasi_Tahap1_HoverChest.png`
 
 ---
 
