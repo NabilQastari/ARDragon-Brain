@@ -13,6 +13,36 @@ updated: 2026-11-22
 
 ---
 
+## 2026-11-22 — Implementasi Animasi Tubuh Prosedural Naga Fanamir (`DragonBodyAnimator.cs`, `VillageZoneController.cs`, `DragonAnimationVerificationRunner.cs`)
+
+### Eksekusi Utama (`[[laptop-a/visual-vfx/arsitektur_animasi_naga_fanamir]]`, `[[laptop-a/visual-vfx/prompt_eksekusi_animasi_naga_laptop_b]]`, `[[laptop-a/handoff-laptop-b/panduan_screenshot_mandiri_dan_laporan]]`)
+1. **Skrip Prosedural `DragonBodyAnimator.cs` (`Assets/_Scripts/Controllers/DragonBodyAnimator.cs`, namespace `DragonWingAR.Controllers`, `[DefaultExecutionOrder(55)]`):**
+   - Dipasang pada `/Dragon_Player` di `MainIsland_Gameplay.unity` dan `Test_Dragon_Flight.unity` (serta diproteksi di `Session4_VillageBuilder.cs`), berjalan tepat setelah `DragonFlightController` & `DragonWingAnimator (50)` dan sebelum `DragonHeadLookController (60)` tanpa menyentuh tulang `Wing_*` maupun `Neck_*`/`Head`.
+   - *Auto-cache* rig tulang aktual `ARM_Dragon`: rahang (`Bone_Jaw` / `Jaw`), punggung (`Spine_01`, `Spine_02`, opsional `Spine_03`), ekor 5 segmen (`Tail_01..Tail_04`, `Tail_05` / `Tail_05_Fin`), kaki depan (`Shoulder_Front`, `UpperArm_Front`, `Forearm_Front`, `Paw_Front` `.L/.R`), dan kaki belakang (`Thigh_Hind`, `Shin_Hind`, `Metatarsus_Hind`, `Foot_Hind` `.L/.R`).
+2. **Artikulasi Rahang Buka Mulut (`Jaw`) & Victory Roar:**
+   - Membaca sinyal `MOUTH_OPEN` (`0.0..1.0`) dari `IPoseProvider` / `UDPPoseReceiver`: `< 0.25` tertutup rapat (`0°`), `> 0.40` terbuka lebar (`-30°` pitch lokal), dihaluskan dengan `Mathf.SmoothDamp` (`0.12s`).
+   - Menambahkan `PlayVictoryRoar(float seconds)` (`-25°`) yang dipicu otomatis oleh `VillageZoneController.CompleteVillageRestoration()` selama durasi `victoryCelebrateDelay` (`2.5s`).
+3. **Liukan Ekor Dinamis (`Tail Sway`), *Cruising Undulation*, & *Spine Arch*:**
+   - *Hierarchical wave lag* berlawanan arah kemudi (`Tail_01: 15%`, `Tail_02: 30%`, `Tail_03: 55%`, `Tail_04: 75%`, `Tail_05_Fin: 100%`) dengan kecepatan damping makin melambat ke ujung ekor.
+   - *Cruising Undulation* sinusoidal (`0.6 Hz`, amplitudo `6°`, beda fase `0.45 rad`) saat meluncur lurus dan meredup halus saat belok tajam, grounded, atau hover.
+   - *Spine Arch* (`Spine_01..02`): melengkung `-6°`/segmen saat `#13 Tuck Dive` dan melenting `+5°`/segmen saat `#07 Fly Up` / `#06B Steep Climb Flap`.
+4. **Lipatan Kaki & Cakar Aerodinamis (*Flight Tuck* vs *Hover Drop*):**
+   - Kecepatan $\ge 12\text{ m/s}$ (Glide/Dive/Dash) melipat keempat kaki merapat aerodinamis ke bawah tubuh/pangkal ekor (*Flight Tuck*); kecepatan $< 6\text{ m/s}$ atau status `IsHovering` menjuntaikan kaki turun santai (*Hover Drop*) dengan transisi `0.5s` (`MoveTowards` + `SmoothStep`) dan hysteresis `6..12 m/s`, serta posisi menapak netral saat grounded.
+
+### Hasil Verifikasi Play Mode (`Unity 6000.3.7f1`) & Screenshot Mandiri
+- `DragonAnimationVerificationRunner.RunPlayModeVerificationAsync()` di `MainIsland_Gameplay.unity`: **`ALL DRAGON BODY ANIMATION CHECKS PASSED (100%)`** (`0` console errors):
+  - Rahang: `closed=0.0°` (`MOUTH_OPEN=0.10`), `partial=-14.0°` (`0.32`), `open=-30.0°` (`0.85`), `Victory Roar=-25.0°` -> kembali tertutup.
+  - Ekor & Kemudi: belok kanan `tip=+20.0° / root=+3.0°`, belok kiri `tip=-20.0°`, *cruising undulation* range `48.5°`.
+  - Punggung: `TuckDive=-6.0°`, `FlyUp=+4.9°`.
+  - Kaki: `TuckDive (20.8 m/s, tuck=1.00, thigh=72°)` $\rightarrow$ `Hover (0.0 m/s, tuck=0.00, transisi=0.46s)`.
+  - Non-regresi sayap: seluruh regime `[GroundedIdle, Glide, TuckDive, FlyUp, Hover]` teramati utuh.
+- Non-regresi `MomentumFlightVerificationRunner.RunPlayModeVerificationAsync()` di `MainIsland_Gameplay.unity`: **`ALL MOMENTUM & FLIGHT PHYSICS CHECKS PASSED (100%)`** (`0` console errors).
+- **Tangkapan Layar Mandiri (`docs/figures/raw_screenshots/`):**
+  - `docs/figures/raw_screenshots/SS_Animasi_Dragon_JawOpen.png`
+  - `docs/figures/raw_screenshots/SS_Animasi_Dragon_TailSway.png`
+
+---
+
 ## 2026-11-22 — Peningkatan Ketahanan Camera Motion Blur pada `#14 Propeller Dash` (`pose_stabilizer.py`, `motion_recognizer.py`, `active_cv_sender.py`, `cv_locomotion_config.json`)
 
 ### Temuan Akar Masalah Camera Motion Blur pada `#14 Propeller Dash`
