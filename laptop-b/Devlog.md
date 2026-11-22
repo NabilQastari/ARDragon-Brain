@@ -13,6 +13,57 @@ updated: 2026-11-22
 
 ---
 
+## 2026-11-22 — Pencegahan Play Stage Sebelum Kalibrasi Kamera Selesai (`DragonGameSettings.cs`, `LobbyNavigationManager.cs`, `CalibrationPanelUI.cs`, `MissionsPanelUI.cs`, `UISceneAndPrefabBuilder.cs`)
+
+### Masalah & Kebutuhan Fitur
+- Pengguna meminta agar pemain **tidak dapat memulai / memainkan stage permainan** apabila kamera webcam pemain belum dikalibrasi.
+- Jika stage dimainkan tanpa kalibrasi, baseline postur netral, ambang batas elevasi kepala, rentang kepakan, dan kemudi tidak terdefinisi dengan tepat sesuai postur pemain, yang dapat menyebabkan anomali kontrol penerbangan.
+
+### Implementasi Solusi
+1. **Pengecekan Status Terpusat (`DragonGameSettings.cs`):**
+   - Menambahkan key `PrefCameraCalibrated = "Fanamir_CameraCalibrated"` dan event statis `OnCalibrationStatusChanged`.
+   - Properti `DragonGameSettings.IsCameraCalibrated`:
+     - Memeriksa live `UDPPoseReceiver.IsCalibrated` (`_calibStateId == 5.0`). Jika terkalibrasi, otomatis menyimpan ke PlayerPrefs `1` dan memicu event.
+     - Jika kamera terhubung (`IsConnected == true`) namun belum terkalibrasi (`IsCalibrated == false`), mengembalikan `false` agar pemain tidak bisa langsung terbang tanpa kalibrasi profil sesi live saat ini.
+     - Jika stream idle/offline, mengembalikan nilai tersimpan dari `PlayerPrefs.GetInt(PrefCameraCalibrated, 0) == 1`.
+   - Menambahkan metode `ResetCalibrationStatus()` untuk mereset status kalibrasi ke `false`.
+2. **Penguncian & Navigasi di `LobbyNavigationManager.cs`:**
+   - Menjaga method `LaunchFlightScene()`: jika `!DragonGameSettings.IsCameraCalibrated`, log warning dan hentikan pemuatan scene, alihkan tab otomatis ke `LobbyTab.Calibration`, serta tampilkan instruksi kalibrasi pada `CalibrationPanelUI`.
+   - Menambahkan pembaruan badge kamera di pojok kanan atas (`UpdateDynamicCameraBadge()`): menampilkan `"CAM LIVE · BELUM KALIBRASI"` (latar amber) jika kamera aktif namun belum terkalibrasi, dan `"CAM READY"` (hijau) jika sudah terkalibrasi.
+   - Memastikan `SwitchTab()` memanggil `missionsPanel.RefreshStageCards()` dan `calibrationPanel.SetupMode(false)` sehingga visual kartu selalu sinkron saat pergantian tab.
+3. **Penyelarasan Kartu Misi (`MissionsPanelUI.cs`):**
+   - Mendengarkan `DragonGameSettings.OnCalibrationStatusChanged` secara reaktif.
+   - Label tombol aksi Stage 01, Stage 02, Stage 03, dan Free Play berubah dinamis menjadi `"CALIBRATE"` / `"FREE PLAY · CALIBRATE"` saat uncalibrated, dan `"PLAY"` / `"FREE PLAY · OPEN"` saat calibrated.
+   - Jika tombol aksi diklik saat uncalibrated: memunculkan banner status amber `"Kamera belum dikalibrasi! Selesaikan kalibrasi di tab CALIBRATION terlebih dahulu."`, mengalihkan tab ke Calibration, dan mencegah transisi scene.
+4. **Penyelarasan Panel Kalibrasi (`CalibrationPanelUI.cs`):**
+   - Mendengarkan `DragonGameSettings.OnCalibrationStatusChanged` untuk pembaruan visual instan.
+   - Tombol utama penerbangan (`readyToFlyButton`) menampilkan label `"BELUM KALIBRASI"` jika belum dikalibrasi, dan `"READY TO FLY"` jika terkalibrasi.
+   - Menambahkan method publik `ShowCalibrationRequiredNotice(string message)` untuk memperbarui teks instruksi kalibrasi secara jelas.
+   - Menghubungkan tombol `"RESET DEFAULT"` dengan `DragonGameSettings.ResetCalibrationStatus()` untuk memungkinkan pemain menghapus kalibrasi tersimpan.
+5. **Perakitan Scene & Builder (`UISceneAndPrefabBuilder.cs` & `MainMenu_Lobby.unity`):**
+   - Memastikan `PythonProcessManager` terpasang pada `LobbyControllers` di scene `MainMenu_Lobby.unity` dan teregistrasi pada `UISceneAndPrefabBuilder.cs`.
+
+### Hasil Pengujian & Verifikasi
+- **11-Step Verification Suite di Play Mode `MainMenu_Lobby.unity`:**
+  - `[Step 1]` Initial Uncalibrated: **PASS** (`IsCalibrated=False`)
+  - `[Step 2]` Stage 1 Action Label: **PASS** (`'CALIBRATE'`)
+  - `[Step 3]` Click Stage 1 while uncalibrated -> Switched to tab: **PASS** (`Calibration`)
+  - `[Step 4]` ReadyToFly Button Label: **PASS** (`'BELUM KALIBRASI'`)
+  - `[Step 5]` Click ReadyToFly while uncalibrated -> Notice shown: **PASS** (`'Kamera belum dikalibrasi! Tekan RECALIBRATE (C)...'`)
+  - `[Step 6]` Calibrated State Set: **PASS** (`IsCalibrated=True`)
+  - `[Step 7]` Stage 1 Action Label after calibration: **PASS** (`'PLAY'`)
+  - `[Step 8]` ReadyToFly Button Label after calibration: **PASS** (`'READY TO FLY'`)
+  - `[Step 9]` Reset Default Clicked -> IsCalibrated: **PASS** (`IsCalibrated=False`)
+  - `[Step 10]` ReadyToFly Button Label after Reset: **PASS** (`'BELUM KALIBRASI'`)
+  - `[Step 11]` Stage 1 Action Label after Reset: **PASS** (`'CALIBRATE'`)
+- **Pemuatan Gameplay Scene:**
+  - Memverifikasi klik `"PLAY"` saat terkalibrasi berhasil memuat `MainIsland_Gameplay.unity` secara mulus (`0` errors).
+- **Python CV Unit Tests:**
+  - `test_all_17_poses_alignment.py`: **100% PASS**
+  - `test_momentum_and_control_revision.py`: **100% PASS**
+
+---
+
 ## 2026-11-22 — Penguatan Kontrol In-Game, Fallback Keyboard, Resiliensi Runtime Domain Reload, & Urutan Scene Menu
 
 ### Masalah yang Ditemukan & Diperbaiki
