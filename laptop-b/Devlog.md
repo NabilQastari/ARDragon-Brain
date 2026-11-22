@@ -13,6 +13,34 @@ updated: 2026-11-22
 
 ---
 
+## 2026-11-22 — Penguatan Kontrol In-Game, Fallback Keyboard, Resiliensi Runtime Domain Reload, & Urutan Scene Menu
+
+### Masalah yang Ditemukan & Diperbaiki
+1. **Kontrol In-Game Tidak Merespons Tanpa Webcam / Fallback Keyboard Nonaktif:**
+   - Variabel `enableKeyboardFallback` pada `UDPPoseReceiver` di kedua scene gameplay (`MainIsland_Gameplay.unity` dan `Test_Dragon_Flight.unity`) sebelumnya bernilai `false` (0) pasca-audit kontrol webcam.
+   - `DefaultFlightInputMapper.cs` memeriksa `_poseProvider.IsConnected && _poseProvider.IsPoseDetected` yang mewajibkan paket socket UDP aktif dari Python. Akibatnya penekanan tombol keyboard tidak memvalidasi status tracking penerbangan.
+   - **Solusi:** Menambahkan properti `IsKeyboardOverrideActive` pada `UDPPoseReceiver.cs` dan menghubungkannya ke `DefaultFlightInputMapper.cs` (`bool kbOverride = _poseProvider is UDPPoseReceiver udp && udp.IsKeyboardOverrideActive; bool isTrackingValid = (_isConnected && _isPoseDetected) || kbOverride;`). Mengaktifkan `enableKeyboardFallback = true` di scene dan `UISceneAndPrefabBuilder.cs`. Menyelaraskan blok `#if ENABLE_INPUT_SYSTEM` dan `#else` (W/Space Flap, S Tuck Dive, T Glide, U Fly Up, H Hover, G Gentle Descent, Shift Dash, A/Q/Left Belok Kiri, D/Right Belok Kanan, 1/2/3 Aksi Khusus Desa).
+2. **Kerapuhan Socket UDP Windows (`SIO_UDP_CONNRESET`):**
+   - Di Windows, pengiriman paket UDP ke port yang belum siap/tertutup dapat menyebabkan OS mengirimkan pesan ICMP Port Unreachable yang memicu `SocketException (10054)` pada thread receive C#, memutus listener UDP secara permanen.
+   - **Solusi:** Menambahkan `IOControl((IOControlCode)SIO_UDP_CONNRESET, new byte[] { 0, 0, 0, 0 }, null)` pada socket listener `UDPPoseReceiver.cs`.
+3. **Resiliensi Runtime & Domain Reload (`GameManager.cs` & `DragonBodyAnimator.cs`):**
+   - `GameManager.Instance` statis tidak di-reset saat script recompilation di PlayMode -> ditambahkan `[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]`.
+   - `GameManager.BeginStage()` belum memastikan `Time.timeScale = 1f;`, menyebabkan restart dari FinishModal atau script_eval tertahan jika TimeScale masih 0 -> ditambahkan `Time.timeScale = 1f;` di `BeginStage()`.
+   - `DragonBodyAnimator.cs` mengalami `NullReferenceException` pada `UpdateSpineAndTailAnimation` setelah domain reload karena field array rig non-serialized (`_spine`, `_tail`, `_frontLegs`, `_backLegs`) kembali bernilai null sementara `[SerializeField] rigReady` tetap true -> ditambahkan auto-recache rig otomatis jika field array bernilai null di `OnEnable()` dan `LateUpdate()`, serta null-guard pada metode animasi.
+4. **Peringatan Audio Listener & Scene Booting Index:**
+   - Memastikan `MainMenu_Lobby.unity` berada pada Build Index `0` (`EditorBuildSettings.scenes`), dan menambahkan komponen `AudioListener` ke `Main Camera` di `MainMenu_Lobby.unity` dan `UISceneAndPrefabBuilder.cs` sehingga peringatan ketiadaan AudioListener di console teratasi 100%.
+
+### Hasil Pengujian & Verifikasi
+- **Python CV Unit Tests:**
+  - `test_all_17_poses_alignment.py`: **100% PASS** (Seluruh 17 pose, ketahanan motion blur #14 Propeller Dash, clean CV preview).
+  - `test_momentum_and_control_revision.py`: **100% PASS** (#09A/#09B, #07 isolasi Y-Pose vs HEAD_PITCH, #06 telemetri, 6 locked poses).
+- **Unity Play Mode Verification:**
+  - `Session5GameLoopVerificationRunner`: **100% PASS** (`[Session5Verify] ALL SESSION 5 GAME LOOP, COUNTDOWN, NARRATIVE FREEZE, GLOBAL VITALITY STARS, UNLOCK & FINISH MODAL CHECKS PASSED (100%)`).
+  - `DragonAnimationVerificationRunner`: **100% PASS** (`[BodyAnimVerify] ALL DRAGON BODY ANIMATION CHECKS PASSED (100%)`).
+  - **Console Errors:** `0` errors.
+
+---
+
 ## 2026-11-22 — Implementasi Animasi Tubuh Prosedural Naga Fanamir (`DragonBodyAnimator.cs`, `VillageZoneController.cs`, `DragonAnimationVerificationRunner.cs`)
 
 ### Eksekusi Utama (`[[laptop-a/visual-vfx/arsitektur_animasi_naga_fanamir]]`, `[[laptop-a/visual-vfx/prompt_eksekusi_animasi_naga_laptop_b]]`, `[[laptop-a/handoff-laptop-b/panduan_screenshot_mandiri_dan_laporan]]`)
