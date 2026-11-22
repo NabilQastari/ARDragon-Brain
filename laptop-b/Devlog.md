@@ -30,7 +30,7 @@ updated: 2026-11-22
 2. **Penguncian & Navigasi di `LobbyNavigationManager.cs`:**
    - Menjaga method `LaunchFlightScene()`: jika `!DragonGameSettings.IsCameraCalibrated`, log warning dan hentikan pemuatan scene, alihkan tab otomatis ke `LobbyTab.Calibration`, serta tampilkan instruksi kalibrasi pada `CalibrationPanelUI`.
    - Menambahkan pembaruan badge kamera di pojok kanan atas (`UpdateDynamicCameraBadge()`): menampilkan `"CAM LIVE · BELUM KALIBRASI"` (latar amber) jika kamera aktif namun belum terkalibrasi, dan `"CAM READY"` (hijau) jika sudah terkalibrasi.
-   - Memastikan `SwitchTab()` memanggil `missionsPanel.RefreshStageCards()` dan `calibrationPanel.SetupMode(false)` sehingga visual kartu selalu sinkron saat pergantian tab.
+   - Memastikan `SwitchTab()` memanggil `missionsPanel.RefreshStageCards()` dan `calibrationPanel.SetInGamePauseMode(false)` sehingga visual kartu selalu sinkron saat pergantian tab.
 3. **Penyelarasan Kartu Misi (`MissionsPanelUI.cs`):**
    - Mendengarkan `DragonGameSettings.OnCalibrationStatusChanged` secara reaktif.
    - Label tombol aksi Stage 01, Stage 02, Stage 03, dan Free Play berubah dinamis menjadi `"CALIBRATE"` / `"FREE PLAY · CALIBRATE"` saat uncalibrated, dan `"PLAY"` / `"FREE PLAY · OPEN"` saat calibrated.
