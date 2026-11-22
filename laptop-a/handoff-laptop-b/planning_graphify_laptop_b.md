@@ -16,6 +16,7 @@ related:
   - "[[00 - Overview]]"
   - "[[Tasks]]"
   - "[[Devlog]]"
+  - "[[prompt_eksekusi_graphify_laptop_b]]"
   - "[[planning_optimasi_token_laptop_b]]"
   - "[[kontrak_integrasi_ui_dan_progress]]"
 ---
@@ -217,4 +218,4 @@ Pastikan aturan di `AGENTS.md` Laptop B tetap dipatuhi:
 ---
 
 **Navigasi Dokumen Terkait:**  
-[[00 - Overview]] · [[planning_optimasi_token_laptop_b]] · [[kontrak_integrasi_ui_dan_progress]] · [[laptop-b/Devlog]] · [[laptop-b/Tasks]]
+[[00 - Overview]] · [[prompt_eksekusi_graphify_laptop_b]] · [[planning_optimasi_token_laptop_b]] · [[kontrak_integrasi_ui_dan_progress]] · [[laptop-b/Devlog]] · [[laptop-b/Tasks]]

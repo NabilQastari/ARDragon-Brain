@@ -13,6 +13,14 @@ updated: 2026-11-22
 
 ---
 
+## 2026-11-23 — Penerbitan Master Prompt Eksekusi Graphify + Obsidian untuk Laptop B ([[prompt_eksekusi_graphify_laptop_b]])
+- **Penyusunan Master Prompt Siap Salin:**
+  - Menyusun dokumen instruksi eksekusi teknis langkah demi langkah siap salin bagi Laptop B di `brain/laptop-a/handoff-laptop-b/prompt_eksekusi_graphify_laptop_b.md`.
+  - Mencakup perintah instalasi paket resmi `graphifyy`, pemindaian AST terarah pada `Assets/_Scripts/` dan `ARDragonSkyGuardian_CV/` dengan output terisolasi di `brain/laptop-b/code-graph/`, pembuatan portal `index.md`, pengujian kueri CLI (`graphify explain`, `graphify path`), verifikasi plugin visual Obsidian (Juggl), serta sinkronisasi git dengan `rtk`.
+- **Pembaruan Dokumen:** Memperbarui [[00 - Overview]], [[Tasks]], [[Devlog]], dan [[planning_graphify_laptop_b]].
+
+---
+
 ## 2026-11-22 — Perancangan & Penerbitan Planning Eksekusi Graphify + Obsidian untuk Laptop B ([[planning_graphify_laptop_b]])
 - **Latar Belakang & Masalah Re-Orientation Tax:**
   - AI Agent di Laptop B secara berkala membutuhkan pemahaman arsitektur menyeluruh terhadap dua basis kode yang berbeda: C# Unity 6 (`Assets/_Scripts/`) dan Python Computer Vision (`ARDragonSkyGuardian_CV/`).

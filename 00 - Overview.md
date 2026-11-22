@@ -82,6 +82,7 @@ updated: 2026-11-19
 - [[laptop-a/handoff-laptop-b/checklist_finalisasi_pra_sesi_4|checklist_finalisasi_pra_sesi_4]] — Checklist finalisasi & prasyarat pra-Sesi 4 (mekanisme tantangan desa & kontrol CV).
 - [[laptop-a/handoff-laptop-b/planning_optimasi_token_laptop_b|planning_optimasi_token_laptop_b]] — Cetak biru & panduan konfigurasi optimasi token (*The Optimal Lean Stack*: `.antigravityignore`, RTK CLI compressor, Ponytail-lite rules) untuk Laptop B.
 - [[laptop-a/handoff-laptop-b/planning_graphify_laptop_b|planning_graphify_laptop_b]] — Panduan implementasi & eksekusi Graphify AST (`graphifyy`) terintegrasi Obsidian (`code-graph/`) untuk navigasi kode C#/Python dan penghematan token di Laptop B.
+- [[laptop-a/handoff-laptop-b/prompt_eksekusi_graphify_laptop_b|prompt_eksekusi_graphify_laptop_b]] — Master prompt instruksi siap salin bagi Laptop B untuk menginstal `graphifyy`, mengekstrak AST C# & Python, dan memverifikasi integrasi graf di Obsidian.
 - [[laptop-a/handoff-laptop-b/panduan_screenshot_mandiri_dan_laporan|panduan_screenshot_mandiri_dan_laporan]] — Panduan bagi Laptop B untuk melakukan *screenshot* mandiri otomatis (Unity C#, Python CV, OS-level) dan menampungnya di `docs/figures/raw_screenshots/` sebagai bahan pembaruan Laporan Capstone.
 
 ### Eksekusi & Pengembangan Program ([[laptop-b/Tasks|Laptop B]])
