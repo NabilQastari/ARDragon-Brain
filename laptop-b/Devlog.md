@@ -13,6 +13,40 @@ updated: 2026-11-22
 
 ---
 
+## 2026-11-22 — Perbaikan Hilangnya Kontrol Naga Lintas Scene (`MainMenu_Lobby` -> `MainIsland_Gameplay`) & Bug Kilau VFX Saat Takeoff
+
+### Akar Masalah yang Ditemukan
+1. **Kontrol Naga Mati Saat Game Mulai & Saat Kembali ke Kalibrasi (Khusus Start dari `MainMenu_Lobby`):**
+   - Ketika game dijalankan dari `MainMenu_Lobby.unity` menggunakan webcam (`active_cv_sender.py`), `LobbyControllers/UDPPoseReceiver` mengikat port `5052` dengan `ReuseAddress = true`.
+   - Saat transisi ke `MainIsland_Gameplay.unity`, `Dragon_Player/UDPPoseReceiver` mengikat port `5052` baru sementara socket `0.0.0.0:5052` lama milik proses Unity masih tertahan (`netstat` mengonfirmasi **2 socket `0.0.0.0:5052` aktif** di PID Unity sementara `5053` hanya 1). Akibatnya paket UDP `5052` terserap oleh socket lama (`UDP.IsConnected = False` di `MainIsland_Gameplay` meskipun `PythonProcessManager.IsProcessRunning = True` dan video `5053` tetap `True`). Kondisi ini juga menyebabkan saat membuka halaman Kalibrasi pasca-start, preview naga ikut tidak menerima sinyal pose.
+   - Selain itu, keberadaan `PythonProcessManager` non-persistent pada `LobbyControllers` di `MainMenu_Lobby.unity` berisiko membuat scene object mengambil alih `PythonProcessManager.Instance` sebelum `[DragonSessionHost]` terbentuk dan mematikan proses Python saat unload scene.
+2. **Bug VFX Cahaya Mengkilat Saat Naga Takeoff:**
+   - `EffekseerSettings.asset` memiliki `enableDepth: 1` pada jalur non-raster URP RenderGraph Unity 6 (`PC_RPAsset`), yang memicu `CommandBuffer: temporary render texture not found while executing (SetGlobalTexture)` tepat saat emitter VFX pertama kali aktif ketika takeoff/belok.
+   - `Session4_VillageBuilder.cs` sebelumnya mencari `VFX_Sockets` di root `Dragon_Player` alih-alih di bawah `Visual_Dragon`, menyisakan **3 set `VFX_Sockets` bertumpuk (`18` emitter di `MainIsland_Gameplay.unity`, harusnya `8`)**.
+   - `DragonVfxController.cs` langsung memicu `VFX_Flight_WingtipTrails` (ber-sprite `T_Glow01` `size=0.85`, `emissive=1.75`) saat `IsTakingOff` bila ada input belok, dan `VFX_Flight_SonicDashShockwave` memiliki layer `Boom flash` (`radius=3.8, emissive=1.8`).
+
+### Solusi yang Diimplementasikan
+1. **Persistent Shared Socket UDP 5052 (`UDPPoseReceiver.cs`):**
+   - Memindahkan socket listener `5052` dan thread penerima ke socket statis persistent (`_sharedUdpClient` + `_sharedReceiveThread`, `ExclusiveAddressUse = true` tanpa `ReuseAddress`), dikelola oleh satu `_activeReceiver` lintas pergantian scene dan ditutup bersih hanya saat `SubsystemRegistration`, `ExitingPlayMode`, atau `OnApplicationQuit`.
+2. **Inisialisasi Host Persistent Sebelum Scene Load (`DragonGameSettings.cs`, `DragonWingAnimator.cs`, `UISceneAndPrefabBuilder.cs`, `MainMenu_Lobby.unity`):**
+   - Menambahkan `EnsurePersistentSessionHost()` ke `DragonGameSettings.EnsureInit()` (`RuntimeInitializeLoadType.BeforeSceneLoad`), menghapus `PythonProcessManager` redundan dari `LobbyControllers` (`MainMenu_Lobby.unity` & `UISceneAndPrefabBuilder.cs`), dan memanggil `ResolveDependencies()` secara konsisten di `DragonWingAnimator.OnEnable()`.
+3. **Pembersihan VFX Takeoff & RenderGraph (`EffekseerSettings.asset`, `DragonFlightController.cs`, `DragonVfxController.cs`, `Session4_VillageBuilder.cs`, `VFX_Flight_WingtipTrails.py`, `VFX_Flight_SonicDashShockwave.py`, `MainIsland_Gameplay.unity`):**
+   - Mengatur `enableDepth: 0` di `EffekseerSettings.asset` sehingga warning `SetGlobalTexture` RenderGraph hilang `100%`.
+   - Membersihkan `2` duplikat `VFX_Sockets` di `MainIsland_Gameplay.unity` (`18 -> 8` emitter) dan memperbaiki pembersihan di `Session4_VillageBuilder.cs`.
+   - Menahan `WingtipTrails` saat `flightController.IsTakingOff`, serta menala ulang `VFX_Flight_WingtipTrails.py` (`size=0.38, emissive=0.90`) dan `VFX_Flight_SonicDashShockwave.py` (`Boom flash` `radius=1.8, emissive=1.0`), lalu mengompilasi ulang `.efkefc` via `vfx lint` & `vfx build` ke `Assets/VFX/Effekseer/`.
+
+### Hasil Pengujian & Verifikasi
+- **Live Webcam End-to-End (`MainMenu_Lobby` -> `active_cv_sender.py` -> `MainIsland_Gameplay` -> `Pause/Calibration` -> `BackToLobby/Calibration`):**
+  - `MainIsland_Gameplay`: `PM=[DragonSessionHost] running=True`, `UDP: conn=True pose=True calib=True state=5`, `VID: conn=True`, `FC: lock=False state=Grounded Look Up`.
+  - `netstat`: tepat **1 socket `0.0.0.0:5052`** aktif di PID Unity, lalu bersih `0` socket saat Play Mode berhenti.
+  - `Pause -> Calibration` & `BackToLobby -> Calibration`: `UDP.conn=True pose=True`, preview & kontrol tetap aktif.
+- **VFX & Physics Verification (`MainIsland_Gameplay.unity`):**
+  - Simulasi Takeoff & `WingtipTrails`: `0` warning `SetGlobalTexture`, `[DuringTakeoff] IsTakingOff=True Wingtip=False` -> `[PostTakeoff] IsTakingOff=False Speed=19.50 Wingtip=True`.
+  - `DragonAnimationVerificationRunner`: **100% PASS**.
+  - `MomentumFlightVerificationRunner`: **100% PASS** (`0` console warnings/errors).
+
+---
+
 ## 2026-11-22 — Pencegahan Play Stage Sebelum Kalibrasi Kamera Selesai (`DragonGameSettings.cs`, `LobbyNavigationManager.cs`, `CalibrationPanelUI.cs`, `MissionsPanelUI.cs`, `UISceneAndPrefabBuilder.cs`)
 
 ### Masalah & Kebutuhan Fitur
