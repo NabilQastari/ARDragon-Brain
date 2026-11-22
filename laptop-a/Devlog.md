@@ -4,12 +4,33 @@ tags:
   - devlog
   - laptop-a
 owner: Laptop A
-updated: 2026-11-22
+updated: 2026-11-23
 ---
 
 # 📝 Devlog — Laptop A
 
 > Catatan kronologis keputusan desain, ide, arsitektur, dan pembaruan dokumentasi dari **Laptop A**. Kembali ke [[00 - Overview]].
+
+---
+
+## 2026-11-23 — Perancangan & Penerbitan Planning Perbaikan Animasi dan Pose Naga Fanamir ([[planning_perbaikan_animasi_dan_pose]])
+- **Latar Belakang & Masukan Pengguna:**
+  - Melakukan evaluasi mendalam terhadap pergerakan naga Fanamir bersama pengguna: (1) belum adanya siklus langkah kaki saat berjalan di darat, (2) postur hover (air idle) yang kurang tepat di mana dada harus lebih terangkat, (3) pergerakan kepala yang harus dinamis mengikuti CV secara 1:1, (4) pembatasan dynamic wings movement hanya untuk pose simpel (T-Pose, Y-Pose, Flap, Hover) sementara pose lainnya adalah pose/animasi khusus terkunci, (5) pelacakan sayap bebas yang harus lebih setia mengikuti posisi tangan pemain, (6) perombakan animasi Propeller Dash agar sayap mengepak jauh lebih keras dan bertenaga, serta (7) standarisasi anatomi kaki saat terbang mengacu lembar referensi resmi pengguna (`Ref_Dragon_Flight_Leg_Anatomy.jpg`).
+- **Keputusan Arsitektur 6 Pilar Perbaikan:**
+  1. **Siklus Langkah Kaki di Tanah (`GroundedWalk`):** Merancang algoritma *procedural quadruped diagonal trotting gait* (Pasangan A: Kaki Depan Kiri + Belakang Kanan; Pasangan B: Kaki Depan Kanan + Belakang Kiri) dengan fase ayun (*swing phase*, $\Delta Y_{\text{lift}} = 0.18\text{ m}$) dan fase tumpu (*stance phase*) yang tersinkronisasi proporsional dengan kecepatan jalan `walkSpeed` ($3.5\text{ m/s}$, frekuensi $1.25\text{ Hz}$).
+  2. **Koreksi Sikap Tubuh Hover & Anatomi Terbang:**
+     - Menaikkan elevasi dada secara positif $+14^\circ \sim +18^\circ$ dari garis horizontal saat hover, memancarkan permata dada (*Chest Gem*) ke depan-bawah dengan osilasi apung magis vertikal (*buoyant bobbing* $0.40\text{ Hz}, \pm 0.22\text{ m}$).
+     - Standarisasi kaki saat meluncur cepat (*Flight Tuck*): kaki depan melipat rapi ke belakang di bawah dada (*folded neatly under chest*), kaki belakang lurus ke belakang di samping pangkal ekor (*extended backward along tail*).
+     - Kaki saat hover (*Hover Drop*): menjuntai rileks turun ke bawah siap menapak daratan.
+  3. **Pelacakan Kepala Dinamis 3-Sumbu CV (`DragonHeadLookController`):** Memetakan Pitch (mendongak/menunduk $\pm 25^\circ$), Yaw (menoleh $\pm 35^\circ$ dari deviasi hidung terhadap bahu), dan Roll (miring kepala $\pm 15^\circ$) terdistribusi bertingkat ke `Neck_01` ($25\%$), `Neck_02` ($35\%$), dan `Head` ($40\%$) dengan peredaman `SmoothDamp` ($0.12\text{ s}$).
+  4. **Pemisahan Arsitektur Sayap Dual-Track:**
+     - *Jalur A (Dynamic Free Tracking 1:1):* Khusus untuk T-Pose (Glide), Y-Pose (Fly Up), Flap (Kepakan), dan Hover. Sayap setia mengikuti ketinggian pergelangan tangan kiri/kanan secara mandiri (asimetris) dan bukaan bentangan tangan.
+     - *Jalur B (Preset Locked Poses):* Khusus untuk Tuck Dive (`#13`), Propeller Dash (`#14`), Gentle Descent Low-A (`#10`), Pose W (`#12`), Grounded Idle (`#01`), dan Aksi Desa (`#15A..C`). Sayap mengunci ke pose estetis teatrikal tanpa terdistorsi jitter tangan.
+  5. **Overhaul Animasi `#14 Propeller Dash` (Violent Power Flapping):** Mengganti putaran baling-baling halus dengan kepakan bertenaga badai super-cepat ($3.5\text{--}4.2\text{ Hz}$), kedalaman ayunan dorong hingga $-45^\circ$, lenturan ujung sayap elastis (*wing flex*), dan hentakan akselerasi masif.
+- **Pembaruan Dokumen & Aset:**
+  - Menyalin lembar panduan anatomi ke [`Referensi/Ref_Dragon_Flight_Leg_Anatomy.jpg`](file:///e:/Semester%205/Game/AR%20Dragon/Referensi/Ref_Dragon_Flight_Leg_Anatomy.jpg).
+  - Menerbitkan dokumen teknis resmi di [[planning_perbaikan_animasi_dan_pose]].
+  - Memperbarui peta navigasi visual di [[00 - Overview]], [[Tasks]], dan [[Devlog]].
 
 ---
 
