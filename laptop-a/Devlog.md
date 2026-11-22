@@ -13,6 +13,20 @@ updated: 2026-11-22
 
 ---
 
+## 2026-11-22 — Perancangan & Penerbitan Planning Eksekusi Graphify + Obsidian untuk Laptop B ([[planning_graphify_laptop_b]])
+- **Latar Belakang & Masalah Re-Orientation Tax:**
+  - AI Agent di Laptop B secara berkala membutuhkan pemahaman arsitektur menyeluruh terhadap dua basis kode yang berbeda: C# Unity 6 (`Assets/_Scripts/`) dan Python Computer Vision (`ARDragonSkyGuardian_CV/`).
+  - Pemindaian manual via grep/read file di setiap sesi baru menghabiskan ribuan token input dan memperlambat alur kerja.
+- **Arsitektur Solusi Graphify (`graphifyy`):**
+  - Mengadopsi **Graphify** berbasis AST Tree-sitter lokal (100% offline, deterministik, tanpa beban biaya LLM) untuk mengekstrak class, method, inheritance, dan call graphs.
+  - **Prinsip Anti-Collision & Zero-Clutter:** Output diisolasi secara ketat di dalam `brain/laptop-b/code-graph/` (`index.md`, `GRAPH_REPORT.md`, `graph.json`, `graph.html`) sehingga tidak mengotori vault utama dan mematuhi batas kerja Laptop B.
+  - **Target Pemindaian Eksklusif:** Membatasi pemindaian hanya pada `Assets/_Scripts/` dan `ARDragonSkyGuardian_CV/` untuk menghindari pemindaian folder biner raksasa Unity (`Library/`, `Temp/`, `.meta`).
+  - **Alur Kueri AI Agent:** Agen dapat memanggil kueri terfokus (`graphify explain`, `graphify path`, `graphify query`) yang mengembalikan hasil ringkas ~50–150 token alih-alih membuka file kode 700+ baris.
+  - **Integrasi Visual Obsidian:** Memanfaatkan plugin visualisasi graf yang sudah aktif di vault `brain/` (**Juggl** dan **Extended Graph**) untuk navigasi visual interaktif oleh pengembang.
+- **Penerbitan Dokumen:** Menyusun panduan lengkap langkah demi langkah di `brain/laptop-a/handoff-laptop-b/planning_graphify_laptop_b.md` dan memperbarui `00 - Overview.md`, `Tasks.md`, serta `Devlog.md`.
+
+---
+
 ## 2026-11-22 — Audit Komprehensif Sisa Tugas Proyek & Penyelarasan Status Dual-Laptop
 - **Sinkronisasi Progres Eksekusi Laptop B:**
   - Melakukan audit silang terhadap catatan terkini di `brain/laptop-b/Devlog.md` dan `brain/laptop-b/Tasks.md`.
