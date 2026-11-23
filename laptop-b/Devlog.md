@@ -4,12 +4,42 @@ tags:
   - devlog
   - laptop-b
 owner: Laptop B
-updated: 2026-11-23
+updated: 2026-11-24
 ---
 
 # 🛠️ Devlog — Laptop B
 
 > Catatan kronologis pengembangan kode, debugging, pengujian Unity/Python, dan hasil build dari **Laptop B**. Kembali ke [[00 - Overview]].
+
+---
+
+## 2026-11-24 — Perpanjangan Timer Stage (5/10/15 Menit) & Arsitektur Hibrida YOLOv8 + MediaPipe Pose (`[[laptop-a/cv-control/analisis_dan_solusi_jitter_glitch_cv]]`, `[[laptop-a/gameplay-mechanics/arsitektur_sesi_5_gameloop_dan_scoring]]`)
+
+### Perubahan yang Diimplementasikan
+1. **Perpanjangan Durasi Timer Stage (Unity 6 C#):**
+   - **`GameManager.cs` & `VillageZoneController.cs`:** Memperbarui batas waktu default stage pada `GetStageTimeLimit(stageIndex)` dan field default menjadi Stage 1 = `300f` detik (5 Menit), Stage 2 = `600f` detik (10 Menit), Stage 3 = `900f` detik (15 Menit), dan Free Play = `0f` ($\infty$).
+   - **`MissionsPanelUI.cs` & `UISceneAndPrefabBuilder.cs`:** Memperbarui label tag durasi kartu Lobby (`SCREEN 00`) menjadi `"1 VILLAGE · 5 MIN"` (`300s`), `"2 VILLAGES · 10 MIN"` (`600s`), dan `"3 VILLAGES · 15 MIN"` (`900s`).
+   - **`MainIsland_Gameplay.unity` & `MainMenu_Lobby.unity`:** Menyinkronkan nilai serialized scene (`GameManager.stageTimeLimitSeconds = 300`, `timeRemaining = 300`, dan `LimitText` kartu Lobby) serta menyimpan kedua scene.
+2. **Arsitektur Hibrida YOLOv8 + MediaPipe Pose (`ARDragonSkyGuardian_CV/`):**
+   - **`hybrid_pose_tracker.py` (Baru):** Mengimplementasikan kelas `HybridPoseTracker` yang memuat `pose_landmarker_lite.task` melalui `mediapipe.tasks.vision.PoseLandmarker` (`IMAGE` mode, dengan fallback ke `mp.solutions.pose` bila tersedia). Metode `refine_keypoints_with_mediapipe()` memotong ROI bounding box pemain YOLO dengan margin `+12%` dan memetakan landmark MediaPipe siku & pergelangan (`MP 13..16`) ke indeks COCO (`7..10`) saat `visibility > 0.35`.
+   - **`active_cv_sender.py`:** Menginisialisasi `HybridPoseTracker("pose_landmarker_lite.task")` dan menyempurnakan `raw_kpts` dari bounding box pemain utama `boxes[best_idx]` sebelum masuk ke `RobustKeypointTracker`, `BiometricNormalizer`, `GestureStateMachine`, dan overlay preview.
+   - **`pose_stabilizer.py`:** Menyetel ulang `RobustKeypointTracker` One-Euro Filter (`ls`/`rs`/`lh`/`rh`/`nose`: `0.30 Hz / 0.03`, `le`/`re`: `0.40 Hz / 0.06`, `lw`/`rw`: `0.40 Hz / 0.12`), menaikkan ambang confidence (`CONFIDENCE_MIN = 0.28`, `BLUR_WRIST_CONF_MIN = 0.12` khusus dalam radius siku), dan memberlakukan *Kinematic Forearm Clamping* (`1.10 * ref_forearm_length` berbasis rasio adaptif `DEFAULT_FOREARM_RATIO = 0.72` pada seluruh tingkat confidence).
+   - **Penyesuaian Test Suite Python:** Menyamakan langkah jeda loop test foreshortening di `test_all_17_poses_alignment.py` (`0.032s` $\to$ `0.025s` agar timer tick Windows tetap sesuai target `~3.3 rad/s`) dan ambang 1-frame smooth filter di `test_phase5_validation.py` (`0.42` $\to$ `0.41` sesuai tuning `0.40 Hz / 0.12`).
+
+### Hasil Verifikasi
+- **Python CV (`ARDragonSkyGuardian_CV/venv/Scripts/python.exe`):**
+  - `test_all_17_poses_alignment.py`: **ALL 17 POSE ALIGNMENT TESTS PASSED 100%**.
+  - `test_momentum_and_control_revision.py`: **ALL MOMENTUM & CONTROL REVISION TESTS PASSED 100%**.
+  - `test_additional_gestures.py`: **10/10 SKENARIO UJI BERHASIL 100%**.
+  - `test_e2e_flight_physics.py`: **6/6 SUITES PASSED (100%)**.
+  - `test_phase1_validation.py`: **8/8 TESTS PASSED (100%)**.
+  - `test_phase5_validation.py`: **7/7 TESTS PASSED (100%)**.
+  - `test_tahap1_face_tracking.py`: **7/7 TESTS PASSED (100%)**.
+  - Uji startup live webcam headless `active_cv_sender.py --headless --cam 0` pada `USB2.0 HD UVC WebCam (1280x720)` + CUDA YOLOv8n-pose + `HybridPoseTracker` (`pose_landmarker_lite.task`) aktif dan berjalan bersih tanpa exception.
+- **Unity 6 Play Mode (`6000.3.7f1`):**
+  - `MainIsland_Gameplay.unity`: Kapsul HUD `MissionCapsule` terverifikasi `05:00 · VILLAGES 0/1` (`300s`) pada Stage 1, `10:00 · VILLAGES 0/2` (`600s`) pada Stage 2, dan `15:00 · VILLAGES 0/3` (`900s`) pada Stage 3.
+  - `Session5GameLoopVerificationRunner.RunVerificationMenu()`: **`ALL SESSION 5 GAME LOOP, COUNTDOWN, NARRATIVE FREEZE, GLOBAL VITALITY STARS, UNLOCK & FINISH MODAL CHECKS PASSED (100%)`** (`0` console errors, `0` console warnings).
+  - `MainMenu_Lobby.unity`: Label durasi kartu Lobby terverifikasi `300s` / `600s` / `900s` (`0` console errors, `0` console warnings).
 
 ---
 

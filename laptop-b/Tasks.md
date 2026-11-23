@@ -5,7 +5,7 @@ tags:
   - laptop-b
   - engineering
 owner: Laptop B
-updated: 2026-11-23
+updated: 2026-11-24
 ---
 
 # 💻 Tasks — Laptop B (Eksekusi & Pengembangan Program)
@@ -98,6 +98,11 @@ updated: 2026-11-23
   - [x] **Full Narrative Isolation Mode (`InGameFlightHUD.SetNarrativeIsolationMode`, `VillageZoneController`):** Menyembunyikan seluruh HUD gameplay (`MissionCapsule`, `Btn_EscPause`, `GlobalVitalityBar`, `TelemetryDock`, `MomentumDock`, `PIP_CameraControlsCard`, `PIP_CameraPanel`, `WaypointCompass`, serta *world-space billboard markers* via `HideAllWorldMarkers()`) sehingga hanya `QuestObjectivePanel` dan `PF_QuestNarrativeBox` yang tampil.
   - [x] **Redesain Side-Docked Challenge HUD (`PF_VillageChallengeOverlay.prefab`, `VillageChallengeUI.cs`, `InGameFlightHUD.SetVillageChallengeMode`, `VillageZoneController.cs`):** Mengubah modal tengah `720×670` menjadi panel samping kanan *Middle-Right* `400×620 px` (`anchoredPosition = (-30, 0)`) dengan header `DESA` + sub-teks krisis (`UI_Banner_Stepped_SubPanel_Blank`), kartu pose target (`360×220 px`, ikon `84×84`, komando `28 pt`, badge live feedback `● GERAKAN TERDETEKSI!` vs `○ MENUNGGU GERAKAN...`), progress bar `360×48 px` (`Mathf.SmoothDamp`, teks `22 pt`, No-Decay), hint escape `360×38 px`, & mode HUD `SetVillageChallengeMode(true)` / `RestoreNormalFlightHUD()` sehingga area tengah naga 3D bebas 100%.
   - [x] Verifikasi Play Mode di `MainIsland_Gameplay.unity`: `Session4VerificationRunner` (`100% PASS`), `Session5GameLoopVerificationRunner` (`100% PASS`), `0` errors/warnings, & 3 screenshot (`SS_UI_Narrative_Isolation.png`, `SS_UI_SideDocked_Challenge_Waiting.png`, `SS_UI_SideDocked_Challenge_Flapping.png`).
+- [x] **Perpanjangan Timer Stage (5/10/15 Menit) & Arsitektur Hibrida CV (YOLOv8 + MediaPipe Pose) (`[[laptop-a/cv-control/analisis_dan_solusi_jitter_glitch_cv]]`, `[[laptop-a/gameplay-mechanics/arsitektur_sesi_5_gameloop_dan_scoring]]`):**
+  - [x] Perbarui batas waktu stage di `GameManager.cs`, `VillageZoneController.cs`, `MissionsPanelUI.cs`, `UISceneAndPrefabBuilder.cs`, `MainIsland_Gameplay.unity`, & `MainMenu_Lobby.unity`: Stage 1 `300f` (`5 MIN`), Stage 2 `600f` (`10 MIN`), Stage 3 `900f` (`15 MIN`), Free Play `0f` ($\infty$).
+  - [x] Buat `ARDragonSkyGuardian_CV/hybrid_pose_tracker.py` (`HybridPoseTracker`: MediaPipe `PoseLandmarker` pada ROI crop `+12%` bounding box YOLO untuk memetakan siku & pergelangan MP `13..16` $\to$ COCO `7..10`) dan integrasikan ke `active_cv_sender.py`.
+  - [x] Setel ulang One-Euro Filter (`pose_stabilizer.py`: torso/head `0.30 Hz / 0.03`, siku `0.40 Hz / 0.06`, pergelangan `0.40 Hz / 0.12`), naikkan confidence gate (`CONFIDENCE_MIN = 0.28`, `BLUR_WRIST_CONF_MIN = 0.12` khusus dalam radius siku), dan terapkan *Kinematic Forearm Clamping* (`1.10 * ref_forearm_length` di semua tingkat confidence).
+  - [x] Verifikasi 6 suite Python CV (`test_all_17_poses_alignment.py`, `test_momentum_and_control_revision.py`, `test_additional_gestures.py`, `test_e2e_flight_physics.py`, `test_phase1_validation.py`, `test_phase5_validation.py`, `test_tahap1_face_tracking.py`) **100% PASS** serta Unity Play Mode (`MainIsland_Gameplay.unity` timer `05:00`/`10:00`/`15:00` + `Session5GameLoopVerificationRunner` 100% PASS, `MainMenu_Lobby.unity` `300s`/`600s`/`900s` & `0` console errors/warnings). *(Menunggu uji visual langsung di depan webcam oleh pengguna untuk merasakan kestabilan live preview).*
 - [ ] **Sesi 5 Lanjutan (`AudioManager` & Build Windows Standalone):** Sistem BGM/SFX (`AudioManager` / `AudioMixer`, subscribe `DragonGameSettings.OnBgmVolumeChanged`/`OnSfxVolumeChanged` & hapus `// TODO [SYNC-AUDIO]`) serta build Windows standalone + `start_game.bat`.
 
 ## ✅ Selesai (v6.0 — Sky Peck & Auto-Launch Python)
