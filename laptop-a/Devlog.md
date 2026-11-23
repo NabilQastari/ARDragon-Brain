@@ -13,6 +13,24 @@ updated: 2026-11-23
 
 ---
 
+## 2026-11-23 — Ekspansi Katalog & Perencanaan Lengkap 19 Pose Naga Fanamir di Studio Three.js ([[planning_perbaikan_animasi_dan_pose]], [[studio_animasi_threejs_fanamir]])
+- **Respons Umpan Balik Pengguna:**
+  - Pengguna meminta agar dokumen perencanaan animasi dan studio Three.js tidak hanya mencakup segelintir pose sampel, melainkan mencakup **seluruh pose resmi game (19 Pose + Rest Pose)** secara komprehensif.
+- **Ekspansi Cetak Biru Perencanaan (`docs/02_PLANNING_ANIMASI_POSE.md`):**
+  - Menyusun Bagian 3: *Matriks Spesifikasi Detail Seluruh 19 Pose Naga Fanamir (47-Bone Rig)* yang merinci secara matematis setiap pose dari `#01` s.d. `#15C`:
+    1. *Kategori 1 Grounded (Darat):* `#01 Grounded Idle`, `#02 Grounded Walk` (trotting quadruped $3.5\text{ m/s}$), `#03 Grounded Look Up` (dongak $+35^\circ$).
+    2. *Kategori 2 Core Flight & Climb:* `#04 Takeoff` (dorongan $+25^\circ$), `#05 Lean & Turn` (banking roll $30^\circ$, sayap asimetris, ekor rudder), `#06 Flap to Climb` ($+3.5\text{ m/s}$), `#06B Steep Climb` (chin-up flap $+7.0\text{ m/s}$ dada $+24^\circ$), `#07 Fly Up` (Y-Glide up dihedral $+45^\circ$), `#08 Cruise Glide` (T-Pose $180^\circ$, kaki streamlined sepanjang ekor).
+    3. *Kategori 3 Special Maneuvers & Hover:* `#09A Hover` (melayang tegap $+30^\circ$, dada $+16^\circ$, kaki menjuntai santai, ekor naik $+18^\circ$, air brake $0\text{ m/s}$), `#09B Slow Glide` (semi-L $\sim 6\text{--}8\text{ m/s}$), `#10 Gentle Descent` (Low-A $-35^\circ$ landing prep), `#11 Fly Down` (Y-Dive), `#12 W-Pose Elevator` (turun vertikal sayap W), `#13 Tuck to Dive` (bullet dive supersonik $-45^\circ$), `#14 Propeller Dash` (turbin kepakan badai $3.8\text{ Hz}$).
+    4. *Kategori 4 Village Actions (3 Biome):* `#15A Zephyria` (sapuan kepak bawah pembersih polusi), `#15B Pyrewood` (artikulasi rahang buka lebar `Jaw` $-30^\circ$ semburan air purba), `#15C Solaria` (ritual hujan embun Double I-Pose `11` sejajar ke langit).
+    5. *Baseline:* `REST` Baseline T-Pose ($0^\circ$ bind pose kalibrasi).
+- **Pembaruan Aplikasi Web Studio (`dragon_anim_studio/` & `Fanamir_AnimStudio_Standalone/app/`):**
+  - `index.html`: Merombak panel preset menjadi 4 kategori tombol rapi (*Grounded*, *Core Flight*, *Special Maneuvers*, *Village Actions*).
+  - `studio.js`: Mengonfigurasi seluruh 20 preset pose di `POSE_PRESETS`, memperbarui logika matematika rotasi tulang 47-rig di `updateDragonProceduralAnimation()`, menyempurnakan `rotateBone` agar fleksibel dengan atau tanpa tanda titik nama tulang, serta memperbarui generator C# Unity modal.
+- **Kompresi Ulang Arsip ZIP Mandiri:**
+  - Menghasilkan file arsip yang telah dimutakhirkan: [`Fanamir_AnimStudio_Standalone.zip`](file:///e:/Semester%205/Game/AR%20Dragon/Fanamir_AnimStudio_Standalone.zip) ($13.23\text{ MB}$) siap diekstrak dan dijalankan di laptop lain bersama AI Agent.
+
+---
+
 ## 2026-11-23 — Pemaketan Mandiri & Kompresi ZIP Fanamir Three.js Animation Studio (`Fanamir_AnimStudio_Standalone.zip`)
 - **Konteks & Tujuan:**
   - Pengguna memutuskan untuk memisahkan proses eksekusi, perbaikan pose, dan fine-tuning animasi Three.js ke laptop lain secara terdedikasi agar tidak mengganggu workspace utama.

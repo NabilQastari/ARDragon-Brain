@@ -208,7 +208,274 @@ Mengubah ekspresi sayap Propeller Dash menjadi **kepakan bertenaga badai super-c
 
 ---
 
-## 📋 3. Matriks Komparasi: Status Eksisting vs Rencana Baru
+## 📖 3. MATRIKS SPESIFIKASI DETAIL SELURUH 19 POSE NAGA FANAMIR (47-BONE RIG)
+
+Bagian ini merumuskan katalog matematis dan anatomi lengkap dari **ke-19 pose & manuver** naga Fanamir. Setiap pose mendefinisikan sudut rotasi Euler lokal presisi untuk ke-47 tulang rig (`ARM_Dragon`), interaksi fisika momentum, serta perilaku dinamisnya.
+
+```text
+DAFTAR 19 POSE RESMI FANAMIR:
+┌─────────────────────────────────┬──────────────────────────────────┐
+│ KATEGORI 1: GROUNDED (DARAT)    │ KATEGORI 2: FLIGHT & CLIMB       │
+│ • #01 Grounded Idle             │ • #04 Takeoff (Flap Transition)  │
+│ • #02 Grounded Walk             │ • #05 Lean & Arm Tilt (Banking)  │
+│ • #03 Grounded Look Up          │ • #06 Flap to Climb (Cruise Lift)│
+│                                 │ • #06B Steep Climb (Chin-Up)     │
+│                                 │ • #07 Fly Up (Y-Glide Up)        │
+│                                 │ • #08 Glide (Cruise T-Pose)      │
+├─────────────────────────────────┼──────────────────────────────────┤
+│ KATEGORI 3: SPECIAL MANEUVERS   │ KATEGORI 4: VILLAGE ACTIONS      │
+│ • #09A Hover (Active Air Brake) │ • #15A Zephyria · Wind Flap      │
+│ • #09B Slow Glide (L-Pose Hold) │ • #15B Pyrewood · Water Breath   │
+│ • #10 Gentle Descent (Low-A)    │ • #15C Solaria · Dew Rain (11)   │
+│ • #11 Fly Down (Y-Dive)         ├──────────────────────────────────┤
+│ • #12 Fly Down Idle (W-Pose)    │ BASELINE: REST POSE (T-POSE)     │
+│ • #13 Tuck to Dive (Bullet)     │ • 0° Euler Bind Rest Pose        │
+│ • #14 Propeller Dash (Turbine)  │                                  │
+└─────────────────────────────────┴──────────────────────────────────┘
+```
+
+---
+
+### 3.1 Kategori 1: Grounded Poses (Kontrol di Permukaan Darat)
+
+#### 1. `#01` Grounded Idle (Diam di Tanah)
+* **Karakter Visual:** Naga berdiri tegak dan tenang di permukaan tanah ($0\text{ m/s}$), sayap terlipat santai di sisi tubuh, ekor beristirahat di tanah dengan osilasi bernapas halus.
+* **Transformasi 47-Tulang:**
+  * `Root / Pelvis`: Posisi $Y = 0.05\text{ m}$, Kemiringan Pitch $0^\circ$, Roll $0^\circ$.
+  * `Spine_01 / Spine_02`: Pitch $0^\circ$ (tulang punggung lurus netral).
+  * `Neck_01 / Neck_02 / Head`: Netral mendatar sejajar horizon, pandangan lurus ke depan. `Jaw`: $0^\circ$ (mulut tertutup).
+  * `Kaki Depan (L/R)`: `UpperArm` $+15^\circ$, `Forearm` $-30^\circ$, `Paw` $+15^\circ$ (menjejak kokoh ke grid/tanah).
+  * `Kaki Belakang (L/R)`: `Thigh` $+10^\circ$, `Shin` $-25^\circ$, `Metatarsus` $+15^\circ$, `Foot` $0^\circ$ (tegak menopang bobot panggul).
+  * `Sayap (L/R)`: `Wing_Shoulder` $-75^\circ$ (menempel di rusuk), `Wing_Forearm` $+80^\circ$ (melipat ke belakang), `Wing_Fingers` merapat sejajar badan.
+  * `Ekor (Tail_01..05)`: Menjuntai rileks ke tanah, ujung ekor melengkung santai $+6^\circ$.
+* **Loop Dinamis:** Breathing bobbing $0.5\text{ Hz}$ (amplitudo dada $\pm 0.015\text{ m}$).
+
+#### 2. `#02` Grounded Walk (Siklus Jalan Quadruped di Tanah)
+* **Karakter Visual:** Berjalan maju di tanah dengan gaya jalan trotting diagonal quadruped ($3.5\text{ m/s}$). Pasangan kaki diagonal (Depan Kiri + Belakang Kanan) mengayun serempak, disusul pasangan (Depan Kanan + Belakang Kiri).
+* **Transformasi 47-Tulang:**
+  * `Root / Pelvis`: Posisi $Y = 0.05\text{ m} + \text{bobbing } \pm 0.025\text{ m}$, Roll bergoyang halus $\pm 2.5^\circ$ mengikuti langkah.
+  * `Spine_01 / Spine_02`: Yaw liukan sinusoidal $\pm 3^\circ$ (tulang punggung meliuk alami mengikuti irama trotting).
+  * `Neck & Head`: Kepala terangkat $+8^\circ$, anggukan counter-balance mikro berlawanan dengan langkah kaki.
+  * `Kaki Depan L`: $\theta_{\text{hip}} = \sin(\phi) \times 28^\circ$, $\theta_{\text{knee}} = -\max(0, \cos(\phi)) \times 40^\circ$.
+  * `Kaki Depan R`: Berlawanan fasa $180^\circ$ terhadap Kaki Depan L.
+  * `Kaki Belakang L`: Mengikuti fasa Kaki Depan R (diagonal trotting).
+  * `Kaki Belakang R`: Mengikuti fasa Kaki Depan L.
+  * `Sayap`: Terlipat santai di samping tubuh dengan goyangan elastis mikro $\pm 4^\circ$.
+  * `Ekor`: Mengayun horizontal berlawanan arah panggul (*sway damping* $0.8\text{ Hz}$).
+
+#### 3. `#03` Grounded Look Up (Mendongak ke Langit di Darat)
+* **Karakter Visual:** Badan dan kaki tetap menjejak tenang di darat, namun leher dan kepala mendongak anggun ke langit ($+35^\circ \sim +50^\circ$) memantau jalur penerbangan.
+* **Transformasi 47-Tulang:**
+  * `Root / Pelvis`: Tetap di tanah ($Y = 0.05\text{ m}$, Pitch $0^\circ$).
+  * `Spine_01 / Spine_02`: Sedikit membusung $+6^\circ$.
+  * `Neck_01`: Pitch $+18^\circ$ (lengkungan pangkal leher naik).
+  * `Neck_02`: Pitch $+22^\circ$ (lengkungan leher angsa melengkung ke atas).
+  * `Head`: Pitch $+15^\circ$ (total sudut dongak kepala $\sim +55^\circ$ menghadap langit).
+  * `Kaki & Sayap`: Sama dengan postur `#01 Idle`.
+  * `Ekor`: Ujung ekor sedikit mengibas pelan tanda kewaspadaan.
+
+---
+
+### 3.2 Kategori 2: Core Flight & Locomotion (Penerbangan Inti & Mengudara)
+
+#### 4. `#04` Takeoff (Transisi Mengangkat dari Darat)
+* **Karakter Visual:** Dorongan eksplosif lepas landas dari tanah ke udara: kedua sayap diayunkan kuat ke bawah, kaki mendorong lepas dari grid, badan miring naik $+25^\circ$.
+* **Transformasi 47-Tulang:**
+  * `Root / Pelvis`: Posisi $Y$ naik dari $0.05\text{ m} \to 0.45\text{ m}$, Pitch $+25^\circ$.
+  * `Spine_01 / Spine_02`: Dada membusung $+12^\circ$.
+  * `Kaki Depan`: Mendorong tanah lalu ditarik melipat ke belakang dada (`UpperArm` $+60^\circ$, `Forearm` $-80^\circ$).
+  * `Kaki Belakang`: Melurus memanjang ke belakang (`Thigh` $+45^\circ$, `Shin` $-15^\circ$).
+  * `Sayap`: Downstroke kuat dari $+45^\circ \to -35^\circ$, menghasilkan semburan gaya angkat vertikal.
+  * `Ekor`: Melengkung ke bawah sebagai penyeimbang momen pitch takeoff.
+
+#### 5. `#05` Lean & Arm Tilt (Kemudi Belok & Banking Roll)
+* **Karakter Visual:** Belok tajam berkecepatan tinggi: badan naga melakukan banking roll ($\pm 25^\circ \sim \pm 35^\circ$) dan yaw belok. Sayap sisi dalam turun, sayap sisi luar naik, ekor mengimbangi ke arah luar layaknya sirip kemudi (*rudder*).
+* **Transformasi 47-Tulang:**
+  * `Root / Pelvis`: Roll miring $\pm 30^\circ$, Yaw belok mengikuti arah tangan pemain.
+  * `Spine_01 / Spine_02`: Meliuk lateral (Yaw) $\pm 10^\circ$ ke arah belokan.
+  * `Sayap Sisi Dalam`: Tertekan ke bawah (`Wing_Shoulder` $-20^\circ$).
+  * `Sayap Sisi Luar`: Terangkat naik tinggi (`Wing_Shoulder` $+35^\circ$).
+  * `Kaki Depan & Belakang`: Terlipat rapi aerodinamis mengikuti poros tubuh miring.
+  * `Ekor`: Meliuk kuat ke arah luar radius belokan ($\pm 25^\circ$) sebagai penyeimbang sentrifugal.
+
+#### 6. `#06` Flap to Climb (Menanjak Landai Ritmis)
+* **Karakter Visual:** Mengudara sambil menanjak landai ($+3.5\text{ m/s}$): sayap mengepak ritmis mengayun penuh ($1.2\text{ Hz}$), badan mendongak lembut $+12^\circ$.
+* **Transformasi 47-Tulang:**
+  * `Root / Pelvis`: Pitch $+12^\circ$, bobbing vertikal mengikuti kepakan.
+  * `Spine_01 / Spine_02`: Pitch $+8^\circ$.
+  * `Kaki Depan`: Terlipat rapi di rongga dada (*tucked*).
+  * `Kaki Belakang`: Lurus memanjang ke belakang sejajar ekor.
+  * `Sayap`: Siklus flap sinusoidal $-25^\circ \dots +40^\circ$ dengan elastisitas ujung jari sayap.
+  * `Ekor`: Mengimbangi ayunan kepakan secara ritmis.
+
+#### 7. `#06B` Steep Climb (Menanjak Curam / Chin-Up Flap)
+* **Karakter Visual:** Manuver darurat menanjak curam ($+7.0\text{ m/s}$) melewati tebing tinggi: kepala mendongak tajam, dada terangkat tinggi $+24^\circ$, badan condong tegak $+40^\circ$, kepakan sayap bertenaga penuh.
+* **Transformasi 47-Tulang:**
+  * `Root / Pelvis`: Pitch $+40^\circ$ curam.
+  * `Spine_01 / Spine_02`: Dada terangkat maksimal $+24^\circ$.
+  * `Neck & Head`: Kepala mendongak $+25^\circ$ melihat puncak tebing.
+  * `Kaki Depan & Belakang`: Rapat ketat ke tubuh meminimalkan drag vertikal.
+  * `Sayap`: Kepakan sayap frekuensi tinggi ($2.2\text{ Hz}$) dengan sudut serang (*angle of attack*) curam.
+  * `Ekor`: Melengkung tajam ke bawah menahan momen angkat.
+
+#### 8. `#07` Fly Up (Y-Glide Up Berbasis Momentum)
+* **Karakter Visual:** Meluncur menanjak ke angkasa memanfaatkan momentum cadangan: sayap naga membentuk **dihedral huruf Y yang megah (~$45^\circ$ di atas horizon)**, badan condong naik $+30^\circ$, meluncur mulus tanpa mengepak. Jika momentum habis ($0\%$), naga mengalami *gentle stall* (hidung turun landai $-1.2\text{ m/s}$).
+* **Transformasi 47-Tulang:**
+  * `Root / Pelvis`: Pitch $+30^\circ$ (saat momentum $>0\%$) $\to -5^\circ$ (saat stall).
+  * `Spine_01 / Spine_02`: Pitch $+14^\circ$.
+  * `Sayap (L/R)`: `Wing_Shoulder` $+38^\circ$, `Wing_Forearm` $+15^\circ$ (membentuk siluet huruf Y megah simetris).
+  * `Kaki Depan`: Rapat di dada (`UpperArm` $+50^\circ$, `Forearm` $-75^\circ$).
+  * `Kaki Belakang`: Lurus sejajar ekor (`Thigh` $+55^\circ$, `Shin` $-20^\circ$).
+  * `Ekor`: Melengkung lembut $+12^\circ$ mengalir di belakang.
+
+#### 9. `#08` Glide (Cruise Flight T-Pose)
+* **Karakter Visual:** Mode terbang jelajah standar berkecepatan tinggi ($14\text{--}27\text{ m/s}$): kedua sayap membentang horizontal penuh $180^\circ$ membentuk huruf **T datar sempurna**, badan mendatar streamline ($0^\circ$), kaki depan melipat di dada, kaki belakang lurus memanjang ke ekor.
+* **Transformasi 47-Tulang:**
+  * `Root / Pelvis`: Pitch $0^\circ$, Roll $0^\circ$, Yaw $0^\circ$.
+  * `Spine_01 / Spine_02`: Pitch $0^\circ$ (punggung lurus aerodinamis).
+  * `Neck & Head`: Lurus ke depan sejajar arah terbang.
+  * `Kaki Depan`: `UpperArm` $+45^\circ$, `Forearm` $-75^\circ$, `Paw` $+20^\circ$ (terlipat rapi di bawah dada).
+  * `Kaki Belakang`: `Thigh` $+65^\circ$, `Shin` $-25^\circ$, `Metatarsus` $+15^\circ$, `Foot` $0^\circ$ (memanjang lurus ke belakang sejajar ekor).
+  * `Sayap (L/R)`: `Wing_Shoulder` $0^\circ$, `Wing_Forearm` $0^\circ$, `Wing_Fingers` terbuka rata mendatar $180^\circ$.
+  * `Ekor`: Lurus ke belakang dengan gelombang osilasi kemudi mikro $\pm 1.5^\circ$.
+
+---
+
+### 3.3 Kategori 3: Special Maneuvers & Hover (Manuver Khusus & Pengereman)
+
+#### 10. `#09A` Hover (Stationary Flight — Active Air Brake)
+* **Karakter Visual:** Melayang diam di tempat ($0\text{ m/s}$): tubuh tegap condong naik $+30^\circ$, dada terangkat $+16^\circ$ memperlihatkan permata dada (*chest gem*), sayap mengepak santai/flutter di ketinggian dada, kaki depan tertekuk rileks menggantung ke bawah-depan, kaki belakang melayang bebas tertekuk di bawah tubuh, ekor melengkung anggun ke atas sebagai penyeimbang bobot.
+* **Transformasi 47-Tulang:**
+  * `Root / Pelvis`: Posisi $Y = 0.45\text{ m} + \sin(t \times 2.5) \times 0.08\text{ m}$, Pitch $+30^\circ$ tegap.
+  * `Spine_01 / Spine_02`: Pitch $-16^\circ$ (dada membusung bangga).
+  * `Neck & Head`: Counter-leveling horizontal sejajar mata penonton.
+  * `Kaki Depan`: `UpperArm` $+45^\circ$, `Forearm` $-70^\circ$, `Paw` $+20^\circ$ (menjuntai santai di bawah dada).
+  * `Kaki Belakang`: `Thigh` $+40^\circ$, `Shin` $-25^\circ$, `Metatarsus` $+20^\circ$, `Foot` $+15^\circ$ (melayang bebas di bawah tubuh, siap mendarat).
+  * `Sayap`: Ayunan kepakan flutter lembut frekuensi $1.4\text{ Hz}$ (amplitudo $\pm 18^\circ$).
+  * `Ekor`: Melengkung anggun ke atas ($+18^\circ$) sebagai penyeimbang bobot.
+
+#### 11. `#09B` Slow Glide (L-Pose Hold)
+* **Karakter Visual:** Meluncur santai berkecepatan rendah ($\sim 6\text{--}8\text{ m/s}$): sayap tertekuk santai membentuk siluet semi-L, badan sedikit condong $+8^\circ$, kaki terlipat rileks.
+* **Transformasi 47-Tulang:**
+  * `Root / Pelvis`: Pitch $+8^\circ$.
+  * `Spine_01 / Spine_02`: Pitch $+4^\circ$.
+  * `Sayap (L/R)`: `Wing_Shoulder` $-15^\circ$, `Wing_Forearm` $+35^\circ$ (posisi semi-L tertahan tenang).
+  * `Kaki Depan & Belakang`: Terlipat rileks di bawah perut.
+  * `Ekor`: Mengalir santai di belakang.
+
+#### 12. `#10` Gentle Descent (Low-A Pose)
+* **Karakter Visual:** Meluncur turun perlahan dan terkontrol menuju daratan: kedua sayap lurus mengarah serong bawah membentuk huruf **A rendah (~$35^\circ$ di bawah horizontal)**, hidung sedikit menunduk landai, kaki mulai bersiap menjulur ke bawah (*landing gear preparation*).
+* **Transformasi 47-Tulang:**
+  * `Root / Pelvis`: Pitch $-8^\circ$ (menunduk landai turun).
+  * `Spine_01 / Spine_02`: Pitch $-4^\circ$.
+  * `Sayap (L/R)`: `Wing_Shoulder` $-35^\circ$, `Wing_Forearm` $-10^\circ$ (membentuk huruf A rendah).
+  * `Kaki Depan`: Mulai membuka ke bawah (`UpperArm` $+30^\circ$, `Forearm` $-40^\circ$).
+  * `Kaki Belakang`: Mulai menjulur ke bawah (`Thigh` $+25^\circ$, `Shin` $-30^\circ$).
+  * `Ekor`: Melengkung stabil $+10^\circ$.
+
+#### 13. `#11` Fly Down (Y-Dive)
+* **Karakter Visual:** Menukik turun diagonal terkendali sambil tetap mempertahankan laju maju sedang: lengan sayap atas mendatar setinggi bahu, siku sayap tertekuk ke atas-luar membentuk huruf **Y bersiku lebar**.
+* **Transformasi 47-Tulang:**
+  * `Root / Pelvis`: Pitch $-22^\circ$.
+  * `Spine_01 / Spine_02`: Pitch $-10^\circ$.
+  * `Sayap (L/R)`: `Wing_Shoulder` $+10^\circ$, `Wing_Forearm` $+45^\circ$, `Wing_Fingers` terbuka serong atas.
+  * `Kaki Depan & Belakang`: Terlipat rapat aerodinamis.
+  * `Ekor`: Lurus kencang di belakang.
+
+#### 14. `#12` Fly Down Idle (W-Pose / Vertical Elevator)
+* **Karakter Visual:** Turun vertikal di tempat layaknya lift udara (*vertical elevator descent*): sayap ditekuk turun rendah di pinggang lalu ujung sayap mengarah vertikal ke atas membentuk huruf **W** yang tegas.
+* **Transformasi 47-Tulang:**
+  * `Root / Pelvis`: Pitch $+15^\circ$ (menahan laju maju).
+  * `Spine_01 / Spine_02`: Pitch $+8^\circ$.
+  * `Sayap (L/R)`: `Wing_Shoulder` $-40^\circ$ (siku turun), `Wing_Forearm` $+85^\circ$ (lengan bawah tegak lurus ke atas membentuk huruf W).
+  * `Kaki Depan & Belakang`: Menjuntai vertikal ke bawah menahan angin.
+  * `Ekor`: Melengkung tajam ke bawah membantu pengereman udara vertikal.
+
+#### 15. `#13` Tuck to Dive (Bullet Dive Boost)
+* **Karakter Visual:** Menukik curam berkecepatan tinggi supersonik ($>35\text{ m/s}$): badan menukik tajam ke bawah ($-45^\circ \sim -60^\circ$), sayap terlipat rapat menempel ke rusuk dan punggung (*aerodynamic dart/bullet shape*), kaki merapat ketat ke tubuh, kepala menukik tajam ke pusat bumi.
+* **Transformasi 47-Tulang:**
+  * `Root / Pelvis`: Pitch $-45^\circ$ tajam.
+  * `Spine_01 / Spine_02`: Punggung melengkung aerodinamis $-15^\circ$.
+  * `Neck & Head`: Menunduk tajam $-25^\circ$.
+  * `Sayap (L/R)`: `Wing_Shoulder` $-70^\circ$, `Wing_Forearm` $+75^\circ$, `Wing_Fingers` merapat lurus ke belakang sejajar rusuk (profil hambatan angin minimum).
+  * `Kaki Depan`: Terkunci rapat di rongga dada (`UpperArm` $+70^\circ$, `Forearm` $-85^\circ$).
+  * `Kaki Belakang`: Terkunci kencang di pangkal ekor (`Thigh` $+75^\circ$, `Shin` $-10^\circ$).
+  * `Ekor`: Lurus kaku sejajar arah menukik, membelah angin.
+
+#### 16. `#14` Propeller Dash (Turbine Dash Impulse)
+* **Karakter Visual:** Lonjakan akselerasi instan supersonik: kedua sayap mengepak dan berputar sangat cepat dan agresif dengan frekuensi tinggi ($3.8\text{ Hz}$), badan sedikit menukik maju ($-8^\circ$), selaput sayap bergetar elastis, kaki terkunci kencang ke belakang.
+* **Transformasi 47-Tulang:**
+  * `Root / Pelvis`: Pitch $-8^\circ$, getaran mikro frekuensi tinggi ($7.0\text{ Hz}$).
+  * `Spine_01 / Spine_02`: Tegak kokoh mengunci torsi sayap.
+  * `Sayap (L/R)`: Ayunan kepakan orbit asimetris super-cepat ($3.8\text{ Hz}$, amplitudo $-35^\circ \dots +55^\circ$), dengan kurva akselerasi downstroke eksponensial. Jari-jari sayap melengkung tertinggal (*flex lag*).
+  * `Kaki Depan & Belakang`: Terkunci rapat di belakang aerodinamis.
+  * `Ekor`: Lurus kencang mengimbangi hembusan turbulensi udara belakang.
+
+---
+
+### 3.4 Kategori 4: Village Actions (Aksi Ritual Pemulihan 3 Desa)
+
+#### 17. `#15A` Zephyria · Wind Flap (Pembersih Polusi Biome 1)
+* **Karakter Visual:** Sapuan kepakan sayap raksasa ke bawah (*sweeping downward power flap*): kedua sayap diangkat tinggi ke atas lalu dihempaskan sekuat tenaga ke bawah-samping paha untuk menghembuskan kabut polusi beracun di Desa Zephyria.
+* **Transformasi 47-Tulang:**
+  * `Root / Pelvis`: Pitch $+20^\circ$ saat downstroke menghantam angin.
+  * `Spine_01 / Spine_02`: Membusung memompa tenaga $+18^\circ$.
+  * `Sayap (L/R)`: Siklus sapuan kuat: mulai dari `Wing_Shoulder` $+65^\circ$ (terangkat sangat tinggi) lalu menghantam turun cepat ke $-45^\circ$ (menyapu ke sisi paha).
+  * `Kaki Depan & Belakang`: Menggantung kokoh menahan hentakan udara.
+  * `Ekor`: Mengibas ke bawah sinkron dengan hantaman sayap.
+
+#### 18. `#15B` Pyrewood · Open Mouth (Water Breath Stream Biome 2)
+* **Karakter Visual:** Semburan nafas air purba untuk memadamkan kebakaran hutan: tubuh naga melayang tenang stabil, rahang bawah (`Jaw`) terbuka lebar ($0^\circ \to -30^\circ$), leher menjulur lurus ke depan, ekor mengimbangi semburan air purba yang memancar dari mulut.
+* **Transformasi 47-Tulang:**
+  * `Root / Pelvis`: Pitch $+10^\circ$ (posisi melayang stabil).
+  * `Spine_01 / Spine_02`: Dada membusung $+12^\circ$.
+  * `Neck_01 / Neck_02`: Menjulur lurus ke depan mengarahkan nozzle semburan air.
+  * `Head`: Pitch $0^\circ$ (fokus ke target kebakaran).
+  * **`Jaw`**: Rotasi Euler Pitch **$-30^\circ$ terbuka lebar** (mulut naga menganga penuh mengalirkan semburan air purba).
+  * `Sayap`: Kepakan penyeimbang melayang lembut di tempat.
+  * `Ekor`: Melengkung anggun ke atas menahan recoil gaya dorong air.
+
+#### 19. `#15C` Solaria · Dew Rain (Ritual Hujan Embun Double I-Pose "11" Biome 3)
+* **Karakter Visual:** Ritual pemanggilan hujan embun suci untuk menyembuhkan kekeringan kristal: kedua sayap diangkat **lurus vertikal sejajar ke atas langit membentuk angka `11`** (*Double I-Pose*, rentang sayap sempit di kanan-kiri kepala), kepala mendongak khidmat ke langit keemasan, dada membusung agung, kaki menjuntai tenang.
+* **Transformasi 47-Tulang:**
+  * `Root / Pelvis`: Pitch $+25^\circ$ khidmat.
+  * `Spine_01 / Spine_02`: Dada membusung agung $+20^\circ$ memperlihatkan kilau permata dada.
+  * `Neck & Head`: Kepala mendongak ke atas langit $+28^\circ$.
+  * `Sayap (L/R)`: `Wing_Shoulder` $+80^\circ$ lurus tegak ke atas, `Wing_Forearm` $0^\circ$, `Wing_Fingers` merapat lurus ke atas langit membentuk siluet angka `11` sejajar.
+  * `Kaki Depan`: Menjuntai anggun rileks ke bawah.
+  * `Kaki Belakang`: Menjuntai santai di bawah tubuh.
+  * `Ekor`: Melengkung anggun ke atas membentuk kurva sabit magis.
+
+---
+
+### 3.5 Matriks Komparasi Sudut Rotasi 47 Tulang (Ringkasan C#)
+
+| ID | Nama Pose | Body Pitch | Chest Elev | Forelegs | Hindlegs | Head Pitch | Wing Mode | Tail Curve |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :--- | :---: |
+| **`#01`** | Grounded Idle | $0^\circ$ | $0^\circ$ | $+15^\circ$ | $+10^\circ$ | $0^\circ$ | Folded Sides | $+6^\circ$ |
+| **`#02`** | Grounded Walk | $0^\circ$ | $0^\circ$ | Trotting | Trotting | $+8^\circ$ | Folded Sides | $\pm 5^\circ$ |
+| **`#03`** | Grounded Look Up | $0^\circ$ | $+6^\circ$ | $+15^\circ$ | $+10^\circ$ | $+35^\circ$ | Folded Sides | $+6^\circ$ |
+| **`#04`** | Takeoff | $+25^\circ$ | $+12^\circ$ | $+60^\circ$ | $+45^\circ$ | $+10^\circ$ | Downstroke | $-15^\circ$ |
+| **`#05`** | Lean & Turn | $0^\circ$ (Roll $30^\circ$) | $0^\circ$ | $-45^\circ$ | $-65^\circ$ | Tilt $15^\circ$ | Bank Asym | Rudder $25^\circ$ |
+| **`#06`** | Flap to Climb | $+12^\circ$ | $+8^\circ$ | $-45^\circ$ | $-65^\circ$ | $+5^\circ$ | Flap $1.2\text{ Hz}$ | $+8^\circ$ |
+| **`#06B`**| Steep Climb | $+40^\circ$ | $+24^\circ$ | $-60^\circ$ | $-70^\circ$ | $+25^\circ$ | Flap $2.2\text{ Hz}$ | $-20^\circ$ |
+| **`#07`** | Fly Up (Y-Pose)| $+30^\circ$ | $+14^\circ$ | $-50^\circ$ | $-65^\circ$ | $+12^\circ$ | **Y-Dihedral $45^\circ$** | $+12^\circ$ |
+| **`#08`** | Cruise Glide | $0^\circ$ | $0^\circ$ | $-45^\circ$ | $-65^\circ$ | $0^\circ$ | **T-Pose $180^\circ$** | $0^\circ$ |
+| **`#09A`**| Hover Active | $+30^\circ$ | $+16^\circ$ | $+85^\circ$ | $+40^\circ$ | $0^\circ$ | Flutter $1.4\text{ Hz}$ | $+18^\circ$ |
+| **`#09B`**| Slow Glide | $+8^\circ$ | $+4^\circ$ | $+30^\circ$ | $+20^\circ$ | $0^\circ$ | Semi-L Pose | $+8^\circ$ |
+| **`#10`** | Gentle Descent | $-8^\circ$ | $-4^\circ$ | $+30^\circ$ | $+25^\circ$ | $-4^\circ$ | **Low-A $35^\circ$** | $+10^\circ$ |
+| **`#11`** | Fly Down Y-Dive | $-22^\circ$ | $-10^\circ$ | $-45^\circ$ | $-65^\circ$ | $-12^\circ$ | Wide Y-Dive | $+5^\circ$ |
+| **`#12`** | W-Pose Elevator | $+15^\circ$ | $+8^\circ$ | $+70^\circ$ | $+50^\circ$ | $0^\circ$ | **Full W-Pose** | $-15^\circ$ |
+| **`#13`** | Tuck to Dive | $-45^\circ$ | $-15^\circ$ | $-85^\circ$ | $-75^\circ$ | $-25^\circ$ | **Tucked Bullet** | $0^\circ$ |
+| **`#14`** | Propeller Dash | $-8^\circ$ | $+4^\circ$ | $-70^\circ$ | $-70^\circ$ | $0^\circ$ | **Turbine $3.8\text{ Hz}$**| $0^\circ$ |
+| **`#15A`**| Zephyria Wind | $+20^\circ$ | $+18^\circ$ | $+40^\circ$ | $+30^\circ$ | $+5^\circ$ | Down Sweep | $-10^\circ$ |
+| **`#15B`**| Pyrewood Breath| $+10^\circ$ | $+12^\circ$ | $+50^\circ$ | $+35^\circ$ | $0^\circ$ (Jaw $-30^\circ$)| Hovering Flap | $+15^\circ$ |
+| **`#15C`**| Solaria Dew Rain| $+25^\circ$ | $+20^\circ$ | $+60^\circ$ | $+40^\circ$ | $+28^\circ$ | **Double I "11"** | $+22^\circ$ |
+| **REST** | Bind T-Pose | $0^\circ$ | $0^\circ$ | $0^\circ$ | $0^\circ$ | $0^\circ$ | Bind Rest ($0^\circ$) | $0^\circ$ |
+
+---
+
+## 📋 4. Matriks Komparasi: Status Eksisting vs Rencana Baru
 
 | Komponen Rig | Status Eksisting | Rencana Peningkatan Baru | File Terkait di Unity |
 | :--- | :--- | :--- | :--- |
