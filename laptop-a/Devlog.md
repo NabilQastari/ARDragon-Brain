@@ -13,6 +13,21 @@ updated: 2026-11-23
 
 ---
 
+## 2026-11-23 — Pemaketan Mandiri & Kompresi ZIP Fanamir Three.js Animation Studio (`Fanamir_AnimStudio_Standalone.zip`)
+- **Konteks & Tujuan:**
+  - Pengguna memutuskan untuk memisahkan proses eksekusi, perbaikan pose, dan fine-tuning animasi Three.js ke laptop lain secara terdedikasi agar tidak mengganggu workspace utama.
+  - Membutuhkan paket mandiri (*self-contained package*) yang dapat langsung diekstrak di laptop baru dan segera dihubungkan dengan AI Agent tanpa konfigurasi rumit.
+- **Komponen Paket Mandiri (`Fanamir_AnimStudio_Standalone/`):**
+  1. `app/`: Web application Three.js offline-ready (`index.html`, `studio.js`, `dragon_model.glb` 47-bone skinned mesh, `bones.json`, library Three.js r165+).
+  2. `docs/`: 5 dokumen lengkap meliputi Ikhtisar Proyek (`01_PROJECT_OVERVIEW.md`), Cetak Biru 6 Pilar Animasi (`02_PLANNING_ANIMASI_POSE.md`), Evaluasi Play Mode Tahap 1 (`03_EVALUASI_POSE_TAHAP_1.md`), Panduan Teknis Studio (`04_PANDUAN_STUDIO_THREEJS.md`), dan Master Prompt Unity Laptop B (`05_PROMPT_EKSEKUSI_LAPTOP_B.md`).
+  3. `references/`: 2 lembar rujukan resmi anatomi naga (`Ref_Dragon_Hover_Leg_Anatomy.jpg` & `Ref_Dragon_Flight_Leg_Anatomy.jpg`).
+  4. `AGENTS.md`: Panduan protokol teknis lengkap bagi AI Agent di laptop tujuan untuk melanjutkan fine-tuning pose, implementasi tahap lanjutan animasi, dan ekspor C# Unity.
+  5. `README.md` & `start_studio.bat`: Panduan cepat untuk pengguna dan launcher otomatis satu-klik port 8088.
+- **Hasil Kompresi:**
+  - Menghasilkan file arsip siap transfer: [`Fanamir_AnimStudio_Standalone.zip`](file:///e:/Semester%205/Game/AR%20Dragon/Fanamir_AnimStudio_Standalone.zip) dengan ukuran $13.22\text{ MB}$.
+
+---
+
 ## 2026-11-23 — Resolusi Bug Pose Default / Tulang Statis (Rigging & Skinning GLB Export) ([[studio_animasi_threejs_fanamir]])
 - **Diagnosis Masalah Pose Default:**
   - *Temuan Pengguna:* Model naga hanya terdiam kaku pada pose awal (T-pose/bind pose default) tanpa adanya pergerakan animasi prosedural maupun respon terhadap tombol preset pose.
