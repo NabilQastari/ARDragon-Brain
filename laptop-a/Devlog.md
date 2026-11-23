@@ -13,6 +13,18 @@ updated: 2026-11-23
 
 ---
 
+## 2026-11-23 — Resolusi Bug Infinite Loading & Stabilisasi Three.js 3D Dragon Studio ([[studio_animasi_threejs_fanamir]])
+- **Diagnosis & Resolusi Root Cause:**
+  - *Akar Masalah:* Ketika membuka `http://localhost:8088`, halaman terhenti pada loading spinner *"Memuat Model 3D Fanamir..."* karena adanya *syntax error* pada template literal di `dragon_anim_studio/studio.js` (penggunaan sufiks float C# seperti `${-cElev * 0.5f}f` di dalam evaluasi blok JS `${...}`). Kesalahan sintaks ini menghentikan kompilasi modul ES JavaScript secara total sebelum fungsi Three.js dan `loadDragonModel()` sempat dieksekusi.
+  - *Perbaikan Sintaks:* Mengoreksi kalkulasi matematika di dalam template string menjadi standar JavaScript murni (`${(-cElev * 0.5).toFixed(1)}f`). Lulus uji kompilasi penuh via `node --check studio.js`.
+  - *Global Error Catcher:* Menambahkan listener `window.addEventListener('error')` dan `unhandledrejection` pada `index.html` agar kegagalan runtime browser langsung menampilkan pesan detail di layar dan tidak membiarkan pengguna terjebak pada animasi loading tanpa akhir.
+  - *Pembersihan SkeletonHelper:* Menghapus pemanggilan usang `skeletonHelper.update()` yang memicu error pada Three.js r165+, serta menambahkan properti `depthTest = false` dan `renderOrder = 999` agar kerangka tulang dapat dilihat tembus pandang (*X-ray skeleton mode*).
+- **Hasil Verifikasi Headless Browser Subagent:**
+  - 100% PASS: Loading screen hilang sempurna, model 3D naga Fanamir bertekstur penuh tampil dengan pencahayaan dan bayangan lantai dinamis.
+  - Seluruh tombol preset (Hover, Flight, Ground Walk, Propeller Dash, Tuck Dive), slider interaktif, navigasi kamera 360°, tombol wireframe tulang, dan modal ekspor kode C# Unity berfungsi normal tanpa error console.
+
+---
+
 ## 2026-11-23 — Pembangunan & Peluncuran Fanamir 3D Dragon Animation Studio (Three.js WebGL) ([[studio_animasi_threejs_fanamir]])
 - **Latar Belakang & Solusi visual Interaktif:**
   - Menghilangkan proses *trial-and-error* rotasi tulang secara buta di Unity Editor (edit skrip -> Play Mode -> tangkap layar -> cek manual) dengan membangun aplikasi web interaktif 3D mandiri (*self-contained & offline-ready*) menggunakan Three.js WebGL di folder `dragon_anim_studio/`.
