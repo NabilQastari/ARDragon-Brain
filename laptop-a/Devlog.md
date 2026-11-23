@@ -13,6 +13,21 @@ updated: 2026-11-23
 
 ---
 
+## 2026-11-23 — Resolusi Bug Pose Default / Tulang Statis (Rigging & Skinning GLB Export) ([[studio_animasi_threejs_fanamir]])
+- **Diagnosis Masalah Pose Default:**
+  - *Temuan Pengguna:* Model naga hanya terdiam kaku pada pose awal (T-pose/bind pose default) tanpa adanya pergerakan animasi prosedural maupun respon terhadap tombol preset pose.
+  - *Investigasi Diagnostik DOM:* Pemeriksaan node Three.js mengungkap bahwa `bonesCount: 0`. File model GLB awal hanya berisi 13 static mesh tanpa rig tulang (`isBone: false`). Akibatnya, `updateDragonProceduralAnimation()` keluar seketika pada baris penjaga (`if (Object.keys(bones).length === 0) return;`).
+  - *Akar Masalah Ekspor Blender:* Objek `ARM_Dragon` di Blender memiliki status tersembunyi pada view layer (`hide_get() == True`). Walaupun `select_set(True)` dipanggil, tanpa eksplisit `arm_obj.hide_set(False)`, eksportir glTF Blender secara diam-diam mengecualikan armature dan data skinning.
+- **Eksekusi Perbaikan:**
+  - Memperbarui skrip `misc/export_dragon_glb.py` dengan menambahkan `arm_obj.hide_set(False)` dan parameter skinning lengkap (`export_skins=True`, `export_def_bones=False`, `export_armature_object_remove=False`).
+  - Mengekspor ulang `dragon_anim_studio/dragon_model.glb` dari Blender 5.2.3 CLI (`D:\blender\blender.exe`). Hasil verifikasi biner GLB menghasilkan 1 skin dengan **47 joints/tulang lengkap** dan 13 `SkinnedMesh`.
+- **Hasil Verifikasi Playback & Interaktivitas 3D:**
+  - 47 tulang rig (`Root`, `Pelvis`, `Spine_01..02`, `Neck_01..02`, `Head`, `Wing_Shoulder..Finger`, `Thigh..Foot`, `Tail_01..05`) terdeteksi penuh.
+  - Animasi dinamis berjalan mulus (buoyant bobbing, ayunan sayap mengepak, liukan ekor penyeimbang bobot).
+  - Transisi preset pose (*Hover tegap +30°*, *Flight mendatar 0°*, *Ground Walk*, *Propeller Dash*, *Tuck Dive*) serta fine-tuning slider real-time terbukti bekerja 100% responsif di viewport Three.js.
+
+---
+
 ## 2026-11-23 — Resolusi Bug Infinite Loading & Stabilisasi Three.js 3D Dragon Studio ([[studio_animasi_threejs_fanamir]])
 - **Diagnosis & Resolusi Root Cause:**
   - *Akar Masalah:* Ketika membuka `http://localhost:8088`, halaman terhenti pada loading spinner *"Memuat Model 3D Fanamir..."* karena adanya *syntax error* pada template literal di `dragon_anim_studio/studio.js` (penggunaan sufiks float C# seperti `${-cElev * 0.5f}f` di dalam evaluasi blok JS `${...}`). Kesalahan sintaks ini menghentikan kompilasi modul ES JavaScript secara total sebelum fungsi Three.js dan `loadDragonModel()` sempat dieksekusi.
