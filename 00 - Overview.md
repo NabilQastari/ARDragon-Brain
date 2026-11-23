@@ -80,6 +80,7 @@ updated: 2026-11-19
 - [[laptop-a/visual-vfx/planning_perbaikan_animasi_dan_pose|planning_perbaikan_animasi_dan_pose]] — Cetak biru komprehensif perbaikan animasi & pose: siklus jalan 4 kaki di tanah, elevasi dada & buoyant hover, kepala dinamis CV 3-sumbu, dual-track sayap bebas 1:1 vs pose terkunci, kepakan bertenaga keras Propeller Dash, dan anatomi kaki terbang aerodinamis.
 - [[laptop-a/visual-vfx/prompt_eksekusi_animasi_tahap_1_laptop_b|prompt_eksekusi_animasi_tahap_1_laptop_b]] — Master prompt dan panduan eksekusi teknis Tahap 1 bagi Laptop B: anatomi kaki terbang aerodinamis sesuai referensi resmi & elevasi dada +16° saat hover di `DragonBodyAnimator.cs`.
 - [[laptop-a/visual-vfx/evaluasi_dan_revisi_pose_tahap_1|evaluasi_dan_revisi_pose_tahap_1]] — Evaluasi kritis & panduan perbaikan anomali visual pose Tahap 1: pelurusan kaki belakang sejajar ekor (anti-remuk) dan elevasi sikap tubuh hover (+18°..+22°) dengan kaki melayang santai.
+- [[laptop-a/visual-vfx/studio_animasi_threejs_fanamir|studio_animasi_threejs_fanamir]] — Dokumentasi aplikasi web interaktif Three.js WebGL Fanamir 3D Animation & Pose Studio (`dragon_anim_studio/`) untuk preview visual $360^\circ$ dan generator kode C# Unity.
 
 #### 🤝 Handoff & Eksekusi Laptop B (`laptop-a/handoff-laptop-b/`)
 - [[laptop-a/handoff-laptop-b/laptop B Patch 1 planning|laptop B Patch 1 planning]] — Rencana detail perbaikan patch 1 untuk Laptop B (CV, dynamic camera, smooth UI, Sesi 4 & 5).

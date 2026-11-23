@@ -13,6 +13,22 @@ updated: 2026-11-23
 
 ---
 
+## 2026-11-23 — Pembangunan & Peluncuran Fanamir 3D Dragon Animation Studio (Three.js WebGL) ([[studio_animasi_threejs_fanamir]])
+- **Latar Belakang & Solusi visual Interaktif:**
+  - Menghilangkan proses *trial-and-error* rotasi tulang secara buta di Unity Editor (edit skrip -> Play Mode -> tangkap layar -> cek manual) dengan membangun aplikasi web interaktif 3D mandiri (*self-contained & offline-ready*) menggunakan Three.js WebGL di folder `dragon_anim_studio/`.
+- **Eksekusi Teknis:**
+  - Mengonversi `assets/Dragon_Model.blend` via Blender 5.2.3 CLI menjadi file model biner GLTF 3D resmi `dragon_anim_studio/dragon_model.glb` (916 KB) lengkap dengan seluruh 47 tulang rig `ARM_Dragon` dan 13 sub-mesh kulit, tanduk, rahang, dan sayap.
+  - Memaketkan library Three.js resmi dan loader modul (`three.module.js`, `OrbitControls.js`, `GLTFLoader.js`) secara lokal dan offline-ready tanpa ketergantungan CDN internet.
+  - Membangun `index.html` dan `studio.js` dengan fitur-fitur:
+    1. **OrbitControls 360° & Kamera Preset:** Tombol instan Side View 90° (sejajar rujukan resmi), 3/4 Diagonal View, Front View, Top View, serta toggle Bone Skeleton Helper dan Ground Grid.
+    2. **6 Preset Pose Utama:** Hovering (Stationary Flight tegap +30° dengan buoyant bobbing & wing flapping), Flight / Glide (streamlined horizontal 0° dengan kaki belakang lurus memanjang ke ekor), Ground Walk (quadruped trotting gait), Propeller Dash (kepakan bertenaga badai 3.8 Hz), Tuck Dive, dan Rest Pose.
+    3. **Live Bone Tuning Sliders:** Slider interaktif sudut kemiringan badan, elevasi dada, tekukan kaki depan, ekstensi kaki belakang, kepala, ekor, dan kecepatan sayap dengan respon visual real-time.
+    4. **Generator Kode C# Unity:** Tombol "📋 Ekspor Kode C# Unity" yang langsung menyusun sintaks kode C# Unity presisi berdasarkan nilai slider dan pose aktif di viewport 3D untuk langsung disalin ke `DragonBodyAnimator.cs` di Laptop B.
+  - Menyiapkan skrip peluncur satu-klik `start_dragon_studio.bat` di root dan mengaktifkan local web server di `http://localhost:8088`.
+- **Pembaruan Dokumen:** Memperbarui [[00 - Overview]], [[Tasks]], [[Devlog]], dan menerbitkan panduan di [[studio_animasi_threejs_fanamir]].
+
+---
+
 ## 2026-11-23 — Perancangan Solusi UI In-Game: Mode Isolasi Textbox Narasi & Redesain Side-Docked Challenge HUD ([[planning_perbaikan_ui_ingame_dan_event_desa]])
 - **Evaluasi Kritis Pengguna & Akar Masalah:**
   1. *Kebocoran UI saat Narasi:* Ketika dialog narasi desa (`PF_QuestNarrativeBox` / `SCREEN 08`) muncul di in-game, widget HUD penerbangan (Timer, Pause, Vitality bar, Telemetry dock, Momentum dock, Camera PIP, Waypoint compass) masih tampil bertumpuk sehingga merusak suasana sinematik. Dimensi textbox ($1236 \times 212\text{ px}$) dan ukuran font dialog ($\sim 22\text{--}24\text{ pt}$) juga dinilai kekecilan untuk game *exergaming* dari jarak pandang $1.5\text{--}2.5\text{ meter}$.
