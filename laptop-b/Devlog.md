@@ -13,6 +13,29 @@ updated: 2026-11-23
 
 ---
 
+## 2026-11-23 — Penyetelan Ulang Sensitivitas `#14 Propeller Dash` (`motion_recognizer.py`, `pose_stabilizer.py`, `cv_locomotion_config.json`)
+
+### Root Cause Over-Sensitivitas
+1. `PropellerRotationClassifier` (`motion_recognizer.py`) sebelumnya memakai `est_omega = max(omega_l, omega_r)`, `radius_ok` dengan `or`, `has_2d_loop` dengan `or`, bypass sisi lambat hingga `0.20 rad/s`, serta `effective_accum = max + 0.5*min`, sehingga ayunan 1 lengan atau gerakan kecil ~82° sudah menembus `2.15 rad`.
+2. Gate 2D orbit (`span >= 0.055`, `aspect >= 0.20`, `len >= 4`) dan spread bahu (`spread_horiz_enter = 0.22`, `spread_vert_enter = 0.68`) terlalu longgar sehingga *1D flapping*, *T-pose* condong, atau goyangan tangan ringan bisa memicu Priority-1 `PROPELLER_DASH`, lalu ditahan oleh `grace_hold_sec = 0.42s` (`or has_2d_loop`).
+3. `recover_motion_blurred_wrists()` (`pose_stabilizer.py`) aktif pada `c_w < 0.42` & `elbow_span_sw >= 1.08` dengan ambang `diff >= 13.0`, berisiko menyuntikkan lonjakan keypoint latar ke estimator rotasi saat keypoint masih wajar.
+
+### Perbaikan
+- **`cv_locomotion_config.json` & `motion_recognizer.py` (`PropellerRotationClassifier`):**
+  - Mewajibkan keaktifan **bilateral kedua lengan**: `avg_omega = 0.5 * (omega_l + omega_r) >= 2.85 rad/s`, `min(omega_l, omega_r) >= 1.65 rad/s` (menghapus bypass `0.20 rad/s`), `avg_accum >= 2.05 rad` dan `min_single_accum >= 1.90 rad` (tanpa penjumlahan `max + 0.5*min`), `both_2d_loops` (`is_2d_l and is_2d_r`) untuk entry, serta `radius_ok` di kedua sisi (`mean_rad >= 0.135 * sw`).
+  - Memperketat 2D orbit (`maxlen = 16`, `len >= 7`, `min_2d_span_sw = 0.13`, `min_2d_aspect = 0.28`) dan spread lengan atas horizontal (`spread_horiz_enter = 0.40`, `spread_vert_enter = 0.46`, `elbow_span >= 1.65`).
+  - Menambahkan konfirmasi entry `min_entry_frames = 2`, menaikkan deadzone `dtheta` (`0.020 -> 0.032`), mempercepat peluruhan diam (`0.86`) dan reset pembalikan 2 frame (`rev_limit = 2`), serta memangkas `grace_hold_sec` (`0.42s -> 0.18s`) tanpa klausa `or has_2d_loop`.
+- **`pose_stabilizer.py` (`recover_motion_blurred_wrists`):** Memperketat `elbow_span_sw >= 1.45`, `c_w < 0.28` / `dist_we_sw < 0.14`, dan `diff >= 18.0`.
+- **`test_all_17_poses_alignment.py`:** Menambahkan uji penolakan over-sensitivitas (putar 1 lengan, kepakan 1D ber-goyang X, putaran lambat `< 2 rad/s`, dan penurunan lengan menuju Low-A).
+
+### Hasil Verifikasi (`ARDragonSkyGuardian_CV/venv/Scripts/python.exe`)
+- `test_all_17_poses_alignment.py`: **ALL 17 POSE ALIGNMENT TESTS PASSED 100%** (termasuk penolakan over-sensitivitas & ketahanan *motion blur*).
+- `test_momentum_and_control_revision.py`: **ALL MOMENTUM & CONTROL REVISION TESTS PASSED 100%**.
+- `test_additional_gestures.py`: **10/10 SKENARIO UJI BERHASIL 100%**.
+- `test_e2e_flight_physics.py`: **6/6 SUITES PASSED (100%)**.
+
+---
+
 ## 2026-11-23 — Peningkatan Animasi Naga Fanamir Tahap 1: Anatomi Kaki Terbang Aerodinamis & Elevasi Dada Hover (`DragonBodyAnimator.cs`, `DragonAnimationVerificationRunner.cs`)
 
 ### Eksekusi Utama (`[[laptop-a/visual-vfx/planning_perbaikan_animasi_dan_pose]]`, `[[laptop-a/visual-vfx/prompt_eksekusi_animasi_tahap_1_laptop_b]]`)
