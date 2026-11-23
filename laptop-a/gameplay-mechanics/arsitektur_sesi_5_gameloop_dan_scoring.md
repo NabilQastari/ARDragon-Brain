@@ -73,13 +73,13 @@ Pengontrol utama permainan (`GameManager.cs`) berjalan menggunakan *State Machin
 
 ## ⏱️ 2. Konfigurasi Timer Countdown per Stage
 
-Waktu bermain disesuaikan dengan skala kepulauan $2400 \times 2400\text{ m}$ dan jarak tempuh naga:
+Waktu bermain disesuaikan dengan skala kepulauan $2400 \times 2400\text{ m}$, ritme kebugaran fisik *exergaming*, dan kenyamanan pemain menjelajahi biome:
 
 | Stage | Misi / Desa yang Terlibat | Batas Waktu Maksimal | Perilaku Timer |
 | :---: | :--- | :---: | :--- |
-| **Stage 01** *(Tutorial)* | Desa Zephyria (1 Desa) | **120 Detik** *(2 Menit)* | Jarak tempuh dekat (~580m) + 8–10 kepakan sayap. |
-| **Stage 02** *(Medium)* | Desa Zephyria + Desa Pyrewood (2 Desa) | **240 Detik** *(4 Menit)* | Termasuk penerbangan isi air di Danau Zephyria. Bebas urutan. |
-| **Stage 03** *(Final)* | Seluruh 3 Desa (Zephyria, Pyrewood, Solaria) | **360 Detik** *(6 Menit)* | Misi pemulihan seluruh kepulauan. |
+| **Stage 01** *(Tutorial)* | Desa Zephyria (1 Desa) | **300 Detik** *(5 Menit)* | Pemulihan kabut Zephyria, pengenalan kontrol terbang, & navigasi dasar. |
+| **Stage 02** *(Medium)* | Desa Zephyria + Desa Pyrewood (2 Desa) | **600 Detik** *(10 Menit)* | Termasuk penerbangan isi air di Danau Zephyria & semburan air di Hutan Pyrewood. Bebas urutan. |
+| **Stage 03** *(Final)* | Seluruh 3 Desa (Zephyria, Pyrewood, Solaria) | **900 Detik** *(15 Menit)* | Misi epik pemulihan seluruh kepulauan 3 biome. |
 | **Free Play** *(Bonus)* | 3 Desa Aktif Bebas | **Tanpa Batas Waktu** *(∞)* | Eksplorasi santai tanpa tekanan waktu (terbuka pasca Stage 03). |
 
 ### ⏸️ Aturan Jeda Timer Saat Narasi (*Narrative Time-Freeze*):

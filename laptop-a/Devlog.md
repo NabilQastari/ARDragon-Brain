@@ -13,7 +13,23 @@ updated: 2026-11-23
 
 ---
 
-## 2026-11-23 — Ekspansi Katalog & Perencanaan Lengkap 19 Pose Naga Fanamir di Studio Three.js ([[planning_perbaikan_animasi_dan_pose]], [[studio_animasi_threejs_fanamir]])
+## 2026-11-23 — Analisis & Perancangan Solusi Stabilisasi Anti-Jitter/Glitch CV & Perpanjangan Timer Stage ([[analisis_dan_solusi_jitter_glitch_cv]])
+- **Evaluasi Permintaan Pengguna:**
+  1. *Perpanjangan Durasi Timer Misi:* Stage 1 diperpanjang menjadi 5 Menit (300 detik), Stage 2 menjadi 10 Menit (600 detik), dan Stage 3 menjadi 15 Menit (900 detik). Free Play tetap tanpa batas waktu ($\infty$).
+  2. *Masalah Ketidakstabilan Deteksi CV:* Titik sendi masih bergetar halus saat pemain diam (jittering), dan terkadang kerangka melompat liar/melipat aneh ke latar belakang (glitching).
+- **Hasil Analisis Akar Penyebab (Laptop A):**
+  - *Ambang Confidence Terlalu Rendah (`0.08–0.12`):* Menyebabkan YOLO menerima noise tekstur latar belakang (bayangan, pola sofa, lemari) sebagai keypoint pergelangan tangan.
+  - *Parameter One-Euro Over-Tuned (`beta = 0.75`):* Nilai beta yang terlalu tinggi membuat filter membuka agresif saat noise spike terjadi, memicu lonjakan koordinat instan.
+  - *Ketiadaan Batasan Kinematik Panjang Tulang:* Pergelangan tangan tidak di-clamp dalam radius jangkauan anatomis siku ($0.6\text{--}0.9\times sw$), sehingga titik bebas terlempar ke sembarang tempat.
+- **Rancangan Solusi 4 Lapisan Stabilisasi:**
+  1. *Lapisan 1 (Kinematic Bone Clamping):* Batasi jarak wrist dari siku maksimal $1.10\times$ panjang forearm terkalibrasi; jika melompat keluar, proyeksikan kembali ke batas bola siku.
+  2. *Lapisan 2 (Confidence Gating & Inertial Decay):* Naikkan ambang batas minimum menjadi $\ge 0.30$. Jika tracking hilang sementara, tahan posisi frame sebelumnya dengan peluruhan inersia lembut ($\times 0.85$).
+  3. *Lapisan 3 (One-Euro Re-Tuning):* Setel ulang $f_{c,\min} = 0.40\text{ Hz}$ (eliminasi 95% jitter diam) dan $\beta = 0.12$ (responsif tanpa spike snap).
+  4. *Lapisan 4 (Centroid Smoothing & Single-Player IOU Lock):* Kunci target pemain utama dengan IOU $\ge 0.40$ untuk mencegah pergantian objek acak.
+- **Pembaruan Dokumen & Master Prompt Eksekusi Laptop B:**
+  - Memperbarui batas waktu di `arsitektur_sesi_5_gameloop_dan_scoring.md` dan `00 - Overview.md`.
+  - Menerbitkan dokumen analisis teknis dan master prompt di `brain/laptop-a/cv-control/analisis_dan_solusi_jitter_glitch_cv.md`.
+  - Memperbarui [[Tasks]] dan [[Devlog]].
 - **Respons Umpan Balik Pengguna:**
   - Pengguna meminta agar dokumen perencanaan animasi dan studio Three.js tidak hanya mencakup segelintir pose sampel, melainkan mencakup **seluruh pose resmi game (19 Pose + Rest Pose)** secara komprehensif.
 - **Ekspansi Cetak Biru Perencanaan (`docs/02_PLANNING_ANIMASI_POSE.md`):**
