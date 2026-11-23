@@ -13,6 +13,18 @@ updated: 2026-11-23
 
 ---
 
+## 2026-11-24 — Penerbitan Master Prompt Eksekusi Arsitektur Hibrida YOLO + MediaPipe & Timer Stage Baru ([[prompt_eksekusi_hybrid_cv_dan_timer_laptop_b]])
+- **Persetujuan Pengguna terhadap Strategi Hibrida:**
+  - Pengguna menyetujui pendekatan hibrida: mempertahankan YOLO sebagai otak utama (deteksi orang makro, bounding box locking, kemudi torso) dan memadukannya dengan Google MediaPipe Pose Landmarker pada crop ROI pemain untuk mengunci sendi pergelangan tangan & siku dengan kestabilan sub-piksel 3D.
+- **Penyusunan Master Prompt Siap Salin untuk Laptop B:**
+  - Menyusun dokumen instruksi teknis di `brain/laptop-a/cv-control/prompt_eksekusi_hybrid_cv_dan_timer_laptop_b.md`:
+    1. *Unity C#:* Perbaruan batas waktu stage (`GameManager.cs` / `DragonGameSettings.cs`: Stage 1 = 300s, Stage 2 = 600s, Stage 3 = 900s) & kartu Lobby `MissionsPanelUI.cs`.
+    2. *Python CV:* Implementasi `HybridPoseTracker` (`hybrid_pose_tracker.py`), integrasi ke `active_cv_sender.py`, pemanfaatan `pose_landmarker_lite.task` eksisting, tuning One-Euro (`min_cutoff=0.40 Hz`, `beta=0.12`), dan *Kinematic Bone Clamping*.
+    3. *Prosedur Verifikasi:* Uji `test_all_17_poses_alignment.py` 100% PASS, uji visual webcam anti-jitter/glitch, dan uji Play Mode game loop.
+  - Memperbarui [[00 - Overview]], [[Tasks]], dan [[Devlog]].
+
+---
+
 ## 2026-11-23 — Analisis & Perancangan Solusi Stabilisasi Anti-Jitter/Glitch CV & Perpanjangan Timer Stage ([[analisis_dan_solusi_jitter_glitch_cv]])
 - **Evaluasi Permintaan Pengguna:**
   1. *Perpanjangan Durasi Timer Misi:* Stage 1 diperpanjang menjadi 5 Menit (300 detik), Stage 2 menjadi 10 Menit (600 detik), dan Stage 3 menjadi 15 Menit (900 detik). Free Play tetap tanpa batas waktu ($\infty$).

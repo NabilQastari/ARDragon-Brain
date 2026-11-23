@@ -67,7 +67,8 @@ updated: 2026-11-19
 
 #### 👁️ Computer Vision & Kontrol (`laptop-a/cv-control/`)
 - [[laptop-a/cv-control/panduan_detail_pose_dan_sync_laptop_b|panduan_detail_pose_dan_sync_laptop_b]] — Panduan detail 17 pose kontrol & sinkronisasi implementasi Laptop B (Python CV + Unity).
-- [[laptop-a/cv-control/analisis_dan_solusi_jitter_glitch_cv|analisis_dan_solusi_jitter_glitch_cv]] — Analisis akar penyebab getaran (jitter) & lompatan liar (glitch) kerangka CV serta 4 lapisan stabilisasi (Kinematic Bone Clamping, Confidence Gating, One-Euro Retuning, BBox Smoothing).
+- [[laptop-a/cv-control/analisis_dan_solusi_jitter_glitch_cv|analisis_dan_solusi_jitter_glitch_cv]] — Analisis akar penyebab getaran (jitter) & lompatan liar (glitch) kerangka CV, 4 lapisan stabilisasi, dan perancangan arsitektur hibrida YOLOv8 + MediaPipe Pose.
+- [[laptop-a/cv-control/prompt_eksekusi_hybrid_cv_dan_timer_laptop_b|prompt_eksekusi_hybrid_cv_dan_timer_laptop_b]] — Master prompt instruksi siap salin bagi Laptop B untuk mengimplementasikan arsitektur hibrida YOLO + MediaPipe Pose Landmarker pada Crop ROI pemain dan perpanjangan timer stage 5/10/15 menit di Unity.
 - [[laptop-a/cv-control/planning_audit_pose_dan_clean_cv_preview|planning_audit_pose_dan_clean_cv_preview]] — Pembersihan preview CV (FPS only) & protokol audit 15 pose berbasis screenshot.
 - [[laptop-a/cv-control/planning_revisi_titik_wajah_dan_pov|planning_revisi_titik_wajah_dan_pov]] — Perencanaan revisi 3 titik wajah (hidung, dagu, mulut) & penyesuaian pose vertikal fly-up.
 - [[laptop-a/cv-control/prompt_visual_pose_cv_kerangka|prompt_visual_pose_cv_kerangka]] — Prompt generator visual pose titik & kerangka CV (piktogram siluet resmi).
