@@ -13,6 +13,24 @@ updated: 2026-11-24
 
 ---
 
+## 2026-11-24 — Setup & Integrasi Graphify Code Knowledge Graph (`[[laptop-a/handoff-laptop-b/planning_graphify_laptop_b]]`, [[Setup Graphify Code Graph Laptop B]])
+
+### Perubahan yang Diimplementasikan
+1. **Instalasi CLI `graphifyy` (`v0.9.110`):** Memasang `graphifyy` beserta `tree-sitter-c-sharp`, `tree-sitter-python`, `networkx`, dan `rapidfuzz` pada environment Python 3.10 Laptop B.
+2. **Ekstraksi AST Terarah (`--code-only`, Tanpa LLM API):**
+   - **C# (`AR Dragon Sky Guardian/Assets/_Scripts`):** `33` file kode $\rightarrow$ `937` node, `2146` edge, `39` komunitas (`.meta` otomatis dilewati).
+   - **Python (`ARDragonSkyGuardian_CV`):** `27` file kode $\rightarrow$ `397` node, `1247` edge, `17` komunitas (`venv/` otomatis dikecualikan via `.gitignore`).
+   - **Penggabungan & Klasterisasi (`merge-graphs` + `cluster-only --no-label`):** Dihasilkan `1334` node, `3393` edge, dan `56` komunitas di `brain/laptop-b/code-graph/` (`graph.json` `1.75 MB`, `GRAPH_REPORT.md` `12.7 KB`, `graph.html` `1.50 MB`, `.graphify_analysis.json` `107 KB`).
+3. **Portal Navigasi Obsidian:** Membuat `brain/laptop-b/code-graph/index.md` yang menautkan `[[GRAPH_REPORT]]` dan `graph.html` untuk navigasi Graph View / Juggl di Obsidian.
+
+### Hasil Verifikasi CLI
+- `graphify explain "DragonFlightController" --graph brain/laptop-b/code-graph/graph.json`: Berhasil menampilkan `Community 8`, `Degree: 88`, serta koneksi keluar/masuk (`VillageZoneController`, `IPoseProvider`, `InGameFlightHUD`, `DragonBodyAnimator`, `DragonWingAnimator`, `GameManager`, dll.).
+- `graphify path "UDPPoseReceiver" "DragonWingAnimator" --undirected --graph brain/laptop-b/code-graph/graph.json`: Berhasil melacak jalur `2` hop (`UDPPoseReceiver <--references-- DragonWingAnimator.ResolveDependencies() <--method-- DragonWingAnimator`).
+- `graphify god-nodes --top 5 --graph brain/laptop-b/code-graph/graph.json`: `UDPPoseReceiver` (99), `DragonFlightController` (88), `VillageZoneController` (73), `InGameFlightHUD` (63), `IPoseProvider` (63).
+- Ukuran `graph.html` adalah `1.50 MB` (`< 5 MB`), sehingga aman ikut di-commit ke repository `brain/`.
+
+---
+
 ## 2026-11-24 — Perpanjangan Timer Stage (5/10/15 Menit) & Arsitektur Hibrida YOLOv8 + MediaPipe Pose (`[[laptop-a/cv-control/analisis_dan_solusi_jitter_glitch_cv]]`, `[[laptop-a/gameplay-mechanics/arsitektur_sesi_5_gameloop_dan_scoring]]`)
 
 ### Perubahan yang Diimplementasikan
