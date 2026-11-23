@@ -5,7 +5,7 @@ tags:
   - laptop-b
   - engineering
 owner: Laptop B
-updated: 2026-11-22
+updated: 2026-11-23
 ---
 
 # 💻 Tasks — Laptop B (Eksekusi & Pengembangan Program)
@@ -93,6 +93,11 @@ updated: 2026-11-22
 - [x] **Penyetelan Ulang Sensitivitas `#14 Propeller Dash` (`motion_recognizer.py`, `pose_stabilizer.py`, `cv_locomotion_config.json`, `test_all_17_poses_alignment.py`):**
   - [x] Perketat syarat bilateral `PropellerRotationClassifier` (rata-rata akumulasi & omega kedua lengan `min_rotation_accum_rad=2.05`, `min_side_rotation_accum_rad=1.90`, `min_angular_velocity=2.85`, `min_side_angular_velocity=1.65`), wajibkan `both_2d_loops` (`span>=0.13`, `aspect>=0.28`, `len>=7`) dan radius orbit kedua sisi (`min_orbit_radius_sw=0.135`), perketat spread bahu horizontal (`spread_horiz_enter=0.40`, `spread_vert_enter=0.46`, `elbow_span>=1.65`), tambahkan `min_entry_frames=2`, perpendek `grace_hold_sec` (`0.42s -> 0.18s`), dan percepat reset pembalikan arah / diam di `accumulate()`.
   - [x] Perketat pemicu *Motion-Blur Recovery* `recover_motion_blurred_wrists()` di `pose_stabilizer.py` (`elbow_span_sw>=1.45`, `c_w<0.28`, `diff>=18.0`) serta tambahkan uji penolakan over-sensitivitas (1 lengan, flap 1D + sway horizontal, putaran lambat `<2 rad/s`, & ayunan ke Low-A) dengan kelulusan 100% pada 4 suite CV (`test_all_17_poses_alignment.py`, `test_momentum_and_control_revision.py`, `test_additional_gestures.py`, `test_e2e_flight_physics.py`).
+- [x] **Perbaikan UI In-Game: Full Narrative Isolation Mode & Redesain Side-Docked Challenge HUD (`[[laptop-a/ui-ux/planning_perbaikan_ui_ingame_dan_event_desa]]`):**
+  - [x] **Perbesar `PF_QuestNarrativeBox.prefab` (`UISceneAndPrefabBuilder.BuildQuestNarrativePrefab`):** RectTransform `1440×300 px` anchor *Bottom-Center* `(0, 36)`, `UI_Banner_SpeakerTag_Blank` `420×52 px` (`Fredoka Bold 28 pt`), plakat emblem biome `160×180 px` (`96×96` ikon + `18 pt`), teks dialog `Nunito ExtraBold 34 pt` (`lineSpacing = 20` / `1.2x`), strip petunjuk aksi `Fredoka Bold 26 pt`, & countdown auto-play (`Fredoka Bold 24 pt`, bar pengisi `14 px`).
+  - [x] **Full Narrative Isolation Mode (`InGameFlightHUD.SetNarrativeIsolationMode`, `VillageZoneController`):** Menyembunyikan seluruh HUD gameplay (`MissionCapsule`, `Btn_EscPause`, `GlobalVitalityBar`, `TelemetryDock`, `MomentumDock`, `PIP_CameraControlsCard`, `PIP_CameraPanel`, `WaypointCompass`, serta *world-space billboard markers* via `HideAllWorldMarkers()`) sehingga hanya `QuestObjectivePanel` dan `PF_QuestNarrativeBox` yang tampil.
+  - [x] **Redesain Side-Docked Challenge HUD (`PF_VillageChallengeOverlay.prefab`, `VillageChallengeUI.cs`, `InGameFlightHUD.SetVillageChallengeMode`, `VillageZoneController.cs`):** Mengubah modal tengah `720×670` menjadi panel samping kanan *Middle-Right* `400×620 px` (`anchoredPosition = (-30, 0)`) dengan header `DESA` + sub-teks krisis (`UI_Banner_Stepped_SubPanel_Blank`), kartu pose target (`360×220 px`, ikon `84×84`, komando `28 pt`, badge live feedback `● GERAKAN TERDETEKSI!` vs `○ MENUNGGU GERAKAN...`), progress bar `360×48 px` (`Mathf.SmoothDamp`, teks `22 pt`, No-Decay), hint escape `360×38 px`, & mode HUD `SetVillageChallengeMode(true)` / `RestoreNormalFlightHUD()` sehingga area tengah naga 3D bebas 100%.
+  - [x] Verifikasi Play Mode di `MainIsland_Gameplay.unity`: `Session4VerificationRunner` (`100% PASS`), `Session5GameLoopVerificationRunner` (`100% PASS`), `0` errors/warnings, & 3 screenshot (`SS_UI_Narrative_Isolation.png`, `SS_UI_SideDocked_Challenge_Waiting.png`, `SS_UI_SideDocked_Challenge_Flapping.png`).
 - [ ] **Sesi 5 Lanjutan (`AudioManager` & Build Windows Standalone):** Sistem BGM/SFX (`AudioManager` / `AudioMixer`, subscribe `DragonGameSettings.OnBgmVolumeChanged`/`OnSfxVolumeChanged` & hapus `// TODO [SYNC-AUDIO]`) serta build Windows standalone + `start_game.bat`.
 
 ## ✅ Selesai (v6.0 — Sky Peck & Auto-Launch Python)

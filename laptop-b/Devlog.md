@@ -13,6 +13,37 @@ updated: 2026-11-23
 
 ---
 
+## 2026-11-23 — Perbaikan UI In-Game: Full Narrative Isolation Mode & Redesain Side-Docked Challenge HUD (`[[laptop-a/ui-ux/planning_perbaikan_ui_ingame_dan_event_desa]]`)
+
+### Perubahan yang Diimplementasikan
+1. **Perbesaran `PF_QuestNarrativeBox.prefab` (`UISceneAndPrefabBuilder.BuildQuestNarrativePrefab`):**
+   - Root diubah ke anchor *Bottom-Center* `(0.5, 0)`, `anchoredPosition = (0, 36)`, `sizeDelta = (1440, 300)` untuk keterbacaan *exergaming* jarak `1.5–2.5 m`.
+   - `SpeakerBanner` (`UI_Banner_SpeakerTag_Blank`): `420 × 52 px`, font `Fredoka-Bold SDF 28 pt`.
+   - `EmblemCard`: `160 × 180 px`, ikon `96 × 96 px` + nama biome `Fredoka-SemiBold SDF 18 pt`.
+   - `NarrativeBodyText`: `880 × 134 px`, font `Nunito-ExtraBold SDF 34 pt` dengan `lineSpacing = 20` (`1.2×`).
+   - `WhatToDoStrip` (`880 × 58 px`): soket `46 × 46 px` + teks petunjuk `Fredoka-Bold SDF 26 pt`.
+   - `LineCounterPill` (`UI_Tag_Stage_Gold_Blank`, `288 × 44 px`, `Fredoka-Bold SDF 20 pt`) & `AutoPlayWidget` (`CountdownTimerText` `Fredoka-Bold SDF 24 pt`, bar pengisi `CountdownFill` tinggi `14 px`).
+2. **Full Narrative Isolation Mode (`InGameFlightHUD.cs`, `VillageZoneController.cs`, `Session4_VillageBuilder.cs`):**
+   - Memperbarui `SetNarrativeIsolationMode(bool active)` dan fallback `ResolveDependencies()` + `EnsureHudIsolationRefsWired()`: saat `active == true`, menyembunyikan `MissionCapsule`, `Btn_EscPause`, `GlobalVitalityBar`, `TelemetryDock`, `MomentumDock`, `PIP_CameraControlsCard`, `PIP_CameraPanel`, `WaypointCompass`, serta *world-space billboard markers* (`HideAllWorldMarkers()`), menyisakan **hanya** `QuestObjectivePanel` dan `PF_QuestNarrativeBox`.
+3. **Redesain Side-Docked Challenge HUD (`PF_VillageChallengeOverlay.prefab`, `VillageChallengeUI.cs`, `InGameFlightHUD.cs`, `VillageZoneController.cs`):**
+   - Mengganti modal tengah `720 × 670 px` dengan panel samping kanan *Middle-Right* `(1.0, 0.5)`, `anchoredPosition = (-30, 0)`, ukuran `400 × 620 px` (`UI_Panel_Parchment_Calib_9Slice`).
+   - Komposisi: `HeaderBanner` (`UI_Banner_Stepped_SubPanel_Blank` `360 × 48 px`, `Fredoka Bold 22 pt`) + `CrisisSubtitle` (`Nunito ExtraBold 15 pt`), `PoseIndicatorCard` (`360 × 220 px` dengan ikon pose `84 × 84 px`, komando `Fredoka Bold 28 pt`, hint `15.5 pt`, dan badge live feedback `320 × 36 px` `● GERAKAN TERDETEKSI!` vs `○ MENUNGGU GERAKAN...`), progress bar `360 × 48 px` berhaluskan `Mathf.SmoothDamp` + label numerik `22 pt`, serta `EscapeHintChip` (`360 × 38 px`).
+   - Menambahkan `SetVillageChallengeMode(bool active)` dan `RestoreNormalFlightHUD()` di `InGameFlightHUD.cs` serta menghubungkan deteksi gestur real-time di `VillageZoneController.cs` (`SetGestureFeedback(isFlapping / true / _isMouthWaterActive / handsHighUp)` + label progres No-Decay).
+   - Menambahkan re-wiring otomatis `VillageZoneController` & `GameManager` pada `UISceneAndPrefabBuilder.UpgradeGameplayScene()` setelah `BuildAll()`.
+
+### Hasil Verifikasi Play Mode (`MainIsland_Gameplay.unity`)
+- Kompilasi skrip & `UISceneAndPrefabBuilder.BuildAll()`: `0` errors, `0` warnings baru.
+- **Narrative Isolation Mode (Pad Zephyria):** Hanya `QuestObjectivePanel` & `PF_QuestNarrativeBox` (`1440×300` at `(0, 36)`) yang aktif; seluruh HUD lain & billboard 3D tersembunyi.
+- **Side-Docked Challenge HUD (Tantangan Kabut Zephyria):** Panel kanan `400×620` at `(-30, 0)` aktif bersama `QuestObjectivePanel`, `MissionCapsule`, & `Btn_EscPause`; `GlobalVitalityBar`, `TelemetryDock`, `MomentumDock`, `PIP_CameraPanel`, & `WaypointCompass` tersembunyi; naga di tengah layar 100% bebas halangan; badge `GERAKAN TERDETEKSI!` menyala hijau saat mengepak dan bar progres naik (`2/10 KEPAKAN (22%)`, `9/10 KEPAKAN (99%)`) tanpa decay.
+- `Session4VerificationRunner.RunPlayModeVerificationAsync()`: **`ALL SESSION 4 VILLAGE, SUB-MARKER, AUTO-HOVER, ESCAPE, BILLBOARD & UI ISOLATION CHECKS PASSED (100%)`** (`0` console errors/warnings).
+- `Session5GameLoopVerificationRunner.RunPlayModeVerificationAsync()`: **`ALL SESSION 5 GAME LOOP, COUNTDOWN, NARRATIVE FREEZE, GLOBAL VITALITY STARS, UNLOCK & FINISH MODAL CHECKS PASSED (100%)`** (`0` console errors/warnings).
+- **Tangkapan Layar Mandiri (`docs/figures/raw_screenshots/`):**
+  - `docs/figures/raw_screenshots/SS_UI_Narrative_Isolation.png`
+  - `docs/figures/raw_screenshots/SS_UI_SideDocked_Challenge_Waiting.png`
+  - `docs/figures/raw_screenshots/SS_UI_SideDocked_Challenge_Flapping.png`
+
+---
+
 ## 2026-11-23 — Penyetelan Ulang Sensitivitas `#14 Propeller Dash` (`motion_recognizer.py`, `pose_stabilizer.py`, `cv_locomotion_config.json`)
 
 ### Root Cause Over-Sensitivitas
