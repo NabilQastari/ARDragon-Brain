@@ -56,6 +56,7 @@ updated: 2026-11-19
 - [[laptop-a/ui-ux/rencana_desain_ui|rencana_desain_ui]] — Spesifikasi UI Boot Flow (*Splash* & *Start Screen*), Lobby, Kalibrasi, HUD, & Finish Modal (*Fantasy Parchment-and-Ink Tabletop Card UI*).
 - [[laptop-a/ui-ux/panduan_aset_ui_unity|panduan_aset_ui_unity]] — Panduan impor Unity 6, nilai *9-Slice* (`L, T, R, B`), & perakitan layar untuk **`140` PNG komponen + `11` PNG desain referensi `1920×1080`** di [`UI_Unity_Export/`](file:///e:/Semester%205/Game/AR%20Dragon/UI_Unity_Export/).
 - [[laptop-a/ui-ux/kontrak_integrasi_ui_dan_progress|kontrak_integrasi_ui_dan_progress]] — Matriks *Live vs Placeholder vs Dormant UI*, protokol sinkronisasi otomatis *Progress ↔ UI*, & prompt implementasi UI untuk Laptop B.
+- [[laptop-a/ui-ux/planning_perbaikan_ui_ingame_dan_event_desa|planning_perbaikan_ui_ingame_dan_event_desa]] — Perencanaan perbaikan UI in-game: mode isolasi total saat textbox narasi (hanya textbox besar + quest objective) & redesain Side-Docked Challenge HUD di samping layar (agar naga di tengah 100% bebas terlihat).
 
 #### 🎮 Gameplay & Mekanik (`laptop-a/gameplay-mechanics/`)
 - [[laptop-a/gameplay-mechanics/mekanisme_tantangan_desa|mekanisme_tantangan_desa]] — Rancangan gameplay tantangan 3 desa (Zephyria, Pyrewood, Solaria), state mesin narasi vs tantangan, dan mode *Free Play*.

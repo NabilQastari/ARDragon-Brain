@@ -13,7 +13,22 @@ updated: 2026-11-23
 
 ---
 
-## 2026-11-23 — Pengarsipan 2 Lembar Rujukan Resmi & Penerbitan Master Prompt Revisi Tahap 1 ([[evaluasi_dan_revisi_pose_tahap_1]], [[prompt_eksekusi_animasi_tahap_1_laptop_b]])
+## 2026-11-23 — Perancangan Solusi UI In-Game: Mode Isolasi Textbox Narasi & Redesain Side-Docked Challenge HUD ([[planning_perbaikan_ui_ingame_dan_event_desa]])
+- **Evaluasi Kritis Pengguna & Akar Masalah:**
+  1. *Kebocoran UI saat Narasi:* Ketika dialog narasi desa (`PF_QuestNarrativeBox` / `SCREEN 08`) muncul di in-game, widget HUD penerbangan (Timer, Pause, Vitality bar, Telemetry dock, Momentum dock, Camera PIP, Waypoint compass) masih tampil bertumpuk sehingga merusak suasana sinematik. Dimensi textbox ($1236 \times 212\text{ px}$) dan ukuran font dialog ($\sim 22\text{--}24\text{ pt}$) juga dinilai kekecilan untuk game *exergaming* dari jarak pandang $1.5\text{--}2.5\text{ meter}$.
+  2. *Modal Tantangan Desa Menutupi Naga:* Modal tantangan lama (`PF_VillageChallengeOverlay` / `SCREEN 03`, $720 \times 670\text{ px}$) diletakkan tepat di tengah layar, menutupi badan naga Fanamir secara total sehingga pemain tidak bisa melihat naga sedang mengepakkan sayap, mengisi air danau, atau menyemburkan nafas air (*Water Breath*).
+- **Cetak Biru Solusi Desain Baru (Laptop A):**
+  1. **Full Narrative Isolation Mode:**
+     - Mengunci aturan isolasi penuh pada `InGameFlightHUD.cs`: saat textbox narasi aktif, **HANYA** `QuestObjectivePanel` (kiri atas) dan `PF_QuestNarrativeBox` (bawah tengah) yang boleh aktif. Seluruh elemen HUD lain (`MissionCapsule`, `Btn_EscPause`, `GlobalVitalityBar`, `TelemetryDock`, `MomentumDock`, `PIP_CameraControlsCard`, `PIP_CameraPanel`, `WaypointCompass`) wajib di-hide total (`SetActive(false)`).
+     - **Perbesaran Dimensi & Tipografi Textbox:** RectTransform diperlebar menjadi **$1440 \times 300\text{ px}$** ($+204\text{ px}$ lebar, $+88\text{ px}$ tinggi), font dialog dinaikkan drastis dari $22\text{ pt}$ ke **$34\text{ pt}$** (*Nunito ExtraBold*, line spacing $1.2$), speaker tag menjadi **$28\text{ pt}$**, teks instruksi aksi menjadi **$26\text{ pt}$**, dan bar countdown auto-play dipertebal menjadi $14\text{ px}$.
+  2. **Side-Docked Challenge HUD (Event Desa):**
+     - Menghapus total kartu modal perkamen raksasa $720 \times 670\text{ px}$ di tengah layar!
+     - Menggantinya dengan **Side-Docked Challenge HUD** ramping di sisi kanan layar ($400 \times 620\text{ px}$, anchor `Middle-Right (-30, 0)`), sehingga area tengah layar ($x = 350\dots 1500$, bentang $> 1150\text{ px}$) **100% BEBAS & KOSONG**. Aksi naga Fanamir, animasi sayap, artikulasi rahang buka mulut `Bone_Jaw`, dan efek VFX Effekseer terlihat spektakuler tanpa halangan apa pun.
+     - **Komponen Esensial Panel Samping:** (1) Header Krisis Desa ($360 \times 64\text{ px}$); (2) Kartu Pose Target ($360 \times 220\text{ px}$) dengan siluet pose besar $84\text{ px}$, komando tegas $28\text{ pt}$, dan badge live feedback (`● GERAKAN TERDETEKSI` vs `○ MENUNGGU GERAKAN`); (3) Progress Bar Tebal $48\text{ px}$ ($0\% \to 100\%$ no-decay) dengan teks angka besar $22\text{ pt}$; serta (4) Escape hint di bagian dasar.
+     - **Isolasi UI saat Tantangan:** Sembunyikan Vitality bar, Telemetry dock, Momentum dock, PIP, dan Waypoint compass; pertahankan Timer krisis di tengah atas dan Quest Objective di kiri atas.
+- **Penerbitan Master Prompt Eksekusi untuk Laptop B:**
+  - Menyusun panduan implementasi teknis Unity C# & Prefab siap salin di `brain/laptop-a/ui-ux/planning_perbaikan_ui_ingame_dan_event_desa.md` (§6).
+  - Memperbarui [[00 - Overview]], [[Tasks]], dan [[Devlog]].
 - **Integrasi 2 Lembar Rujukan Desain Resmi Pengguna:**
   - Mengarsipkan 2 lembar panduan ilustrasi resmi dari pengguna:
     1. `Referensi/Ref_Dragon_Hover_Leg_Anatomy.jpg`: *DRAGON HOVER POSES (STATIONARY FLIGHT)* — postur tubuh tegap miring naik $+28^\circ \sim +35^\circ$ (*Upright Hovering Posture*), kaki depan menggantung tertekuk santai $80^\circ\text{--}90^\circ$ ke bawah-depan, kaki belakang melayang bebas tertekuk $35^\circ\text{--}45^\circ$ di bawah tubuh, serta ekor melengkung anggun ke atas sebagai penyeimbang bobot.
