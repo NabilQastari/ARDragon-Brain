@@ -13,85 +13,156 @@ updated: 2026-11-24
 # 📋 Master Prompt Eksekusi Sistem Audio Fanamir (Laptop B)
 
 > **Untuk Pengguna / AI Agent di Laptop B:**
-> Seluruh aset audio lengkap (7 BGM MP3 orkestra/tribal + 22 SFX WAV 44.1kHz) telah selesai diproduksi dan siap di `assets/audio/`. Salin seluruh prompt di bawah ini ke sesi chat **Laptop B** untuk mengimplementasikan sistem audio terpadu di Unity 6 URP!
+> Seluruh aset audio lengkap (**8 BGM MP3 orkestra/tribal + 22 SFX WAV 44.1kHz 16-bit**) telah selesai diproduksi dan siap di folder `assets/audio/`. Salin seluruh blok instruksi di bawah ini ke sesi chat **Laptop B** untuk mengimplementasikan sistem audio terpadu di Unity 6 URP!
 
 ---
 
 ```markdown
-Halo! Ini adalah instruksi resmi dari Laptop A untuk mengimplementasikan **Sistem Audio Lengkap (BGM Dinamis & SFX)** di Unity 6 URP (`Assets/`), menyambungkan `AudioManager.cs`, menghubungkan hook `DragonGameSettings.OnBgmVolumeChanged` & `OnSfxVolumeChanged`, dan menghapus penanda lama `// TODO [SYNC-AUDIO]`.
+Halo! Ini adalah sesi eksekusi implementasi **Sistem Audio Terpadu Fanamir (BGM Dinamis, Transisi Cross-Fade, & Suite 22 SFX)** di **Laptop B** (`AR Dragon Sky Guardian`).
 
-Rujukan arsitektur resmi: `brain/laptop-a/gameplay-mechanics/arsitektur_sistem_audio.md`.
+Sesuai aturan `AGENTS.md` dan dokumen arsitektur resmi di `brain/laptop-a/gameplay-mechanics/arsitektur_sistem_audio.md`:
+1. Jalankan `git -C brain pull` untuk menyambung konteks terbaru dari Laptop A.
+2. Baca `brain/00 - Overview.md`, `brain/laptop-b/Tasks.md`, `brain/laptop-b/Devlog.md`, dan `brain/laptop-a/gameplay-mechanics/arsitektur_sistem_audio.md`.
+3. Ingat aturan anti-collision: Laptop B hanya menulis/mengedit catatan di `brain/laptop-b/` (read-only untuk `laptop-a/`).
 
 ---
 
-### 🎯 TUGAS KITA DI SESI INI:
-1. **Sinkronisasi / Impor Aset Audio ke Unity (`Assets/Audio/`):**
-   - Salin seluruh folder `assets/audio/` dari root workspace ke `AR Dragon Sky Guardian/Assets/Audio/`:
-     - `Assets/Audio/BGM/Ghibli_Fantasy/` (3 lagu)
-     - `Assets/Audio/BGM/Cinematic_Tribal/` (4 lagu)
-     - `Assets/Audio/BGM/Celebration/` (1 lagu)
-     - `Assets/Audio/SFX/Dragon/` (8 file WAV)
-     - `Assets/Audio/SFX/Village/` (6 file WAV)
-     - `Assets/Audio/SFX/UI/` (8 file WAV)
-   - Konfigurasi Audio Importer di Unity:
-     - BGM: *Compressed In Memory* / *Vorbis 70%*, Streaming.
-     - SFX Pendek (< 2s): *Decompress On Load*, PCM 16-bit.
-     - SFX Looping: *Compressed In Memory*, Vorbis 85%.
+## 🎯 TUJUAN & TARGET SESI INI:
+Mengimplementasikan sistem audio terpadu di Unity 6 URP (`Assets/`), membangun `Fanamir_AudioMixer.mixer`, mengimplementasikan `AudioManager.cs` lengkap dengan *Dual-Channel Cross-Fade*, menghubungkan slider volume `DragonGameSettings.OnBgmVolumeChanged` & `OnSfxVolumeChanged`, menghubungkan seluruh hook audio pada skrip gameplay & UI eksisting, dan menghapus penanda lama `// TODO [SYNC-AUDIO]`.
 
-2. **Buat `Fanamir_AudioMixer.mixer` (`Assets/Audio/`):**
-   - Buat bus hierarchy:
-     - `Master` (0 dB)
-       - `BGM` -> Expose parameter `"BgmVolume"`
-       - `SFX` -> Expose parameter `"SfxVolume"`
-       - `UI` (anak dari SFX atau Master)
-   - Expose parameter dinamai persis: `BgmVolume` dan `SfxVolume`.
+---
 
-3. **Implementasikan `AudioManager.cs` (`Assets/_Scripts/Audio/`):**
-   - Singleton pattern (`DontDestroyOnLoad`), namespace `DragonWingAR.Audio`.
-   - Miliki 2 `AudioSource` BGM (`bgmSourceA` dan `bgmSourceB`) dengan output ke bus `BGM`.
-   - Implementasikan coroutine `CrossfadeBGM(AudioClip newClip, float duration = 1.8f)`:
-     - Fade-out track aktif dan fade-in track baru secara halus dengan kurva kuadratik/smoothstep.
-   - Sambungkan event reaktif ke `DragonGameSettings`:
+## 🛠️ PANDUAN EKSEKUSI TEKNIS LANGKAH DEMI LANGKAH:
+
+### LANGKAH 1: Sinkronisasi Aset Audio ke Unity (`Assets/Audio/`)
+1. Salin seluruh isi folder `assets/audio/` dari root workspace ke `AR Dragon Sky Guardian/Assets/Audio/`:
+   - `Assets/Audio/BGM/Ghibli_Fantasy/` (3 MP3: `BGM_Lobby_FolkRound`, `BGM_Flight_CelticImpulse`, `BGM_Flight_AirPrelude`)
+   - `Assets/Audio/BGM/Cinematic_Tribal/` (4 MP3: `BGM_Flight_SkyeCuillin`, `BGM_Crisis_Zephyria_HimalayanAtmosphere`, `BGM_Crisis_Pyrewood_Firesong`, `BGM_Crisis_Solaria_DesertCity`)
+   - `Assets/Audio/BGM/Celebration/` (1 MP3: `BGM_Victory_HeroicAge`)
+   - `Assets/Audio/SFX/Dragon/` (8 WAV: `SFX_WingFlap`, `SFX_WingFlap_Heavy`, `SFX_DiveRush_Loop`, `SFX_PropellerDash_Loop`, `SFX_Launch_Whoosh`, `SFX_Dragon_Footstep_01..02`, `SFX_Dragon_Roar_Victory`)
+   - `Assets/Audio/SFX/Village/` (6 WAV: `SFX_Zephyria_WindGust`, `SFX_Lake_Siphon_Loop`, `SFX_Pyrewood_WaterBreath_Loop`, `SFX_Pyrewood_Extinguish_Steam`, `SFX_Solaria_DewChimes`, `SFX_Village_Cleansed_Stinger`)
+   - `Assets/Audio/SFX/UI/` (8 WAV: `SFX_UI_Click`, `SFX_UI_Hover`, `SFX_UI_PoseLock`, `SFX_Countdown_Beep`, `SFX_Countdown_Go`, `SFX_Star_01..03`)
+2. Buat skrip Editor pembantu `Assets/Editor/AudioImporterSetupUtility.cs` (mirip `UISpriteSetupUtility.cs`) untuk mengonfigurasi otomatis seluruh audio importer:
+   - **BGM (MP3):** `loadType = AudioClipLoadType.Streaming`, `compressionFormat = AudioCompressionFormat.Vorbis`, `quality = 0.70f`.
+   - **SFX Pendek (< 2s):** `loadType = AudioClipLoadType.DecompressOnLoad`, `compressionFormat = AudioCompressionFormat.PCM`.
+   - **SFX Loop / Stinger (> 2s):** `loadType = AudioClipLoadType.CompressedInMemory`, `compressionFormat = AudioCompressionFormat.Vorbis`, `quality = 0.85f`.
+
+---
+
+### LANGKAH 2: Pembuatan `Fanamir_AudioMixer.mixer`
+1. Di folder `Assets/Audio/`, buat aset AudioMixer bernama `Fanamir_AudioMixer.mixer`.
+2. Susun hirarki bus:
+   ```text
+   Master (0 dB)
+     ├── BGM (0 dB)  --> Expose Parameter: "BgmVolume"
+     └── SFX (0 dB)  --> Expose Parameter: "SfxVolume"
+           └── UI (0 dB)
+   ```
+3. Pastikan kedua parameter ter-expose dinamai persis: **`BgmVolume`** dan **`SfxVolume`**.
+
+---
+
+### LANGKAH 3: Implementasi `AudioManager.cs` (`Assets/_Scripts/Audio/`)
+Buat skrip `AudioManager.cs` (namespace `DragonWingAR.Audio`, `[DefaultExecutionOrder(-50)]`):
+1. **Pola Singleton & Persistensi:**
+   - Singleton `Instance` dengan `DontDestroyOnLoad(gameObject)`.
+2. **Komponen AudioSource Internal:**
+   - 2 AudioSource untuk BGM: `_bgmSourceA` dan `_bgmSourceB` (output ke bus `BGM`, `loop = true`).
+   - 1 AudioSource 2D untuk UI/SFX one-shot: `_sfx2DSource` (output ke bus `SFX`).
+   - Sediakan referensi AudioSource loop untuk naga & desa: `_diveRushSource`, `_propellerDashSource`, `_villageLoopSource`.
+3. **Penyambungan Reaktif ke `DragonGameSettings` (Hapus `// TODO [SYNC-AUDIO]`):**
+   - Di `OnEnable()` / `Start()`:
      ```csharp
      DragonGameSettings.OnBgmVolumeChanged += SetBgmVolume;
      DragonGameSettings.OnSfxVolumeChanged += SetSfxVolume;
+     SetBgmVolume(DragonGameSettings.BgmVolume);
+     SetSfxVolume(DragonGameSettings.SfxVolume);
      ```
-   - Konversi linier ke dB:
+   - Di `OnDisable()`: Unsubscribe kedua event.
+   - Fungsi konversi linier ke dB:
      ```csharp
-     float db = 20f * Mathf.Log10(Mathf.Max(linearVolume, 0.0001f));
-     audioMixer.SetFloat("BgmVolume", db);
+     public void SetBgmVolume(float linear) {
+         float db = 20f * Mathf.Log10(Mathf.Max(linear, 0.0001f));
+         audioMixer.SetFloat("BgmVolume", db);
+     }
+     public void SetSfxVolume(float linear) {
+         float db = 20f * Mathf.Log10(Mathf.Max(linear, 0.0001f));
+         audioMixer.SetFloat("SfxVolume", db);
+     }
      ```
-   - Siapkan pool / metode `PlaySFX(AudioClip clip, float volume = 1f)` dan `PlaySFX3D(AudioClip clip, Vector3 position, float volume = 1f)`.
-   - Sediakan metode looping SFX: `PlayLooping(AudioClip clip, ref AudioSource source, float targetVolume)`.
+4. **Sistem Cross-Fade BGM Dinamis:**
+   - Coroutine `CrossfadeBGM(AudioClip newClip, float duration = 1.8f)`:
+     - Jika track sama, abaikan.
+     - Lakukan lerp volume track aktif $1.0 \to 0.0$ dan track baru $0.0 \to 1.0$ secara halus dengan kurva kuadratik/smoothstep, lalu hentikan track lama.
+   - Metode `CrossfadeToCrisis(BiomeType biome)`:
+     - Zephyria: `BGM_Crisis_Zephyria_HimalayanAtmosphere`
+     - Pyrewood: `BGM_Crisis_Pyrewood_Firesong`
+     - Solaria: `BGM_Crisis_Solaria_DesertCity`
+   - Metode `RestorePeacefulBGM(float duration = 2.0f)`:
+     - Cross-fade kembali ke `BGM_Flight_CelticImpulse` atau `BGM_Flight_AirPrelude`.
+   - Metode `PlayCleansedStinger()`:
+     - Mainkan `SFX_Village_Cleansed_Stinger.wav` (one-shot berprioritas tinggi) sambil ducking BGM sejenak, lalu restore peaceful BGM.
+   - Metode `PlayVictoryCelebration()`:
+     - Mainkan `BGM_Victory_HeroicAge.mp3` dan panggil `DragonBodyAnimator.Instance.PlayVictoryRoar()`.
 
-4. **Sambungkan Hook Audio ke Skrip Eksisting:**
-   - **`DragonFlightController.cs`:**
-     - Kepakan sayap: mainkan `SFX_WingFlap.wav` saat downstroke kepakan sayap (`IsFlapping == true`).
-     - Dive rush: aktifkan looping `SFX_DiveRush_Loop.wav` saat `#13 Tuck to Dive` dengan volume proporsional terhadap `Airspeed` (14 s.d. 30 m/s).
-     - Propeller Dash: aktifkan looping `SFX_PropellerDash_Loop.wav` selama `#14 Propeller Dash` aktif.
-     - Launch thrust: mainkan `SFX_Launch_Whoosh.wav` saat keluar dari auto-hover.
-   - **`VillageZoneController.cs`:**
-     - Transisi krisis: saat jarak naga ke desa $< 250\text{m}$ dan desa belum pulih, panggil `AudioManager.Instance.CrossfadeToCrisis(biomeType)`:
-       - Zephyria: `BGM_Crisis_Zephyria_HimalayanAtmosphere.mp3`
-       - Pyrewood: `BGM_Crisis_Pyrewood_Firesong.mp3`
-       - Solaria: `BGM_Crisis_Solaria_DesertCity.mp3`
-     - Saat keluar radius krisis ($> 280\text{m}$), cross-fade kembali ke BGM Free Roam santai (`BGM_Flight_CelticImpulse.mp3`).
-     - Danau Zephyria: looping `SFX_Lake_Siphon_Loop.wav` saat proses pengisian air.
-     - Pyrewood Hutan: looping `SFX_Pyrewood_WaterBreath_Loop.wav` dan trigger `SFX_Pyrewood_Extinguish_Steam.wav` saat pemadaman.
-     - Solaria Sky Altar: looping `SFX_Solaria_DewChimes.wav` saat pose 11 embun suci.
-     - Momen 100% pulih: mainkan stinger `SFX_Village_Cleansed_Stinger.wav` dan cross-fade kembali ke BGM santai.
-     - Selebrasi akhir: mainkan `BGM_Victory_HeroicAge.mp3` dan trigger auman kemenangan `DragonBodyAnimator.PlayVictoryRoar()`.
-   - **`GameManager.cs`:**
-     - Fase countdown: mainkan `SFX_Countdown_Beep.wav` saat 3.. 2.. 1.. dan `SFX_Countdown_Go.wav` saat TERBANG!
-   - **`FinishModalUI.cs`:**
-     - Pengisian bintang: mainkan `SFX_Star_01.wav`, `SFX_Star_02.wav`, `SFX_Star_03.wav` berurutan sesuai bintang yang didapat.
-   - **`LobbyNavigationManager.cs` & `CalibrationPanelUI.cs`:**
-     - Klik tombol: mainkan `SFX_UI_Click.wav`.
-     - Pose terdeteksi (badge hijau): mainkan `SFX_UI_PoseLock.wav`.
+---
 
-5. **Verifikasi Play Mode:**
-   - Jalankan Play Mode dari `MainMenu_Lobby.unity` $\to$ masuk ke `MainIsland_Gameplay.unity`.
-   - Pastikan BGM Lobby berputar, transisi ke scene gameplay memutar BGM jelajah, slider volume Settings mengatur volume secara nyata, dan seluruh SFX terdengar tanpa error console (`0` errors).
+### LANGKAH 4: Sambungkan Hook Audio ke Skrip Eksisting
+
+1. **`DragonFlightController.cs`:**
+   - **Kepakan Sayap:** Mainkan `SFX_WingFlap.wav` saat downstroke kepakan sayap normal (`IsFlapping == true`), atau `SFX_WingFlap_Heavy.wav` saat `#06B Steep Climb` / takeoff.
+   - **Tuck Dive Rush:** Saat `#13 Tuck to Dive` aktif, nyalakan `SFX_DiveRush_Loop.wav` pada looping source dengan volume proporsional terhadap `Airspeed / maxAirspeed` ($14\text{--}30\text{ m/s}$). Matikan/fade-out saat keluar dari Tuck Dive.
+   - **Propeller Dash:** Nyalakan `SFX_PropellerDash_Loop.wav` selama `#14 Propeller Dash` aktif.
+   - **Launch Thrust:** Mainkan `SFX_Launch_Whoosh.wav` saat lepas dari auto-hover / escape.
+   - **Langkah Kaki di Darat:** Mainkan selang-seling `SFX_Dragon_Footstep_01/02.wav` saat siklus jalan darat `#02 Grounded Walk`.
+
+2. **`VillageZoneController.cs`:**
+   - **Deteksi Radius Krisis (< 250m):**
+     - Pada `Update()`, jika jarak naga ke desa $< 250\text{m}$ dan desa belum pulih (`!isRestored`), panggil `AudioManager.Instance.CrossfadeToCrisis(biome)`.
+     - Jika naga menjauh $> 280\text{m}$ (hysteresis 30m), panggil `AudioManager.Instance.RestorePeacefulBGM()`.
+   - **Aksi Tantangan 3 Desa:**
+     - Zephyria: Mainkan `SFX_Zephyria_WindGust.wav` setiap kepakan sayap berhasil dihitung.
+     - Danau Zephyria (Pyrewood Stage 1): Nyalakan looping `SFX_Lake_Siphon_Loop.wav` selama pengisian air danau.
+     - Pyrewood Hutan (Stage 2): Nyalakan looping `SFX_Pyrewood_WaterBreath_Loop.wav` saat buka mulut menyemburkan air, dan mainkan `SFX_Pyrewood_Extinguish_Steam.wav` saat api padam.
+     - Solaria Sky Altar: Nyalakan looping `SFX_Solaria_DewChimes.wav` selama pose 11 embun suci ditahan.
+   - **Momen Pemulihan Desa ($100\%$):**
+     - Panggil `AudioManager.Instance.PlayCleansedStinger()`.
+   - **Momen Kemenangan Seluruh Desa:**
+     - Panggil `AudioManager.Instance.PlayVictoryCelebration()`.
+
+3. **`GameManager.cs`:**
+   - Pada coroutine `CountdownStart`:
+     - Saat angka `3..`, `2..`, `1..` muncul: mainkan `SFX_Countdown_Beep.wav`.
+     - Saat kata `"TERBANG!"` muncul: mainkan `SFX_Countdown_Go.wav`.
+
+4. **`FinishModalUI.cs`:**
+   - Pada animasi sekuensial bintang (`ShowStarProgressSequence` / `0.4s` interval):
+     - Bintang 1: mainkan `SFX_Star_01.wav`.
+     - Bintang 2: mainkan `SFX_Star_02.wav`.
+     - Bintang 3: mainkan `SFX_Star_03.wav`.
+
+5. **`LobbyNavigationManager.cs` & `CalibrationPanelUI.cs` & UI Buttons:**
+   - Mainkan `SFX_UI_Click.wav` pada setiap tombol navigasi utama / pergantian tab.
+   - Mainkan `SFX_UI_PoseLock.wav` saat pose target terdeteksi valid (`GERAKAN TERDETEKSI!`).
+
+---
+
+### LANGKAH 5: Verifikasi & Pengujian Play Mode
+1. Buat skrip runner pengujian `Assets/Editor/AudioSystemVerificationRunner.cs`:
+   - Uji pemuatan seluruh 30 klip audio (0 null reference).
+   - Uji koneksi bus AudioMixer (`Master`, `BGM`, `SFX`).
+   - Uji simulasi perubahan slider volume di `DragonGameSettings` $\to$ verifikasi decibel AudioMixer berubah sesuai rumus logaritmik.
+   - Uji simulasi transisi cross-fade BGM Free Roam $\leftrightarrow$ Krisis Biome.
+   - Uji simulasi trigger SFX kepakan sayap, dive rush, semburan air, dew chimes, countdown, dan bintang Finish Modal.
+2. Jalankan Play Mode penuh dari `MainMenu_Lobby.unity` $\to$ `MainIsland_Gameplay.unity`:
+   - Verifikasi BGM Lobby terdengar, transisi ke terbang memutar BGM jelajah, dan seluruh event berbunyi tanpa console errors (`0` errors, `0` warnings baru).
+
+---
+
+### LANGKAH 6: Dokumentasi Brain & Git Push
+1. Perbarui `brain/laptop-b/Tasks.md` (tandai selesai Sesi 5 Lanjutan / Sistem Audio & `// TODO [SYNC-AUDIO]`).
+2. Tulis catatan kronologis di `brain/laptop-b/Devlog.md` (dan buat catatan memori `brain/laptop-b/memories/Implementasi Sistem Audio Fanamir.md`).
+3. Jalankan `git -C brain add .`, `commit`, dan `push` sub-repo `brain/`.
 ```
 
 ---
