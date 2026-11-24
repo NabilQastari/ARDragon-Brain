@@ -13,6 +13,32 @@ updated: 2026-11-24
 
 ---
 
+## 2026-11-24 — Implementasi Sistem Audio Terpadu Fanamir (BGM Dinamis, Cross-Fade, Mixer, & 22 SFX) ([[Implementasi Sistem Audio Fanamir]], [[laptop-a/gameplay-mechanics/arsitektur_sistem_audio]])
+
+### Perubahan yang Diimplementasikan
+1. **Sinkronisasi Aset Audio & Importer (`Assets/Audio/`, `Assets/Editor/AudioImporterSetupUtility.cs`):**
+   - Mengekstrak `assets/audio.zip` ke `assets/audio/` dan menyinkronkan seluruh **30 berkas audio** (**8 BGM MP3** di `BGM/Ghibli_Fantasy/`, `BGM/Cinematic_Tribal/`, `BGM/Celebration/` + **22 SFX WAV** di `SFX/Dragon/`, `SFX/Village/`, `SFX/UI/`) ke `AR Dragon Sky Guardian/Assets/Audio/`.
+   - Membuat `AudioImporterSetupUtility.cs` (`AssetPostprocessor` + menu `DragonWingAR/Audio/Setup All Audio Importers`) yang menerapkan profil impor resmi: BGM MP3 (`Streaming`, `Vorbis`, `0.70f`), 15 SFX pendek `< 2s` (`DecompressOnLoad`, `PCM`), dan 7 SFX loop/stinger `>= 2s` (`CompressedInMemory`, `Vorbis`, `0.85f`).
+2. **AudioMixer & Prefab Persistent (`Fanamir_AudioMixer.mixer`, `Assets/Resources/Fanamir_AudioManager.prefab`):**
+   - Membangun `Assets/Audio/Fanamir_AudioMixer.mixer` dengan hirarki `Master -> BGM` (exposed `"BgmVolume"`) dan `Master -> SFX` (exposed `"SfxVolume"`) `-> UI`.
+   - Menambahkan builder `DragonWingAR/Audio/Build Fanamir AudioMixer` dan `Build AudioManager Prefab` agar `AudioManager` memuat seluruh 30 klip & mixer secara deterministik di Editor maupun Build Standalone.
+3. **`AudioManager.cs` (`Assets/_Scripts/Audio/AudioManager.cs`, namespace `DragonWingAR.Audio`, `[DefaultExecutionOrder(-50)]`):**
+   - Singleton `DontDestroyOnLoad` yang otomatis diinisialisasi sejak `BeforeSceneLoad` melalui `DragonGameSettings.EnsurePersistentSessionHost()`.
+   - Dual-Channel BGM Cross-Fader (`_bgmSourceA` & `_bgmSourceB`) dengan kurva *smoothstep* berbasis `Time.unscaledDeltaTime`, transisi otomatis saat `SceneManager.sceneLoaded` (`MainMenu_Lobby` $\rightarrow$ `BGM_Lobby_FolkRound`, `MainIsland_Gameplay`/`Test_Dragon_Flight` $\rightarrow$ `BGM_Flight_CelticImpulse`), `CrossfadeToCrisis(BiomeType)`, `RestorePeacefulBGM()`, `PlayCleansedStinger()` (dengan ducking BGM sementara), serta `PlayVictoryCelebration()` (`BGM_Victory_HeroicAge` + `SFX_Dragon_Roar_Victory` + `DragonBodyAnimator.Instance.PlayVictoryRoar()`).
+   - Berlangganan penuh ke `DragonGameSettings.OnBgmVolumeChanged` & `OnSfxVolumeChanged` dengan konversi `20 * Mathf.Log10(Mathf.Max(linear, 0.0001f))` ke `"BgmVolume"` & `"SfxVolume"`, sekaligus menghapus seluruh `// TODO [SYNC-AUDIO]` pada `DragonGameSettings.cs` dan `SettingsPanelUI.cs`.
+4. **Hook Audio Gameplay & UI:**
+   - **`DragonFlightController.cs`:** Kepakan sayap normal/heavy (`SFX_WingFlap`/`SFX_WingFlap_Heavy`), loop `SFX_DiveRush_Loop` proporsional kecepatan (`12–30 m/s`), loop `SFX_PropellerDash_Loop`, `SFX_Launch_Whoosh` saat lepas Auto-Hover, serta langkah kaki bergantian `SFX_Dragon_Footstep_01/02` saat jalan darat.
+   - **`VillageZoneController.cs`:** Deteksi radius krisis `< 250 m` dengan hysteresis `> 280 m`, `SFX_Zephyria_WindGust`, loop `SFX_Lake_Siphon_Loop`, loop `SFX_Pyrewood_WaterBreath_Loop` + `SFX_Pyrewood_Extinguish_Steam`, loop `SFX_Solaria_DewChimes`, `PlayCleansedStinger()`, dan `PlayVictoryCelebration()`.
+   - **`GameManager.cs`, `FinishModalUI.cs`, & UI Lobby/Pause/Challenge:** `SFX_Countdown_Beep` (`3..2..1`) & `SFX_Countdown_Go` (`"TERBANG!"`), `SFX_Star_01..03` pada animasi bintang `FinishModalUI`, `SFX_UI_PoseLock` pada `CalibrationPanelUI` & `VillageChallengeUI`, serta `SFX_UI_Click` pada tombol navigasi `LobbyNavigationManager`, `MissionsPanelUI`, `CalibrationPanelUI`, `SettingsPanelUI`, `PauseModalUI`, dan `FinishModalUI`.
+
+### Hasil Verifikasi Play Mode (`Unity 6000.3.7f1`)
+- **Penghapusan `// TODO [SYNC-AUDIO]`:** `0` sisa penanda di seluruh `Assets/_Scripts/`.
+- **`MainMenu_Lobby.unity` Play Mode:** `BGM_Lobby_FolkRound` langsung aktif (`playing=True`, `clips=30`, `AudioListener=True`), dan `AudioSystemVerificationRunner.RunPlayModeVerificationAsync()` lulus **`ALL AUDIO SYSTEM CHECKS PASSED (30/30 clips, Mixer buses, dB curve, Crossfade, & SFX triggers 100%)`** (`0` console errors, `0` console warnings).
+- **Transisi `MainMenu_Lobby` $\rightarrow$ `MainIsland_Gameplay` & Proximity Hysteresis:** BGM otomatis beralih ke `BGM_Flight_CelticImpulse`; uji jarak ke Zephyria `< 250 m` (`200 m`) memicu `BGM_Crisis_Zephyria_HimalayanAtmosphere`, jarak `265 m` mempertahankan krisis (hysteresis), dan `300 m` (`> 280 m`) memulihkan `BGM_Flight_CelticImpulse`.
+- **Non-Regresi:** `MomentumFlightVerificationRunner` (**100% PASS**) dan `Session5GameLoopVerificationRunner` (**100% PASS**) dengan `0` console errors & `0` console warnings; scene aktif dikembalikan ke `MainMenu_Lobby.unity`.
+
+---
+
 ## 2026-11-24 — Penyempurnaan Mekanisme Kontrol (`#07 Fly Up`, `#06/#06B Flap`, `#09/#10`, `#14`, `#15C`, & Tracking Responsiveness)
 
 ### Akar Masalah yang Ditemukan
