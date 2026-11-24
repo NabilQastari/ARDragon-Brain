@@ -1,0 +1,436 @@
+{
+  "nodes": [
+    {
+      "id": "g0",
+      "type": "group",
+      "label": "Community 0",
+      "x": 0,
+      "y": 0,
+      "width": 880,
+      "height": 420,
+      "color": "1"
+    },
+    {
+      "id": "n_studio_pose_presets",
+      "type": "file",
+      "file": "POSE_PRESETS.md",
+      "x": 20,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_studio_animclock",
+      "type": "file",
+      "file": "animClock.md",
+      "x": 220,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_studio_bones",
+      "type": "file",
+      "file": "bones.md",
+      "x": 420,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_studio_csfloat",
+      "type": "file",
+      "file": "csFloat().md",
+      "x": 620,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_studio_generateunitycsharpsnippet",
+      "type": "file",
+      "file": "generateUnityCSharpSnippet().md",
+      "x": 20,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_studio_initialpositions",
+      "type": "file",
+      "file": "initialPositions.md",
+      "x": 220,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_studio_initialrotations",
+      "type": "file",
+      "file": "initialRotations.md",
+      "x": 420,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_ref_three",
+      "type": "file",
+      "file": "ref_three.md",
+      "x": 620,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_studio",
+      "type": "file",
+      "file": "studio.js.md",
+      "x": 20,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_studio_tuning",
+      "type": "file",
+      "file": "tuning.md",
+      "x": 220,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "g1",
+      "type": "group",
+      "label": "Community 1",
+      "x": 960,
+      "y": 0,
+      "width": 660,
+      "height": 400,
+      "color": "2"
+    },
+    {
+      "id": "n_studio_computetrottinglegangles",
+      "type": "file",
+      "file": "computeTrottingLegAngles().md",
+      "x": 980,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_studio_evaluatepropellerdashstroke",
+      "type": "file",
+      "file": "evaluatePropellerDashStroke().md",
+      "x": 1180,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_studio_updatedragonproceduralanimation_rotatebone",
+      "type": "file",
+      "file": "rotateBone().md",
+      "x": 1380,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_studio_updatedragonproceduralanimation_setwingfingers",
+      "type": "file",
+      "file": "setWingFingers().md",
+      "x": 980,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_studio_updatedragonproceduralanimation",
+      "type": "file",
+      "file": "updateDragonProceduralAnimation().md",
+      "x": 1180,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "g2",
+      "type": "group",
+      "label": "Community 2",
+      "x": 0,
+      "y": 500,
+      "width": 600,
+      "height": 400,
+      "color": "3"
+    },
+    {
+      "id": "n_studio_animate",
+      "type": "file",
+      "file": "animate().md",
+      "x": 20,
+      "y": 580,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_studio_init",
+      "type": "file",
+      "file": "init().md",
+      "x": 220,
+      "y": 580,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_studio_onwindowresize",
+      "type": "file",
+      "file": "onWindowResize().md",
+      "x": 20,
+      "y": 660,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_studio_setuplighting",
+      "type": "file",
+      "file": "setupLighting().md",
+      "x": 220,
+      "y": 660,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "g3",
+      "type": "group",
+      "label": "Community 3",
+      "x": 960,
+      "y": 500,
+      "width": 600,
+      "height": 400,
+      "color": "4"
+    },
+    {
+      "id": "n_studio_applyposepreset",
+      "type": "file",
+      "file": "applyPosePreset().md",
+      "x": 980,
+      "y": 580,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_studio_loaddragonmodel",
+      "type": "file",
+      "file": "loadDragonModel().md",
+      "x": 1180,
+      "y": 580,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_studio_syncslider",
+      "type": "file",
+      "file": "syncSlider().md",
+      "x": 980,
+      "y": 660,
+      "width": 180,
+      "height": 60
+    }
+  ],
+  "edges": [
+    {
+      "id": "e_studio_generateunitycsharpsnippet_studio_csfloat",
+      "fromNode": "n_studio_generateunitycsharpsnippet",
+      "toNode": "n_studio_csfloat",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_studio_studio_csfloat",
+      "fromNode": "n_studio",
+      "toNode": "n_studio_csfloat",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_studio_studio_generateunitycsharpsnippet",
+      "fromNode": "n_studio",
+      "toNode": "n_studio_generateunitycsharpsnippet",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_studio_updatedragonproceduralanimation_studio_computetrottinglegangles",
+      "fromNode": "n_studio_updatedragonproceduralanimation",
+      "toNode": "n_studio_computetrottinglegangles",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_studio_studio_computetrottinglegangles",
+      "fromNode": "n_studio",
+      "toNode": "n_studio_computetrottinglegangles",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_studio_updatedragonproceduralanimation_studio_evaluatepropellerdashstroke",
+      "fromNode": "n_studio_updatedragonproceduralanimation",
+      "toNode": "n_studio_evaluatepropellerdashstroke",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_studio_studio_evaluatepropellerdashstroke",
+      "fromNode": "n_studio",
+      "toNode": "n_studio_evaluatepropellerdashstroke",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_studio_animate_studio_updatedragonproceduralanimation",
+      "fromNode": "n_studio_animate",
+      "toNode": "n_studio_updatedragonproceduralanimation",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_studio_updatedragonproceduralanimation_studio_updatedragonproceduralanimation_rotatebone",
+      "fromNode": "n_studio_updatedragonproceduralanimation",
+      "toNode": "n_studio_updatedragonproceduralanimation_rotatebone",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_studio_updatedragonproceduralanimation_studio_updatedragonproceduralanimation_setwingfingers",
+      "fromNode": "n_studio_updatedragonproceduralanimation",
+      "toNode": "n_studio_updatedragonproceduralanimation_setwingfingers",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_studio_studio_updatedragonproceduralanimation",
+      "fromNode": "n_studio",
+      "toNode": "n_studio_updatedragonproceduralanimation",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_studio_updatedragonproceduralanimation_setwingfingers_studio_updatedragonproceduralanimation_rotatebone",
+      "fromNode": "n_studio_updatedragonproceduralanimation_setwingfingers",
+      "toNode": "n_studio_updatedragonproceduralanimation_rotatebone",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_studio_init_studio_animate",
+      "fromNode": "n_studio_init",
+      "toNode": "n_studio_animate",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_studio_studio_animate",
+      "fromNode": "n_studio",
+      "toNode": "n_studio_animate",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_studio_init_studio_setuplighting",
+      "fromNode": "n_studio_init",
+      "toNode": "n_studio_setuplighting",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_studio_init_studio_loaddragonmodel",
+      "fromNode": "n_studio_init",
+      "toNode": "n_studio_loaddragonmodel",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_studio_studio_init",
+      "fromNode": "n_studio",
+      "toNode": "n_studio_init",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_studio_init_studio_onwindowresize",
+      "fromNode": "n_studio_init",
+      "toNode": "n_studio_onwindowresize",
+      "label": "indirect_call [INFERRED]"
+    },
+    {
+      "id": "e_studio_studio_onwindowresize",
+      "fromNode": "n_studio",
+      "toNode": "n_studio_onwindowresize",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_studio_studio_setuplighting",
+      "fromNode": "n_studio",
+      "toNode": "n_studio_setuplighting",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_studio_applyposepreset_studio_syncslider",
+      "fromNode": "n_studio_applyposepreset",
+      "toNode": "n_studio_syncslider",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_studio_loaddragonmodel_studio_applyposepreset",
+      "fromNode": "n_studio_loaddragonmodel",
+      "toNode": "n_studio_applyposepreset",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_studio_studio_applyposepreset",
+      "fromNode": "n_studio",
+      "toNode": "n_studio_applyposepreset",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_studio_studio_loaddragonmodel",
+      "fromNode": "n_studio",
+      "toNode": "n_studio_loaddragonmodel",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_studio_studio_syncslider",
+      "fromNode": "n_studio",
+      "toNode": "n_studio_syncslider",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_studio_ref_three",
+      "fromNode": "n_studio",
+      "toNode": "n_ref_three",
+      "label": "imports_from [EXTRACTED]"
+    },
+    {
+      "id": "e_studio_studio_bones",
+      "fromNode": "n_studio",
+      "toNode": "n_studio_bones",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_studio_studio_initialrotations",
+      "fromNode": "n_studio",
+      "toNode": "n_studio_initialrotations",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_studio_studio_initialpositions",
+      "fromNode": "n_studio",
+      "toNode": "n_studio_initialpositions",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_studio_studio_animclock",
+      "fromNode": "n_studio",
+      "toNode": "n_studio_animclock",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_studio_studio_tuning",
+      "fromNode": "n_studio",
+      "toNode": "n_studio_tuning",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_studio_studio_pose_presets",
+      "fromNode": "n_studio",
+      "toNode": "n_studio_pose_presets",
+      "label": "contains [EXTRACTED]"
+    }
+  ]
+}

@@ -13,6 +13,31 @@ updated: 2026-11-23
 
 ---
 
+## 2026-11-24 — Setup & Ekstraksi AST Graphify untuk Proyek Three.js Studio (`dragon_anim_studio/`) ([[code-graph-threejs/index]])
+- **Instalasi & Konfigurasi Paket `graphifyy`:**
+  - Menginstal paket PyPI resmi `graphifyy` (v0.9.118) beserta dependensi Tree-sitter lokal (JavaScript, Python, C#, RapidFuzz, NetworkX) pada environment Python 3.12 Laptop A.
+  - Menyiapkan konfigurasi proteksi `.graphifyignore` di folder `dragon_anim_studio/` untuk secara ketat mengecualikan model biner `dragon_model.glb` (1.42 MB), file dump JSON `bones.json`, library Three.js eksternal `lib/`, dan skrip batch, sehingga ekstraksi AST berjalan instan, fokus, dan bebas clutter.
+- **Ekstraksi AST & Laporan Analisis Arsitektur:**
+  - Menjalankan perintah `graphify extract dragon_anim_studio --code-only --out dragon_anim_studio`.
+  - Berhasil mengekstrak **22 node, 32 edge, dan 4 komunitas kode** dengan metrik deterministik 97% EXTRACTED.
+  - Mengidentifikasi *God Nodes* (titik tumpu arsitektur studio):
+    1. `updateDragonProceduralAnimation()` (6 edges) — solver loop utama animasi prosedural.
+    2. `init()` (5 edges) — scene setup, kamera, renderer, dan UI listeners.
+    3. `animate()` (3 edges) — loop perenderan `requestAnimationFrame`.
+    4. `applyPosePreset()` (3 edges) — transisi 19 preset pose resmi.
+    5. `loadDragonModel()` (3 edges) — loader glTF dan mapping 47 tulang rig.
+    6. `generateUnityCSharpSnippet()` (2 edges) — generator C# `DragonBodyAnimator.cs`.
+- **Integrasi Obsidian Vault (`brain/laptop-a/code-graph-threejs/`):**
+  - Mengekspor 26 berkas catatan markdown dan `graph.canvas` Obsidian interaktif ke dalam direktori terisolasi `brain/laptop-a/code-graph-threejs/` (mematuhi aturan anti-collision AGENTS.md tanpa menyentuh folder Laptop B).
+  - Membuat portal navigasi `brain/laptop-a/code-graph-threejs/index.md` dengan YAML frontmatter lengkap.
+  - Menguji kueri CLI Graphify untuk verifikasi fungsi:
+    - `graphify explain "updateDragonProceduralAnimation"` -> terverifikasi terhubung ke `animate()`, `computeTrottingLegAngles()`, `evaluatePropellerDashStroke()`, `rotateBone()`, dan `setWingFingers()`.
+    - `graphify path "animate" "computeTrottingLegAngles"` -> terverifikasi jalur 2-hop terpendek melalui `updateDragonProceduralAnimation()`.
+- **Kesiapan Fase Lanjutan:**
+  - Workspace Three.js Studio kini telah terpetakan penuh ke dalam Code Knowledge Graph untuk navigasi hemat token sebelum melakukan perancangan dan evaluasi pose Fanamir berbasis referensi visual.
+
+---
+
 ## 2026-11-24 — Paket Prompt Multi-Angle/Frame 19 Pose & Penyesuaian Alur Kerja (Prioritas Audio + Graphify Three.js) ([[Resolusi Animasi Kaki dan Prompt Pose]])
 - **Paket Prompt Image Generator (4 Sesi Lengkap):**
   - Menyusun seluruh prompt siap salin untuk menghasilkan lembar referensi multi-angle dan variasi frame animasi Fanamir dengan lampiran gambar model 3D, terbagi menjadi 4 sesi berdasarkan arsitektur modular (4 sikap dasar badan/kaki universal + 1 lapisan kepala dinamis 3-sumbu CV yang menggantikan `#03 Look Up` statis):

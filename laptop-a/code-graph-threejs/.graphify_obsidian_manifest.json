@@ -1,0 +1,31 @@
+{
+  "files": [
+    ".obsidian/graph.json",
+    "POSE_PRESETS.md",
+    "_COMMUNITY_Community 0.md",
+    "_COMMUNITY_Community 1.md",
+    "_COMMUNITY_Community 2.md",
+    "_COMMUNITY_Community 3.md",
+    "animClock.md",
+    "animate().md",
+    "applyPosePreset().md",
+    "bones.md",
+    "computeTrottingLegAngles().md",
+    "csFloat().md",
+    "evaluatePropellerDashStroke().md",
+    "generateUnityCSharpSnippet().md",
+    "init().md",
+    "initialPositions.md",
+    "initialRotations.md",
+    "loadDragonModel().md",
+    "onWindowResize().md",
+    "ref_three.md",
+    "rotateBone().md",
+    "setWingFingers().md",
+    "setupLighting().md",
+    "studio.js.md",
+    "syncSlider().md",
+    "tuning.md",
+    "updateDragonProceduralAnimation().md"
+  ]
+}
