@@ -13,6 +13,37 @@ updated: 2026-11-24
 
 ---
 
+## 2026-11-24 — Penyempurnaan Mekanisme Kontrol (`#07 Fly Up`, `#06/#06B Flap`, `#09/#10`, `#14`, `#15C`, & Tracking Responsiveness)
+
+### Akar Masalah yang Ditemukan
+1. **Tabrakan & Kerapuhan `#07 Fly Up` (Open Y-Pose):**
+   - `FlyDownClassifier` (`#11 Y-Dive`, Prioritas 4) mencegat `#07 Fly Up` (Prioritas 6) ketika siku pemain menekuk alami (`132°–152°`) di sekitar ketinggian bahu (`le[1] >= ls[1] - 0.02 * tl`).
+   - `FlyUpClassifier` tidak memiliki *exit hysteresis* / *grace hold* pada kecepatan pergelangan (`< 0.35`), toleransi siku terhadap bahu (`+0.05 * tl`), maupun sudut belok (`<= 24°`), sehingga getaran kecil atau *bank turn* sambil mendaki memutus `FLY_UP`.
+   - Legacy Path 2 (`entry_chest_elevation = 1.74` + flapping) membajak kepakan `#06` / `#06B Steep Climb Flap` pada pemain berproporsi tinggi/ramping menjadi `FLY_UP` yang menguras momentum hingga *stall*.
+2. **Respon Lengan, Crop MediaPipe, & Pembalikan Kepakan:**
+   - Filter One-Euro di `pose_stabilizer.py` (`lw/rw: 0.40 Hz / 0.12`, `le/re: 0.40 Hz / 0.06`) terlalu teredam (`alpha ~ 0.077` saat diam) sehingga memperlambat deteksi kepakan, Y-Pose, dan putaran propeler.
+   - `HybridPoseTracker` memakai padding atas `+12%` yang berisiko memotong tangan terangkat (`#07`, `#15C`) serta menimpa `conf` wrist saat kolaps ke siku akibat *motion blur* (`#14`).
+   - `FlapStrokeClassifier` hanya menghitung ulang `flap_power` pada pembalikan `UPSTROKE -> DOWNSTROKE`, belum pada `DOWNSTROKE -> UPSTROKE`.
+   - `MouthTracker` mengunci `_auto_baseline_done` setelah 15 frame meski kepala masih bergerak (`spread > 4°`), dan `UDPPoseReceiver._isHandsHighUp` (`#15C`) memakai ambang `0.14f` mentah tanpa normalisasi panjang torso.
+
+### Perubahan yang Diimplementasikan
+1. **`ARDragonSkyGuardian_CV/motion_recognizer.py` & `cv_locomotion_config.json`:**
+   - **`FlyDownClassifier`:** Mengetatkan syarat siku `#11 Y-Dive` (`le[1] >= ls[1] + 0.005 * tl_safe`) serta menambahkan guard `not looks_like_open_y` agar `#07 Open Y-Pose` bersiku santai tidak pernah dibajak `#11`.
+   - **`FlyUpClassifier`:** Menambahkan *exit hysteresis* + *grace hold* `0.15s`, melonggarkan toleransi siku (`+0.08 / +0.12 * tl_safe`), sudut siku (`126°` masuk / `118°` keluar), dan kemiringan belok (`32°`/`35°`), serta menaikkan ambang Path 2 (`1.84 / 1.76`, terkalibrasi `+0.14 / +0.07`) dan menonaktifkannya saat `head_pitch > 0.12` agar `#06B` aman.
+   - **`FlapStrokeClassifier` & `HoverClassifier`:** Menghitung `flap_power` simetris pada pembalikan `DOWNSTROKE -> UPSTROKE`, menyesuaikan `HOLD_WINDOW_SEC = 0.42s`, mempercepat transisi `Hover -> Low-A` (`straight_stationary` mulai `142°` saat tangan rendah), dan memperpendek jendela rata-rata siku `HoverClassifier` (`maxlen = 4`).
+2. **`ARDragonSkyGuardian_CV/pose_stabilizer.py`, `hybrid_pose_tracker.py`, `mouth_tracker.py`, `player_calibrator.py`, & `active_cv_sender.py`:**
+   - Menyetel ulang `RobustKeypointTracker` (`ls/rs/lh/rh/nose: 0.35 Hz / 0.03`, `le/re: 0.65 Hz / 0.18`, `lw/rw: 0.75 Hz / 0.45`).
+   - Memperlebar crop atas `HybridPoseTracker` (`pad_top = +28%`), menolak lonjakan ekstrem MP terhadap YOLO ber-confidence tinggi (`>= 0.70`), dan mempertahankan confidence rendah saat wrist kolaps blur agar `recover_motion_blurred_wrists()` tetap aktif untuk `#14`.
+   - Memperbaiki *sliding window* auto-baseline `MouthTracker` (`[-64°, +8°]`) dan mengevaluasi `face_result` / `head_pitch` sebelum `gesture_sm.update()` di `active_cv_sender.py` (nol jeda 1 frame).
+3. **`DragonFlightController.cs` & `UDPPoseReceiver.cs`:**
+   - Meluruhkan `_takeoffFlapTimer` secara bertahap (`-dt * 2f`) alih-alih reset instan saat jeda 1 frame; menambahkan trim pitch kepala halus pada `#07 Fly Up` dan menghapus *double-lerp* saat stall; serta menormalisasi deteksi `#15C` (`_isHandsHighUp`) terhadap `torsoLenSafe` di `UDPPoseReceiver.cs`.
+
+### Hasil Verifikasi
+- **Python CV (`ARDragonSkyGuardian_CV/venv/Scripts/python.exe`):** 7/7 suite lulus 100% (`test_all_17_poses_alignment.py` termasuk 3 kasus edge `#07` santai, `#07 + Bank Turn`, & `#06B` bertubuh tinggi; `test_momentum_and_control_revision.py`; `test_additional_gestures.py`; `test_e2e_flight_physics.py`; `test_phase1_validation.py`; `test_phase5_validation.py`; `test_tahap1_face_tracking.py`).
+- **Unity 6 Play Mode (`MainIsland_Gameplay.unity`):** `MomentumFlightVerificationRunner.RunVerificationMenu()` -> **`ALL MOMENTUM & FLIGHT PHYSICS CHECKS PASSED (100%)`** (`0` console errors, `0` console warnings); scene aktif dikembalikan ke `MainMenu_Lobby.unity`.
+
+---
+
 ## 2026-11-24 — Setup & Integrasi Graphify Code Knowledge Graph (`[[laptop-a/handoff-laptop-b/planning_graphify_laptop_b]]`, [[Setup Graphify Code Graph Laptop B]])
 
 ### Perubahan yang Diimplementasikan
