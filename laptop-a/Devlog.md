@@ -13,6 +13,25 @@ updated: 2026-11-23
 
 ---
 
+## 2026-11-24 — Eksekusi Sesi 1 Animasi Three.js Studio: Grounded & Universal 3-Axis Head (`dragon_anim_studio/`)
+- **Pembagian 4 Sesi Eksekusi Bertahap:**
+  - *Sesi 1 (Selesai):* Grounded (`#01 Idle`, `#02 Walk`) & lapisan `Universal 3-Axis Dynamic Head & Neck` (`#03 LookUp`, Pitch/Yaw/Roll).
+  - *Sesi 2:* Core Flight & Climb (`#04`, `#05`, `#06`, `#06B`, `#07`, `#08`).
+  - *Sesi 3:* Special Maneuvers & Hover (`#09A`, `#09B`, `#10`, `#11`, `#12`, `#13`, `#14`).
+  - *Sesi 4:* Village Actions (`#15A..C`), finalisasi ekspor C# Unity, dan sinkronisasi `Fanamir_AnimStudio_Standalone/`.
+- **Temuan Sumbu Lokal GLB & Kalibrasi FK (`dragon_model.glb`):**
+  - `Root`, `Pelvis`, `Spine_01`, `Spine_02`: `+X` = Pitch Up, `+Y` = Roll, `+Z` = Yaw.
+  - `Tail_01..05_Fin`: `+X` = Bend Up, `+Z` = S-Wave Horizontal Sway Left/Right (sebelumnya `walk` memakai `yDeg` yang memutar ekor secara aksial).
+  - `Wing_Shoulder.L/R`: `+Z` (`.L`) / `-Z` (`.R`) menyapu sayap ke belakang (*sweep back*) sejajar rusuk. Sudut lipat baru `(22, ∓25, ±44)` pada bahu dan `(22, ±10, ±8)` pada lengan membentuk lipatan segitiga tinggi bebas *clipping* sesuai referensi `Dragon_anatomy_and_pose_sheet_7028fb7a.jpg`.
+  - `Thigh_Hind.L/R`: proyeksi sagital murni `(0.64, ∓0.26, ∓0.72) * deg` untuk ayunan langkah jalan lurus ke depan-belakang tanpa lutut terpelintir ke samping.
+  - Proyeksi sumbu dunia untuk `Neck_01`, `Neck_02`, dan `Head` (`25% / 35% / 40%`) memisahkan Pitch (`-35°..+50°`), Yaw (`±35°`), dan Roll (`±20°`).
+- **Perubahan File & Verifikasi:**
+  - [dragon_anim_studio/index.html](file:///e:/Semester%205/Game/AR%20Dragon/dragon_anim_studio/index.html): Memperluas `slider-head-pitch` hingga `+50°`, menambahkan `slider-head-yaw` dan `slider-head-roll`, serta memperbarui cache-buster ke `studio.js?v=20261124_v4`.
+  - [dragon_anim_studio/studio.js](file:///e:/Semester%205/Game/AR%20Dragon/dragon_anim_studio/studio.js): Memperbarui `computeTrottingLegAngles()`, menambahkan `applyUniversalHeadNeck()`, menyempurnakan `#01 Idle`, `#02 Walk`, dan `#03 LookUp` beserta blok ekspor `generateUnityCSharpSnippet()`.
+  - **Verifikasi:** `node --check` exit code `0`; browser subagent pada `http://localhost:8088` melaporkan `0` console error, ke-4 cakar menapak rata di lantai (`posY = 0`), sayap terlipat rapi, *stride* trotting & S-wave mulus, slider 3-sumbu kepala responsif, dan modal C# valid; AST Graphify diperbarui (`23 nodes, 34 edges`).
+
+---
+
 ## 2026-11-24 — Perancangan Sistem Audio Terpadu Fanamir, Sintesis 22 SFX WAV Prosedural, Kurasi 8 BGM MP3, & Master Prompt Laptop B ([[arsitektur_sistem_audio]], [[prompt_eksekusi_sistem_audio_laptop_b]])
 - **Keputusan Arsitektur & Perancangan BGM Dual-Style:**
   - Menyetujui preferensi pengguna untuk menghadirkan **Dual-Style System** pada musik latar (BGM):
