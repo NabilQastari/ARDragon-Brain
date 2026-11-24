@@ -53,13 +53,36 @@ Instruksi Perbaikan Teknis:
      * Pangkal ekor turun mengikuti panggul, lalu ujung ekor sedikit melengkung anggun ke atas sebagai penyeimbang bobot.
 3. Perbaiki Mode Flight (Glide, Tuck Dive, kecepatan >= 12 m/s) mengacu ke `Ref_Dragon_Flight_Leg_Anatomy.jpg`:
    - Kaki Belakang (WAJIB LURUS KE BELAKANG):
-     * Jangan gunakan sudut negatif ekstrim yang melipat kaki ke dalam perut!
-     * Paha belakang, lutut, tulang kering, dan cakar harus LURUS MEMANJANG KE BELAKANG sejajar dan merapat di samping pangkal ekor ("Extended backward, streamlined along tail"). Sendi lutut hampir lurus (0°..15°), cakar menunjuk ke belakang.
-   - Kaki Depan:
-     * Siku melipat ke belakang, cakar merapat rata di bawah rongga dada ("Folded neatly under chest").
+     * Jangan gunakan sudut negatif sembarangan tanpa memperhatikan local roll tulang! Local X pada Thigh_Hind memiliki orientasi diagonal (~50°), sehingga membutuhkan intrinsic roll rz = +90° (Left) / -90° (Right) agar paha terarah lurus ke belakang sejajar ekor.
+     * Nilai Euler Terverifikasi (Matematika Blender & Three.js Studio):
+       - Thigh_Hind.L: rx = -32°, rz = +90° | Thigh_Hind.R: rx = -32°, rz = -90°
+       - Shin_Hind.L: rx = -50°, rz = -20° | Shin_Hind.R: rx = -50°, rz = +20°
+       - Metatarsus_Hind.L: rx = -60°, rz = -10° | Metatarsus_Hind.R: rx = -60°, rz = +10°
+       - Foot_Hind.L/R: rx = -65° (menunjuk lurus ke belakang)
+   - Kaki Depan (Folded neatly under chest):
+     * Shoulder_Front.L/R: rx = +15°, rz = ∓5°
+     * UpperArm_Front.L/R: rx = +65°, rz = ∓14°
+     * Forearm_Front.L/R: rx = +105°, rz = ±10°
+     * Paw_Front.L/R: rx = -40°
    - Kemiringan Badan:
-     * Kembali datar horizontal ramping (0°) sejajar vektor penerbangan.
-4. Verifikasi Visual Langsung di Editor:
+     * Datar horizontal ramping (0°) sejajar vektor penerbangan.
+
+4. Referensi Rotasi Euler Terverifikasi Mode Hover (Air Idle / IsHovering):
+   - Body Pitch: +28° s.d. +35° (naik tegap membusung)
+   - Spine Curve: Spine_01 = +6.3°, Spine_02 = +7.7° (total elevasi dada +14°)
+   - Head Counter-Pitch: Neck_01 = -11.4°, Neck_02 = -10.0°, Head = -7.1° (kepala tetap sejajar horizontal)
+   - Forelegs (Dangling loosely beneath chest):
+     * Shoulder_Front: rx = -5°
+     * UpperArm_Front: rx = +45°, rz = ∓10°
+     * Forearm_Front: rx = -65°, rz = ±6°
+     * Paw_Front: rx = +25°
+   - Hindlegs (Dangling naturally below body):
+     * Thigh_Hind: rx = +18°, rz = ∓6°
+     * Shin_Hind: rx = +38°
+     * Metatarsus_Hind: rx = -30°
+     * Foot_Hind: rx = -10°
+
+5. Verifikasi Visual Langsung di Editor:
    - Jalankan Play Mode di Unity Editor, amati di Game View dan Scene View:
      * Saat HOVER: Apakah badan Fanamir sudah tegap miring naik (+28°..+35°) dan ke-4 kakinya menggantung rileks melayang (bukan berdiri di lantai)?
      * Saat GLIDE: Apakah kaki belakang sudah lurus memanjang ke belakang menyatu dengan ekor tanpa remuk di perut?

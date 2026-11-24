@@ -13,7 +13,26 @@ updated: 2026-11-23
 
 ---
 
-## 2026-11-24 — Verifikasi & Integrasi Penuh Hasil Pembaruan Gemini Web pada Three.js Studio Fanamir (`studio.js` 19-Pose Lengkap)
+## 2026-11-24 — Resolusi Definitif Anomali Pose Kaki Naga (Hover & Flight) & Sinkronisasi Rig ke Unity/Three.js
+- **Akar Masalah yang Ditemukan:**
+  - Pengguna melaporkan: *"hasilnya sangat aneh, pose kakinya aneh"*.
+  - Melakukan audit mendalam pada `ARM_Dragon` di Blender LTS 5.2.3 CLI (`assets/Dragon_Model.blend`) dan kode Three.js/Unity. Ditemukan 2 anomali fatal:
+    1. *Inversi Tanda Pitch Tubuh:* `studio.js` menerapkan `let rootPitch = -bodyPitch;` dan `-(bodyPitch + hoverWave * 1.5)`. Pada konvensi Three.js glTF, rotasi +X adalah pitch up (moncong naik). Nilai negatif membenamkan kepala naga $-30^\circ$ menukik ke tanah, sementara leher meliuk balik seperti angsa dan elevasi dada terbalik menjadi bungkuk ke bawah!
+    2. *Sumbu Lokal Tulang Rig Non-Uniform:*
+       - Tulang paha belakang (`Thigh_Hind.L`) memiliki sumbu lokal X sebesar `(-0.64, -0.77, 0.00)` (miring diagonal $50^\circ$). Merotasi sumbu X murni membuat paha terpelintir ke samping luar dan melipat ke bawah perut.
+       - Tulang kering (`Shin_Hind.L`) dan telapak belakang (`Metatarsus_Hind.L`) memiliki sumbu lokal X yang bertolak belakang $180^\circ$ (`+0.99` vs `-1.00`). Rotasi bernilai negatif pada keduanya melipat sendi menjadi bentuk pretzel yang patah tak beraturan.
+- **Formulasi Solusi Matematika Terverifikasi (Blender CLI):**
+  - Menerapkan *intrinsic roll* $rz = +90^\circ$ (Left) dan $rz = -90^\circ$ (Right) pada paha belakang (`Thigh_Hind`), yang merotasi bidang artikulasi kaki ke bidang sagital sejajar ekor.
+  - Memverifikasi render 3D resolusi tinggi dari berbagai sudut kamera (Side View dan Diag View):
+    1. *Mode Hover:* Postur tegap naik $+28^\circ \sim +35^\circ$, dada terangkat $+14^\circ$, kepala sejajar horizontal, kaki depan menekuk santai menggantung di bawah dada, kaki belakang menggantung santai melayang di udara dengan lekukan lutut alami ($38^\circ$).
+    2. *Mode Flight:* Tubuh ramping horizontal ($0^\circ$), kaki depan melipat rapi ke belakang di bawah dada, kaki belakang lurus memanjang ke belakang sejajar ekor ($rx = -32^\circ, rz = \pm 90^\circ$; cakar menunjuk ke belakang $-65^\circ$).
+    - Render visual diuji dan 100% identik dengan lembar rujukan resmi `Ref_Dragon_Hover_Leg_Anatomy.jpg` dan `Ref_Dragon_Flight_Leg_Anatomy.jpg`.
+- **Eksekusi & Sinkronisasi Kode:**
+  - Memperbarui `dragon_anim_studio/studio.js`: koreksi `rootPitch = bodyPitch`, kurva dada positif, counter-pitch leher negatif, dan seluruh blok transformasi kaki depan dan belakang.
+  - Memperbarui generator kode C# Unity `generateUnityCSharpSnippet()` agar selaras dengan hasil rotasi terverifikasi.
+  - Memperbarui cache buster `studio.js?v=20261124_v3` pada `dragon_anim_studio/index.html` dan `Fanamir_AnimStudio_Standalone/app/index.html`.
+  - Mengemas ulang arsip mandiri `Fanamir_AnimStudio_Standalone.zip` (13.88 MB).
+  - Memperbarui dokumen instruksi [[prompt_eksekusi_animasi_tahap_1_laptop_b]] dan [[evaluasi_dan_revisi_pose_tahap_1]].
 - **Inspeksi & Ekstraksi Arsip Pembaruan (`Fanamir_AnimStudio_Standalone_Updated.zip`):**
   - Menerima file pembaruan dari pengguna yang diproses menggunakan Gemini Web (Task Mode).
   - Mengekstrak dan menganalisis `app/studio.js`. Kode mengalami ekspansi signifikan dari 36 KB menjadi **73.8 KB (1,681 baris)** dengan implementasi fungsi matematika prosedural komprehensif untuk seluruh 19 pose.
