@@ -64,6 +64,7 @@ updated: 2026-11-19
 - [[laptop-a/gameplay-mechanics/arsitektur_sesi_5_gameloop_dan_scoring|arsitektur_sesi_5_gameloop_dan_scoring]] — Arsitektur pengontrol game loop (`GameManager.cs`), timer countdown, formula skor bintang berbasis progres global (33.4%, 66.7%, 100%), dan progresi level.
 - [[laptop-a/gameplay-mechanics/prompt_eksekusi_sesi_5_gameloop_dan_scoring_laptop_b|prompt_eksekusi_sesi_5_gameloop_dan_scoring_laptop_b]] — Master prompt dan panduan eksekusi Sesi 5 Dasar bagi Laptop B (pembakuan bintang progres global, countdown 3s, TimeUp evaluation, dan progresi gembok level).
 - [[laptop-a/gameplay-mechanics/planning_kamera_dinamis_dan_navigasi_pause|planning_kamera_dinamis_dan_navigasi_pause]] — Perancangan sistem kamera dinamis 5-state, aspect ratio lock, dan navigasi in-game pause ke kalibrasi.
+- [[laptop-a/gameplay-mechanics/arsitektur_sistem_audio|arsitektur_sistem_audio]] — Perancangan komprehensif sistem audio Fanamir: BGM Dual-Style (Ghibli/Genshin Fantasy vs Cinematic Tribal), sistem cross-fade dinamis 2-channel, bus AudioMixer, dan katalog 18 SFX WAV prosedural.
 
 #### 👁️ Computer Vision & Kontrol (`laptop-a/cv-control/`)
 - [[laptop-a/cv-control/panduan_detail_pose_dan_sync_laptop_b|panduan_detail_pose_dan_sync_laptop_b]] — Panduan detail 17 pose kontrol & sinkronisasi implementasi Laptop B (Python CV + Unity).
@@ -91,6 +92,7 @@ updated: 2026-11-19
 - [[laptop-a/handoff-laptop-b/planning_graphify_laptop_b|planning_graphify_laptop_b]] — Panduan implementasi & eksekusi Graphify AST (`graphifyy`) terintegrasi Obsidian (`code-graph/`) untuk navigasi kode C#/Python dan penghematan token di Laptop B.
 - [[laptop-a/handoff-laptop-b/prompt_eksekusi_graphify_laptop_b|prompt_eksekusi_graphify_laptop_b]] — Master prompt instruksi siap salin bagi Laptop B untuk menginstal `graphifyy`, mengekstrak AST C# & Python, dan memverifikasi integrasi graf di Obsidian.
 - [[laptop-a/handoff-laptop-b/panduan_screenshot_mandiri_dan_laporan|panduan_screenshot_mandiri_dan_laporan]] — Panduan bagi Laptop B untuk melakukan *screenshot* mandiri otomatis (Unity C#, Python CV, OS-level) dan menampungnya di `docs/figures/raw_screenshots/` sebagai bahan pembaruan Laporan Capstone.
+- [[laptop-a/handoff-laptop-b/prompt_eksekusi_sistem_audio_laptop_b|prompt_eksekusi_sistem_audio_laptop_b]] — Master prompt instruksi siap salin bagi Laptop B untuk mengimpor aset audio (8 BGM + 22 SFX), menyusun AudioMixer, mengimplementasikan `AudioManager.cs`, dan menghapus penanda `// TODO [SYNC-AUDIO]`.
 
 ### Eksekusi & Pengembangan Program ([[laptop-b/Tasks|Laptop B]])
 - [[laptop-b/Tasks]] & [[laptop-b/Devlog]] — Pelacakan tugas implementasi kode, integrasi Unity/Python, & log pengujian Laptop B.

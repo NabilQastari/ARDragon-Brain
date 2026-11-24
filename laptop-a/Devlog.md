@@ -13,6 +13,30 @@ updated: 2026-11-23
 
 ---
 
+## 2026-11-24 — Perancangan Sistem Audio Terpadu Fanamir, Sintesis 22 SFX WAV Prosedural, Kurasi 8 BGM MP3, & Master Prompt Laptop B ([[arsitektur_sistem_audio]], [[prompt_eksekusi_sistem_audio_laptop_b]])
+- **Keputusan Arsitektur & Perancangan BGM Dual-Style:**
+  - Menyetujui preferensi pengguna untuk menghadirkan **Dual-Style System** pada musik latar (BGM):
+    1. *Gaya A: Ghibli / Genshin Fantasy Orchestral:* Dawai akustik (Celtic harp, lute, acoustic strings) & seruling kayu ceria (`Folk Round`, `Celtic Impulse`, `Air Prelude`).
+    2. *Gaya B: Cinematic Tribal & Ethereal Ambient:* Seruling highland kuno, perkusi taiko/primal intensif, dan drone atmosferik mistis (`Skye Cuillin`, `Firesong`, `Desert City`, `Himalayan Atmosphere`).
+  - Merancang sistem transisi dinamis **Dual AudioSource Cross-Fader** di `AudioManager.cs` dengan kurva volumetrik lembut ($1.5\text{--}2.0\text{s}$) saat naga melintasi radius krisis desa ($< 250\text{m}$) dan kembali ke tema jelajah santai ($> 280\text{m}$).
+  - Merumuskan *Stinger Akor Mayor 9th* pada momen penyelesaian $100\%$ pemulihan desa, serta *Victory Fanfare* megah (`Heroic Age`) saat seluruh stage tuntas.
+- **Sintesis Prosedural Suite 22 SFX WAV 44.1kHz 16-Bit (`misc/generate_fanamir_audio_suite.py`):**
+  - Menulis dan mengeksekusi skrip generator audio prosedural Python berbasis NumPy dan SciPy Signal (`generate_fanamir_audio_suite.py`) untuk menghasilkan seluruh efek suara game 100% bebas hak cipta langsung di folder `assets/audio/SFX/`:
+    1. *Lokomosi & Fisik Naga (`assets/audio/SFX/Dragon/`):* `SFX_WingFlap.wav` (kepakan membran kanvas/kulit berbobot), `SFX_WingFlap_Heavy.wav`, `SFX_DiveRush_Loop.wav` (desau supersonik looping), `SFX_PropellerDash_Loop.wav` (modulasi kepakan badai 3.8 Hz), `SFX_Launch_Whoosh.wav` (impuls dorongan roket), `SFX_Dragon_Footstep_01..02.wav` (langkah cakar quadruped), dan `SFX_Dragon_Roar_Victory.wav` (auman naga elemen air purba).
+    2. *Tantangan & Pemulihan 3 Desa (`assets/audio/SFX/Village/`):* `SFX_Zephyria_WindGust.wav` (sapuan angin pengusir kabut), `SFX_Lake_Siphon_Loop.wav` (pusaran hisapan air danau), `SFX_Pyrewood_WaterBreath_Loop.wav` (semburan air deras nafas naga), `SFX_Pyrewood_Extinguish_Steam.wav` (desis uap bara api padam), `SFX_Solaria_DewChimes.wav` (lonceng kristal embun C6-E6-G6-B6-C7), dan `SFX_Village_Cleansed_Stinger.wav` (akor mayor 9th surgawi pemulihan).
+    3. *UI & Umpan Balik Game Loop (`assets/audio/SFX/UI/`):* `SFX_UI_Click.wav` (ketukan kayu perkamen), `SFX_UI_Hover.wav`, `SFX_UI_PoseLock.wav` (denting kristal konfirmasi pose CV), `SFX_Countdown_Beep.wav` (nada 440 Hz 3..2..1..), `SFX_Countdown_Go.wav` (akor terompet "TERBANG!"), dan `SFX_Star_01..03.wav` (lonceng emas 3 bintang beruntun Do-Mi-Sol).
+- **Kurasi & Pengunduhan Koleksi 8 BGM MP3 Berkualitas Tinggi:**
+  - Mengunduh 8 track musik orkestra & tribal lengkap berlisensi Creative Commons dari arsip Kevin MacLeod ke dalam subfolder rapi di `assets/audio/BGM/`:
+    - `Ghibli_Fantasy/`: `BGM_Lobby_FolkRound.mp3` (7.4 MB), `BGM_Flight_CelticImpulse.mp3` (6.4 MB), `BGM_Flight_AirPrelude.mp3` (6.9 MB).
+    - `Cinematic_Tribal/`: `BGM_Flight_SkyeCuillin.mp3` (7.8 MB), `BGM_Crisis_Pyrewood_Firesong.mp3` (8.6 MB), `BGM_Crisis_Solaria_DesertCity.mp3` (3.6 MB), `BGM_Crisis_Zephyria_HimalayanAtmosphere.mp3` (9.3 MB).
+    - `Celebration/`: `BGM_Victory_HeroicAge.mp3` (3.9 MB).
+- **Penerbitan Dokumen Arsitektur & Master Prompt Eksekusi Laptop B:**
+  - Menerbitkan dokumen spesifikasi teknis `brain/laptop-a/gameplay-mechanics/arsitektur_sistem_audio.md` yang merinci pemetaan lagu, kurva cross-fade, struktur bus `AudioMixer`, dan rumus konversi decibel `20 * log10(vol)`.
+  - Menerbitkan master prompt instruksi siap salin di `brain/laptop-a/handoff-laptop-b/prompt_eksekusi_sistem_audio_laptop_b.md` untuk menginstruksikan Laptop B menyalin aset audio ke Unity, mengonfigurasi AudioMixer, mengimplementasikan `AudioManager.cs`, menyambungkan hook volume `DragonGameSettings.OnBgmVolumeChanged` & `OnSfxVolumeChanged`, dan menghapus penanda `// TODO [SYNC-AUDIO]`.
+  - Memperbarui [[00 - Overview]], [[Tasks]], dan [[Devlog]].
+
+---
+
 ## 2026-11-24 — Setup & Ekstraksi AST Graphify untuk Proyek Three.js Studio (`dragon_anim_studio/`) ([[code-graph-threejs/index]])
 - **Instalasi & Konfigurasi Paket `graphifyy`:**
   - Menginstal paket PyPI resmi `graphifyy` (v0.9.118) beserta dependensi Tree-sitter lokal (JavaScript, Python, C#, RapidFuzz, NetworkX) pada environment Python 3.12 Laptop A.
