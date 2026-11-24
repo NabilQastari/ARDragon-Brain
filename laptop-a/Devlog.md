@@ -13,6 +13,20 @@ updated: 2026-11-23
 
 ---
 
+## 2026-11-24 — Paket Prompt Multi-Angle/Frame 19 Pose & Penyesuaian Alur Kerja (Prioritas Audio + Graphify Three.js) ([[Resolusi Animasi Kaki dan Prompt Pose]])
+- **Paket Prompt Image Generator (4 Sesi Lengkap):**
+  - Menyusun seluruh prompt siap salin untuk menghasilkan lembar referensi multi-angle dan variasi frame animasi Fanamir dengan lampiran gambar model 3D, terbagi menjadi 4 sesi berdasarkan arsitektur modular (4 sikap dasar badan/kaki universal + 1 lapisan kepala dinamis 3-sumbu CV yang menggantikan `#03 Look Up` statis):
+    - *Sesi 1 (Grounded + Universal Head):* `#01 Idle`, `#02 Walk` (4-frame trotting gait), dan Universal Dynamic Head & Neck.
+    - *Sesi 2 (Core Flight & Climb):* `#04 Takeoff` (4-frame), `#05 Banking Turn`, `#06 Flap to Climb` (4-frame), `#06B Steep Climb` (3-frame), `#07 Y-Glide`, dan `#08 Glide` (Front/Top).
+    - *Sesi 3 (Special Maneuvers & Hover):* `#09A Hover` (4-frame flutter), `#09B Slow Glide`, `#10 Gentle Descent` (penetapan *Landing Prep Legs*), `#11 Y-Dive`, `#12 W-Pose`, `#13 Tuck Dive`, dan `#14 Propeller Dash` (4-frame violent asymmetric power flap + flex lag).
+    - *Sesi 4 (Village Actions):* `#15A Zephyria` (4-frame storm sweep), `#15B Pyrewood` (jaw `-30°` water breath), dan `#15C Solaria` (Double-I `"11"` ritual).
+- **Penyesuaian Alur Kerja:**
+  - Pengguna memutuskan menunda sementara eksekusi implementasi animasi dan langsung melompat memprioritaskan perancangan **Sistem Audio (BGM & SFX)**.
+  - Pengembangan animasi Three.js akan dilanjutkan di sesi terpisah setelah terlebih dahulu men-setup **Graphify** pada proyek Three.js (`dragon_anim_studio/`).
+  - Rangkuman sesi diarsipkan di [[Resolusi Animasi Kaki dan Prompt Pose]].
+
+---
+
 ## 2026-11-24 — Resolusi Definitif Anomali Pose Kaki Naga (Hover & Flight) & Sinkronisasi Rig ke Unity/Three.js
 - **Akar Masalah yang Ditemukan:**
   - Pengguna melaporkan: *"hasilnya sangat aneh, pose kakinya aneh"*.
