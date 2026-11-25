@@ -13,6 +13,17 @@ updated: 2026-11-25
 
 ---
 
+## 2026-11-25 — Perumusan Cetak Biru Pasca-Animasi: Perbaikan VFX, Animasi UI "Juicy", & Penyempurnaan Mekanisme Kontrol ([[planning_post_animasi_vfx_ui_dan_kontrol]])
+- **Perumusan 3 Pilar Pasca-Animasi Terpadu:**
+  - Menyusun dokumen master arsitektur `brain/laptop-a/gameplay-mechanics/planning_post_animasi_vfx_ui_dan_kontrol.md` sebagai peta jalan komprehensif setelah seluruh sistem artikulasi rig naga (`DragonBodyAnimator.cs`) terpasang di proyek.
+  - **Pilar 1 (Perbaikan VFX):** Mengikat emitter Effekseer & partikel langsung ke transformasi tulang spesifik (`Bone_Jaw` untuk semburan air nafas naga, `Wing_Finger_Outer.L/R` untuk pita uap sayap, `Spine_02` permata dada untuk pilar embun celestial, dan telapak cakar untuk hentakan debu jalan/landing), memperkaya efek pemulihan desa (gelombang kejut pembersih kabut, peredaman abu menjadi uap sejuk, rintik embun emas), serta menambahkan efek distorsi desau angin kecepatan tinggi dan URP dynamic particle lighting.
+  - **Pilar 2 (Animasi UI & Kinetik "Juicy"):** Menghilangkan transisi statis instan dengan menerapkan animasi pegas elastis (*easeOutBack*) pada Side-Docked Challenge HUD, animasi buka gulungan perkamen (*parchment unroll*) pada Quest Narrative Box, sistem *trailing ghost bar* dua lapis pada progress bar tantangan desa, denyut kinetik kartu pose target (`● GERAKAN TERDETEKSI!`), getaran peringatan kalibrasi (*denied horizontal shake*), dan pop-in bintang sekuensial finish modal dengan ledakan partikel kanvas.
+  - **Pilar 3 (Mekanisme Kontrol & Ergonomi Exergaming):** Mengeliminasi delay visual-ke-fisika via *instant downstroke impulse coupling*, transisi mulus *Dive-to-Swoop* aerodinamis, manajemen kelelahan pemain melalui *micro-rest glide*, pemisahan kemiringan kamera vs badan naga (*decoupled banking roll* 22%), asistensi kemudi halus (*soft target assist*) di radius desa, dan penyesuaian otomatis bahu/pinggul untuk pemain duduk maupun berdiri.
+- **Pembaruan Peta Pengetahuan & Tugas:**
+  - Memperbarui [00 - Overview.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/00%20-%20Overview.md), [Tasks.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/Tasks.md), dan [Devlog.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/Devlog.md).
+
+---
+
 ## 2026-11-25 — Perbaikan SFX Propeller Dash (Whoosh Berat), Sistem Dropdown BGM 1..11, & Kontrol BGM Menu (`SCREEN 00` & `SCREEN 05`) ([[arsitektur_sistem_audio]], [[prompt_eksekusi_sistem_audio_laptop_b]])
 - **Perbaikan SFX Propeller Dash (`SFX_PropellerDash_Loop.wav`):**
   - Mengubah karakter audio secara mendasar dari desau tinggi & siulan menjadi **Whoosh Berat (*Heavy Aerodynamic Whoosh Loop*)** bertenaga besar.
@@ -53,6 +64,24 @@ updated: 2026-11-25
   - Menambahkan enum `BgmThemeStyle`, key `PrefBgmThemeStyle = "Fanamir_BgmThemeStyle"`, properti persisten `CurrentBgmThemeStyle`, dan event `OnBgmThemeStyleChanged`.
   - Menambahkan listener reaktif di `AudioManager.cs` sehingga pergantian tema musik di menu Settings seketika memicu cross-fade halus ke lagu tema baru saat bermain.
   - Memperbarui dokumen arsitektur [arsitektur_sistem_audio.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/gameplay-mechanics/arsitektur_sistem_audio.md) dan master prompt eksekusi untuk Laptop B [prompt_eksekusi_sistem_audio_laptop_b.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/handoff-laptop-b/prompt_eksekusi_sistem_audio_laptop_b.md).
+
+---
+
+## 2026-11-25 — Penyelesaian Sesi 4 (Final) Animasi Three.js Studio: Village Actions & Sync Standalone (`v13`)
+- **Penyempurnaan 3 Pose Village Actions (`#15A`, `#15B`, `#15C`):**
+  1. **`#15A Zephyria · Wind Flap` (`zephyria`):** Menaikkan `posY = 0.68`, mengubah `tailCurve = +12°` (+X ke atas + *whip*), menyinkronkan *counter-leveling* kepala dengan `windRecoil`, serta mengkalibrasi sapuan badai **ke depan-bawah** (`applyFlightWing` dari puncak belakang `sweepZ +8°` menyabet ke depan `sweepZ -34°`, ujung sayap aman `+0.26 m` di atas `y=0`).
+  2. **`#15B Pyrewood · Water Breath` (`pyrewood`):** Menaikkan `posY = 0.56`, menjulurkan leher lurus ke depan `+26 cm` (`Neck_01 -32°`, `Neck_02 -16°`, `Head +26°` → arah bidik air horizontal `+3.1°`), membuka rahang lebar `Jaw -30°` dengan *jet flutter*, membalik kurva ekor ke atas (`+X`), serta menstabilkan kepakan hover pada basis *airfoil* terkalibrasi.
+  3. **`#15C Solaria · Dew Rain (11)` (`solaria`):** Menaikkan `posY = 0.58`, mengubah `headPitch` preset ke `0°` dengan tatapan khidmat ke langit `+34°` (`Neck_01 -16°`, `Neck_02 -8°`, `Head +10°`, bukan terbalik ke belakang), membalik kurva ekor ke atas (`+X`), dan mengkalibrasi **Double I-Pose `"11"`** (`Wing_Shoulder (72°, ±22°, ∓34°)`, `Wing_Forearm (+12°, 0°, ∓10°)`) sehingga sayap tegak sejajar ke langit tanpa saling silang.
+- **Finalisasi C# Export, Sinkronisasi Standalone, & Verifikasi:**
+  - Melengkapi `generateUnityCSharpSnippet()` sehingga seluruh **19/19 pose** di [studio.js](file:///e:/Semester%205/Game/AR%20Dragon/dragon_anim_studio/studio.js) memiliki blok Unity C# lengkap yang sinkron 100%, dan memperbarui cache buster [index.html](file:///e:/Semester%205/Game/AR%20Dragon/dragon_anim_studio/index.html) (`studio.js?v=20261125_v13`).
+  - Menyinkronkan `studio.js`, `index.html`, dan `dragon_model.glb` yang sudah bersih *skin weight*-nya ke [Fanamir_AnimStudio_Standalone/app/](file:///e:/Semester%205/Game/AR%20Dragon/Fanamir_AnimStudio_Standalone/app/) (SHA256 identik 100%) dan mengemas ulang [Fanamir_AnimStudio_Standalone.zip](file:///e:/Semester%205/Game/AR%20Dragon/Fanamir_AnimStudio_Standalone.zip).
+  - Memperbarui Graphify AST (`26` nodes, `40` edges, `5` communities), `node --check` exit code `0`, dan browser subagent (`http://localhost:8088/`) memverifikasi HTTP `200`, `0` error console, ekspor C# `#15A/#15B/#15C` valid, serta inspeksi langsung screenshot [final_step_337.png](file:///C:/Users/nmast/.gemini/antigravity/brain/f0061fc9-8e6a-4240-8ec4-72af963b58b6/browser_evidence/8d04ffac-9a62-487b-b4fb-0bfc98a80b6b/final_step_337.png) (`#15B Pyrewood`).
+
+---
+
+## 2026-11-25 — Penyesuaian Leher & Kepala Maju pada `#14 Propeller Dash` (`v12`)
+- **Perubahan (`dragon_anim_studio/`):** Menjulurkan leher & kepala `#14 Propeller Dash` lebih maju dan rendah (`Neck_01 -26°`, `Neck_02 -14°`, `Head +40°` + distribusi 3-sumbu `Head Pitch/Yaw/Roll`, maju `+14.3 cm` dalam sumbu Z dengan arah pandang horizontal lurus `-0.9°`) pada [studio.js](file:///e:/Semester%205/Game/AR%20Dragon/dragon_anim_studio/studio.js), menyinkronkan `generateUnityCSharpSnippet()`, cache buster [index.html](file:///e:/Semester%205/Game/AR%20Dragon/dragon_anim_studio/index.html) (`studio.js?v=20261125_v12`), dan Graphify AST (`26` nodes, `40` edges, `5` communities).
+- **Verifikasi:** `node --check` exit code `0`; browser subagent (`http://localhost:8088/`) mengonfirmasi `v12` HTTP `200`, `0` error console, ekspor C# `-26f / -14f / 40f` valid, dan inspeksi langsung [final_step_307.png](file:///C:/Users/nmast/.gemini/antigravity/brain/f0061fc9-8e6a-4240-8ec4-72af963b58b6/browser_evidence/8d04ffac-9a62-487b-b4fb-0bfc98a80b6b/final_step_307.png) (*Side View 90°*) memperlihatkan siluet leher menerjang maju dengan pandangan tetap datar horizontal dan bebas klip sayap.
 
 ---
 
