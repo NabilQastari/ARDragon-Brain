@@ -13,6 +13,28 @@ updated: 2026-11-25
 
 ---
 
+## 2026-11-25 — Peningkatan Sistem Audio Fanamir (14 BGM + 23 SFX = 37 Klip, `BgmThemeStyle` Persisten, & Splash Screen Unity Branding) ([[Implementasi Sistem Audio Fanamir]], [[laptop-a/gameplay-mechanics/arsitektur_sistem_audio]])
+
+### Perubahan yang Diimplementasikan
+1. **Sinkronisasi Paket `Export_Audio_LaptopB.zip` (37 Klip: 14 BGM + 23 SFX):**
+   - Mengekstrak `assets/Export_Audio_LaptopB.zip` dan menyalin seluruh **37 berkas audio** ke `AR Dragon Sky Guardian/Assets/Audio/`:
+     - **14 BGM MP3:** 7 Ghibli/Fantasy (`BGM_Lobby_FolkRound`, `BGM_Lobby_VillageConsort`, `BGM_Flight_CelticImpulse`, `BGM_Flight_AirPrelude`, `BGM_Flight_LordOfTheLand`, `BGM_Flight_TellerOfTheTales`, `BGM_Flight_ClearWaters`), 6 Cinematic Tribal (`BGM_Flight_SkyeCuillin`, `BGM_Crisis_Zephyria_HimalayanAtmosphere`, `BGM_Crisis_Pyrewood_Firesong`, `BGM_Crisis_Pyrewood_Ritual`, `BGM_Crisis_Solaria_DesertCity`, `BGM_Crisis_Solaria_CurseOfTheScarab`), dan 1 Celebration (`BGM_Victory_HeroicAge`).
+     - **23 SFX WAV:** 8 Dragon, 6 Village, dan 9 UI (termasuk `SFX_Splash_LogoReveal.wav` berdurasi `3.200s`).
+   - Memperbarui `AudioImporterSetupUtility.cs` & membangun ulang `Assets/Resources/Fanamir_AudioManager.prefab` (`37/37` klip terhubung ke `Fanamir_AudioMixer.mixer`).
+2. **Sistem Preferensi Gaya Musik Persisten (`DragonGameSettings.cs` & `AudioManager.cs`):**
+   - Menambahkan enum `BgmThemeStyle` (`Adaptive = 0`, `GhibliFantasy = 1`, `CinematicTribal = 2`), key `PrefBgmThemeStyle = "Fanamir_BgmThemeStyle"`, event `OnBgmThemeStyleChanged`, dan properti persisten `CurrentBgmThemeStyle` (`PlayerPrefs.SetInt` + `PlayerPrefs.Save()`) di `DragonGameSettings.cs`.
+   - Memperluas `AudioManager.cs` untuk memuat seluruh 37 klip, berlangganan `OnBgmThemeStyleChanged` (memicu cross-fade instan `1.5s` saat gaya diubah selama jelajah santai), memilih track `Adaptive` dinamis sesuai ketinggian/posisi/kecepatan (`Y > 120m` $\rightarrow$ `AirPrelude`, Center Peak `< 140m` $\rightarrow$ `SkyeCuillin`, speed $\ge 20\text{ m/s}$ $\rightarrow$ `LordOfTheLand`, `Y < 32m` $\rightarrow$ `ClearWaters`, default `CelticImpulse`), serta memilih variasi tribal untuk Pyrewood/Solaria saat gaya `CinematicTribal` aktif.
+3. **Splash Screen Audio + Unity Branding (`SCREEN 09`) & Kontrol Gaya Musik Settings (`SCREEN 05`/`06`):**
+   - **`BootFlowController.cs`:** Memainkan `SFX_Splash_LogoReveal.wav` via `AudioManager.EnsureInstance().PlaySplashLogoReveal()` pada awal fade-in logo `SCREEN 09`.
+   - **`UISceneAndPrefabBuilder.cs` & `SettingsPanelUI.cs`:** Menambahkan teks `Splash_UnityBranding` (`"MADE WITH UNITY"`, `#8C7F70`, `characterSpacing = 4.5f`) di bawah `Splash_Footer` pada `SCREEN 09`; menambahkan baris ke-6 `Row_BgmThemeStyle` (3 tombol segmented pill: `ADAPTIF`, `GHIBLI FANTASY`, `CINEMATIC TRIBAL`) pada `PF_SettingsPanel.prefab` (`SettingsCard` `960×586 px`) yang langsung menyimpan `Fanamir_BgmThemeStyle` & memicu cross-fade instan, lalu menjalankan `BuildAll()` ke seluruh prefab dan scene.
+
+### Hasil Verifikasi Play Mode (`Unity 6000.3.7f1`)
+- **`AudioImporterSetupUtility` & Prefab:** `Configured 37 audio clips (BGM Streaming=14, Short SFX PCM=15, Long/Loop SFX Vorbis=8)` & `Built Assets/Resources/Fanamir_AudioManager.prefab with 37/37 clips & Mixer=Fanamir_AudioMixer`.
+- **`MainMenu_Lobby.unity` Play Mode:** `Splash_UnityBranding = "MADE WITH UNITY"` terverifikasi, `Row_BgmThemeStyle` (`Btn_StyleAdaptive`/`Btn_StyleGhibli`/`Btn_StyleTribal`) menyimpan `PlayerPrefs("Fanamir_BgmThemeStyle")` (`2`/`1`/`0`), dan `AudioSystemVerificationRunner` lulus **`37/37 clips, Mixer buses, dB curve, BgmThemeStyle, Crossfade, & SFX triggers 100%`**.
+- **`MainIsland_Gameplay.unity` Play Mode:** Verifikasi transisi langsung `OnBgmThemeStyleChanged` (`Spawn >120m` = `BGM_Flight_AirPrelude`, `CinematicTribal` = `BGM_Flight_SkyeCuillin`, `GhibliFantasy` = `BGM_Flight_CelticImpulse`, `Adaptive 60m` = `BGM_Flight_CelticImpulse`), `PauseModal -> Settings` memiliki `Btn_StyleTribal` aktif, `AudioSystemVerificationRunner` **100% PASS**, serta non-regresi `MomentumFlightVerificationRunner` **100% PASS** (`0` console errors, `0` console warnings, `0` `// TODO [SYNC-AUDIO]`). Scene aktif dikembalikan ke `MainMenu_Lobby.unity`.
+
+---
+
 ## 2026-11-25 — Penghapusan Section Kalibrasi/Kamera pada Settings (`PF_SettingsPanel.prefab`, `SettingsPanelUI.cs`, `LobbyNavigationManager.cs`)
 
 ### Perubahan yang Diimplementasikan
