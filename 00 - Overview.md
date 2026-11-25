@@ -59,6 +59,7 @@ updated: 2026-11-19
 - [[laptop-a/ui-ux/planning_perbaikan_ui_ingame_dan_event_desa|planning_perbaikan_ui_ingame_dan_event_desa]] — Perencanaan perbaikan UI in-game: mode isolasi total saat textbox narasi (hanya textbox besar + quest objective) & redesain Side-Docked Challenge HUD di samping layar (agar naga di tengah 100% bebas terlihat).
 
 #### 🎮 Gameplay & Mekanik (`laptop-a/gameplay-mechanics/`)
+- [[laptop-a/gameplay-mechanics/spesifikasi_gameplay_boundary_dan_dual_input_mode|spesifikasi_gameplay_boundary_dan_dual_input_mode]] — Spesifikasi aturan batas laut ($>1100\text{ m}$ wind wall), pantulan tebing ($50\%$ momentum penalty), alur 2-tahap Pyrewood, evaluasi positif time-up, dan dual input mode (CV vs Keyboard).
 - [[laptop-a/gameplay-mechanics/planning_post_animasi_vfx_ui_dan_kontrol|planning_post_animasi_vfx_ui_dan_kontrol]] — Perencanaan terpadu pasca-animasi: perbaikan & socketing VFX rig naga, pemolesan animasi/juice UI (spring, ghost bar, pop bintang), dan penyempurnaan mekanisme kontrol/ergonomi exergaming.
 - [[laptop-a/gameplay-mechanics/mekanisme_tantangan_desa|mekanisme_tantangan_desa]] — Rancangan gameplay tantangan 3 desa (Zephyria, Pyrewood, Solaria), state mesin narasi vs tantangan, dan mode *Free Play*.
 - [[laptop-a/gameplay-mechanics/planning_momentum_dan_revisi_kontrol|planning_momentum_dan_revisi_kontrol]] — Perancangan sistem momentum kontinu ($0–100\%$), Y-Glide, Steep Climb, Hover Flutter vs Slow Glide, dan spesifikasi paket delta ekspor Laptop B.

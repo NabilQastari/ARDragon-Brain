@@ -13,6 +13,20 @@ updated: 2026-11-25
 
 ---
 
+## 2026-11-25 — Pembakuan Spesifikasi Gameplay: Batas Dunia, Tabrakan Tebing, Alur Pyrewood, Time Up Positif, & Dual Input Mode ([[spesifikasi_gameplay_boundary_dan_dual_input_mode]])
+- **Keputusan Gameplay & Sistem Bersama Pengguna:**
+  - **Batas Dunia (Ocean Wind Barrier):** Pada radius $> 1100\text{ m}$ dari pusat kepulauan, pusaran angin lembut membelokkan naga halus $180^\circ$ kembali ke arah pulau dengan teks peringatan ramah: *"Angin badai laut terlalu kuat! Kembali ke kepulauan."*
+  - **Tabrakan Tebing/Tanah (Glancing Bounce):** Naga memantul meluncur (*sliding bounce*) dengan elevasi $+15^\circ$, getaran kamera mikro, dan penalti momentum $50\%$ tanpa *game over* atau henti paksa.
+  - **Layar Waktu Habis Positif (Exergaming Time-Up):** Menghapus konsep "Defeat/Game Over", menggantinya dengan evaluasi apresiatif *"WAKTU HABIS! USAHA YANG BAGUS!"* yang memuat statistik kebugaran, progres pulau, tombol *RETRY*, dan *LOBBY*.
+  - **Alur Misi Pyrewood 2-Tahap:** Pemain wajib mengambil quest di balai Desa Pyrewood terlebih dahulu $\to$ membuka silinder pengisian air di Danau Zephyria (Energi Air $0\text{--}100\%$) $\to$ terbang ke Hutan Pyrewood untuk menyiram bara api dengan pose Water Breath ($0\text{--}100\%$).
+  - **Dual Input Mode di Settings (`SCREEN 05`):** Menambahkan opsi `Control Input Mode: [ CV (Webcam) | Keyboard ]`. Pada mode CV, blokade kalibrasi ditegakkan ketat. Pada mode Keyboard, blokade dibypass total, klaster PIP kamera kanan bawah di-hide bersih, dan proses Python CV di-idle-kan.
+  - **Future Planning:** Alur Stage 1 tetap langsung `3..2..1..TERBANG!`, sementara *Stage 0 (Flight Academy Tutorial)* dicatat sebagai rencana rilis masa depan.
+- **Penerbitan Dokumen & Peta Pengetahuan:**
+  - Menerbitkan dokumen spesifikasi di [spesifikasi_gameplay_boundary_dan_dual_input_mode.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/gameplay-mechanics/spesifikasi_gameplay_boundary_dan_dual_input_mode.md).
+  - Memperbarui [00 - Overview.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/00%20-%20Overview.md) dan [Tasks.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/Tasks.md).
+
+---
+
 ## 2026-11-25 — Pembakuan Spesifikasi & Master Prompt Animasi Final (Dynamic Wings Dual-Track & Dynamic Head 3-Sumbu) ([[spesifikasi_dynamic_wings_dan_head_tracking]], [[prompt_eksekusi_animasi_final_laptop_b]])
 - **Keputusan Desain & Arsitektur Bersama Pengguna:**
   - **Dynamic Wings (Dual-Track System):**
