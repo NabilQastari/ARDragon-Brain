@@ -13,6 +13,32 @@ updated: 2026-11-25
 
 ---
 
+## 2026-11-25 — Implementasi Final Dynamic Wings (Dual-Track 1:1), Dynamic Head 3-Sumbu, Kamera Melirik, & Sinkronisasi Trotting `1.4 Hz` ([[laptop-a/visual-vfx/spesifikasi_dynamic_wings_dan_head_tracking]])
+
+- **Konteks & Acuan:** Mengimplementasikan spesifikasi terbaru Laptop A (`15e0191`) di [[laptop-a/visual-vfx/spesifikasi_dynamic_wings_dan_head_tracking]] & [[laptop-a/handoff-laptop-b/prompt_eksekusi_animasi_final_laptop_b]] sambil menjaga kompatibilitas penuh dengan rig & kurva `studio.js v15` (`evaluatePropellerDashStroke` Heavy Butterfly-Stroke 3D Orbit).
+- **1. Python CV 3-Sumbu (`mouth_tracker.py`, `active_cv_sender.py`, `udp_sender.py`, `test_tahap1_face_tracking.py`):**
+  - Menambahkan `compute_head_yaw_norm` (`±35°` dari deviasi `(Nose.x - MidShoulder.x) / ShoulderWidth` dipadukan asimetri wajah MediaPipe) dan `compute_head_roll_norm` (`±15°` dari garis luar kedua mata `#33 -> #263` + `AdaptiveOneEuroFilter`).
+  - Memperluas `PoseUDPSender.send_pose(...)` dengan argumen opsional `head_yaw` (token `44`) & `head_roll` (token `45`) sehingga tetap kompatibel mundur (`44` token standar vs `46` token live) tanpa mengubah tampilan `Clean CV Preview`.
+- **2. Kontrak Telemetri Unity (`IPoseProvider.cs`, `UDPPoseReceiver.cs`, `IFlightInputProvider.cs`, `DefaultFlightInputMapper.cs`, `DragonFlightController.cs`):**
+  - Mengekspos `HeadYaw`, `HeadRoll`, `LeftWristDeltaY`, dan `RightWristDeltaY` ke `FlightCommand` serta memastikan `_isTrackingReady` / `_hasPlayerFormedInitialPose` diperbarui di `FetchFlightCommand()` pada seluruh state (Grounded, Hover, & Airborne).
+- **3. Dual-Track Dynamic Wings & Wing Overdrive Steer (`DragonWingAnimator.cs`, `DragonFlightController.cs`):**
+  - Memisahkan **Jalur A (1:1 Dynamic Free Tracking)** untuk `Glide`, `Lean`, `FlyUp`, `FlapClimb`, `Hover`, & `SlowGlide` (mapping `deltaY` `-0.30..+0.45 -> -30°..+40°` per sisi + bukaan membran jari `ArmOpenness`) vs **Jalur B (Preset Locked)** untuk `TuckDive`, `PropellerDash`, `GentleDescent`, `FlyDownW/Y`, `GroundedIdle`, & `Village Actions` dengan transisi `Mathf.SmoothStep (0.20s)` serta ekstraksi `EvaluatePropellerDashStroke(...)`.
+  - Mengaktifkan *Wing Overdrive Steer* pada `DragonFlightController` (`deadzone 0.15`, pengali `1.5f`, `Clamp(-1, +1)`).
+- **4. Pelacakan Kepala 3-Sumbu, Kunci Aerodinamis, Kamera Melirik, & Trotting `1.4 Hz` (`DragonHeadLookController.cs`, `DragonFlightController.cs`, `DragonBodyAnimator.cs`):**
+  - Mengubah `DragonHeadLookController` memakai `Mathf.SmoothDamp (0.11s)` untuk `HeadPitch`, `HeadYaw` (`±35°`), & `HeadRoll` (`±15°`) distribusi `25%/35%/40%`, serta **Kunci Aerodinamis Kecepatan Tinggi** ke `0°` (`0.20s`) saat `CurrentSpeed >= 22 m/s`, `TuckDive`, atau `PropellerDash`.
+  - Menambahkan **Kamera Melirik Sinematik** pada `DragonFlightController.UpdateCameraPolish()` (`cameraYawPeekFactor = 0.11f` via `Mathf.SmoothDamp 0.25s`).
+  - Memperbarui siklus jalan 4 kaki (`TrottingFrequencyHz = 1.4f`, `ComputeTrottingLegAngles`) pada `DragonBodyAnimator.cs` & menyinkronkan panggilan `AudioManager.PlayDragonFootstep()` tepat pada crossing fase `0.0` dan `0.5`.
+- **5. Verifikasi Kompilasi, Python CV, & Unity Play Mode (`100% PASS`):**
+  - **Python CV:** `test_all_17_poses_alignment.py`, `test_momentum_and_control_revision.py`, & `test_tahap1_face_tracking.py` (`8/8` PASS, termasuk PASS 8 `HeadYaw/HeadRoll` & UDP `46`-float).
+  - **Unity Play Mode (`MainIsland_Gameplay.unity` & `MainMenu_Lobby.unity`):**
+    - Verifikasi khusus Dual-Track/Head/Camera: `DeadzoneTurn=0.000`, `OverdriveTurn=0.46`, `AsymWingY=(L=0.35,R=-0.18)`, `Head=(yaw=28.0°,roll=9.0°)`, `CamPeek=3.07°`, `AeroLock=(yaw=0.0°,roll=0.0°)`, `WalkSpd=3.49`.
+    - `DragonAnimationVerificationRunner`: `ALL 20-POSE DRAGON ANIMATION CHECKS PASSED (100%)`.
+    - `MomentumFlightVerificationRunner`: `ALL MOMENTUM & FLIGHT PHYSICS CHECKS PASSED (100%)`.
+    - `AudioSystemVerificationRunner` (`MainMenu_Lobby.unity`): `ALL AUDIO SYSTEM CHECKS PASSED (37/37 clips, Mixer buses, dB curve, Dual BGM Dropdowns, Crossfade, & SFX triggers 100%)`.
+    - `consoleErrors=0`, `consoleWarnings=0` di ground truth Unity, & scene aktif dikembalikan ke `MainMenu_Lobby.unity`.
+
+---
+
 ## 2026-11-25 — Integrasi Model 3D Naga Fanamir Terbaru & Sinkronisasi Penuh 20 Pose Prosedural Studio `v15`
 
 - **Konteks & Paket Sumber:** Mengekstrak `assets/Export_DragonModel_Anim20_LaptopB.zip` (`Dragon_Model.fbx` `2,408,268` B bebas skin-weight bleed & 3 poligon asimetris dorsal kepala diperbaiki, `UNITY_20_POSES_REFERENCE.cs.txt`, dan `Reference_AnimStudio/studio.js` `v15`).
