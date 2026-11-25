@@ -70,26 +70,56 @@ Buat skrip `AudioManager.cs` (namespace `DragonWingAR.Audio`, `[DefaultExecution
    - 2 AudioSource untuk BGM: `_bgmSourceA` dan `_bgmSourceB` (output ke bus `BGM`, `loop = true`).
    - 1 AudioSource 2D untuk UI/SFX one-shot: `_sfx2DSource` (output ke bus `SFX`).
    - Sediakan referensi AudioSource loop untuk naga & desa: `_diveRushSource`, `_propellerDashSource`, `_villageLoopSource`.
-3. **Penyambungan Reaktif ke `DragonGameSettings` (Hapus `// TODO [SYNC-AUDIO]`):**
-   - Di `OnEnable()` / `Start()`:
+3. **Penyambungan Reaktif ke `DragonGameSettings` & Pengaturan Gaya Musik (Hapus `// TODO [SYNC-AUDIO]`):**
+   - Di `DragonGameSettings.cs`:
      ```csharp
-     DragonGameSettings.OnBgmVolumeChanged += SetBgmVolume;
-     DragonGameSettings.OnSfxVolumeChanged += SetSfxVolume;
-     SetBgmVolume(DragonGameSettings.BgmVolume);
-     SetSfxVolume(DragonGameSettings.SfxVolume);
-     ```
-   - Di `OnDisable()`: Unsubscribe kedua event.
-   - Fungsi konversi linier ke dB:
-     ```csharp
-     public void SetBgmVolume(float linear) {
-         float db = 20f * Mathf.Log10(Mathf.Max(linear, 0.0001f));
-         audioMixer.SetFloat("BgmVolume", db);
+     public enum BgmThemeStyle {
+         Adaptive = 0,        // Otomatis berganti sesuai lokasi & ketinggian (Default)
+         GhibliFantasy = 1,   // Selalu alunan ceria Ghibli/Genshin (Celtic Impulse / Air Prelude)
+         CinematicTribal = 2  // Selalu alunan etnik highland & ambient mistis (Skye Cuillin)
      }
-     public void SetSfxVolume(float linear) {
-         float db = 20f * Mathf.Log10(Mathf.Max(linear, 0.0001f));
-         audioMixer.SetFloat("SfxVolume", db);
+
+     public const string PrefBgmThemeStyle = "Fanamir_BgmThemeStyle";
+     public static event Action<BgmThemeStyle> OnBgmThemeStyleChanged;
+
+     public static BgmThemeStyle CurrentBgmThemeStyle {
+         get => (BgmThemeStyle)PlayerPrefs.GetInt(PrefBgmThemeStyle, 0);
+         set {
+             PlayerPrefs.SetInt(PrefBgmThemeStyle, (int)value);
+             PlayerPrefs.Save();
+             OnBgmThemeStyleChanged?.Invoke(value);
+         }
      }
      ```
+   - Di `AudioManager.cs`:
+     - Di `OnEnable()` / `Start()`:
+       ```csharp
+       DragonGameSettings.OnBgmVolumeChanged += SetBgmVolume;
+       DragonGameSettings.OnSfxVolumeChanged += SetSfxVolume;
+       DragonGameSettings.OnBgmThemeStyleChanged += OnBgmThemeStyleChanged;
+       SetBgmVolume(DragonGameSettings.BgmVolume);
+       SetSfxVolume(DragonGameSettings.SfxVolume);
+       ```
+     - Di `OnDisable()`: Unsubscribe seluruh event.
+     - Fungsi konversi linier ke dB:
+       ```csharp
+       public void SetBgmVolume(float linear) {
+           float db = 20f * Mathf.Log10(Mathf.Max(linear, 0.0001f));
+           audioMixer.SetFloat("BgmVolume", db);
+       }
+       public void SetSfxVolume(float linear) {
+           float db = 20f * Mathf.Log10(Mathf.Max(linear, 0.0001f));
+           audioMixer.SetFloat("SfxVolume", db);
+       }
+       ```
+     - Handler pergantian gaya musik seketika:
+       ```csharp
+       private void OnBgmThemeStyleChanged(BgmThemeStyle newStyle) {
+           if (_isPeacefulFlightActive) {
+               RestorePeacefulBGM(1.5f);
+           }
+       }
+       ```
 4. **Sistem Cross-Fade BGM Dinamis:**
    - Coroutine `CrossfadeBGM(AudioClip newClip, float duration = 1.8f)`:
      - Jika track sama, abaikan.
@@ -99,7 +129,11 @@ Buat skrip `AudioManager.cs` (namespace `DragonWingAR.Audio`, `[DefaultExecution
      - Pyrewood: `BGM_Crisis_Pyrewood_Firesong`
      - Solaria: `BGM_Crisis_Solaria_DesertCity`
    - Metode `RestorePeacefulBGM(float duration = 2.0f)`:
-     - Cross-fade kembali ke `BGM_Flight_CelticImpulse` atau `BGM_Flight_AirPrelude`.
+     - Tentukan lagu berdasarkan `DragonGameSettings.CurrentBgmThemeStyle`:
+       - `Adaptive`: jika ketinggian naga $Y > 120\text{m}$, gunakan `BGM_Flight_AirPrelude`; jika dekat Center Peak, gunakan `BGM_Flight_SkyeCuillin`; selain itu `BGM_Flight_CelticImpulse`.
+       - `GhibliFantasy`: gunakan `BGM_Flight_CelticImpulse` (atau `Air Prelude` saat tinggi).
+       - `CinematicTribal`: gunakan `BGM_Flight_SkyeCuillin`.
+     - Lakukan cross-fade halus ke track terpilih.
    - Metode `PlayCleansedStinger()`:
      - Mainkan `SFX_Village_Cleansed_Stinger.wav` (one-shot berprioritas tinggi) sambil ducking BGM sejenak, lalu restore peaceful BGM.
    - Metode `PlayVictoryCelebration()`:
@@ -144,6 +178,14 @@ Buat skrip `AudioManager.cs` (namespace `DragonWingAR.Audio`, `[DefaultExecution
 5. **`LobbyNavigationManager.cs` & `CalibrationPanelUI.cs` & UI Buttons:**
    - Mainkan `SFX_UI_Click.wav` pada setiap tombol navigasi utama / pergantian tab.
    - Mainkan `SFX_UI_PoseLock.wav` saat pose target terdeteksi valid (`GERAKAN TERDETEKSI!`).
+
+6. **`SettingsPanelUI.cs` (`SCREEN 05`):**
+   - Tambahkan baris pemilih kontrol **Gaya Musik (BGM Style)** pada panel pengaturan (`SCREEN 05`):
+     - `[0] ADAPTIF (DEFAULT)`
+     - `[1] GHIBLI / GENSHIN FANTASY`
+     - `[2] CINEMATIC TRIBAL & AMBIENT`
+   - Hubungkan ke `DragonGameSettings.CurrentBgmThemeStyle = (BgmThemeStyle)index;`.
+   - Mengubah opsi ini di Play Mode akan langsung memicu event `OnBgmThemeStyleChanged` dan meng-crossfade lagu jelajah di `AudioManager` secara instan.
 
 ---
 

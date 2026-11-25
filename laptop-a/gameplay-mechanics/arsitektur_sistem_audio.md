@@ -38,6 +38,18 @@ Sesuai preferensi perancangan, sistem musik Fanamir mengusung **Dual-Style Syste
 | **Krisis 3 — Desa Solaria** | `BGM_Crisis_Solaria_DesertCity.mp3` | **Arid Mystical:** Seruling padang pasir, ritme lambat dahaga, atmosfer terik terisolasi | Masuk radius $< 250\text{m}$ Desa Solaria / Plato Kering (status belum pulih) |
 | **Kemenangan & Finish Modal** | `BGM_Victory_HeroicAge.mp3` | **Triumphant Fanfare:** Bras orkestra megah, simbal, nada bangga kepahlawanan | Terpicu saat Global Vitality $100\%$ atau pembukaan `PF_FinishModal` |
 
+### 1.1 Pengaturan Preferensi Gaya BGM di Menu Settings (`SCREEN 05`)
+Untuk memberikan kebebasan selera musikal kepada pemain, menu **Settings** (`SCREEN 05`) dilengkapi dengan pemilih **Gaya Musik (Music Theme Style)**:
+
+1. **`BgmThemeStyle.Adaptive` (`0` — Default):**
+   - Game secara otomatis dan dinamis memilih lagu terbaik berdasarkan ketinggian dan lokasi (Folk Round di Lobby, Celtic Impulse saat jelajah rendah, Air Prelude saat terbang tinggi $Y > 120\text{m}$, Skye Cuillin di Center Peak).
+2. **`BgmThemeStyle.GhibliFantasy` (`1`):**
+   - Mengunci musik jelajah bebas agar selalu memutar alunan ceria khas Ghibli / Genshin Impact (`Celtic Impulse` dan `Air Prelude`).
+3. **`BgmThemeStyle.CinematicTribal` (`2`):**
+   - Mengunci musik jelajah bebas agar memutar nuansa etnik highland & ambient mistis (`Skye Cuillin`).
+
+*Catatan:* Pilihan gaya musik pemain disimpan secara persisten di `PlayerPrefs` (`Fanamir_BgmThemeStyle`) dan dapat diubah secara langsung kapan saja di menu pause/settings in-game dengan efek cross-fade instan. Musik krisis desa tetap berjalan spesifik per biome untuk menjaga ketegangan atmosferik saat mendekati desa bencana.
+
 ---
 
 ## 2. Mekanik Transisi Musik Dinamis (*Cross-Fade Architecture*)
@@ -169,10 +181,12 @@ Skrip `AudioManager.cs` bertindak sebagai *persistent singleton* (`DontDestroyOn
 * **Penyambungan Otomatis:**
   - `DragonGameSettings.OnBgmVolumeChanged += SetBgmVolume;`
   - `DragonGameSettings.OnSfxVolumeChanged += SetSfxVolume;`
+  - `DragonGameSettings.OnBgmThemeStyleChanged += OnBgmThemeStyleChanged;`
 * **Metode Publik Utama:**
   - `PlayBGM(AudioClip clip, float fadeDuration = 1.8f)`
   - `CrossfadeToCrisis(BiomeType biome)`
   - `RestorePeacefulBGM()`
+  - `SetBgmThemeStyle(BgmThemeStyle style)`
   - `PlaySFX(AudioClip clip, float volume = 1f)`
   - `PlaySFX3D(AudioClip clip, Vector3 worldPos, float volume = 1f)`
   - `PlayLoopingSFX(AudioClip clip, ref AudioSource sourceHolder, float volume = 1f)`

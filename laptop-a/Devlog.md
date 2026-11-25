@@ -13,6 +13,19 @@ updated: 2026-11-25
 
 ---
 
+## 2026-11-25 — Integrasi Opsi A Pemilih Gaya Musik BGM di Menu Settings (`SCREEN 05`) ([[arsitektur_sistem_audio]], [[prompt_eksekusi_sistem_audio_laptop_b]])
+- **Keputusan Desain & Perubahan Antarmuka:**
+  - Menyetujui keputusan pengguna untuk mengadopsi **Opsi A: Pemilih Gaya Musik (BGM Style)** di menu Settings (`SCREEN 05`):
+    1. `[0] ADAPTIF (DEFAULT)` — Pemilihan lagu dinamis otomatis berdasarkan ketinggian dan lokasi (Celtic Impulse rendah, Air Prelude tinggi, Skye Cuillin center peak).
+    2. `[1] GHIBLI / GENSHIN FANTASY` — Mengunci musik jelajah bebas agar selalu bernuansa ceria khas Ghibli / Genshin (Celtic Impulse / Air Prelude).
+    3. `[2] CINEMATIC TRIBAL & AMBIENT` — Mengunci musik jelajah bebas agar selalu bernuansa seruling highland kuno & ambient mistis (Skye Cuillin).
+- **Pembaruan Arsitektur & Kontrak Kode (`DragonGameSettings` & `AudioManager`):**
+  - Menambahkan enum `BgmThemeStyle`, key `PrefBgmThemeStyle = "Fanamir_BgmThemeStyle"`, properti persisten `CurrentBgmThemeStyle`, dan event `OnBgmThemeStyleChanged`.
+  - Menambahkan listener reaktif di `AudioManager.cs` sehingga pergantian tema musik di menu Settings seketika memicu cross-fade halus ke lagu tema baru saat bermain.
+  - Memperbarui dokumen arsitektur [arsitektur_sistem_audio.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/gameplay-mechanics/arsitektur_sistem_audio.md) dan master prompt eksekusi untuk Laptop B [prompt_eksekusi_sistem_audio_laptop_b.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/handoff-laptop-b/prompt_eksekusi_sistem_audio_laptop_b.md).
+
+---
+
 ## 2026-11-25 — Pembersihan Skin Weight Bleed pada `Dragon_Model.blend` & `dragon_model.glb` (`v8`)
 - **Akar Masalah:** Audit bobot vertex `dragon_model.glb` menunjukkan *Automatic Weights Bleed* pada `SM_Dragon_Torso` (96–101 vertex punggung atas tertarik tulang `UpperArm_Front.*` hingga `max_w=0.943`, 111 vertex ke `Shoulder_Front.*`, 71–75 vertex ke `Wing_Shoulder.*`, serta 85–88 vertex pinggul bawah tertarik `Thigh_Hind.*` hingga `max_w=0.964`) dan `41` vertex duri (`SM_Dragon_Spikes_Details`) tertarik `Wing_Shoulder.L/R`.
 - **Solusi Permanen di Sumber Blender 5.2.3 LTS ([Dragon_Model.blend](file:///e:/Semester%205/Game/AR%20Dragon/assets/Dragon_Model.blend)):**
