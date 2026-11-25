@@ -23,9 +23,12 @@ updated: 2026-11-25
    - Menyesuaikan tinggi `SettingsCard` dari `960×720 px` (`y = -18`) menjadi `960×520 px` (`y = -10`) dan memberi jarak bawah `y = 42` pada tombol `APPLY & CLOSE` (gap `36 px` di bawah slider ke-5 & bersih di atas bingkai dalam kartu), lalu membangun ulang `Assets/Prefabs/UI/PF_SettingsPanel.prefab` (otomatis terpropagasi ke `MainMenu_Lobby.unity` dan `PF_PauseModal.prefab`).
 3. **`LobbyNavigationManager.cs` (`Assets/_Scripts/UI/LobbyNavigationManager.cs`):**
    - Mengarahkan klik `navCamBadgeButton` di navbar tab Missions ke `LobbyTab.Calibration` (sebelumnya `LobbyTab.Settings`) dan mengubah teks badge error menjadi `"CAM ERROR · BUKA CALIBRATION"`.
+4. **`PF_PoseGuideOverlay.prefab` (`BuildPoseGuideOverlayPrefab` di `UISceneAndPrefabBuilder.cs`):**
+   - Menyesuaikan tinggi `ModalCard` dari `1848×890 px` menjadi `1848×854 px` (`y = -18`) dan menaikkan posisi `Btn_ClosePoseGuide` (`CLOSE POSE GUIDE`) dari `y = 36` menjadi `y = 48` dari tepi bawah kartu agar bebas dari bingkai dalam serta memiliki jarak seimbang di bawah `KeyRulesStrip`.
 
 ### Hasil Verifikasi Play Mode (`Unity 6000.3.7f1`)
 - **`MainMenu_Lobby.unity` (Tab Settings):** `SettingsCard` (`960×520`, tombol `Btn_ApplyAndClose` `y = 42`) tampil bersih dengan 5 baris slider + `APPLY & CLOSE` (`CameraModulePlaque` tidak ada), klik `NavCamBadge` berpindah ke `Calibration`, klik `APPLY & CLOSE` berpindah ke `Missions` (`0` console errors, `0` console warnings).
+- **`MainMenu_Lobby.unity` (Pose Guide `SCREEN 07`):** `ModalCard` (`1848×854`) dan `Btn_ClosePoseGuide` (`y = 48`) tampil proporsional di antara `KeyRulesStrip` dan bingkai bawah; klik `Btn_ClosePoseGuide` maupun `Btn_EscClose` menutup overlay (`closedByFooter=True, closedByEsc=True`, `0` console errors, `0` console warnings).
 - **`MainIsland_Gameplay.unity` (Pause -> Settings):** Diverifikasi saat `SettingsCard` `960×496` (`Pause_SettingsSubPanel`, 5 slider, `hasCamPlaque=False`) terbuka dan tertutup normal saat `APPLY & CLOSE` ditekan (`0` console errors, `0` console warnings), dan mewarisi pembaruan `PF_SettingsPanel.prefab` (`960×520`). Scene aktif dikembalikan ke `MainMenu_Lobby.unity`.
 
 ---
