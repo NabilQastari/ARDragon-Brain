@@ -13,6 +13,25 @@ updated: 2026-11-25
 
 ---
 
+## 2026-11-25 — Pembaruan Sistem Audio Terpadu (Dual Dropdown BGM `1..11` & `Menu 1..6`, Quick Switcher Pill Lobby, & Heavy Whoosh Propeller Dash) ([[Implementasi Sistem Audio Fanamir]], [[laptop-a/gameplay-mechanics/arsitektur_sistem_audio]])
+
+- **Konteks & Acuan:** Mengadopsi spesifikasi terbaru [[laptop-a/gameplay-mechanics/arsitektur_sistem_audio]] dari Laptop A (`git -C brain pull`: `b1e76e8..25b52de`) setelah pembaruan paket audio `assets/Export_Audio_LaptopB.zip`.
+- **Sinkronisasi Aset Audio & Propeller Dash Heavy Whoosh (`AudioImporterSetupUtility.cs`):**
+  - Mengekstrak ulang 37 klip resmi (`14` BGM `.mp3` + `23` SFX `.wav`, termasuk pembaruan `SFX_PropellerDash_Loop.wav` Heavy Aerodynamic Whoosh Loop `176,444` bytes) ke `AR Dragon Sky Guardian/Assets/Audio/`.
+  - Importer & Prefab terverifikasi: `Configured 37 audio clips in Assets/Audio/ (BGM Streaming=14, Short SFX PCM=15, Long/Loop SFX Vorbis=8, 0 reimported)` dan `Built Assets/Resources/Fanamir_AudioManager.prefab with 37/37 clips & Mixer=Fanamir_AudioMixer`.
+- **Dual BGM Selection Persisten & AudioManager (`DragonGameSettings.cs`, `AudioManager.cs`, `BootFlowController.cs`):**
+  - Mengganti `BgmThemeStyle` dengan dua indeks persisten `PlayerPrefs`:
+    - `PrefBgmFlightSelection` (`"Fanamir_BgmFlightIndex"`, `0..11`: `[0] Adaptif (Otomatis)`, `[1..11] BGM 1..BGM 11`) + `OnBgmFlightSelectionChanged`.
+    - `PrefBgmMenuSelection` (`"Fanamir_BgmMenuIndex"`, `0..5`: `[0..5] BGM Menu 1..BGM Menu 6`) + `OnBgmMenuSelectionChanged`.
+  - Memperbarui `AudioManager.cs` (`_menuBgmClips[6]`, `_flightBgmClips[11]`, `_victoryBgmClip`, `_crisisBgmClips[3]`, `PlayMenuBGM`, `SetBgmFlightSelection`, `SetBgmMenuSelection`, `RestorePeacefulBGM` adaptif maupun track terkunci) dan `BootFlowController.EnterLobbyImmediate()` agar langsung memutar `PlayMenuBGM(DragonGameSettings.BgmMenuSelection)`.
+- **Dual Solid Dropdown Settings & Quick BGM Menu Switcher Lobby (`SettingsPanelUI.cs`, `LobbyNavigationManager.cs`, `UISceneAndPrefabBuilder.cs`):**
+  - Membangun ulang prefab & scene via `UISceneAndPrefabBuilder.BuildAll()`: `PF_SettingsPanel.prefab` (`SettingsCard` `960×656`) memakai dua `SolidCameraDropdown` (`Row_BgmFlightSelection` & `Row_BgmMenuSelection`) yang sinkron reaktif di `SettingsPanelUI.cs`.
+  - Menambahkan tombol pill `SharedTopNavbar/NavBgmMenuPill` (`198×46 px` di `(-442f, 0f)`) pada `MainMenu_Lobby.unity` (`SCREEN 00`) dan wiring `quickBgmMenuButton` / `quickBgmMenuLabel` di `LobbyNavigationManager.cs` untuk *cycle* instan `BGM Menu 1..6` yang otomatis tersinkronisasi dua arah dengan dropdown di `SettingsPanelUI`.
+- **Verifikasi End-to-End & Kebersihan Kode:**
+  - Penanda `// TODO [SYNC-AUDIO]` berjumlah `0`.
+  - `AudioSystemVerificationRunner` di Play Mode `MainMenu_Lobby.unity`: `Splash='MADE WITH UNITY' | QuickPill & DualDropdowns=PASS | ALL AUDIO SYSTEM CHECKS PASSED (37/37 clips, Mixer buses, dB curve, Dual BGM Dropdowns, Crossfade, & SFX triggers 100%)`.
+  - Uji Play Mode `MainIsland_Gameplay.unity`: `adaptive=BGM_Flight_AirPrelude`, `bgm1=BGM_Flight_CelticImpulse`, `bgm11=BGM_Crisis_Solaria_CurseOfTheScarab`, `dashPlaying=True (2.0s)`, dan `MomentumFlightVerificationRunner`: `ALL MOMENTUM & FLIGHT PHYSICS CHECKS PASSED (100%)` dengan `0` console errors & `0` console warnings (`console_get` `since: 33`).
+
 ## 2026-11-25 — Peningkatan Sistem Audio Fanamir (14 BGM + 23 SFX = 37 Klip, `BgmThemeStyle` Persisten, & Splash Screen Unity Branding) ([[Implementasi Sistem Audio Fanamir]], [[laptop-a/gameplay-mechanics/arsitektur_sistem_audio]])
 
 ### Perubahan yang Diimplementasikan
