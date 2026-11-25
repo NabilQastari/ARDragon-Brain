@@ -13,6 +13,29 @@ updated: 2026-11-25
 
 ---
 
+## 2026-11-25 — Perbaikan Material Dorsal Stripe Atas Kepala Model Naga Fanamir (`texfix` / `v15`)
+- **Akar Masalah ([Dragon_Model.blend](file:///e:/Semester%205/Game/AR%20Dragon/assets/Dragon_Model.blend)):** Model Fanamir menggunakan slot material per-*face* (`0: M_Dragon_Body_Teal`, `1: M_Dragon_Dorsal_DarkTeal`). Seluruh bagian leher, badan, dan ekor sudah `0` pasangan asimetris, tetapi `SM_Dragon_Head` (`107` poligon dorsal) memiliki **3 poligon salah material** yang memutus kolom loop kuad dorsal (`polygons[80]` & `polygons[83]` tertinggal di `M_Dragon_Body_Teal`, serta `polygons[16]` asimetris di `M_Dragon_Dorsal_DarkTeal`).
+- **Perbaikan & Ekspor Ulang ([Dragon_Model.blend](file:///e:/Semester%205/Game/AR%20Dragon/assets/Dragon_Model.blend) → [dragon_model.glb](file:///e:/Semester%205/Game/AR%20Dragon/dragon_anim_studio/dragon_model.glb)):**
+  - Menyimpan *backup* ke `assets/misc/Dragon_Model_backup_pre_texfix.blend`, memindahkan `polygons[80]` & `polygons[83]` → `1` (`M_Dragon_Dorsal_DarkTeal`) dan `polygons[16]` → `0` (`M_Dragon_Body_Teal`) sehingga `SM_Dragon_Head` berjumlah simetris `332` Body Teal + `108` Dorsal DarkTeal dengan **`0` pasangan asimetris** di Kepala, Leher, Torso, dan Ekor.
+  - Mengekspor ulang [dragon_model.glb](file:///e:/Semester%205/Game/AR%20Dragon/dragon_anim_studio/dragon_model.glb) (`1,420,788` byte, `1` *skin*, `47` *joints*, `13` *meshes*), memperbarui *cache buster* di [studio.js](file:///e:/Semester%205/Game/AR%20Dragon/dragon_anim_studio/studio.js) (`dragon_model.glb?v=20261125_texfix`) dan [index.html](file:///e:/Semester%205/Game/AR%20Dragon/dragon_anim_studio/index.html) (`studio.js?v=20261125_v15`).
+- **Verifikasi & Sinkronisasi:**
+  - `node --check dragon_anim_studio/studio.js` (`exit 0`), verifikasi visual langsung `http://localhost:8088/` (`0` console error, `#09A Hover` tetap mulus, dan close-up ubun-ubun kepala [final_step_412.png](file:///C:/Users/nmast/.gemini/antigravity/brain/f0061fc9-8e6a-4240-8ec4-72af963b58b6/browser_evidence/8d04ffac-9a62-487b-b4fb-0bfc98a80b6b/final_step_412.png) memperlihatkan garis dorsal mulus & simetris di sekitar 3 duri putih kepala).
+  - Menyinkronkan ke [Fanamir_AnimStudio_Standalone/app/](file:///e:/Semester%205/Game/AR%20Dragon/Fanamir_AnimStudio_Standalone/app/) (SHA256 identik) → [Fanamir_AnimStudio_Standalone.zip](file:///e:/Semester%205/Game/AR%20Dragon/Fanamir_AnimStudio_Standalone.zip) (`13,892,829` B) dan memperbarui Graphify AST (`26 nodes, 40 edges, 5 communities`).
+
+---
+
+## 2026-11-25 — Revisi Sesi 4 Animasi Three.js Studio: `#15A`, `#15C`, & Pose Baru `#15B-1 Water Siphon (Drink)` (`v14`)
+- **Pembaruan 3 Pose Village Actions di [studio.js](file:///e:/Semester%205/Game/AR%20Dragon/dragon_anim_studio/studio.js) & [index.html](file:///e:/Semester%205/Game/AR%20Dragon/dragon_anim_studio/index.html) (`studio.js?v=20261125_v14`, total 20 Pose Resmi):**
+  1. **`#15A Zephyria · Wind Flap` (`zephyria`):** Mengubah preset `headPitch = 0°` dengan formula kepala menunduk ringan (`gaze -14°` dunia: `headPitch - (bodyPitch + chestElev) - 14.0 - windRecoil * 2.5`) dan melipat sedikit kaki depan (`UpperArm_Front 36°`, `Forearm_Front 44°`, `Paw_Front -58°` + ayunan lembut), sambil mempertahankan kaki belakang *Hover* rileks.
+  2. **`#15C Solaria · Dew Rain (11)` (`solaria`):** Memisahkan cabang kaki depan agar kedua lengan depan melipat ke dalam/atas mengapit area permata dada (`UpperArm_Front (-26°, 0°, ±8°)`, `Forearm_Front (84°, 0°, ∓20°)`, `Paw_Front (-22°, 0°, 0°)` + *gemPulse*), mempertahankan kaki belakang *Hover* serta sayap tegak sejajar **`"11"`**.
+  3. **Pose Baru `#15B-1 Pyrewood · Water Siphon (Drink)` (`siphon`):** Menambahkan tombol `#btn-pose-siphon` pada **Kategori 4: Village Actions & Baseline** (header UI **`Katalog 20 Pose & Manuver Resmi`**) dengan postur badan & kaki *Low-A Descent* (`bodyPitch -10°`, `chestElev -4°`, `posY 0.62`, kaki depan `34°/42°/-58°` & kaki belakang `-16.8°/10°/-24°/-46°`), leher & kepala menunduk ke bawah menyeruput air (`Neck_01 -56°`, `Neck_02 -24°`, `Head +38°`, `Jaw sipJaw` ritmis), serta kepakan sayap aktif `1.3 Hz` (`amplitude 24°`).
+- **Sinkronisasi C#, Standalone ZIP, Graphify, & Verifikasi Visual:**
+  - Memperbarui `generateUnityCSharpSnippet()` untuk menyinkronkan seluruh **20/20 pose** (termasuk `siphon`, `zephyria`, `solaria`), `node --check` exit code `0`.
+  - Menyinkronkan `studio.js`, `index.html`, dan `dragon_model.glb` ke [Fanamir_AnimStudio_Standalone/app/](file:///e:/Semester%205/Game/AR%20Dragon/Fanamir_AnimStudio_Standalone/app/) (SHA256 identik) & mengemas ulang [Fanamir_AnimStudio_Standalone.zip](file:///e:/Semester%205/Game/AR%20Dragon/Fanamir_AnimStudio_Standalone.zip) (`13,892,860` B).
+  - Memperbarui Graphify AST (`26 nodes, 40 edges, 5 communities`), dan browser subagent (`http://localhost:8088/`) mengonfirmasi `v14` HTTP `200`, `0` error console, ekspor C# `siphon` & `solaria` sinkron, serta inspeksi langsung screenshot [final_step_366.png](file:///C:/Users/nmast/.gemini/antigravity/brain/f0061fc9-8e6a-4240-8ec4-72af963b58b6/browser_evidence/8d04ffac-9a62-487b-b4fb-0bfc98a80b6b/final_step_366.png) (`#15B-1 Water Siphon`).
+
+---
+
 ## 2026-11-25 — Perumusan Cetak Biru Pasca-Animasi: Perbaikan VFX, Animasi UI "Juicy", & Penyempurnaan Mekanisme Kontrol ([[planning_post_animasi_vfx_ui_dan_kontrol]])
 - **Perumusan 3 Pilar Pasca-Animasi Terpadu:**
   - Menyusun dokumen master arsitektur `brain/laptop-a/gameplay-mechanics/planning_post_animasi_vfx_ui_dan_kontrol.md` sebagai peta jalan komprehensif setelah seluruh sistem artikulasi rig naga (`DragonBodyAnimator.cs`) terpasang di proyek.
