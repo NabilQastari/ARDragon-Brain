@@ -25,30 +25,38 @@ Sesuai preferensi perancangan, sistem musik Fanamir mengusung **Dual-Style Syste
 2. **Gaya B: Cinematic Tribal & Ethereal Ambient:**
    - Didominasi instrumen perkusi etnik (taiko, frame drums, shakers), seruling padang pasir/highland (duduk, low whistle), dan lapisan drone atmosferik yang memperkuat ketegangan bencana alam.
 
-### Matriks Pemetaan Lagu (BGM Tracks Catalog)
+### Matriks Pemetaan Lagu Lengkap (BGM Tracks Catalog — 14 Lagu)
 
 | Kategori / State Game | Nama File Aset | Gaya Musikal & Komposisi | Pemicu Transisi di Unity |
 | :--- | :--- | :--- | :--- |
-| **Lobby & Kalibrasi** | `BGM_Lobby_FolkRound.mp3` | **Ghibli Fantasy:** Flute akustik, dawai lute, damai & ramah | Saat berada di `MainMenu_Lobby.unity` (`Missions`, `Calibration`, `Settings`) |
-| **Jelajah Santai (Free Roam 1)** | `BGM_Flight_CelticImpulse.mp3` | **Genshin Style:** Tempo ceria, seruling Celtic cepat, meluncur di atas pulau hijau | Default BGM saat terbang di atas laut & daratan netral ($> 250\text{m}$ dari desa) |
-| **Jelajah Bebas (Free Roam 2)** | `BGM_Flight_AirPrelude.mp3` | **Cinematic Orchestral:** Gesekan biola megah, suasana angkasa tinggi & awan luas | Variasi BGM jelajah atau saat terbang di atas ketinggian $Y > 120\text{m}$ |
-| **Jelajah Kuno (Free Roam 3)** | `BGM_Flight_SkyeCuillin.mp3` | **Tribal Ambient:** Seruling highland kuno, pegunungan megah dan sunyi | Variasi tema alternatif atau saat mendekati pegunungan tengah (*Center Peak*) |
+| **Lobby & Kalibrasi 1** | `BGM_Lobby_FolkRound.mp3` | **Ghibli Fantasy:** Flute akustik, dawai lute, damai & ramah | Default BGM saat di `MainMenu_Lobby.unity` (`Missions`, `Calibration`) |
+| **Lobby & Kalibrasi 2** | `BGM_Lobby_VillageConsort.mp3` | **Ghibli Village:** Flute renaissance & petikan lute ceria | Alternatif tema desa di Lobby / Settings |
+| **Jelajah Santai 1 (Default)** | `BGM_Flight_CelticImpulse.mp3` | **Genshin Style:** Tempo ceria, seruling Celtic cepat, meluncur pulau hijau | BGM utama saat terbang meluncur normal ($> 250\text{m}$ dari desa) |
+| **Jelajah Petualangan 2** | `BGM_Flight_LordOfTheLand.mp3` | **Ghibli Adventure:** Seruling & biola kencang penuh semangat kepahlawanan | Variasi jelajah cepat saat airspeed tinggi ($\ge 20\text{ m/s}$) |
+| **Jelajah Angkasa Tinggi 3** | `BGM_Flight_AirPrelude.mp3` | **Cinematic Orchestral:** Gesekan biola megah, suasana angkasa tinggi & awan luas | Terpicu otomatis saat naga terbang tinggi ($Y > 120\text{m}$) |
+| **Jelajah Dongeng 4** | `BGM_Flight_TellerOfTheTales.mp3` | **Fantasy Tale:** Dawai akustik & woodwinds dongeng fantasi | Variasi santai saat melayang tenang di sekitar tebing kepulauan |
+| **Jelajah Perairan & Danau 5** | `BGM_Flight_ClearWaters.mp3` | **Serene Water:** Alunan piano jernih & ambient damai air | Terpicu saat terbang rendah di atas perairan laut / danau besar |
+| **Jelajah Kuno & Center Peak** | `BGM_Flight_SkyeCuillin.mp3` | **Highland Tribal:** Seruling highland kuno, pegunungan megah dan sunyi | Terpicu saat terbang di dekat gunung pusat (*Center Peak*) |
 | **Krisis 1 — Desa Zephyria** | `BGM_Crisis_Zephyria_HimalayanAtmosphere.mp3` | **Eerie Ambient:** Singing bowls, desau angin dingin, perkusi tertekan misterius | Masuk radius $< 250\text{m}$ Desa Zephyria (status desa belum pulih) |
-| **Krisis 2 — Desa Pyrewood** | `BGM_Crisis_Pyrewood_Firesong.mp3` | **Cinematic Tribal:** Perkusi cepat 115 BPM, taiko membara, gesekan string tegang | Masuk radius $< 250\text{m}$ Desa Pyrewood / Hutan Terbakar (status belum pulih) |
-| **Krisis 3 — Desa Solaria** | `BGM_Crisis_Solaria_DesertCity.mp3` | **Arid Mystical:** Seruling padang pasir, ritme lambat dahaga, atmosfer terik terisolasi | Masuk radius $< 250\text{m}$ Desa Solaria / Plato Kering (status belum pulih) |
+| **Krisis 2 — Desa Pyrewood (Utama)** | `BGM_Crisis_Pyrewood_Firesong.mp3` | **Cinematic Tribal:** Perkusi cepat 115 BPM, taiko membara, gesekan string tegang | Masuk radius $< 250\text{m}$ Desa Pyrewood / Hutan Terbakar (status belum pulih) |
+| **Krisis 2 — Desa Pyrewood (Alternatif)** | `BGM_Crisis_Pyrewood_Ritual.mp3` | **Primal Tribal:** Perkusi intensif tribal ritual api membara | Variasi krisis hutan kebakaran Pyrewood |
+| **Krisis 3 — Desa Solaria (Utama)** | `BGM_Crisis_Solaria_DesertCity.mp3` | **Arid Mystical:** Seruling padang pasir, ritme lambat dahaga, atmosfer terik terisolasi | Masuk radius $< 250\text{m}$ Desa Solaria / Plato Kering (status belum pulih) |
+| **Krisis 3 — Desa Solaria (Alternatif)** | `BGM_Crisis_Solaria_CurseOfTheScarab.mp3` | **Dramatic Desert:** Perkusi mesir padang pasir dramatis penuh ancaman | Variasi krisis kekeringan Solaria |
 | **Kemenangan & Finish Modal** | `BGM_Victory_HeroicAge.mp3` | **Triumphant Fanfare:** Bras orkestra megah, simbal, nada bangga kepahlawanan | Terpicu saat Global Vitality $100\%$ atau pembukaan `PF_FinishModal` |
 
 ### 1.1 Pengaturan Preferensi Gaya BGM di Menu Settings (`SCREEN 05`)
 Untuk memberikan kebebasan selera musikal kepada pemain, menu **Settings** (`SCREEN 05`) dilengkapi dengan pemilih **Gaya Musik (Music Theme Style)**:
 
 1. **`BgmThemeStyle.Adaptive` (`0` — Default):**
-   - Game secara otomatis dan dinamis memilih lagu terbaik berdasarkan ketinggian dan lokasi (Folk Round di Lobby, Celtic Impulse saat jelajah rendah, Air Prelude saat terbang tinggi $Y > 120\text{m}$, Skye Cuillin di Center Peak).
+   - Game secara otomatis dan dinamis memilih lagu terbaik berdasarkan ketinggian dan lokasi (Folk Round/Village Consort di Lobby, Celtic Impulse saat jelajah rendah, Air Prelude saat terbang tinggi $Y > 120\text{m}$, Clear Waters di danau, Skye Cuillin di Center Peak).
 2. **`BgmThemeStyle.GhibliFantasy` (`1`):**
-   - Mengunci musik jelajah bebas agar selalu memutar alunan ceria khas Ghibli / Genshin Impact (`Celtic Impulse` dan `Air Prelude`).
+   - Mengunci musik jelajah bebas agar selalu memutar alunan ceria khas Ghibli / Genshin Impact (`Celtic Impulse`, `Lord of the Land`, `Air Prelude`, `Teller of the Tales`).
 3. **`BgmThemeStyle.CinematicTribal` (`2`):**
-   - Mengunci musik jelajah bebas agar memutar nuansa etnik highland & ambient mistis (`Skye Cuillin`).
+   - Mengunci musik jelajah bebas agar memutar nuansa etnik highland & ambient mistis (`Skye Cuillin`, `Himalayan Atmosphere`, `Ritual`).
 
-*Catatan:* Pilihan gaya musik pemain disimpan secara persisten di `PlayerPrefs` (`Fanamir_BgmThemeStyle`) dan dapat diubah secara langsung kapan saja di menu pause/settings in-game dengan efek cross-fade instan. Musik krisis desa tetap berjalan spesifik per biome untuk menjaga ketegangan atmosferik saat mendekati desa bencana.
+> [!IMPORTANT]
+> **Persistensi Antar Sesi Permainan (Keluar dari Game):**
+> Pilihan gaya musik pemain disimpan secara persisten di `PlayerPrefs` (`Fanamir_BgmThemeStyle`) via `PlayerPrefs.SetInt(PrefBgmThemeStyle, (int)value); PlayerPrefs.Save();`. Ketika pemain keluar dari game (`Quit`) dan membuka game kembali, `DragonGameSettings` otomatis memuat preferensi ini di `EnsureInit()`, sehingga musik yang dipilih pemain **tetap tersimpan secara permanen**. Mengubah opsi ini di menu pause/settings in-game juga langsung memicu efek cross-fade instan ke tema lagu baru.
 
 ---
 

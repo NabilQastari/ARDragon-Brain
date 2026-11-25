@@ -13,6 +13,22 @@ updated: 2026-11-25
 
 ---
 
+## 2026-11-25 — Finalisasi Suite Audio Terpadu (14 BGM, 23 SFX), Splash Screen SFX & Branding, Paket Export ZIP, & Master Prompt Laptop B ([[arsitektur_sistem_audio]], [[prompt_eksekusi_sistem_audio_laptop_b]])
+- **Ekspansi Koleksi BGM & SFX:**
+  - Menambah kurasi BGM menjadi total **14 Track MP3** mencakup tema Ghibli/Genshin Fantasy (6 tracks: `Folk Round`, `Village Consort`, `Celtic Impulse`, `Air Prelude`, `Lord of the Land`, `Teller of the Tales`, `Clear Waters`), tema Cinematic Tribal & Ambient (6 tracks: `Skye Cuillin`, `Himalayan Atmosphere`, `Firesong`, `Ritual`, `Desert City`, `Curse of the Scarab`), dan tema Celebration (`Heroic Age`).
+  - Menambahkan SFX baru **`SFX_Splash_LogoReveal.wav`** (durasi 3.2 detik: sub-bass & orchestral swell, ascending celestial chord, sparkling logo reveal chime, & shimmer tail) sehingga total suite menjadi **23 SFX WAV** 44.1kHz 16-bit.
+- **Pembaruan Splash Screen (`SCREEN 09`) & Settings (`SCREEN 05`):**
+  - Pada `SCREEN 09`: Menambahkan trigger audio `SFX_Splash_LogoReveal.wav` saat fade-in logo dimulai, serta menambahkan lencana engine **`MADE WITH UNITY`** di bagian bawah layar.
+  - Pada `SCREEN 05`: Mengintegrasikan kontrol **BGM Theme Style** (`[0] ADAPTIF`, `[1] GHIBLI / GENSHIN`, `[2] CINEMATIC TRIBAL`) dengan persistensi otomatis ke `PlayerPrefs.SetInt("Fanamir_BgmThemeStyle", (int)value)`. Preferensi ini dimuat saat game dinyalakan sehingga pilihan musik pemain tetap tersimpan meskipun keluar dari game.
+- **Pemaketan & Pengemasan Otomatis untuk Laptop B:**
+  - Menjalankan `misc/build_audio_export_package.py` untuk mengemas seluruh folder audio ke dalam:
+    - Direktori mandiri: [`assets/Export_Audio_LaptopB/`](file:///e:/Semester%205/Game/AR%20Dragon/assets/Export_Audio_LaptopB/) lengkap dengan `copy_to_unity.bat` dan `README.md`.
+    - File arsip kompresi: [`assets/Export_Audio_LaptopB.zip`](file:///e:/Semester%205/Game/AR%20Dragon/assets/Export_Audio_LaptopB.zip) (~91.6 MB).
+- **Pembaruan Dokumentasi & Master Prompt Eksekusi:**
+  - Memperbarui [arsitektur_sistem_audio.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/gameplay-mechanics/arsitektur_sistem_audio.md), [rencana_desain_ui.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/ui-ux/rencana_desain_ui.md), [Tasks.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/Tasks.md), dan [prompt_eksekusi_sistem_audio_laptop_b.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/handoff-laptop-b/prompt_eksekusi_sistem_audio_laptop_b.md).
+
+---
+
 ## 2026-11-25 — Integrasi Opsi A Pemilih Gaya Musik BGM di Menu Settings (`SCREEN 05`) ([[arsitektur_sistem_audio]], [[prompt_eksekusi_sistem_audio_laptop_b]])
 - **Keputusan Desain & Perubahan Antarmuka:**
   - Menyetujui keputusan pengguna untuk mengadopsi **Opsi A: Pemilih Gaya Musik (BGM Style)** di menu Settings (`SCREEN 05`):
@@ -23,6 +39,21 @@ updated: 2026-11-25
   - Menambahkan enum `BgmThemeStyle`, key `PrefBgmThemeStyle = "Fanamir_BgmThemeStyle"`, properti persisten `CurrentBgmThemeStyle`, dan event `OnBgmThemeStyleChanged`.
   - Menambahkan listener reaktif di `AudioManager.cs` sehingga pergantian tema musik di menu Settings seketika memicu cross-fade halus ke lagu tema baru saat bermain.
   - Memperbarui dokumen arsitektur [arsitektur_sistem_audio.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/gameplay-mechanics/arsitektur_sistem_audio.md) dan master prompt eksekusi untuk Laptop B [prompt_eksekusi_sistem_audio_laptop_b.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/handoff-laptop-b/prompt_eksekusi_sistem_audio_laptop_b.md).
+
+---
+
+## 2026-11-25 — Eksekusi Sesi 3 Animasi Three.js Studio: Special Maneuvers & Hover (`v9`)
+- **Penyempurnaan 7 Pose & Manuver Khusus (`#09A`, `#09B`, `#10`, `#11`, `#12`, `#13`, `#14`):**
+  1. **`#09A Hover` (`hover`):** Menaikkan `posY` dasar (`0.52`), memakai `applyUniversalHeadNeck` dengan *counter-leveling*, membalik tanda kurva ekor ke arah atas (`+X`: `Tail_01 -6°`, `Tail_02 +4°`, `Tail_03..05 +tailCurve`), serta mengalihkan kepakan `1.4 Hz` ke basis *airfoil* datar-maju `applyFlightWing(..., 28, -12)`.
+  2. **`#09B Slow Glide` (`slowglide`):** Mengubah sayap menjadi lipatan kompak ke belakang (siluet *top-down* M/L yang tegas), memperbaiki gelombang ekor dari sumbu `Y` (*twist*) ke sumbu `Z` (*horizontal sway*), serta memindahkan kakinya ke kelompok *Streamlined Flight*.
+  3. **`#10 Gentle Descent` (`descent`):** Memakai sayap *Low-A* `-34°` pada basis *airfoil* (`applyFlightWing` `-28°`), memperbaiki kaki persiapan mendarat (*Landing Prep*) agar meraih ke depan-bawah tanpa *elbow hyperextension* (`UpperArm -8°`, `Forearm +16°`, `Paw -20°`; `Thigh (1.0, ∓1.5, ∓4.1)`, `Shin -8°`, `Meta -8°`, `Foot -24°`), dan menjaga ketinggian `posY = 0.54` bebas dari lantai `y=0`.
+  4. **`#11 Fly Down / Y-Dive` (`ydive`):** Sayap Y bersiku menyapu ke belakang (`Wing_Shoulder (+4, ±30, ±14)`, `Wing_Forearm (+10, 0, ±12)`), pandangan menatap lurus sepanjang lintasan tukik `-22°`, dan getaran cepat ujung ekor di sumbu `Z`.
+  5. **`#12 W-Pose Elevator` (`wpose`):** Memperbaiki kurva ekor (`tailCurve = +15°` naik ke atas), memindahkan kaki `wpose` ke kelompok *Hover/Landing Dangle* yang menggantung rileks, serta mempertajam siluet huruf `'W'` (`Wing_Shoulder (-42, ±28, ∓12)`, `Wing_Forearm (+88, ∓12, ∓6)`).
+  6. **`#13 Tuck to Dive` (`dive`):** Meratakan `chestElev = 0°`, `headPitch = 0°`, menaikkan `posY = 0.78`, menyelaraskan leher/kepala *inline* `-45°` (`Neck_01 -44°`, `Neck_02 -16°`, `Head +52°`), serta melipat sayap rapat di rusuk (`Wing_Shoulder (2, ∓20, ±44)`) tanpa saling silang atau menembus torso.
+  7. **`#14 Propeller Dash` (`dash`):** Menaikkan `posY` dasar ke `0.82` agar downstroke terdalam `-45°` aman di atas lantai `y=0`, memindahkan *tip buzz* ekor ke sumbu `Z`, dan memetakan kepakan turbin `3.8 Hz` ke basis *airfoil* terkalibrasi.
+- **Sinkronisasi & Verifikasi:**
+  - Memperbarui seluruh cabang `generateUnityCSharpSnippet()` di [studio.js](file:///e:/Semester%205/Game/AR%20Dragon/dragon_anim_studio/studio.js), cache buster [index.html](file:///e:/Semester%205/Game/AR%20Dragon/dragon_anim_studio/index.html) (`studio.js?v=20261125_v9`), serta Graphify AST (`26` nodes, `40` edges, `5` communities).
+  - `node --check` exit code `0`; browser subagent (`http://localhost:8088/`) mengonfirmasi HTTP `200`, `0` error console, ekspor C# Unity `#13` berjalan lancar (`4,240` karakter), dan seluruh 7 pose bersih across *Side View*, *Front View*, *Top View*, & *3/4 Diagonal View* (diperiksa langsung via screenshot `final_step_201.png` untuk `#13 Tuck to Dive`).
 
 ---
 

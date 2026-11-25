@@ -6,7 +6,7 @@ tags:
   - design
   - architecture
 owner: Laptop A
-updated: 2026-11-23
+updated: 2026-11-25
 ---
 
 # 📋 Tasks — Laptop A (Desain, Ide, & Arsitektur)
@@ -14,11 +14,11 @@ updated: 2026-11-23
 > Ruangan khusus untuk melacak pekerjaan desain, GDD, UI/UX, konsep aset 3D, dan arsitektur sistem di **Laptop A**. Lihat konteks eksekusi program di [[laptop-b/Tasks]] dan [[laptop-b/Devlog]].
 
 ## 🔥 Fokus Aktif
-- [ ] **Kirim Master Prompt Sistem Audio (BGM & SFX) ke Laptop B ([[prompt_eksekusi_sistem_audio_laptop_b]]):** Menginstruksikan Laptop B untuk menyalin folder `assets/audio/` (8 BGM + 22 SFX), menyusun bus `Fanamir_AudioMixer.mixer`, mengimplementasikan `AudioManager.cs` dengan dual AudioSource cross-fade, menghubungkan event slider volume `OnBgmVolumeChanged`/`OnSfxVolumeChanged`, menyambungkan seluruh trigger aksi naga/desa/UI, dan menghapus penanda `// TODO [SYNC-AUDIO]`.
+- [ ] **Kirim Master Prompt Sistem Audio (14 BGM, 23 SFX, & Paket Export) ke Laptop B ([[prompt_eksekusi_sistem_audio_laptop_b]]):** Menginstruksikan Laptop B untuk mengekstrak/menyalin paket `assets/Export_Audio_LaptopB.zip` (atau jalankan `copy_to_unity.bat`), menyusun bus `Fanamir_AudioMixer.mixer`, mengimplementasikan `AudioManager.cs` dengan dual AudioSource cross-fade dinamis, menghubungkan event slider volume & preferensi persisten `BgmThemeStyle` di `DragonGameSettings.cs` (`PlayerPrefs`), mengintegrasikan `SFX_Splash_LogoReveal.wav` dan branding "MADE WITH UNITY" pada `SCREEN 09`, menyambungkan seluruh trigger aksi naga/desa/UI, dan menghapus penanda `// TODO [SYNC-AUDIO]`.
 - [ ] **Evaluasi Gambar Referensi Pose Multi-Angle/Frame & Penyempurnaan Animasi Three.js (`dragon_anim_studio/` — 4 Sesi Bertahap):**
   - [x] **Sesi 1 (Grounded & Universal 3-Axis Head):** `#01 Idle`, `#02 Walk (Quadruped Trot)`, dan lapisan `Universal 3-Axis Dynamic Head & Neck` (`#03 LookUp` + slider `Head Yaw` / `Head Roll`) terkalibrasi via FK GLB & terverifikasi browser (`0` error).
   - [x] **Sesi 2 (Core Flight & Climb):** `#04 Takeoff`, `#05 Banking Turn`, `#06 Flap to Climb`, `#06B Steep Climb`, `#07 Fly Up (Y-Glide)`, dan `#08 Cruise Glide (T-Pose)` terkalibrasi via FK GLB & terverifikasi browser (`0` error).
-  - [ ] **Sesi 3 (Special Maneuvers & Hover):** `#09A Hover Flutter`, `#09B Slow Glide`, `#10 Gentle Descent`, `#11 Fly Down (Y-Dive)`, `#12 W-Pose Elevator`, `#13 Tuck to Dive`, `#14 Propeller Dash`.
+  - [x] **Sesi 3 (Special Maneuvers & Hover):** `#09A Hover Flutter`, `#09B Slow Glide`, `#10 Gentle Descent`, `#11 Fly Down (Y-Dive)`, `#12 W-Pose Elevator`, `#13 Tuck to Dive`, `#14 Propeller Dash` terkalibrasi via FK GLB & terverifikasi browser (`0` error).
   - [ ] **Sesi 4 (Village Actions, Final C# Export, & Sync Standalone):** `#15A Zephyria`, `#15B Pyrewood`, `#15C Solaria`, finalisasi `generateUnityCSharpSnippet()`, sinkronisasi `Fanamir_AnimStudio_Standalone/` + `.zip`.
 - [ ] **Kirim Master Prompt Hibrida YOLO + MediaPipe & Perpanjangan Timer ke Laptop B ([[prompt_eksekusi_hybrid_cv_dan_timer_laptop_b]]):** Menginstruksikan Laptop B untuk (1) Memperbarui timer countdown stage di `GameManager.cs` (Stage 1 = 300s / 5m, Stage 2 = 600s / 10m, Stage 3 = 900s / 15m) & label durasi Lobby `MissionsPanelUI.cs`, dan (2) Mengimplementasikan `hybrid_pose_tracker.py` yang memadukan YOLOv8 (otak makro bounding box & kemudi) dengan MediaPipe Pose Landmarker pada crop ROI pemain untuk mengunci sendi pergelangan & siku 100% anti-jitter dan anti-glitch ke background.
 - [ ] **Kirim Master Prompt Perbaikan UI In-Game ke Laptop B ([[planning_perbaikan_ui_ingame_dan_event_desa]]):** Menginstruksikan Laptop B untuk menerapkan (1) Full Narrative Isolation Mode pada `InGameFlightHUD.cs` & `PF_QuestNarrativeBox` ($1440 \times 300\text{ px}$, font dialog $34\text{ pt}$), dan (2) Redesain `PF_VillageChallengeOverlay` dari modal tengah raksasa menjadi **Side-Docked Challenge HUD** ($400 \times 620\text{ px}$) di sisi kanan layar agar badan naga Fanamir $100\%$ bebas terlihat di tengah.

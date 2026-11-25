@@ -66,6 +66,7 @@ Seluruh gambar rujukan telah disimpan di folder `Referensi UI/`:
 
 #### A. `SCREEN 09` — Splash Screen (`09_SplashScreen.png`, `1920×1080`)
 - **Fungsi & Durasi:** Menampilkan identitas game **`FANAMIR: THE SKY GUARDIAN`** secara singkat (~`2.5–3.0s`: fade-in `0.45s`, hold `1.8s`, fade-out `0.45s`; dapat di-*skip* ke Start Screen lewat klik/tekan tombol setelah jeda aman `0.5s`) sebelum otomatis masuk ke **Start Screen (`SCREEN 10`)**.
+- **Audio Branding:** Memainkan sound effect identitas **`SFX_Splash_LogoReveal.wav`** via `AudioManager.Instance.PlaySFX(...)` tepat saat transisi fade-in logo dimulai (swelling bass, ascending celestial chord, sparkling chime, & shimmer tail).
 - **Komposisi Visual (Menggunakan Komponen FigCraft Eksisting — Zero New PNGs):**
   - Latar kanvas penuh: perkamen krem solid **`#F2EFE7` (`alpha = 1.0f`)**.
   - Bingkai arsitektural luar (`1824×984` visual): `UI_Panel_Parchment_Full_9Slice` penuh di pinggir layar (membawa *stepped rabbeted corners*, inner frames, & corner fan medallions).
@@ -75,7 +76,8 @@ Seluruh gambar rujukan telah disimpan di folder `Referensi UI/`:
     - Tag atas straddling tepi atas plakat: `UI_Badge_Label_Amber_Blank` (`272×38`) bertulisan **`ANCIENT DEW DRAGON`**.
     - Judul hero utama: **`FANAMIR`** (*Fredoka Bold* ~`108 pt`, `#2D2926`, tracking lebar).
     - Banner stepped straddling tepi bawah plakat: `UI_Banner_Stepped_Modal_Blank` (`600×77` terkunci Horizontal 3-Slice) bertulisan **`THE SKY GUARDIAN`** (`30 pt`).
-  - Footer halus bawah (`y = 952`): `WEBCAM EXERGAMING · BODY-FLIGHT ADVENTURE` (`#6E6355`).
+  - Footer halus bawah (`y = 926`): `WEBCAM EXERGAMING · BODY-FLIGHT ADVENTURE` (`#6E6355`, 18 pt).
+  - **Engine Branding (`y = 966`):** Teks / lencana minimalis **`MADE WITH UNITY`** (`#8C7F70`, 16 pt tracking lebar uppercase) terpusat rapi di bagian bawah layar.
 
 #### B. `SCREEN 10` — Start Screen / Title Screen (`10_StartScreen.png`, `1920×1080`)
 - **Fungsi & Interaksi (`Press Any Button to Start`):**
@@ -238,9 +240,16 @@ Sistem Menu Utama menggunakan **3 Tab Navigasi Terpusat (*Segmented Capsule Pill
 
 ---
 
-### 2.3 Tab 3: [ SETTINGS ] / SCREEN 05 (Pengaturan Audio, Sensitivitas & Kamera)
+### 2.3 Tab 3: [ SETTINGS ] / SCREEN 05 (Pengaturan Audio, Gaya Musik, Sensitivitas & Kamera)
 *Artboard FigCraft:* `SCREEN 05 - Settings Modal (1920x1080)` (`Design` id `400`, `Wireframe` id `236`) · Menggunakan kartu kertas krem solid 100% opaque (`#FBF6EB`) dengan tombol `ESC · BACK` tetap di kanan atas:
-1. **5 Slider Pengaturan Inti (`Master Volume`, `BGM Volume`, `SFX Volume`, `Turn Sensitivity` $1.0\times$ s/d $3.0\times$, & `Text Auto-Next` $2.0\text{s}$ s/d $10.0\text{s}$, default `5.0s`):** Menambah pengaturan durasi auto-advance untuk *Quest Narrative Text Box* agar tetap nyaman dibaca tanpa kontrol tangan.
+1. **Slider & Opsi Pengaturan Audio & Kontrol Inti:**
+   * **Slider Volume:** `Master Volume`, `BGM Volume`, dan `SFX Volume` ($0\text{--}100\%$, pemetaan linier ke Decibel di AudioMixer).
+   * **Pilihan Gaya Tema BGM (`BGM Theme Style` — Dropdown / Segmented Toggle):**
+     * `[0] ADAPTIF (DEFAULT)`: Musik berganti secara dinamis (Lobby santai, Free Roam Celtic/Fantasy, krisis desa Tribal Cinematic, Cleansed Fanfare).
+     * `[1] GHIBLI / GENSHIN`: Mengunci suasana musik penuh harmoni orkestra akustik hangat & seruling.
+     * `[2] CINEMATIC TRIBAL`: Mengunci suasana mistis perkusi ambient & flute etnik kuno.
+     * *Persistensi:* Pilihan tersimpan otomatis via `PlayerPrefs.SetInt("Fanamir_BgmThemeStyle", (int)value)` dan dimuat saat boot, sehingga pilihan pemain tetap tersimpan meskipun keluar dari game.
+   * **Slider Gameplay:** `Turn Sensitivity` ($1.0\times$ s/d $3.0\times$) & `Text Auto-Next` ($2.0\text{s}$ s/d $10.0\text{s}$, default `5.0s` untuk auto-advance *Quest Narrative Text Box*).
 2. **Modul `Camera Input & AI YOLO Module`:**
    * **Header Modul:** Menampilkan badge status aktif (`● KAMERA STANDBY` secara default; `autoLaunchPython = false` agar webcam laptop tidak terkunci otomatis saat boot) dan tombol merah taktil **`Matikan`** di kanan header (nonaktif saat `STANDBY`, menyala aktif saat `MEMUAT YOLO` atau `LIVE`).
    * **Dropdown Input Kamera + Tombol `Scan`:** Dropdown dimulai dengan placeholder unselected `"Pilih Input Kamera... ▼"`. Tombol **`Scan`** di kanan dropdown memindai ulang perangkat kamera (`[0] USB2.0 HD UVC WebCam`, `[6] OBS Virtual Camera`, dll.).

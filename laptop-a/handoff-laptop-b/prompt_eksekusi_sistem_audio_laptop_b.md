@@ -7,18 +7,22 @@ tags:
   - laptop-b
   - unity
 status: ready-to-copy
-updated: 2026-11-24
+updated: 2026-11-25
 ---
 
 # 📋 Master Prompt Eksekusi Sistem Audio Fanamir (Laptop B)
 
 > **Untuk Pengguna / AI Agent di Laptop B:**
-> Seluruh aset audio lengkap (**8 BGM MP3 orkestra/tribal + 22 SFX WAV 44.1kHz 16-bit**) telah selesai diproduksi dan siap di folder `assets/audio/`. Salin seluruh blok instruksi di bawah ini ke sesi chat **Laptop B** untuk mengimplementasikan sistem audio terpadu di Unity 6 URP!
+> Seluruh suite audio resmi (**14 BGM MP3 orkestra Ghibli & tribal + 23 SFX WAV 44.1kHz 16-bit — total 37 klip**) telah selesai diproduksi dan dikemas rapi dalam:
+> - Paket ZIP: [`assets/Export_Audio_LaptopB.zip`](file:///e:/Semester%205/Game/AR%20Dragon/assets/Export_Audio_LaptopB.zip) (~91.6 MB)
+> - Folder siap salin: [`assets/Export_Audio_LaptopB/`](file:///e:/Semester%205/Game/AR%20Dragon/assets/Export_Audio_LaptopB/) lengkap dengan skrip batch otomatis `copy_to_unity.bat`.
+>
+> Salin seluruh blok instruksi di bawah ini ke sesi chat **Laptop B** untuk mengimplementasikan sistem audio terpadu di Unity 6 URP!
 
 ---
 
 ```markdown
-Halo! Ini adalah sesi eksekusi implementasi **Sistem Audio Terpadu Fanamir (BGM Dinamis, Transisi Cross-Fade, & Suite 22 SFX)** di **Laptop B** (`AR Dragon Sky Guardian`).
+Halo! Ini adalah sesi eksekusi implementasi **Sistem Audio Terpadu Fanamir (BGM Dinamis 14 Track, Transisi Cross-Fade, Persistensi Settings, & Suite 23 SFX Lengkap)** di **Laptop B** (`AR Dragon Sky Guardian`).
 
 Sesuai aturan `AGENTS.md` dan dokumen arsitektur resmi di `brain/laptop-a/gameplay-mechanics/arsitektur_sistem_audio.md`:
 1. Jalankan `git -C brain pull` untuk menyambung konteks terbaru dari Laptop A.
@@ -28,20 +32,42 @@ Sesuai aturan `AGENTS.md` dan dokumen arsitektur resmi di `brain/laptop-a/gamepl
 ---
 
 ## 🎯 TUJUAN & TARGET SESI INI:
-Mengimplementasikan sistem audio terpadu di Unity 6 URP (`Assets/`), membangun `Fanamir_AudioMixer.mixer`, mengimplementasikan `AudioManager.cs` lengkap dengan *Dual-Channel Cross-Fade*, menghubungkan slider volume `DragonGameSettings.OnBgmVolumeChanged` & `OnSfxVolumeChanged`, menghubungkan seluruh hook audio pada skrip gameplay & UI eksisting, dan menghapus penanda lama `// TODO [SYNC-AUDIO]`.
+Mengimplementasikan sistem audio terpadu di Unity 6 URP (`Assets/`), membangun `Fanamir_AudioMixer.mixer`, mengimplementasikan `AudioManager.cs` lengkap dengan *Dual-Channel Cross-Fade*, menghubungkan slider volume `DragonGameSettings.OnBgmVolumeChanged` & `OnSfxVolumeChanged`, menghubungkan sistem preferensi gaya musik BGM (`BgmThemeStyle`) yang tersimpan persisten di `PlayerPrefs`, mengintegrasikan efek suara Splash Screen (`SFX_Splash_LogoReveal.wav`) dan branding "MADE WITH UNITY" pada `SCREEN 09`, menghubungkan seluruh hook audio pada skrip gameplay & UI eksisting, dan menghapus penanda lama `// TODO [SYNC-AUDIO]`.
 
 ---
 
 ## 🛠️ PANDUAN EKSEKUSI TEKNIS LANGKAH DEMI LANGKAH:
 
 ### LANGKAH 1: Sinkronisasi Aset Audio ke Unity (`Assets/Audio/`)
-1. Salin seluruh isi folder `assets/audio/` dari root workspace ke `AR Dragon Sky Guardian/Assets/Audio/`:
-   - `Assets/Audio/BGM/Ghibli_Fantasy/` (3 MP3: `BGM_Lobby_FolkRound`, `BGM_Flight_CelticImpulse`, `BGM_Flight_AirPrelude`)
-   - `Assets/Audio/BGM/Cinematic_Tribal/` (4 MP3: `BGM_Flight_SkyeCuillin`, `BGM_Crisis_Zephyria_HimalayanAtmosphere`, `BGM_Crisis_Pyrewood_Firesong`, `BGM_Crisis_Solaria_DesertCity`)
-   - `Assets/Audio/BGM/Celebration/` (1 MP3: `BGM_Victory_HeroicAge`)
-   - `Assets/Audio/SFX/Dragon/` (8 WAV: `SFX_WingFlap`, `SFX_WingFlap_Heavy`, `SFX_DiveRush_Loop`, `SFX_PropellerDash_Loop`, `SFX_Launch_Whoosh`, `SFX_Dragon_Footstep_01..02`, `SFX_Dragon_Roar_Victory`)
-   - `Assets/Audio/SFX/Village/` (6 WAV: `SFX_Zephyria_WindGust`, `SFX_Lake_Siphon_Loop`, `SFX_Pyrewood_WaterBreath_Loop`, `SFX_Pyrewood_Extinguish_Steam`, `SFX_Solaria_DewChimes`, `SFX_Village_Cleansed_Stinger`)
-   - `Assets/Audio/SFX/UI/` (8 WAV: `SFX_UI_Click`, `SFX_UI_Hover`, `SFX_UI_PoseLock`, `SFX_Countdown_Beep`, `SFX_Countdown_Go`, `SFX_Star_01..03`)
+Tersedia dua opsi praktis untuk memasang suite audio resmi (14 BGM MP3 + 23 SFX WAV = 37 berkas):
+* **Opsi Otomatis:** Buka folder `assets/Export_Audio_LaptopB/` di root workspace lalu jalankan skrip **`copy_to_unity.bat`**. Seluruh hierarki audio akan disalin ke `AR Dragon Sky Guardian/Assets/Audio/`.
+* **Opsi Ekstraksi ZIP:** Ekstrak arsip `assets/Export_Audio_LaptopB.zip` dan letakkan folder `Assets/Audio/` ke dalam proyek Unity.
+
+**Daftar Lengkap 37 Aset Audio:**
+- `Assets/Audio/BGM/Ghibli_Fantasy/` (6 MP3):
+  - `BGM_Lobby_FolkRound.mp3`
+  - `BGM_Lobby_VillageConsort.mp3`
+  - `BGM_Flight_CelticImpulse.mp3`
+  - `BGM_Flight_AirPrelude.mp3`
+  - `BGM_Flight_LordOfTheLand.mp3`
+  - `BGM_Flight_TellerOfTheTales.mp3`
+  - `BGM_Flight_ClearWaters.mp3`
+- `Assets/Audio/BGM/Cinematic_Tribal/` (6 MP3):
+  - `BGM_Flight_SkyeCuillin.mp3`
+  - `BGM_Crisis_Zephyria_HimalayanAtmosphere.mp3`
+  - `BGM_Crisis_Pyrewood_Firesong.mp3`
+  - `BGM_Crisis_Pyrewood_Ritual.mp3`
+  - `BGM_Crisis_Solaria_DesertCity.mp3`
+  - `BGM_Crisis_Solaria_CurseOfTheScarab.mp3`
+- `Assets/Audio/BGM/Celebration/` (1 MP3):
+  - `BGM_Victory_HeroicAge.mp3`
+- `Assets/Audio/SFX/Dragon/` (8 WAV):
+  - `SFX_WingFlap.wav`, `SFX_WingFlap_Heavy.wav`, `SFX_DiveRush_Loop.wav`, `SFX_PropellerDash_Loop.wav`, `SFX_Launch_Whoosh.wav`, `SFX_Dragon_Footstep_01.wav`, `SFX_Dragon_Footstep_02.wav`, `SFX_Dragon_Roar_Victory.wav`
+- `Assets/Audio/SFX/Village/` (6 WAV):
+  - `SFX_Zephyria_WindGust.wav`, `SFX_Lake_Siphon_Loop.wav`, `SFX_Pyrewood_WaterBreath_Loop.wav`, `SFX_Pyrewood_Extinguish_Steam.wav`, `SFX_Solaria_DewChimes.wav`, `SFX_Village_Cleansed_Stinger.wav`
+- `Assets/Audio/SFX/UI/` (9 WAV):
+  - `SFX_Splash_LogoReveal.wav` (Logo reveal chime & swell), `SFX_UI_Click.wav`, `SFX_UI_Hover.wav`, `SFX_UI_PoseLock.wav`, `SFX_Countdown_Beep.wav`, `SFX_Countdown_Go.wav`, `SFX_Star_01.wav`, `SFX_Star_02.wav`, `SFX_Star_03.wav`
+
 2. Buat skrip Editor pembantu `Assets/Editor/AudioImporterSetupUtility.cs` (mirip `UISpriteSetupUtility.cs`) untuk mengonfigurasi otomatis seluruh audio importer:
    - **BGM (MP3):** `loadType = AudioClipLoadType.Streaming`, `compressionFormat = AudioCompressionFormat.Vorbis`, `quality = 0.70f`.
    - **SFX Pendek (< 2s):** `loadType = AudioClipLoadType.DecompressOnLoad`, `compressionFormat = AudioCompressionFormat.PCM`.
@@ -143,6 +169,10 @@ Buat skrip `AudioManager.cs` (namespace `DragonWingAR.Audio`, `[DefaultExecution
 
 ### LANGKAH 4: Sambungkan Hook Audio ke Skrip Eksisting
 
+0. **`BootFlowController.cs` (`SCREEN 09` - Splash Screen):**
+   - **Audio Reveal Logo:** Saat coroutine boot memulai transisi fade-in logo utama Fanamir, mainkan `SFX_Splash_LogoReveal.wav` via `AudioManager.Instance.PlaySFX(...)` untuk memberikan kesan megah, hangat, dan sinematik.
+   - **Engine Branding:** Pastikan pada canvas `SCREEN 09` terdapat teks / lencana **`MADE WITH UNITY`** di bagian bawah layar (posisi `y ≈ 966`, font netral uppercase, warna `#8C7F70`) berdampingan dengan subtitle *WEBCAM EXERGAMING · BODY-FLIGHT ADVENTURE*.
+
 1. **`DragonFlightController.cs`:**
    - **Kepakan Sayap:** Mainkan `SFX_WingFlap.wav` saat downstroke kepakan sayap normal (`IsFlapping == true`), atau `SFX_WingFlap_Heavy.wav` saat `#06B Steep Climb` / takeoff.
    - **Tuck Dive Rush:** Saat `#13 Tuck to Dive` aktif, nyalakan `SFX_DiveRush_Loop.wav` pada looping source dengan volume proporsional terhadap `Airspeed / maxAirspeed` ($14\text{--}30\text{ m/s}$). Matikan/fade-out saat keluar dari Tuck Dive.
@@ -180,22 +210,24 @@ Buat skrip `AudioManager.cs` (namespace `DragonWingAR.Audio`, `[DefaultExecution
    - Mainkan `SFX_UI_PoseLock.wav` saat pose target terdeteksi valid (`GERAKAN TERDETEKSI!`).
 
 6. **`SettingsPanelUI.cs` (`SCREEN 05`):**
-   - Tambahkan baris pemilih kontrol **Gaya Musik (BGM Style)** pada panel pengaturan (`SCREEN 05`):
-     - `[0] ADAPTIF (DEFAULT)`
-     - `[1] GHIBLI / GENSHIN FANTASY`
-     - `[2] CINEMATIC TRIBAL & AMBIENT`
-   - Hubungkan ke `DragonGameSettings.CurrentBgmThemeStyle = (BgmThemeStyle)index;`.
+   - Tambahkan baris pemilih kontrol **Gaya Musik (BGM Style)** pada panel pengaturan (`SCREEN 05`) menggunakan dropdown atau segmented pill control:
+     - `[0] ADAPTIF (DEFAULT)`: Musik berganti secara dinamis mengikuti biome dan ketinggian.
+     - `[1] GHIBLI / GENSHIN FANTASY`: Suasana orkestra akustik hangat & seruling khas Celtic/Ghibli.
+     - `[2] CINEMATIC TRIBAL & AMBIENT`: Suasana etnik mistis highland & ambient perkusi.
+   - Hubungkan ke properti `DragonGameSettings.CurrentBgmThemeStyle = (BgmThemeStyle)index;`.
+   - Pastikan nilai tersimpan secara persisten ke `PlayerPrefs.SetInt("Fanamir_BgmThemeStyle", (int)value); PlayerPrefs.Save();` dan dimuat kembali saat inisialisasi awal boot, sehingga preferensi pemain tetap tersimpan meskipun keluar dari game.
    - Mengubah opsi ini di Play Mode akan langsung memicu event `OnBgmThemeStyleChanged` dan meng-crossfade lagu jelajah di `AudioManager` secara instan.
 
 ---
 
 ### LANGKAH 5: Verifikasi & Pengujian Play Mode
 1. Buat skrip runner pengujian `Assets/Editor/AudioSystemVerificationRunner.cs`:
-   - Uji pemuatan seluruh 30 klip audio (0 null reference).
+   - Uji pemuatan seluruh **37 klip audio** (14 BGM + 23 SFX, pastikan 0 null reference).
    - Uji koneksi bus AudioMixer (`Master`, `BGM`, `SFX`).
    - Uji simulasi perubahan slider volume di `DragonGameSettings` $\to$ verifikasi decibel AudioMixer berubah sesuai rumus logaritmik.
+   - Uji pergantian `BgmThemeStyle` di Settings $\to$ verifikasi `PlayerPrefs` tersimpan dan track musik berganti.
    - Uji simulasi transisi cross-fade BGM Free Roam $\leftrightarrow$ Krisis Biome.
-   - Uji simulasi trigger SFX kepakan sayap, dive rush, semburan air, dew chimes, countdown, dan bintang Finish Modal.
+   - Uji simulasi trigger SFX Splash Screen logo reveal, kepakan sayap, dive rush, semburan air, dew chimes, countdown, dan bintang Finish Modal.
 2. Jalankan Play Mode penuh dari `MainMenu_Lobby.unity` $\to$ `MainIsland_Gameplay.unity`:
    - Verifikasi BGM Lobby terdengar, transisi ke terbang memutar BGM jelajah, dan seluruh event berbunyi tanpa console errors (`0` errors, `0` warnings baru).
 
