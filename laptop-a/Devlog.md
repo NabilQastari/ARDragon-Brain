@@ -13,6 +13,20 @@ updated: 2026-11-25
 
 ---
 
+## 2026-11-25 — Perbaikan SFX Propeller Dash (Whoosh Berat), Sistem Dropdown BGM 1..11, & Kontrol BGM Menu (`SCREEN 00` & `SCREEN 05`) ([[arsitektur_sistem_audio]], [[prompt_eksekusi_sistem_audio_laptop_b]])
+- **Perbaikan SFX Propeller Dash (`SFX_PropellerDash_Loop.wav`):**
+  - Mengubah karakter audio secara mendasar dari desau tinggi & siulan menjadi **Whoosh Berat (*Heavy Aerodynamic Whoosh Loop*)** bertenaga besar.
+  - Memakai sintesis filter SOS bertingkat: pergeseran massa udara sub-bass viseral 30–110 Hz, dorongan bodi udara berbobot 100–320 Hz, dan *asymmetric power stroke attack* 2.5 Hz tanpa frekuensi siulan berdenging.
+  - Berhasil diuji dan dikemas ulang ke [`assets/Export_Audio_LaptopB.zip`](file:///e:/Semester%205/Game/AR%20Dragon/assets/Export_Audio_LaptopB.zip) (~91.6 MB).
+- **Penyelarasan Sistem Dropdown BGM & Penamaan `BGM 1` dst:**
+  - Menghapus pembatasan 3 gaya umum dan menggantinya dengan **Dropdown BGM In-Game** (`[0] Adaptif`, `[1] BGM 1` s.d. `[11] BGM 11`) dan **Dropdown BGM Menu** (`[0] BGM Menu 1` s.d. `[5] BGM Menu 6`).
+  - Menambahkan **Pill Pemilih Cepat BGM Menu (`[🎵 BGM Menu: BGM 1 ▼]`)** langsung pada navbar atas layar Lobby (`SCREEN 00`), memungkinkan pemain mengganti lagu latar Menu/Lobby secara instan tanpa harus masuk ke Settings.
+  - Memperbarui persistensi `PlayerPrefs` (`Fanamir_BgmFlightIndex` & `Fanamir_BgmMenuIndex`) dan event reaktif C# di `DragonGameSettings.cs` serta `AudioManager.cs`.
+- **Pembaruan Dokumen & Master Prompt:**
+  - Memperbarui [arsitektur_sistem_audio.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/gameplay-mechanics/arsitektur_sistem_audio.md), [rencana_desain_ui.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/ui-ux/rencana_desain_ui.md), [Tasks.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/Tasks.md), dan [prompt_eksekusi_sistem_audio_laptop_b.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/handoff-laptop-b/prompt_eksekusi_sistem_audio_laptop_b.md).
+
+---
+
 ## 2026-11-25 — Finalisasi Suite Audio Terpadu (14 BGM, 23 SFX), Splash Screen SFX & Branding, Paket Export ZIP, & Master Prompt Laptop B ([[arsitektur_sistem_audio]], [[prompt_eksekusi_sistem_audio_laptop_b]])
 - **Ekspansi Koleksi BGM & SFX:**
   - Menambah kurasi BGM menjadi total **14 Track MP3** mencakup tema Ghibli/Genshin Fantasy (6 tracks: `Folk Round`, `Village Consort`, `Celtic Impulse`, `Air Prelude`, `Lord of the Land`, `Teller of the Tales`, `Clear Waters`), tema Cinematic Tribal & Ambient (6 tracks: `Skye Cuillin`, `Himalayan Atmosphere`, `Firesong`, `Ritual`, `Desert City`, `Curse of the Scarab`), dan tema Celebration (`Heroic Age`).
@@ -39,6 +53,29 @@ updated: 2026-11-25
   - Menambahkan enum `BgmThemeStyle`, key `PrefBgmThemeStyle = "Fanamir_BgmThemeStyle"`, properti persisten `CurrentBgmThemeStyle`, dan event `OnBgmThemeStyleChanged`.
   - Menambahkan listener reaktif di `AudioManager.cs` sehingga pergantian tema musik di menu Settings seketika memicu cross-fade halus ke lagu tema baru saat bermain.
   - Memperbarui dokumen arsitektur [arsitektur_sistem_audio.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/gameplay-mechanics/arsitektur_sistem_audio.md) dan master prompt eksekusi untuk Laptop B [prompt_eksekusi_sistem_audio_laptop_b.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/handoff-laptop-b/prompt_eksekusi_sistem_audio_laptop_b.md).
+
+---
+
+## 2026-11-25 — Upgrade `#14 Propeller Dash` ke Orbit 3D Berputar Gaya Renang Butterfly (`v11`)
+- **Perubahan Gerak & Irama (`evaluatePropellerDashStroke()`, `dragon_anim_studio/`):**
+  - Mengganti kepakan vertikal polos menjadi **orbit elips/melingkar 3D gaya renang kupu-kupu (*butterfly stroke*)** pada frekuensi berat **`1.4 Hz`** (`wingSpeed: 14`): **Atas → Jauh ke Depan (`shSweep -36°`, tepi sayap *feathered* `18°`) → Tarikan Bawah Berat (`shFlap -38°`, sayap mencangkup `50°`) → Dorongan Belakang (`shSweep +24°`) → Kembali ke Atas**.
+  - Menambahkan *harmonic warp* (`thW = th - 0.22 * sin(th)`), *phase lag* melingkar pada `Wing_Forearm` (`thW - 0.55`) & keempat jari (`thW - 1.05`), serta dorongan badan *dolphin surge* (`posY = 0.72 + thrust * 0.08`, `posZ = thrust * 0.09`, `rootPitch = bodyPitch - 1.5 + thrust * 4.5`).
+  - Menyinkronkan rumus kuadratur tertutup (`th`, `thW`, `thrust`, `shFlap`, `shSweep`, `shPitch`, `faFlap`, `faSweep`, `tipLag`) ke `generateUnityCSharpSnippet()` di [studio.js](file:///e:/Semester%205/Game/AR%20Dragon/dragon_anim_studio/studio.js), cache buster [index.html](file:///e:/Semester%205/Game/AR%20Dragon/dragon_anim_studio/index.html) (`studio.js?v=20261125_v11`), dan Graphify AST (`26` nodes, `40` edges, `5` communities).
+- **Verifikasi:**
+  - `node --check` exit code `0`.
+  - Browser subagent (`http://localhost:8088/`) mengonfirmasi HTTP `200`, `0` error console, arah putaran butterfly (Atas → Depan → Bawah → Belakang → Atas) pada `6` frame berurutan *Side View*, bebas benturan kepala/tanduk di *Front/Top View*, aman di atas lantai `y=0`, serta ekspor C# `#14` valid.
+
+---
+
+## 2026-11-25 — Revisi Sesi 3 (`v10`): Lipatan Z-Fold Tuck Dive, Heavy Power Propeller Dash, Sayap Datar W-Pose, & Kaki Melipat Low Descent
+- **Penyempurnaan 4 Pose Sesuai Umpan Balik Pengguna (`dragon_anim_studio/`):**
+  1. **`#13 Tuck to Dive` (`dive`) — *True Zero-Twist Z-Fold*:** Mengganti lipatan lama yang melebar seperti jubah menjadi lipatan Z 3-segmen tanpa *twist* (`Wing_Shoulder (-8.7°, ∓5.6°, ±65.3°)` melipat ke belakang menyusuri rusuk → `Wing_Forearm (126.1°, ∓40.4°, ∓21.2°)` melipat ke depan ke samping bahu → keempat jari menutup rapat sejajar lurus ke belakang `(-109.3° / -92.1° / -67.5° / -26.0°)`). Terverifikasi simetri `0.0000` tanpa klip atau membran terpelintir.
+  2. **`#14 Propeller Dash` (`dash`) — *Heavy Power Thrust* (`1.6 Hz`):** Menurunkan frekuensi dari *quick flap* `3.8 Hz` ke irama berat bertenaga **`1.6 Hz`** (`wingSpeed: 16`), memperbarui `evaluatePropellerDashStroke()` dengan 3 fase (*Gathering Upstroke + Peak Coil* `0..0.48` → *Explosive Heavy Thrust Downstroke* `0.48..0.86` → *Follow-Through Hold* `0.86..1.00`), ayunan dayung udara depan→belakang (`sweepPitchY`, `sweepZ`), serta dorongan fisik badan maju-naik (`posY = 0.72 + thrust*0.09`, `posZ = thrust*0.09`).
+  3. **`#12 W-Pose Elevator` (`wpose`) — *Sayap Datar Horizontal Berbentuk 'W'*:** Menambah kompensasi *shoulder/forearm Y-roll* (`Wing_Shoulder (-32°, ±66°, ∓18°)`, `Wing_Forearm (+62°, ±30°, ∓8°)`, jari `-40°..-16°`) sehingga bidang membran sayap sejajar horizontal datar layaknya `#08 Cruise Glide` (`Normal.y = -0.97`), tidak menghadap langit, sambil menjaga bentuk huruf `'W'` jelas.
+  4. **`#10 Gentle Descent` (`descent`) — *Kaki Sedikit Melipat*:** Mengubah postur kaki menjadi *crouched landing prep* (`UpperArm +34°`, `Forearm +42°`, `Paw -58°`; `Thigh (-16.8°, ±2.5°, ±14.8°)` sagital `22°`, `Shin +10°`, `Metatarsus -24°`, `Foot -46°`) siap meredam pendaratan tanpa *hyperextension*.
+- **Sinkronisasi & Verifikasi:**
+  - Memperbarui `generateUnityCSharpSnippet()` di [studio.js](file:///e:/Semester%205/Game/AR%20Dragon/dragon_anim_studio/studio.js), cache buster [index.html](file:///e:/Semester%205/Game/AR%20Dragon/dragon_anim_studio/index.html) (`studio.js?v=20261125_v10`), serta Graphify AST.
+  - `node --check` exit code `0`; browser subagent (`http://localhost:8088/`) mengonfirmasi HTTP `200`, `0` error console, ekspor C# `#13` berjalan lancar, serta inspeksi langsung screenshot [final_step_260.png](file:///C:/Users/nmast/.gemini/antigravity/brain/f0061fc9-8e6a-4240-8ec4-72af963b58b6/browser_evidence/8d04ffac-9a62-487b-b4fb-0bfc98a80b6b/final_step_260.png) (`#13 Tuck to Dive`, *3/4 Diagonal View*) memperlihatkan siluet Z-fold peluru yang rapat, tajam, dan simetris.
 
 ---
 

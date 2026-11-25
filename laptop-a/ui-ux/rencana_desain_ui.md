@@ -127,13 +127,14 @@ Sistem Menu Utama menggunakan **3 Tab Navigasi Terpusat (*Segmented Capsule Pill
 
 #### Komponen UI:
 1. **Header Kiri Atas & Tab Navigasi:** Teks judul bersih `FANAMIR: THE SKY GUARDIAN` (Font: *Geometric Sans-Serif Bold*, warna: `#2D2926` Dark Ink) diikuti tab pill `[ MISSIONS ]`, `[ CALIBRATION ]`, dan `[ SETTINGS ]`.
-2. **Navbar Kanan Atas (`Badge Camera Dynamic Status` + `ESC · QUIT`):**
+2. **Navbar Kanan Atas (`Pill BGM Menu Selector` + `Badge Camera Dynamic Status` + `ESC · QUIT`):**
    * **Tombol `ESC · QUIT`:** Konsisten menempel di sudut **kanan atas** semua layar dengan kontras tinggi (`#FBF6EB`, outline luar seragam `#332C25`, *inner rim* netral `#A89E8B`, serta ikon/pil coral di bagian dalam).
    * **Badge Status Kamera Dinamis (`Badge Camera Dynamic Status`):** Tepat di sebelah kiri `ESC · QUIT`, pill 100% solid `#FBF6EB` ber-outline tinta seragam `#332C25` yang menampilkan status real-time `PythonProcessManager` lewat warna *fill* badge/dot:
      * **Default Standby:** Badge & dot kuning/amber `● STANDBY · PILIH KAMERA` (outline tetap `#332C25`).
      * **Saat YOLO Aktif (Mode Headless):** Badge & dot hijau emerald `● CAM READY · LATAR BELAKANG` (outline tetap `#332C25`).
      * **Saat YOLO Aktif (Mode Eksternal + PIP):** Badge & dot hijau emerald `● CAM READY · JENDELA PREVIEW` (outline tetap `#332C25`).
      * *(Rujukan lengkap ketiga varian badge navbar tersedia di `SCREEN 06`, bottom-right).*
+   * **Pill Pemilih Cepat BGM Menu (`[🎵 BGM Menu: BGM 1 ▼]`):** Tepat di sebelah kiri badge kamera, pill solid `#FBF6EB` (`stroke #332C25`) berikon not balok (`🎵`) dan teks lagu aktif (mis. `BGM 1`, `BGM 2`, dst.). Pemain dapat mengklik pill ini untuk langsung mengganti lagu latar Lobby secara cepat tanpa harus membuka menu Settings. Pilihan otomatis tersimpan ke `PlayerPrefs`.
 3. **Kartu Level 1 (Smog Valley - Aktif):**
    * Background: Kertas krem solid 100% opaque (`#FBF6EB`) dengan border tinta `#2D2926` & sudut melengkung (*border-radius 16px*).
    * Ilustrasi Biome: [`UI_Biome_01_Smog_Valley.jpg`](file:///e:/Semester%205/Game/AR%20Dragon/Referensi%20UI/UI_Biome_01_Smog_Valley.jpg) (desa hijau dengan cerobong asap abu-abu).
@@ -240,15 +241,34 @@ Sistem Menu Utama menggunakan **3 Tab Navigasi Terpusat (*Segmented Capsule Pill
 
 ---
 
-### 2.3 Tab 3: [ SETTINGS ] / SCREEN 05 (Pengaturan Audio, Gaya Musik, Sensitivitas & Kamera)
+### 2.3 Tab 3: [ SETTINGS ] / SCREEN 05 (Pengaturan Audio, Pemilihan Lagu BGM, Sensitivitas & Kamera)
 *Artboard FigCraft:* `SCREEN 05 - Settings Modal (1920x1080)` (`Design` id `400`, `Wireframe` id `236`) · Menggunakan kartu kertas krem solid 100% opaque (`#FBF6EB`) dengan tombol `ESC · BACK` tetap di kanan atas:
 1. **Slider & Opsi Pengaturan Audio & Kontrol Inti:**
    * **Slider Volume:** `Master Volume`, `BGM Volume`, dan `SFX Volume` ($0\text{--}100\%$, pemetaan linier ke Decibel di AudioMixer).
-   * **Pilihan Gaya Tema BGM (`BGM Theme Style` — Dropdown / Segmented Toggle):**
-     * `[0] ADAPTIF (DEFAULT)`: Musik berganti secara dinamis (Lobby santai, Free Roam Celtic/Fantasy, krisis desa Tribal Cinematic, Cleansed Fanfare).
-     * `[1] GHIBLI / GENSHIN`: Mengunci suasana musik penuh harmoni orkestra akustik hangat & seruling.
-     * `[2] CINEMATIC TRIBAL`: Mengunci suasana mistis perkusi ambient & flute etnik kuno.
-     * *Persistensi:* Pilihan tersimpan otomatis via `PlayerPrefs.SetInt("Fanamir_BgmThemeStyle", (int)value)` dan dimuat saat boot, sehingga pilihan pemain tetap tersimpan meskipun keluar dari game.
+   * **Dropdown Pemilihan Musik Jelajah (`In-Game BGM Selection`):**
+     * Menu dropdown 100% opaque solid `#FBF6EB` untuk memilih musik eksplorasi terbang:
+       * `[0] ADAPTIF (Otomatis Sesuai Biome & Ketinggian)` *(Default)*
+       * `[1] BGM 1` (*Celtic Impulse*)
+       * `[2] BGM 2` (*Air Prelude*)
+       * `[3] BGM 3` (*Lord of the Land*)
+       * `[4] BGM 4` (*Teller of the Tales*)
+       * `[5] BGM 5` (*Clear Waters*)
+       * `[6] BGM 6` (*Skye Cuillin*)
+       * `[7] BGM 7` (*Himalayan Atmosphere*)
+       * `[8] BGM 8` (*Firesong*)
+       * `[9] BGM 9` (*Ritual*)
+       * `[10] BGM 10` (*Desert City*)
+       * `[11] BGM 11` (*Curse of the Scarab*)
+     * *Persistensi:* Tersimpan otomatis di `PlayerPrefs` (`Fanamir_BgmFlightIndex`).
+   * **Dropdown Pemilihan Musik Menu (`Menu BGM Selection`):**
+     * Menu dropdown solid `#FBF6EB` untuk memilih musik latar Lobby / Menu:
+       * `[0] BGM Menu 1` (*Folk Round* [Default])
+       * `[1] BGM Menu 2` (*Village Consort*)
+       * `[2] BGM Menu 3` (*Clear Waters*)
+       * `[3] BGM Menu 4` (*Air Prelude*)
+       * `[4] BGM Menu 5` (*Teller of the Tales*)
+       * `[5] BGM Menu 6` (*Skye Cuillin*)
+     * *Persistensi & Efek Langsung:* Tersimpan otomatis di `PlayerPrefs` (`Fanamir_BgmMenuIndex`). Mengubah opsi ini langsung meng-crossfade lagu Menu yang sedang berbunyi saat itu juga, dan tersinkronisasi 1:1 dengan pill pemilih lagu cepat di header `SCREEN 00`.
    * **Slider Gameplay:** `Turn Sensitivity` ($1.0\times$ s/d $3.0\times$) & `Text Auto-Next` ($2.0\text{s}$ s/d $10.0\text{s}$, default `5.0s` untuk auto-advance *Quest Narrative Text Box*).
 2. **Modul `Camera Input & AI YOLO Module`:**
    * **Header Modul:** Menampilkan badge status aktif (`● KAMERA STANDBY` secara default; `autoLaunchPython = false` agar webcam laptop tidak terkunci otomatis saat boot) dan tombol merah taktil **`Matikan`** di kanan header (nonaktif saat `STANDBY`, menyala aktif saat `MEMUAT YOLO` atau `LIVE`).

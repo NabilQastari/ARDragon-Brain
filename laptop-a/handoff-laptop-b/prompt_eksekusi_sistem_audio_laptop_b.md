@@ -96,33 +96,48 @@ Buat skrip `AudioManager.cs` (namespace `DragonWingAR.Audio`, `[DefaultExecution
    - 2 AudioSource untuk BGM: `_bgmSourceA` dan `_bgmSourceB` (output ke bus `BGM`, `loop = true`).
    - 1 AudioSource 2D untuk UI/SFX one-shot: `_sfx2DSource` (output ke bus `SFX`).
    - Sediakan referensi AudioSource loop untuk naga & desa: `_diveRushSource`, `_propellerDashSource`, `_villageLoopSource`.
-3. **Penyambungan Reaktif ke `DragonGameSettings` & Pengaturan Gaya Musik (Hapus `// TODO [SYNC-AUDIO]`):**
+3. **Penyambungan Reaktif ke `DragonGameSettings` & Pengaturan Dropdown Lagu (Hapus `// TODO [SYNC-AUDIO]`):**
    - Di `DragonGameSettings.cs`:
      ```csharp
-     public enum BgmThemeStyle {
-         Adaptive = 0,        // Otomatis berganti sesuai lokasi & ketinggian (Default)
-         GhibliFantasy = 1,   // Selalu alunan ceria Ghibli/Genshin (Celtic Impulse / Air Prelude)
-         CinematicTribal = 2  // Selalu alunan etnik highland & ambient mistis (Skye Cuillin)
+     public const string PrefBgmFlightSelection = "Fanamir_BgmFlightIndex"; // 0 = Adaptif, 1 = BGM 1, 2 = BGM 2, ...
+     public const string PrefBgmMenuSelection   = "Fanamir_BgmMenuIndex";   // 0 = BGM Menu 1, 1 = BGM Menu 2, ...
+
+     public static event Action<int> OnBgmFlightSelectionChanged;
+     public static event Action<int> OnBgmMenuSelectionChanged;
+
+     public static int BgmFlightSelection {
+         get => PlayerPrefs.GetInt(PrefBgmFlightSelection, 0); // 0 = Adaptif (Default)
+         set {
+             PlayerPrefs.SetInt(PrefBgmFlightSelection, value);
+             PlayerPrefs.Save();
+             OnBgmFlightSelectionChanged?.Invoke(value);
+         }
      }
 
-     public const string PrefBgmThemeStyle = "Fanamir_BgmThemeStyle";
-     public static event Action<BgmThemeStyle> OnBgmThemeStyleChanged;
-
-     public static BgmThemeStyle CurrentBgmThemeStyle {
-         get => (BgmThemeStyle)PlayerPrefs.GetInt(PrefBgmThemeStyle, 0);
+     public static int BgmMenuSelection {
+         get => PlayerPrefs.GetInt(PrefBgmMenuSelection, 0); // 0 = BGM Menu 1 (Default)
          set {
-             PlayerPrefs.SetInt(PrefBgmThemeStyle, (int)value);
+             PlayerPrefs.SetInt(PrefBgmMenuSelection, value);
              PlayerPrefs.Save();
-             OnBgmThemeStyleChanged?.Invoke(value);
+             OnBgmMenuSelectionChanged?.Invoke(value);
          }
      }
      ```
    - Di `AudioManager.cs`:
+     - Serialized Array / Referensi Klip Musik:
+       ```csharp
+       [Header("BGM Collections")]
+       [SerializeField] private AudioClip[] _menuBgmClips;   // BGM Menu 1..6
+       [SerializeField] private AudioClip[] _flightBgmClips; // BGM 1..11
+       [SerializeField] private AudioClip _victoryBgmClip;  // BGM Victory Heroic Age
+       [SerializeField] private AudioClip[] _crisisBgmClips; // Zephyria, Pyrewood, Solaria
+       ```
      - Di `OnEnable()` / `Start()`:
        ```csharp
        DragonGameSettings.OnBgmVolumeChanged += SetBgmVolume;
        DragonGameSettings.OnSfxVolumeChanged += SetSfxVolume;
-       DragonGameSettings.OnBgmThemeStyleChanged += OnBgmThemeStyleChanged;
+       DragonGameSettings.OnBgmFlightSelectionChanged += OnBgmFlightSelectionChanged;
+       DragonGameSettings.OnBgmMenuSelectionChanged += OnBgmMenuSelectionChanged;
        SetBgmVolume(DragonGameSettings.BgmVolume);
        SetSfxVolume(DragonGameSettings.SfxVolume);
        ```
@@ -138,9 +153,21 @@ Buat skrip `AudioManager.cs` (namespace `DragonWingAR.Audio`, `[DefaultExecution
            audioMixer.SetFloat("SfxVolume", db);
        }
        ```
-     - Handler pergantian gaya musik seketika:
+     - Handlers & Pemutaran Lagu Menu / Jelajah:
        ```csharp
-       private void OnBgmThemeStyleChanged(BgmThemeStyle newStyle) {
+       public void PlayMenuBGM(int menuIndex, float duration = 1.2f) {
+           if (_menuBgmClips != null && menuIndex >= 0 && menuIndex < _menuBgmClips.Length) {
+               StartCoroutine(CrossfadeBGM(_menuBgmClips[menuIndex], duration));
+           }
+       }
+
+       private void OnBgmMenuSelectionChanged(int newIndex) {
+           if (_isInMenuScene) {
+               PlayMenuBGM(newIndex, 1.2f);
+           }
+       }
+
+       private void OnBgmFlightSelectionChanged(int newIndex) {
            if (_isPeacefulFlightActive) {
                RestorePeacefulBGM(1.5f);
            }
@@ -152,13 +179,12 @@ Buat skrip `AudioManager.cs` (namespace `DragonWingAR.Audio`, `[DefaultExecution
      - Lakukan lerp volume track aktif $1.0 \to 0.0$ dan track baru $0.0 \to 1.0$ secara halus dengan kurva kuadratik/smoothstep, lalu hentikan track lama.
    - Metode `CrossfadeToCrisis(BiomeType biome)`:
      - Zephyria: `BGM_Crisis_Zephyria_HimalayanAtmosphere`
-     - Pyrewood: `BGM_Crisis_Pyrewood_Firesong`
-     - Solaria: `BGM_Crisis_Solaria_DesertCity`
+     - Pyrewood: `BGM_Crisis_Pyrewood_Firesong` (atau variasi `Ritual`)
+     - Solaria: `BGM_Crisis_Solaria_DesertCity` (atau variasi `CurseOfTheScarab`)
    - Metode `RestorePeacefulBGM(float duration = 2.0f)`:
-     - Tentukan lagu berdasarkan `DragonGameSettings.CurrentBgmThemeStyle`:
-       - `Adaptive`: jika ketinggian naga $Y > 120\text{m}$, gunakan `BGM_Flight_AirPrelude`; jika dekat Center Peak, gunakan `BGM_Flight_SkyeCuillin`; selain itu `BGM_Flight_CelticImpulse`.
-       - `GhibliFantasy`: gunakan `BGM_Flight_CelticImpulse` (atau `Air Prelude` saat tinggi).
-       - `CinematicTribal`: gunakan `BGM_Flight_SkyeCuillin`.
+     - Periksa `DragonGameSettings.BgmFlightSelection`:
+       - Jika `0 (Adaptif)`: tentukan lagu berdasarkan ketinggian & lokasi (Air Prelude saat $Y > 120\text{m}$, Skye Cuillin di Center Peak, Celtic Impulse di dataran).
+       - Jika `1..11 (BGM 1 s.d. BGM 11)`: putar langsung `_flightBgmClips[selection - 1]`.
      - Lakukan cross-fade halus ke track terpilih.
    - Metode `PlayCleansedStinger()`:
      - Mainkan `SFX_Village_Cleansed_Stinger.wav` (one-shot berprioritas tinggi) sambil ducking BGM sejenak, lalu restore peaceful BGM.
@@ -176,7 +202,7 @@ Buat skrip `AudioManager.cs` (namespace `DragonWingAR.Audio`, `[DefaultExecution
 1. **`DragonFlightController.cs`:**
    - **Kepakan Sayap:** Mainkan `SFX_WingFlap.wav` saat downstroke kepakan sayap normal (`IsFlapping == true`), atau `SFX_WingFlap_Heavy.wav` saat `#06B Steep Climb` / takeoff.
    - **Tuck Dive Rush:** Saat `#13 Tuck to Dive` aktif, nyalakan `SFX_DiveRush_Loop.wav` pada looping source dengan volume proporsional terhadap `Airspeed / maxAirspeed` ($14\text{--}30\text{ m/s}$). Matikan/fade-out saat keluar dari Tuck Dive.
-   - **Propeller Dash:** Nyalakan `SFX_PropellerDash_Loop.wav` selama `#14 Propeller Dash` aktif.
+   - **Propeller Dash:** Nyalakan `SFX_PropellerDash_Loop.wav` selama `#14 Propeller Dash` aktif. Catatan: Aset ini telah diperbarui menjadi **Whoosh Berat (*Heavy Aerodynamic Whoosh*)** dengan dorongan desau angin berbobot sub-bass (tanpa siulan berdenging).
    - **Launch Thrust:** Mainkan `SFX_Launch_Whoosh.wav` saat lepas dari auto-hover / escape.
    - **Langkah Kaki di Darat:** Mainkan selang-seling `SFX_Dragon_Footstep_01/02.wav` saat siklus jalan darat `#02 Grounded Walk`.
 
@@ -205,18 +231,22 @@ Buat skrip `AudioManager.cs` (namespace `DragonWingAR.Audio`, `[DefaultExecution
      - Bintang 2: mainkan `SFX_Star_02.wav`.
      - Bintang 3: mainkan `SFX_Star_03.wav`.
 
-5. **`LobbyNavigationManager.cs` & `CalibrationPanelUI.cs` & UI Buttons:**
+5. **`LobbyNavigationManager.cs` & `SCREEN 00` (Menu Utama):**
    - Mainkan `SFX_UI_Click.wav` pada setiap tombol navigasi utama / pergantian tab.
    - Mainkan `SFX_UI_PoseLock.wav` saat pose target terdeteksi valid (`GERAKAN TERDETEKSI!`).
+   - **Pill Pemilih Cepat BGM di Menu (`SCREEN 00`):**
+     - Pasang pill tombol `[🎵 BGM Menu: BGM 1 ▼]` pada navbar kanan atas (di sebelah kiri badge kamera).
+     - Mengklik tombol ini memicu siklus cepat ke lagu menu berikutnya (`BGM 1` $\to$ `BGM 2` $\to$ ...) atau membuka mini dropdown, seketika memanggil `AudioManager.Instance.PlayMenuBGM(index)` dan memperbarui `DragonGameSettings.BgmMenuSelection`.
 
 6. **`SettingsPanelUI.cs` (`SCREEN 05`):**
-   - Tambahkan baris pemilih kontrol **Gaya Musik (BGM Style)** pada panel pengaturan (`SCREEN 05`) menggunakan dropdown atau segmented pill control:
-     - `[0] ADAPTIF (DEFAULT)`: Musik berganti secara dinamis mengikuti biome dan ketinggian.
-     - `[1] GHIBLI / GENSHIN FANTASY`: Suasana orkestra akustik hangat & seruling khas Celtic/Ghibli.
-     - `[2] CINEMATIC TRIBAL & AMBIENT`: Suasana etnik mistis highland & ambient perkusi.
-   - Hubungkan ke properti `DragonGameSettings.CurrentBgmThemeStyle = (BgmThemeStyle)index;`.
-   - Pastikan nilai tersimpan secara persisten ke `PlayerPrefs.SetInt("Fanamir_BgmThemeStyle", (int)value); PlayerPrefs.Save();` dan dimuat kembali saat inisialisasi awal boot, sehingga preferensi pemain tetap tersimpan meskipun keluar dari game.
-   - Mengubah opsi ini di Play Mode akan langsung memicu event `OnBgmThemeStyleChanged` dan meng-crossfade lagu jelajah di `AudioManager` secara instan.
+   - Pasang dua baris dropdown pengaturan lagu:
+     1. **Dropdown BGM In-Game (`Pilih Musik Jelajah`):**
+        - Pilihan: `[0] Adaptif (Otomatis Sesuai Biome)`, `[1] BGM 1`, `[2] BGM 2`, `[3] BGM 3`, `[4] BGM 4`, `[5] BGM 5`, `[6] BGM 6`, `[7] BGM 7`, `[8] BGM 8`, `[9] BGM 9`, `[10] BGM 10`, `[11] BGM 11`.
+        - Hubungkan ke `DragonGameSettings.BgmFlightSelection = index;`.
+     2. **Dropdown BGM Menu (`Pilih Musik Menu / Lobby`):**
+        - Pilihan: `[0] BGM Menu 1`, `[1] BGM Menu 2`, `[2] BGM Menu 3`, `[3] BGM Menu 4`, `[4] BGM Menu 5`, `[5] BGM Menu 6`.
+        - Hubungkan ke `DragonGameSettings.BgmMenuSelection = index;`. Mengubah dropdown ini seketika memicu cross-fade lagu menu yang sedang berbunyi dan menyinkronkan pill di `SCREEN 00`.
+   - Kedua preferensi tersimpan otomatis dan persisten di `PlayerPrefs` (`Fanamir_BgmFlightIndex` & `Fanamir_BgmMenuIndex`).
 
 ---
 

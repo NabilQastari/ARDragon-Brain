@@ -44,19 +44,46 @@ Sesuai preferensi perancangan, sistem musik Fanamir mengusung **Dual-Style Syste
 | **Krisis 3 — Desa Solaria (Alternatif)** | `BGM_Crisis_Solaria_CurseOfTheScarab.mp3` | **Dramatic Desert:** Perkusi mesir padang pasir dramatis penuh ancaman | Variasi krisis kekeringan Solaria |
 | **Kemenangan & Finish Modal** | `BGM_Victory_HeroicAge.mp3` | **Triumphant Fanfare:** Bras orkestra megah, simbal, nada bangga kepahlawanan | Terpicu saat Global Vitality $100\%$ atau pembukaan `PF_FinishModal` |
 
-### 1.1 Pengaturan Preferensi Gaya BGM di Menu Settings (`SCREEN 05`)
-Untuk memberikan kebebasan selera musikal kepada pemain, menu **Settings** (`SCREEN 05`) dilengkapi dengan pemilih **Gaya Musik (Music Theme Style)**:
+### 1.1 Sistem Pemilihan BGM (Dropdown Terpadu di Settings & Tombol Menu)
+Untuk memberikan kebebasan penuh kepada pemain, game menyediakan **dua dropdown pemilihan lagu** di menu **Settings (`SCREEN 05`)** dan sebuah **tombol pemilih cepat di Menu Utama (`SCREEN 00`)**. Sesuai arahan desain, seluruh lagu diberi penamaan praktis bernomor urut (**`BGM 1`**, **`BGM 2`**, dst.):
 
-1. **`BgmThemeStyle.Adaptive` (`0` — Default):**
-   - Game secara otomatis dan dinamis memilih lagu terbaik berdasarkan ketinggian dan lokasi (Folk Round/Village Consort di Lobby, Celtic Impulse saat jelajah rendah, Air Prelude saat terbang tinggi $Y > 120\text{m}$, Clear Waters di danau, Skye Cuillin di Center Peak).
-2. **`BgmThemeStyle.GhibliFantasy` (`1`):**
-   - Mengunci musik jelajah bebas agar selalu memutar alunan ceria khas Ghibli / Genshin Impact (`Celtic Impulse`, `Lord of the Land`, `Air Prelude`, `Teller of the Tales`).
-3. **`BgmThemeStyle.CinematicTribal` (`2`):**
-   - Mengunci musik jelajah bebas agar memutar nuansa etnik highland & ambient mistis (`Skye Cuillin`, `Himalayan Atmosphere`, `Ritual`).
+#### A. Dropdown BGM In-Game (Musik Jelajah Kepulauan)
+Pemain dapat membiarkan musik berganti otomatis sesuai lokasi, atau mengunci lagu favorit tertentu selama terbang bebas:
+- `[0] ADAPTIF (Otomatis Sesuai Biome & Ketinggian)` *(Default)* — Dinamis memutar tema Celtic/Genshin di dataran, Air Prelude di angkasa tinggi ($Y > 120\text{m}$), Skye Cuillin di Center Peak, dan cross-fade ke krisis desa saat mendekati area misi.
+- `[1] BGM 1` (*Celtic Impulse* — orkestra seruling Celtic lincah & riang)
+- `[2] BGM 2` (*Air Prelude* — gesekan simfoni megah angkasa tinggi)
+- `[3] BGM 3` (*Lord of the Land* — petualangan epik pastoral)
+- `[4] BGM 4` (*Teller of the Tales* — dawai fantasi hangat)
+- `[5] BGM 5` (*Clear Waters* — denting piano jernih danau)
+- `[6] BGM 6` (*Skye Cuillin* — tiupan seruling highland etnik & sunyi)
+- `[7] BGM 7` (*Himalayan Atmosphere* — desau kabut mistis Zephyria)
+- `[8] BGM 8` (*Firesong* — ritme tribal api membara Pyrewood)
+- `[9] BGM 9` (*Ritual* — tabuhan perkusi magis hutan)
+- `[10] BGM 10` (*Desert City* — instrumen gurun eksotis Solaria)
+- `[11] BGM 11` (*Curse of the Scarab* — ketukan dramatis altar langit)
+
+#### B. Dropdown BGM Menu (Musik Latar Menu / Lobby)
+Pemain dapat menentukan lagu damai pengiring saat berada di Menu Misi, Kalibrasi, dan Settings:
+- `[0] BGM Menu 1` (*Folk Round* — dawai lute & flute damai [Default])
+- `[1] BGM Menu 2` (*Village Consort* — ansambel desa riang nan bersahabat)
+- `[2] BGM Menu 3` (*Clear Waters* — alunan akustik menenangkan)
+- `[3] BGM Menu 4` (*Air Prelude* — suasana langit tenang)
+- `[4] BGM Menu 5` (*Teller of the Tales* — dongeng kepulauan hangat)
+- `[5] BGM Menu 6` (*Skye Cuillin* — seruling etnik pegunungan santai)
+
+#### C. Tombol Pemilih Cepat BGM di Layar Menu (`SCREEN 00`)
+Pemain tidak perlu repot membuka tab Settings untuk sekadar mengganti suasana musik Lobby:
+- Pada navbar atas layar Lobby (`SCREEN 00`), tepat di sebelah badge status kamera, terpasang pill kontrol musik: **`[🎵 BGM Menu: BGM 1 ▼]`**.
+- Mengklik tombol ini akan menampilkan dropdown mini atau melakukan siklus cepat ke lagu berikutnya (`BGM 1` $\to$ `BGM 2` $\to$ ...) dengan transisi cross-fade lembut $1.2\text{ detik}$, seketika mengganti suasana tanpa interupsi.
 
 > [!IMPORTANT]
-> **Persistensi Antar Sesi Permainan (Keluar dari Game):**
-> Pilihan gaya musik pemain disimpan secara persisten di `PlayerPrefs` (`Fanamir_BgmThemeStyle`) via `PlayerPrefs.SetInt(PrefBgmThemeStyle, (int)value); PlayerPrefs.Save();`. Ketika pemain keluar dari game (`Quit`) dan membuka game kembali, `DragonGameSettings` otomatis memuat preferensi ini di `EnsureInit()`, sehingga musik yang dipilih pemain **tetap tersimpan secara permanen**. Mengubah opsi ini di menu pause/settings in-game juga langsung memicu efek cross-fade instan ke tema lagu baru.
+> **Persistensi Penuh Antar Sesi Permainan (Keluar dari Game):**
+> Pilihan pemain disimpan secara permanen di `PlayerPrefs`:
+> - `PlayerPrefs.SetInt("Fanamir_BgmFlightIndex", index);`
+> - `PlayerPrefs.SetInt("Fanamir_BgmMenuIndex", index);`
+> - `PlayerPrefs.Save();`
+>
+> Ketika game ditutup (`Quit`) dan dimainkan kembali di lain hari, `DragonGameSettings` otomatis memuat kedua indeks tersebut pada inisialisasi awal boot, sehingga lagu yang dipilih pemain **tetap tersimpan secara permanen**. Mengubah opsi ini di runtime juga langsung memicu efek cross-fade instan.
 
 ---
 
@@ -110,8 +137,8 @@ Semua aset SFX dibuat secara prosedural dalam format **WAV 16-bit 44.1 kHz PCM (
    - *Karakter:* Desau angin supersonik beroktaf rendah (*deep wind rush*) dengan resonansi siulan aerodinamis.
    - *Pemicu:* Aktif saat `#13 Tuck to Dive` atau airspeed $> 22\text{ m/s}$. Volume & pitch dinaikkan proporsional mengikuti kecepatan naga.
 4. **`SFX_PropellerDash_Loop.wav` (2.0s Seamless Loop):**
-   - *Karakter:* Turbin kepakan badai berkecepatan tinggi dengan modulasi ritmis $3.8\text{ Hz}$ persis mengikuti frekuensi kepakan sayap naga.
-   - *Pemicu:* Aktif selama gestur `#14 Propeller Dash` berjalan.
+   - *Karakter:* **Whoosh Berat (*Heavy Aerodynamic Whoosh Loop*)** — Gelombang desau angin masif dan dorongan udara berbobot dalam (*deep visceral sub-bass air displacement* 30–110 Hz, *heavy guttural body rumble* 100–320 Hz, dan *asymmetric power whoosh envelope* $2.5\text{ Hz}$) tanpa siulan berdenging (*zero whistling*), menghasilkan sensasi dorongan turbin supersonik yang perkasa dan berbobot saat naga melesat kencang.
+   - *Pemicu:* Aktif selama gestur `#14 Propeller Dash` berjalan. Volume berbanding lurus dengan kelajuan dash.
 5. **`SFX_Launch_Whoosh.wav` (0.55s):**
    - *Karakter:* Dorongan impuls udara cepat (*supersonic push*).
    - *Pemicu:* Saat terlepas dari Auto-Hover desa (Launch Thrust 32% momentum).
@@ -189,12 +216,15 @@ Skrip `AudioManager.cs` bertindak sebagai *persistent singleton* (`DontDestroyOn
 * **Penyambungan Otomatis:**
   - `DragonGameSettings.OnBgmVolumeChanged += SetBgmVolume;`
   - `DragonGameSettings.OnSfxVolumeChanged += SetSfxVolume;`
-  - `DragonGameSettings.OnBgmThemeStyleChanged += OnBgmThemeStyleChanged;`
+  - `DragonGameSettings.OnBgmFlightSelectionChanged += OnBgmFlightSelectionChanged;`
+  - `DragonGameSettings.OnBgmMenuSelectionChanged += OnBgmMenuSelectionChanged;`
 * **Metode Publik Utama:**
   - `PlayBGM(AudioClip clip, float fadeDuration = 1.8f)`
+  - `PlayMenuBGM(int menuIndex, float fadeDuration = 1.2f)`
   - `CrossfadeToCrisis(BiomeType biome)`
   - `RestorePeacefulBGM()`
-  - `SetBgmThemeStyle(BgmThemeStyle style)`
+  - `SetBgmFlightSelection(int flightIndex)`
+  - `SetBgmMenuSelection(int menuIndex)`
   - `PlaySFX(AudioClip clip, float volume = 1f)`
   - `PlaySFX3D(AudioClip clip, Vector3 worldPos, float volume = 1f)`
   - `PlayLoopingSFX(AudioClip clip, ref AudioSource sourceHolder, float volume = 1f)`
@@ -205,16 +235,11 @@ Skrip `AudioManager.cs` bertindak sebagai *persistent singleton* (`DontDestroyOn
 
 ## 5. Lokasi Berkas & Handoff ke Laptop B
 
-Seluruh aset audio hasil generasi & kurasi telah disiapkan di root workspace pada folder `assets/audio/`:
-- `assets/audio/BGM/Ghibli_Fantasy/` (Lobby, Flight Celtic, Flight Air Prelude)
-- `assets/audio/BGM/Cinematic_Tribal/` (Flight Skye, Pyrewood Firesong, Solaria Desert City, Zephyria Ambient)
-- `assets/audio/BGM/Celebration/` (Victory Heroic Age)
-- `assets/audio/SFX/Dragon/` (7 berkas lokomosi & naga)
-- `assets/audio/SFX/Village/` (6 berkas aksi desa)
-- `assets/audio/SFX/UI/` (8 berkas antarmuka & countdown)
-
-Semua aset ini siap disalin ke Unity project di Laptop B pada folder:
-`AR Dragon Sky Guardian/Assets/Audio/`
+Seluruh aset audio hasil kurasi (14 BGM) dan sintesis prosedural (23 SFX) telah disiapkan di root workspace:
+- `assets/audio/BGM/` (14 Track MP3: 6 Ghibli Fantasy, 6 Cinematic Tribal, 1 Celebration)
+- `assets/audio/SFX/` (23 Berkas WAV 44.1kHz 16-bit: 9 UI & Splash, 8 Dragon, 6 Village)
+- `assets/Export_Audio_LaptopB/` (Folder siap pakai dengan `copy_to_unity.bat`)
+- `assets/Export_Audio_LaptopB.zip` (~91.6 MB, arsip kompresi tunggal siap transfer)
 
 ---
 *Navigasi:* [[00 - Overview]] | [[Tasks]] | [[Devlog]] | [[laptop-a/gameplay-mechanics/mekanisme_tantangan_desa]] | [[laptop-a/handoff-laptop-b/prompt_eksekusi_sistem_audio_laptop_b]]
