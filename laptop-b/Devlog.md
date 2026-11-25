@@ -13,6 +13,28 @@ updated: 2026-11-25
 
 ---
 
+## 2026-11-25 — Integrasi Model 3D Naga Fanamir Terbaru & Sinkronisasi Penuh 20 Pose Prosedural Studio `v15`
+
+- **Konteks & Paket Sumber:** Mengekstrak `assets/Export_DragonModel_Anim20_LaptopB.zip` (`Dragon_Model.fbx` `2,408,268` B bebas skin-weight bleed & 3 poligon asimetris dorsal kepala diperbaiki, `UNITY_20_POSES_REFERENCE.cs.txt`, dan `Reference_AnimStudio/studio.js` `v15`).
+- **Langkah 1 — Pembaruan FBX & Remap Material URP (`Dragon_Model.fbx`, `M_Dragon_Chest_Crystal.mat`):**
+  - Mencadangkan FBX lama ke `assets/archives/Dragon_Model_backup_pre_anim20.fbx` dan menimpa `AR Dragon Sky Guardian/Assets/Assets 3D/Dragon_Model.fbx` tanpa menghapus `.meta`.
+  - Memverifikasi 47 tulang `ARM_Dragon`, 13 `SkinnedMeshRenderer` (`updateWhenOffscreen = true`), 12 material URP Lit, soket `DragonVfxController` (`Head`, `Wing_Finger_Outer.L/R`, seluruh 6 emitter aktif), serta `localPosition = (0, -0.7937, 0.6985)` & `localScale = (1.25, 1.25, 1.25)`.
+  - Mengekstrak & meremap `Assets/Assets 3D/Materials/M_Dragon_Chest_Crystal.mat` pada `ModelImporter` FBX dengan `_BaseColor = (0.18, 0.86, 1.0)` dan `_EmissionColor = (0.15, 0.85, 1.35)` (`_EMISSION` aktif) sehingga permata dada menyala biru-cyan di seluruh scene.
+- **Langkah 2 & 3 — Konversi `FromStudioEulerXYZ` & Sinkronisasi 20 Pose (`50 -> 55 -> 60`):**
+  - **`DragonWingAnimator.cs` (`[DefaultExecutionOrder(50)]`):** Menambahkan `DragonPoseMode` (20 pose + Rest), `FromStudioEulerXYZ(x, y, z)`, dan seluruh regime sayap Studio `v15` di atas basis rest pose FBX native (`#01..#03` lipat samping, `#04/#06/#06B` lag + modulasi CV per-sisi, `#05/#08` airfoil datar simetris, `#07` Y-Dihedral `+32°/+12°`, `#09A` flutter `1.4 Hz`, `#09B` kompak semi-L, `#10` Low-A `-28°/-14°`, `#11` Y-Dive, `#12` W-Pose datar horizontal, `#13` Z-fold zero-twist, `#14` orbit 3D butterfly `1.4 Hz`, `#15A` sapuan badai Zephyria `0.95 Hz`, `#15B` hover stabilizer `1.2 Hz`, `#15B-1` Water Siphon `1.3 Hz`, `#15C` Double I-Pose `"11"` `72°`).
+  - **`DragonBodyAnimator.cs` (`[DefaultExecutionOrder(55)]`):** Menyelaraskan `Root` tanpa *double-pitch* terhadap `Visual_Dragon` (`studioRootPitch - flightPitch`), osilasi/surge aditif pada `Visual_Dragon` (`walk +0.018m`, `hover ±0.07m`, `takeoff ±0.07m`, `siphon ±0.035m`, `dash Y+0.08m/Z+0.09m`), `Spine_01/02`, *Quadruped Diagonal Trotting Gait* (`1.25 Hz` + proyeksi paha sagital), 5 regime kaki udara (termasuk `#15A Zephyria` kaki depan terlipat sedang & `#15C Solaria` cakar menyentuh permata dada), ekor counter-balance `+X` + undulation + kemudi berjenjang (`15/30/55/75/100%`), serta rahang (`MOUTH_OPEN`, `VictoryRoar`, `WaterBreath -30°`, & `WaterSiphon sipJaw -14°..-21°`).
+  - **`DragonHeadLookController.cs` (`[DefaultExecutionOrder(60)]`):** Mengimplementasikan `ApplyUniversalHeadNeck` distribusi `25%/35%/40%` beserta proyeksi Yaw/Roll dan mode terkunci `#13`, `#14`, `#15A`, `#15B`, `#15B-1 Water Siphon` (`-56° / -24° / +38°` + `drinkBob`), dan `#15C Solaria`.
+  - **`LiveDragonPreviewController.cs` & `VillageZoneController.cs`:** Menghubungkan `DragonBodyAnimator` penuh 47 tulang pada layar Kalibrasi UI `RenderTexture` dan menyinkronkan `ActiveVillagePoseMode` (`WaterSiphon` aktif sepanjang Auto-Hover Danau Pyrewood hingga `100%` Auto-Release, `WaterBreath` saat menyembur api, `Zephyria` saat kepakan kabut, `Solaria` saat Double-I Pose).
+- **Hasil Verifikasi Play Mode (`Unity 6000.3.7f1`, `0` errors, `0` warnings):**
+  - **`DragonAnimationVerificationRunner` (`MainIsland_Gameplay.unity`):** `ALL 20-POSE DRAGON ANIMATION CHECKS PASSED (100%)` — memverifikasi `Walk` (`spanZ=0.67`), `Jaw` (`0.0 / -14.0 / -30.0 / roar=-25.0`), `Tail` (`right tip=20.0/root=3.0, left tip=-20.0, undulation=80.1`), `TuckDive`, `FlyUp`, `W-Pose`, `PropellerDash` 3D orbit (`spanZ=0.77, spanY=1.37`), `Hover` (`chest=+13.6°, bobSpan=0.14m, thigh=12°`), `Zephyria`, `WaterSiphon` (`headY=-0.77`), `WaterBreath`, dan `Solaria` (`wingUpY=0.91, pawGemDist=0.47`).
+  - **`MomentumFlightVerificationRunner`:** `ALL MOMENTUM & FLIGHT PHYSICS CHECKS PASSED (100%)`.
+  - **`Session4VerificationRunner`:** `ALL SESSION 4 VILLAGE, SUB-MARKER, AUTO-HOVER, ESCAPE, BILLBOARD & UI ISOLATION CHECKS PASSED (100%)` (termasuk `WaterSiphon` aktif di Danau Zephyria & reset ke `None` saat Auto-Release).
+  - **`Session5GameLoopVerificationRunner`:** `ALL SESSION 5 GAME LOOP, COUNTDOWN, NARRATIVE FREEZE, GLOBAL VITALITY STARS, UNLOCK & FINISH MODAL CHECKS PASSED (100%)`.
+  - **`Test_Dragon_Flight.unity` & `MainMenu_Lobby.unity`:** Rig `Dragon_Player` dan `LiveDragonPreviewRig` (`CalibPreviewVerify PASS | wingReady=True bodyReady=True headReady=True diveMode=TuckDive hoverMode=Hover hoverChest=14.9`) terverifikasi bersih; scene aktif dikembalikan ke `MainMenu_Lobby.unity` (Build Index `0`).
+  - **Tangkapan Layar (`docs/figures/raw_screenshots/`):** `SS_Animasi_Tahap1_HoverChest.png`, `SS_Animasi_Tahap1_FlightLegs.png`, `SS_Animasi_Dragon_JawOpen.png`, `SS_Animasi_Dragon_TailSway.png`, `SS_Anim20_WaterSiphon.png`, `SS_Anim20_Solaria.png`, `SS_Anim20_Calibration_Preview.png`.
+
+---
+
 ## 2026-11-25 — Pembaruan Sistem Audio Terpadu (Dual Dropdown BGM `1..11` & `Menu 1..6`, Quick Switcher Pill Lobby, & Heavy Whoosh Propeller Dash) ([[Implementasi Sistem Audio Fanamir]], [[laptop-a/gameplay-mechanics/arsitektur_sistem_audio]])
 
 - **Konteks & Acuan:** Mengadopsi spesifikasi terbaru [[laptop-a/gameplay-mechanics/arsitektur_sistem_audio]] dari Laptop A (`git -C brain pull`: `b1e76e8..25b52de`) setelah pembaruan paket audio `assets/Export_Audio_LaptopB.zip`.
