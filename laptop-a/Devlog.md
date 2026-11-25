@@ -4,12 +4,71 @@ tags:
   - devlog
   - laptop-a
 owner: Laptop A
-updated: 2026-11-23
+updated: 2026-11-25
 ---
 
 # 📝 Devlog — Laptop A
 
 > Catatan kronologis keputusan desain, ide, arsitektur, dan pembaruan dokumentasi dari **Laptop A**. Kembali ke [[00 - Overview]].
+
+---
+
+## 2026-11-25 — Pembersihan Skin Weight Bleed pada `Dragon_Model.blend` & `dragon_model.glb` (`v8`)
+- **Akar Masalah:** Audit bobot vertex `dragon_model.glb` menunjukkan *Automatic Weights Bleed* pada `SM_Dragon_Torso` (96–101 vertex punggung atas tertarik tulang `UpperArm_Front.*` hingga `max_w=0.943`, 111 vertex ke `Shoulder_Front.*`, 71–75 vertex ke `Wing_Shoulder.*`, serta 85–88 vertex pinggul bawah tertarik `Thigh_Hind.*` hingga `max_w=0.964`) dan `41` vertex duri (`SM_Dragon_Spikes_Details`) tertarik `Wing_Shoulder.L/R`.
+- **Solusi Permanen di Sumber Blender 5.2.3 LTS ([Dragon_Model.blend](file:///e:/Semester%205/Game/AR%20Dragon/assets/Dragon_Model.blend)):**
+  - Backup file lama disimpan di `assets/misc/Dragon_Model_backup_pre_weightfix.blend` & `assets/misc/dragon_model_backup_pre_weightfix.glb`.
+  - **`SM_Dragon_Torso` (434 vertex Blender / 726 vertex glTF):** Menghapus seluruh vertex group kaki & sayap; menghitung ulang bobot simetris halus (`Gaussian sigma=0.14` + `2x Laplacian smoothing`, max 4 tulang/vertex, normalisasi `1.0`) **eksklusif** ke 5 tulang poros tubuh (`Tail_01`, `Pelvis`, `Spine_01`, `Spine_02`, `Neck_01`).
+  - **`SM_Dragon_Spikes_Details`:** Menghapus `Wing_Shoulder.L/R` dan menormalisasi ulang seluruh bobot sisa.
+  - Ekspor ulang ke [dragon_model.glb](file:///e:/Semester%205/Game/AR%20Dragon/dragon_anim_studio/dragon_model.glb) (`1,420,788` bytes, `47` tulang identik dengan deviasi rest transform `0.00e+00`).
+- **Sinkronisasi & Verifikasi:**
+  - Memperbarui cache buster di [studio.js](file:///e:/Semester%205/Game/AR%20Dragon/dragon_anim_studio/studio.js) (`./dragon_model.glb?v=20261125_weightfix`), [index.html](file:///e:/Semester%205/Game/AR%20Dragon/dragon_anim_studio/index.html) (`studio.js?v=20261125_v8`), `node --check` exit code `0`, dan Graphify AST.
+  - Verifikasi visual browser (`http://localhost:8088/`) pada `#08 Cruise Glide` (*Top View*, *Side View*, *3/4 Diagonal*), `#06 Flap Climb`, dan `#02 Walk` mengonfirmasi `0` error console serta hilangnya 100% *stretching* punggung dan pangkal pinggul.
+
+---
+
+## 2026-11-25 — Revisi `v7` Anatomi Kaki Flight & Hover/Takeoff (`dragon_anim_studio/`)
+- **Diagnosis Masalah pada `v6` (`final_step_145.png`):**
+  1. **Kaki Depan Flight (`v6`):** Nilai `Forearm_Front = -55°` memicu *hyperextension* siku ke belakang (paku siku terbalik menghadap ke depan-bawah, lengan lurus kaku ke belakang).
+  2. **Kaki Belakang Flight (`v6`):** Sudut sagital paha `60°` mengangkat `Shin_Hind` melewati garis horizontal ke atas sehingga menjepit mesh pinggul dan menempel kaku sejajar ekor.
+  3. **Kaki Hover/Takeoff (`v6`):** `Forearm_Front = -22°` terlalu kaku ke bawah dan `posY = 0.36` pada `#04 Takeoff` masih cukup dekat ke lantai grid `y=0`.
+- **Perbaikan FK Anatomis Terkalibrasi (`studio.js?v=20261124_v7`):**
+  - **Streamlined Flight Forelegs:** Lipatan anatomis alami di bawah dada (`UpperArm_Front +60°`, `Forearm_Front +72°`, `Paw_Front -102°`) — siku menekuk wajar ke depan tanpa *hyperextension* dan tanpa klip ke dada.
+  - **Streamlined Flight Hindlegs:** Aliran diagonal menurun aerodinamis di bawah ekor (`Thigh_Hind (-33.3°, ±0.3°, ±32.5°)` $\approx 46^\circ$ sagital $+ 4^\circ$ adduksi masuk, `Shin -14°`, `Metatarsus -48°`, `Foot -68°`) dengan celah udara jelas di bawah ekor serta orientasi paku betis alami.
+  - **Hover / Takeoff Legs & `#04 Takeoff` Clearance:** Memperhalus kelenturan gantung rileks (`UpperArm +16°`, `Forearm +14°`, `Paw -52°`; `Thigh (-9.4°, ±1.9°, ±7.7°)`, `Shin -4°`, `Metatarsus -18°`, `Foot -55°`) dan menaikkan `posY` dasar `#04 Takeoff` dari `0.36` ke `0.48`.
+  - **Sinkronisasi Penuh:** Blok C# Unity pada `generateUnityCSharpSnippet()` dan cache buster `index.html` (`studio.js?v=20261124_v7`) diperbarui serempak.
+- **Verifikasi:**
+  - `node --check dragon_anim_studio/studio.js` exit code `0`.
+  - Browser subagent (`http://localhost:8088/`) mengonfirmasi `v7` termuat (`200`), `0` console error, `#08 Cruise Glide` (*Side 90°, Front, 3/4 Diagonal*) bebas *elbow hyperextension* dan bebas tabrakan ekor/pinggul, serta `#04 Takeoff` tetap aman di atas lantai grid `y=0`.
+
+---
+
+## 2026-11-25 — Revisi Kritis Sesi 2 Animasi Three.js: Perbaikan Kaki Terbang, Sayap Datar-Maju, & `#05 Lean` Lurus (`dragon_anim_studio/`)
+- **Diagnosis & Resolusi 3 Masalah Kritis Umpan Balik Pengguna:**
+  1. **Pose Kaki Terbang & Hover (`Ref_Dragon_Flight_Leg_Anatomy.jpg` & `Ref_Dragon_Hover_Leg_Anatomy.jpg`):**
+     - *Akar Masalah Sebelumnya:* Sudut lama `Thigh_Hind (-32, 0, ±90)` menyebabkan paha mengangkang `±62 cm` ke samping dan melayang di atas ekor, sementara `Forearm_Front (+105)` membuat lengan depan mencuat ke depan dada seperti tangan T-Rex. Pada mode *Hover/Takeoff*, `Forearm_Front (-65)` membalik kaki depan ke belakang.
+     - *Solusi FK Terkalibrasi:*
+       - **Streamlined Flight Legs:** Kaki depan dilipat rapat ke belakang di bawah dada (`UpperArm 38°, Forearm -55°, Paw -45°`); kaki belakang menggunakan rotasi sagital murni `Thigh_Hind (-40.5°, ∓0.2°, ±45.2°)`, `Shin (0°)`, `Metatarsus (-45°)`, `Foot (-70°)` sehingga memanjang lurus rapat sejajar pangkal ekor tanpa *frog splay*.
+       - **Hover / Takeoff Legs:** Kaki depan menggantung santai ke bawah (`UpperArm 6°, Forearm -22°, Paw -35°`); kaki belakang menjuntai alami ke bawah pinggul menggunakan proyeksi sagital (`Thigh -10°`, `Shin +16°`, `Metatarsus -22°`, `Foot -38°`).
+  2. **Orientasi Sayap Datar & Maju (`applyFlightWing()` & `csFlightWingBlock()`):**
+     - Menurunkan pergelangan sayap dan memutar tepi depan (*leading edge*) lebih maju-datar (`Wing_Shoulder (4°, ±34°, ∓20°)`, `Wing_Forearm (-10°, 0°, ∓8°)`, `Wing_Finger 24/22/20/12°` & `±14/10/6/0°`) membentuk siluet *airfoil* horizontal bersih (tidak mendongak curam ke atas). Diterapkan konsisten ke `#04`, `#05`, `#06`, `#06B`, `#07` (dihedral `+43.8°`), dan `#08`.
+  3. **`#05 Lean & Turn` Badan & Sayap Lurus:**
+     - Menghapus pembengkokan tulang belakang, leher, ekor rudder, dan asimetri sayap; kini `#05 Lean` menggunakan badan 100% lurus dan sayap simetris datar dengan *banking roll* murni (`Root: ry = -30°`).
+- **Sinkronisasi & Verifikasi:**
+  - Memperbarui [studio.js](file:///e:/Semester%205/Game/AR%20Dragon/dragon_anim_studio/studio.js) (`generateUnityCSharpSnippet()`), cache buster [index.html](file:///e:/Semester%205/Game/AR%20Dragon/dragon_anim_studio/index.html) (`studio.js?v=20261124_v6`), dan Graphify AST (`26 nodes, 40 edges, 5 communities`).
+  - `node --check` exit code `0`, dan browser subagent (`http://localhost:8088`) + inspeksi visual langsung screenshot `3/4 Diagonal View` `#08 Cruise Glide` mengonfirmasi `0` error console, kaki terbang terlipat rapat di bawah dada & sejajar ekor, sayap datar-maju aerodinamis, `#05 Lean` lurus simetris, serta kaki `#04 Takeoff` menjuntai alami ke bawah.
+
+---
+
+## 2026-11-24 — Eksekusi Sesi 2 Animasi Three.js Studio: Core Flight & Climb (`dragon_anim_studio/`)
+- **Penyempurnaan 6 Pose Core Flight & Climb (`#04`, `#05`, `#06`, `#06B`, `#07`, `#08`):**
+  - **`#04 Takeoff`:** Mengubah `tailCurve` ke `+6°` agar ekor melengkung halus ke atas, menyinkronkan *downstroke lift heave* `posY`/`rootPitch` @ `1.6 Hz`, menerapkan *counter-leveling* kepala (`-0.68 × (bodyPitch + chestElev)`), serta memperhalus fase lag lengan dan ujung jari sayap pada kepakan kuat `±45°`.
+  - **`#05 Lean & Turn` (Banking Turn Kiri):** Memperbaiki orientasi sumbu `Root` (`ry = -30°` bank kiri, `rz = +12°` yaw kiri), `Spine_01/02` yaw pada sumbu `Z` (`+8° / +10°`), ekor rudder pada sumbu `Z` (`-tailCurve * 0.25..1.05` membentuk busur C mulus ke kiri dari *Top View*), kepala menoleh masuk ke belokan (`+18°` yaw) dengan *counter-leveling* horizon (`+10°` roll), dan sayap asimetris (`-20°` kiri / `+35°` kanan).
+  - **`#06 Flap Climb` & `#06B Steep Climb`:** Menambahkan *downstroke lift heave* sinkron dengan frekuensi kepakan (`1.2 Hz` / `2.2 Hz`), *forearm & tip flex lag*, dan *counter-leveling* kepala (`-0.65×` pada `#06`, `-0.80×` chin-up skyward pada `#06B`). Memperbaiki `steep` `tailCurve` menjadi `+4°` agar ekor sejajar garis menanjak `+40°` dan memindahkan gelombang cruising ekor `#06` ke sumbu `Z`.
+  - **`#07 Fly Up (Y-Glide)`:** Mengkalibrasi sudut sayap ke `Wing_Shoulder (28, ±6, ±10)` + `Wing_Forearm (6, 0, ±4)` agar membentuk dihedral huruf `Y` simetris `~+43°` (dari sebelumnya terlalu vertikal `64.2°`), menghapus `flyup` dari cabang ekor `hover` (`-tailCurve`), dan menerapkan *counter-leveling* kepala `-0.90×` agar pandangan menghadap depan-atas secara natural.
+  - **`#08 Cruise Glide (T-Pose)`:** Menjaga bentangan horizontal `180°` dengan sweep-back aerodinamis (`±10°` sumbu `Z`) dan gelombang cruising ekor horizontal di sumbu `Z`.
+- **Sinkronisasi C# Unity & Verifikasi:**
+  - Memperbarui `generateUnityCSharpSnippet()` (`csHeadBlock()`, blok `Root`/`Spine`/`Neck`/`Legs`/`Tail`/`Wings` untuk seluruh 6 pose Sesi 2) serta *cache buster* `index.html` ke `studio.js?v=20261124_v5`.
+  - Verifikasi `node --check` exit code `0`, dan pengujian visual browser subagent di `http://localhost:8088` melaporkan `0` error console, C-arc belokan kiri `#05` selaras di *Top View*, dihedral `Y` `#07` proporsional di *Front View*, serta ekspor C# Unity `#05` & `#07` valid.
 
 ---
 
