@@ -4,12 +4,29 @@ tags:
   - devlog
   - laptop-b
 owner: Laptop B
-updated: 2026-11-24
+updated: 2026-11-25
 ---
 
 # 🛠️ Devlog — Laptop B
 
 > Catatan kronologis pengembangan kode, debugging, pengujian Unity/Python, dan hasil build dari **Laptop B**. Kembali ke [[00 - Overview]].
+
+---
+
+## 2026-11-25 — Penghapusan Section Kalibrasi/Kamera pada Settings (`PF_SettingsPanel.prefab`, `SettingsPanelUI.cs`, `LobbyNavigationManager.cs`)
+
+### Perubahan yang Diimplementasikan
+1. **`SettingsPanelUI.cs` (`Assets/_Scripts/UI/SettingsPanelUI.cs`):**
+   - Menghapus `using DragonWingAR.CV;`, field `[SerializeField] private CameraControlModuleUI cameraModule;`, serta pemanggilan `cameraModule.SetPoseReceiver(...)` pada `OnEnable()`.
+2. **`UISceneAndPrefabBuilder.cs` (`Assets/Editor/UISceneAndPrefabBuilder.cs`) & `PF_SettingsPanel.prefab`:**
+   - Menghapus parameter `pfCamModule`, seksi `CameraModulePlaque` (`CAMERA INPUT & AI YOLO`, instance `CameraControlModuleUI`, dan `CameraHintPanel`), serta binding properti `cameraModule` di `BuildSettingsPanelPrefab()`.
+   - Menyesuaikan tinggi `SettingsCard` dari `960×720 px` (`y = -18`) menjadi `960×496 px` (`y = -10`) agar proporsional membungkus 5 baris slider (`Master Volume`, `BGM Volume`, `SFX Volume`, `Turn Sensitivity`, `Text Auto-Next`) dan tombol `APPLY & CLOSE` (`y = 20`), lalu membangun ulang `Assets/Prefabs/UI/PF_SettingsPanel.prefab` (otomatis terpropagasi ke `MainMenu_Lobby.unity` dan `PF_PauseModal.prefab`).
+3. **`LobbyNavigationManager.cs` (`Assets/_Scripts/UI/LobbyNavigationManager.cs`):**
+   - Mengarahkan klik `navCamBadgeButton` di navbar tab Missions ke `LobbyTab.Calibration` (sebelumnya `LobbyTab.Settings`) dan mengubah teks badge error menjadi `"CAM ERROR · BUKA CALIBRATION"`.
+
+### Hasil Verifikasi Play Mode (`Unity 6000.3.7f1`)
+- **`MainMenu_Lobby.unity` (Tab Settings):** `SettingsCard` tampil bersih dengan 5 baris slider + `APPLY & CLOSE` (`CameraModulePlaque` tidak ada), klik `NavCamBadge` berpindah ke `Calibration`, klik `APPLY & CLOSE` berpindah ke `Missions` (`0` console errors, `0` console warnings).
+- **`MainIsland_Gameplay.unity` (Pause -> Settings):** `Pause_SettingsSubPanel` (`960×496`, 5 slider, `hasCamPlaque=False`) terbuka dan tertutup normal saat `APPLY & CLOSE` ditekan (`0` console errors, `0` console warnings). Scene aktif dikembalikan ke `MainMenu_Lobby.unity`.
 
 ---
 
