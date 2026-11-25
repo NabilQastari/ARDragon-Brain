@@ -32,6 +32,13 @@ updated: 2026-11-25
   - **`Session5GameLoopVerificationRunner`:** `ALL SESSION 5 GAME LOOP, COUNTDOWN, NARRATIVE FREEZE, GLOBAL VITALITY STARS, UNLOCK & FINISH MODAL CHECKS PASSED (100%)`.
   - **`Test_Dragon_Flight.unity` & `MainMenu_Lobby.unity`:** Rig `Dragon_Player` dan `LiveDragonPreviewRig` (`CalibPreviewVerify PASS | wingReady=True bodyReady=True headReady=True diveMode=TuckDive hoverMode=Hover hoverChest=14.9`) terverifikasi bersih; scene aktif dikembalikan ke `MainMenu_Lobby.unity` (Build Index `0`).
   - **Tangkapan Layar (`docs/figures/raw_screenshots/`):** `SS_Animasi_Tahap1_HoverChest.png`, `SS_Animasi_Tahap1_FlightLegs.png`, `SS_Animasi_Dragon_JawOpen.png`, `SS_Animasi_Dragon_TailSway.png`, `SS_Anim20_WaterSiphon.png`, `SS_Anim20_Solaria.png`, `SS_Anim20_Calibration_Preview.png`.
+- **Perbaikan Hotfix Render Graph Effekseer (`EffekseerNormalTextureGuard.cs`):**
+  - **Akar Masalah:** Saat menguji Play Mode secara manual (`15:31:15`), `EffekseerRendererUnity.ApplyTextures` (baris `1628`, slot `_uvDistortionTex` untuk efek `AdvancedUnlit` seperti `VFX_Flight_SonicDashShockwave`) melempar `ArgumentNullException: Value cannot be null` + `Render Graph Execution error` karena `EffekseerSystem.normalTexture` merupakan `Texture2D` statis tanpa `HideFlags.HideAndDontSave` dan tidak dibuat ulang secara *lazy* bila hilang/dihancurkan (Domain Reload, transisi Play Mode, atau pembersihan aset).
+  - **Solusi Permanen di `Assets/`:** Menambahkan `AR Dragon Sky Guardian/Assets/_Scripts/Controllers/EffekseerNormalTextureGuard.cs` (`[RuntimeInitializeOnLoadMethod]` + `[InitializeOnLoadMethod]` + hook `RenderPipelineManager.beginContextRendering`) yang memeriksa & memulihkan `EffekseerSystem.normalTexture` (`16x16` flat normal `HideFlags.HideAndDontSave`) sebelum URP RenderGraph mengeksekusi pass, tanpa memodifikasi `Library/PackageCache`.
+  - **Verifikasi Pasca-Perbaikan:**
+    - *Fault-injection* (`normalTexture = null` sebelum `PlaySonicDashShockwave()`): `restoredNotNull=True, name=EffekseerNormalTexture, hideFlags=HideAndDontSave`.
+    - `VFXAtmosphereVerificationRunner` (`MainIsland_Gameplay.unity`): `ALL SESI 4B VFX, DYNAMIC FOV & BIOME ATMOSPHERE CHECKS PASSED (100%)` (seluruh 7 efek `.efkefc` aktif normal).
+    - `DragonAnimationVerificationRunner`: `ALL 20-POSE DRAGON ANIMATION CHECKS PASSED (100%)`, `consoleErrors=0`, `consoleWarnings=0`.
 
 ---
 
