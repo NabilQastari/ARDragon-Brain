@@ -20,13 +20,13 @@ updated: 2026-11-25
    - Menghapus `using DragonWingAR.CV;`, field `[SerializeField] private CameraControlModuleUI cameraModule;`, serta pemanggilan `cameraModule.SetPoseReceiver(...)` pada `OnEnable()`.
 2. **`UISceneAndPrefabBuilder.cs` (`Assets/Editor/UISceneAndPrefabBuilder.cs`) & `PF_SettingsPanel.prefab`:**
    - Menghapus parameter `pfCamModule`, seksi `CameraModulePlaque` (`CAMERA INPUT & AI YOLO`, instance `CameraControlModuleUI`, dan `CameraHintPanel`), serta binding properti `cameraModule` di `BuildSettingsPanelPrefab()`.
-   - Menyesuaikan tinggi `SettingsCard` dari `960×720 px` (`y = -18`) menjadi `960×496 px` (`y = -10`) agar proporsional membungkus 5 baris slider (`Master Volume`, `BGM Volume`, `SFX Volume`, `Turn Sensitivity`, `Text Auto-Next`) dan tombol `APPLY & CLOSE` (`y = 20`), lalu membangun ulang `Assets/Prefabs/UI/PF_SettingsPanel.prefab` (otomatis terpropagasi ke `MainMenu_Lobby.unity` dan `PF_PauseModal.prefab`).
+   - Menyesuaikan tinggi `SettingsCard` dari `960×720 px` (`y = -18`) menjadi `960×520 px` (`y = -10`) dan memberi jarak bawah `y = 42` pada tombol `APPLY & CLOSE` (gap `36 px` di bawah slider ke-5 & bersih di atas bingkai dalam kartu), lalu membangun ulang `Assets/Prefabs/UI/PF_SettingsPanel.prefab` (otomatis terpropagasi ke `MainMenu_Lobby.unity` dan `PF_PauseModal.prefab`).
 3. **`LobbyNavigationManager.cs` (`Assets/_Scripts/UI/LobbyNavigationManager.cs`):**
    - Mengarahkan klik `navCamBadgeButton` di navbar tab Missions ke `LobbyTab.Calibration` (sebelumnya `LobbyTab.Settings`) dan mengubah teks badge error menjadi `"CAM ERROR · BUKA CALIBRATION"`.
 
 ### Hasil Verifikasi Play Mode (`Unity 6000.3.7f1`)
-- **`MainMenu_Lobby.unity` (Tab Settings):** `SettingsCard` tampil bersih dengan 5 baris slider + `APPLY & CLOSE` (`CameraModulePlaque` tidak ada), klik `NavCamBadge` berpindah ke `Calibration`, klik `APPLY & CLOSE` berpindah ke `Missions` (`0` console errors, `0` console warnings).
-- **`MainIsland_Gameplay.unity` (Pause -> Settings):** `Pause_SettingsSubPanel` (`960×496`, 5 slider, `hasCamPlaque=False`) terbuka dan tertutup normal saat `APPLY & CLOSE` ditekan (`0` console errors, `0` console warnings). Scene aktif dikembalikan ke `MainMenu_Lobby.unity`.
+- **`MainMenu_Lobby.unity` (Tab Settings):** `SettingsCard` (`960×520`, tombol `Btn_ApplyAndClose` `y = 42`) tampil bersih dengan 5 baris slider + `APPLY & CLOSE` (`CameraModulePlaque` tidak ada), klik `NavCamBadge` berpindah ke `Calibration`, klik `APPLY & CLOSE` berpindah ke `Missions` (`0` console errors, `0` console warnings).
+- **`MainIsland_Gameplay.unity` (Pause -> Settings):** Diverifikasi saat `SettingsCard` `960×496` (`Pause_SettingsSubPanel`, 5 slider, `hasCamPlaque=False`) terbuka dan tertutup normal saat `APPLY & CLOSE` ditekan (`0` console errors, `0` console warnings), dan mewarisi pembaruan `PF_SettingsPanel.prefab` (`960×520`). Scene aktif dikembalikan ke `MainMenu_Lobby.unity`.
 
 ---
 
