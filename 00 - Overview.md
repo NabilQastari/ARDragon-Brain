@@ -76,6 +76,7 @@ updated: 2026-11-19
 - [[laptop-a/cv-control/prompt_visual_pose_cv_kerangka|prompt_visual_pose_cv_kerangka]] — Prompt generator visual pose titik & kerangka CV (piktogram siluet resmi).
 
 #### ✨ Visual & VFX (`laptop-a/visual-vfx/`)
+- [[laptop-a/visual-vfx/spesifikasi_dynamic_wings_dan_head_tracking|spesifikasi_dynamic_wings_dan_head_tracking]] — Spesifikasi final sistem sayap dinamis Dual-Track (Jalur A 1:1 vs Jalur B Locked + Wing Overdrive Steer), pelacakan kepala 3-sumbu (leher 25/35/40% + camera peek 10%), dan transfer trotting/propeller dari Three.js Studio.
 - [[laptop-a/visual-vfx/rencana_skill_vfx_effekseer_laptop_b|rencana_skill_vfx_effekseer_laptop_b]] — Panduan & rencana instalasi skill `kanaworksai-hue/effekseer-vfx-skill` (Effekseer Unity 6 URP) untuk pembuatan VFX pemulihan 3 desa & penerbangan Fanamir di Laptop B.
 - [[laptop-a/visual-vfx/planning_vfx_fov_skybox_dan_animasi|planning_vfx_fov_skybox_dan_animasi]] — Perencanaan terpadu sistem VFX Effekseer, Dynamic FOV ($60^\circ–85^\circ$), Skybox adaptif 3 Biome, & blueprint animasi Fanamir.
 - [[laptop-a/visual-vfx/prompt_eksekusi_vfx_skybox_dan_fov_laptop_b|prompt_eksekusi_vfx_skybox_dan_fov_laptop_b]] — Master prompt dan panduan eksekusi teknis bagi Laptop B untuk mengimplementasikan Paket Visual Sesi 4B (VFX Effekseer, Dynamic FOV 60°–85°, & Skybox Dinamis 3 Biome).
@@ -94,6 +95,8 @@ updated: 2026-11-19
 - [[laptop-a/handoff-laptop-b/prompt_eksekusi_graphify_laptop_b|prompt_eksekusi_graphify_laptop_b]] — Master prompt instruksi siap salin bagi Laptop B untuk menginstal `graphifyy`, mengekstrak AST C# & Python, dan memverifikasi integrasi graf di Obsidian.
 - [[laptop-a/handoff-laptop-b/panduan_screenshot_mandiri_dan_laporan|panduan_screenshot_mandiri_dan_laporan]] — Panduan bagi Laptop B untuk melakukan *screenshot* mandiri otomatis (Unity C#, Python CV, OS-level) dan menampungnya di `docs/figures/raw_screenshots/` sebagai bahan pembaruan Laporan Capstone.
 - [[laptop-a/handoff-laptop-b/prompt_eksekusi_sistem_audio_laptop_b|prompt_eksekusi_sistem_audio_laptop_b]] — Master prompt instruksi siap salin bagi Laptop B untuk mengimpor aset audio (8 BGM + 22 SFX), menyusun AudioMixer, mengimplementasikan `AudioManager.cs`, dan menghapus penanda `// TODO [SYNC-AUDIO]`.
+- [[laptop-a/handoff-laptop-b/prompt_eksekusi_animasi_final_laptop_b|prompt_eksekusi_animasi_final_laptop_b]] — Master prompt instruksi siap salin bagi Laptop B untuk mengimplementasikan Dual-Track Dynamic Wings, pelacakan kepala 3-sumbu, kamera melirik, dan siklus trotting kaki di Unity C# & Python CV.
+- [[laptop-a/handoff-laptop-b/prompt_eksekusi_model_dan_animasi_20_pose_laptop_b|prompt_eksekusi_model_dan_animasi_20_pose_laptop_b]] — Master prompt & paket ZIP `Export_DragonModel_Anim20_LaptopB.zip` (model `Dragon_Model.fbx` 47 tulang bebas *weight bleed/stretching* & dorsal kepala mulus + helper `FromStudioEulerXYZ` & referensi C# seluruh 20 pose `v15` termasuk `#15B-1 Water Siphon`) untuk eksekusi di Laptop B.
 
 ### Eksekusi & Pengembangan Program ([[laptop-b/Tasks|Laptop B]])
 - [[laptop-b/Tasks]] & [[laptop-b/Devlog]] — Pelacakan tugas implementasi kode, integrasi Unity/Python, & log pengujian Laptop B.

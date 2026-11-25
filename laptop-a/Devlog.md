@@ -13,6 +13,36 @@ updated: 2026-11-25
 
 ---
 
+## 2026-11-25 — Pembakuan Spesifikasi & Master Prompt Animasi Final (Dynamic Wings Dual-Track & Dynamic Head 3-Sumbu) ([[spesifikasi_dynamic_wings_dan_head_tracking]], [[prompt_eksekusi_animasi_final_laptop_b]])
+- **Keputusan Desain & Arsitektur Bersama Pengguna:**
+  - **Dynamic Wings (Dual-Track System):**
+    - Memisahkan kendali 12 tulang sayap menjadi **Jalur A (1:1 Mengikuti Tangan Bebas)** untuk `Glide (#08)`, `Fly Up (#07)`, `Flap (#06)`, dan `Hover (#09A/#09B)`.
+    - **Jalur B (Preset Terkunci)** untuk `Tuck Dive (#13)`, `Propeller Dash (#14)`, `Gentle Descent (#10)`, `W-Pose (#12)`, `Idle (#01)`, dan `Aksi Desa (#15A..C)`.
+    - Membakukan logika kemudi: kemiringan bahu (*shoulder lean*) tetap menjadi kemudi utama; selisih tinggi sayap $|\Delta Y|$ di bawah ambang batas ($18^\circ$ / $0.15$) hanya menggerakkan visual sayap, namun jika sayap dibuat miring tajam melebihi ambang batas, selisih sayap akan otomatis menyuntikkan kemudi tambahan (*Wing Overdrive Steer*).
+  - **Dynamic Head Movement (Pelacakan Wajah 3-Sumbu):**
+    - Mengintegrasikan Pitch ($\pm 25^\circ$), Yaw ($\pm 35^\circ$), dan Roll ($\pm 15^\circ$) wajah pemain dengan distribusi bertingkat ke 3 tulang leher: `Neck_01` ($25\%$), `Neck_02` ($35\%$), dan `Head` ($40\%$).
+    - Kamera utama penerbangan mengikuti arah menoleh kepala naga secara halus sebesar $10\text{--}12\%$ (*camera peek*).
+    - Pada manuver kecepatan tinggi (`Tuck Dive` dan `Propeller Dash`), kepala naga mengunci lurus ke depan secara aerodinamis (Opsi A).
+  - **Sinkronisasi Kode Animasi Three.js Studio:**
+    - Memindahkan matematika trotting kaki di tanah (`computeTrottingLegAngles`) dan kepakan badai Propeller Dash $3.8\text{ Hz}$ (`evaluatePropellerDashStroke`) dari `dragon_anim_studio/studio.js` ke Unity C#.
+- **Penerbitan Dokumen & Master Prompt:**
+  - Menerbitkan dokumen spesifikasi resmi di [spesifikasi_dynamic_wings_dan_head_tracking.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/visual-vfx/spesifikasi_dynamic_wings_dan_head_tracking.md).
+  - Menerbitkan master prompt instruksi siap pakai 5 langkah di [prompt_eksekusi_animasi_final_laptop_b.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/handoff-laptop-b/prompt_eksekusi_animasi_final_laptop_b.md).
+  - Memperbarui [00 - Overview.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/00%20-%20Overview.md) dan [Tasks.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/Tasks.md).
+
+---
+
+## 2026-11-25 — Pemaketan Model Naga Baru (`Dragon_Model.fbx`) & Handoff 20 Pose Animasi ke Laptop B ([[prompt_eksekusi_model_dan_animasi_20_pose_laptop_b]])
+- **Ekspor & Verifikasi `Dragon_Model.fbx` (`2,408,268` byte):**
+  - Mengekspor [Dragon_Model.blend](file:///e:/Semester%205/Game/AR%20Dragon/assets/Dragon_Model.blend) versi terbaru (`weightfix` + `texfix`) memakai preset Unity skeletal (`axis_forward='-Z'`, `axis_up='Y'`, `apply_scale_options='FBX_SCALE_ALL'`, `bake_space_transform=False`, `use_armature_deform_only=False`, `add_leaf_bones=False`, `use_triangles=True`).
+  - *Round-trip import* terverifikasi bersih: `47` tulang (`ARM_Dragon` lengkap dengan `Root`), `13` mesh, skala `(1.0, 1.0, 1.0)`, material kepala ter-triangulasi `{0: 624, 1: 178}`.
+- **Pembuktian Konversi Koordinat & Paket `Export_DragonModel_Anim20_LaptopB.zip` (`1,817,423` byte):**
+  - Memverifikasi kesamaan sumbu lokal tulang antara `.glb` dan `.fbx` (`max_axis_diff = 0.0000`) serta membuktikan konversi `FromStudioEulerXYZ(x, y, z)` (`Quaternion.AngleAxis(x, right) * AngleAxis(-y, up) * AngleAxis(-z, forward)`) dengan error matriks `0.00e+00` terhadap `THREE.Euler(..., 'XYZ')`.
+  - Menghasilkan [UNITY_20_POSES_REFERENCE.cs.txt](file:///e:/Semester%205/Game/AR%20Dragon/assets/Export_DragonModel_Anim20_LaptopB/UNITY_20_POSES_REFERENCE.cs.txt) (`105,582` B) berisi cuplikan C# terkonversi untuk **seluruh 20 Pose Resmi + Rest Pose** (`#01..#15C` + `#15B-1 Water Siphon`), melengkapinya dengan `Reference_AnimStudio/`, `copy_dragon_to_unity.bat`, dan `README_LAPTOP_B.md`, lalu mengompres ke [Export_DragonModel_Anim20_LaptopB.zip](file:///e:/Semester%205/Game/AR%20Dragon/assets/Export_DragonModel_Anim20_LaptopB.zip).
+  - Menerbitkan master prompt siap salin di [prompt_eksekusi_model_dan_animasi_20_pose_laptop_b.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/handoff-laptop-b/prompt_eksekusi_model_dan_animasi_20_pose_laptop_b.md).
+
+---
+
 ## 2026-11-25 — Perbaikan Material Dorsal Stripe Atas Kepala Model Naga Fanamir (`texfix` / `v15`)
 - **Akar Masalah ([Dragon_Model.blend](file:///e:/Semester%205/Game/AR%20Dragon/assets/Dragon_Model.blend)):** Model Fanamir menggunakan slot material per-*face* (`0: M_Dragon_Body_Teal`, `1: M_Dragon_Dorsal_DarkTeal`). Seluruh bagian leher, badan, dan ekor sudah `0` pasangan asimetris, tetapi `SM_Dragon_Head` (`107` poligon dorsal) memiliki **3 poligon salah material** yang memutus kolom loop kuad dorsal (`polygons[80]` & `polygons[83]` tertinggal di `M_Dragon_Body_Teal`, serta `polygons[16]` asimetris di `M_Dragon_Dorsal_DarkTeal`).
 - **Perbaikan & Ekspor Ulang ([Dragon_Model.blend](file:///e:/Semester%205/Game/AR%20Dragon/assets/Dragon_Model.blend) → [dragon_model.glb](file:///e:/Semester%205/Game/AR%20Dragon/dragon_anim_studio/dragon_model.glb)):**
