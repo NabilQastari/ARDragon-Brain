@@ -13,6 +13,25 @@ updated: 2026-11-25
 
 ---
 
+## 2026-11-25 — Perombakan 5 VFX + Penambahan 3 VFX Baru (Pilar 1) di Three.js Studio (`v22`) & Spesifikasi Brain ([[spesifikasi_revisi_vfx_pilar_1]])
+- **Peningkatan Engine `dragon_anim_studio/vfx_player.js`:**
+  - Menambahkan `RibbonTrailInstance` (triangle-strip menghadap kamera dengan *tapering* lebar ujung-ke-ekor dan *wind drift*) untuk merender pita angin sayap secara mulus.
+  - Menambahkan dukungan `travel.converge_to_origin` agar partikel hisapan air menyatu tepat menuju titik mulut naga.
+- **Perombakan 5 Resep VFX & 3 Resep Baru (`dragon_anim_studio/vfx/recipes/`):**
+  1. `VFX_Zephyria_WindGust.json` *(Reworked)*: Mengganti tebasan sabit dengan 4 pita angin tipis, 28 garis *wind shear*, pusaran eddy udara, dan partikel debu bercahaya.
+  2. `VFX_Lake_WaterSiphon.json` *(Reworked)*: Menghilangkan silinder beam tebal dan menggantinya dengan aura uap air bercahaya lembut.
+  3. `VFX_Lake_MouthIntake.json` *(Baru)*: Aliran energi air dan butiran berkilau terhisap masuk ke mulut terbuka (`Head`).
+  4. `VFX_Solaria_CelestialDewRain.json` *(Reworked)*: Aura keemasan lebih tipis/transparan bervariasi 3 halo bertingkat, bintang kelip, cipratan rintik di tanah, dan target durasi hujan lebih lama (`12–15s` di Unity).
+  5. `VFX_Solaria_ChestGemGlow.json` *(Baru)*: Sinar permata dada `Spine_02` (`T_Flare01` + `T_Star01` + percikan).
+  6. `VFX_Pyrewood_Wildfire.json` *(Baru)*: Kebakaran hutan beranimasi *flipbook 4×4* oranye-emas, asap gelap membubung, dan bara api naik.
+  7. `VFX_Flight_SonicDashShockwave.json` *(Reworked)*: Terowongan 60 garis angin cepat mengelilingi sayap & tubuh naga.
+  8. `VFX_Flight_WingtipTrails.json` *(Reworked)*: Pita angin meruncing sejati di kedua ujung sayap (*Ribbon* + *slipstream*).
+- **Integrasi & Dokumentasi:**
+  - Mengikat seluruh 10 VFX di `studio.js` & `index.html` (`v22`, `node --check` exit 0, HTTP 200 terverifikasi).
+  - Menerbitkan [spesifikasi_revisi_vfx_pilar_1.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/visual-vfx/spesifikasi_revisi_vfx_pilar_1.md) serta memperbarui [00 - Overview.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/00%20-%20Overview.md) dan [Tasks.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/Tasks.md).
+
+---
+
 ## 2026-11-25 — Pembakuan Spesifikasi Gameplay: Batas Dunia, Tabrakan Tebing, Alur Pyrewood, Time Up Positif, & Dual Input Mode ([[spesifikasi_gameplay_boundary_dan_dual_input_mode]])
 - **Keputusan Gameplay & Sistem Bersama Pengguna:**
   - **Batas Dunia (Ocean Wind Barrier):** Pada radius $> 1100\text{ m}$ dari pusat kepulauan, pusaran angin lembut membelokkan naga halus $180^\circ$ kembali ke arah pulau dengan teks peringatan ramah: *"Angin badai laut terlalu kuat! Kembali ke kepulauan."*

@@ -77,6 +77,7 @@ updated: 2026-11-19
 - [[laptop-a/cv-control/prompt_visual_pose_cv_kerangka|prompt_visual_pose_cv_kerangka]] — Prompt generator visual pose titik & kerangka CV (piktogram siluet resmi).
 
 #### ✨ Visual & VFX (`laptop-a/visual-vfx/`)
+- [[laptop-a/visual-vfx/spesifikasi_revisi_vfx_pilar_1|spesifikasi_revisi_vfx_pilar_1]] — Spesifikasi overhaul Pilar 1 (5 VFX reworked: Zephyria angin nyata, Lake aura uap, Solaria aura bervariasi + hujan lebih lama, Propeller banyak garis angin, Wingtip pita halus; + 3 VFX baru: Mouth Intake, Chest Gem Glow, Pyrewood Wildfire).
 - [[laptop-a/visual-vfx/spesifikasi_dynamic_wings_dan_head_tracking|spesifikasi_dynamic_wings_dan_head_tracking]] — Spesifikasi final sistem sayap dinamis Dual-Track (Jalur A 1:1 vs Jalur B Locked + Wing Overdrive Steer), pelacakan kepala 3-sumbu (leher 25/35/40% + camera peek 10%), dan transfer trotting/propeller dari Three.js Studio.
 - [[laptop-a/visual-vfx/rencana_skill_vfx_effekseer_laptop_b|rencana_skill_vfx_effekseer_laptop_b]] — Panduan & rencana instalasi skill `kanaworksai-hue/effekseer-vfx-skill` (Effekseer Unity 6 URP) untuk pembuatan VFX pemulihan 3 desa & penerbangan Fanamir di Laptop B.
 - [[laptop-a/visual-vfx/planning_vfx_fov_skybox_dan_animasi|planning_vfx_fov_skybox_dan_animasi]] — Perencanaan terpadu sistem VFX Effekseer, Dynamic FOV ($60^\circ–85^\circ$), Skybox adaptif 3 Biome, & blueprint animasi Fanamir.
