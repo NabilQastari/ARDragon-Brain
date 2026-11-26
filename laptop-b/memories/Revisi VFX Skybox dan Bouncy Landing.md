@@ -58,6 +58,9 @@ Fokus utama yang diselesaikan:
 4. **Isolasi Material Skybox Runtime:**
    - `BiomeAtmosphereController.cs` membuat instance `Material` baru saat runtime (`Instantiate(skyboxMaterial)`) sehingga nilai transisi warna antar-desa tidak mengotori berkas `.mat` di disk selama sesi Play Mode.
    - Sinkronisasi warna kabut `RenderSettings.fogColor` dikunci identik dengan `_HorizonColor` untuk menyamarkan batas cakrawala laut.
+5. **URP Render Graph Compatibility (`enableURPRasterPass: 1`):**
+   - Di Unity 6 (`6000.3.7f1`), Render Graph aktif secara native. Mode fallback `AddUnsafePass` pada `EffekseerURPRenderPassFeature` saat `enableURPRasterPass: 0` memicu `Render Graph Execution error: ArgumentNullException: Value cannot be null. Parameter name: value` pada event GUI `GUIUtility:ProcessEvent` karena pemanggilan `(RenderTargetIdentifier)passData.colorTexture` tanpa raster attachment.
+   - Mengaktifkan `enableURPRasterPass: 1` di `Assets/Resources/EffekseerSettings.asset` mengalihkan eksekusi ke `renderGraph.AddRasterRenderPass` (`ExecuteRasterRenderGraphPass`) sehingga Render Graph Unity 6 berjalan mulus tanpa error GUIUtility (`0` errors).
 
 ---
 

@@ -13,7 +13,15 @@ updated: 2026-11-26
 
 ---
 
-## 2026-11-26 — Memori Sesi: Integrasi Skybox Eksternal dan Awan 3D ([[Integrasi Skybox Eksternal dan Awan 3D]])
+## 2026-11-26 — Diagnosa Error Render Graph Execution `ArgumentNullException` ([[Diagnosa Render Graph Execution Error]])
+- **Catatan Memori:** [[Diagnosa Render Graph Execution Error]]
+- **Ringkasan:** Mendiagnosa error berulang di Console Unity Editor (`6000.3.7f1`):
+  `Render Graph Execution error UnityEngine.GUIUtility:ProcessEvent` dengan `ArgumentNullException: Value cannot be null. Parameter name: value`.
+  - **Akar Masalah:** Di Unity 6 URP Render Graph, setting `enableURPRasterPass: 0` pada `Assets/Resources/EffekseerSettings.asset` menyebabkan renderer feature Effekseer jatuh ke mode fallback `AddUnsafePass` dan melakukan casting eksplisit `(RenderTargetIdentifier)passData.colorTexture` serta `CoreUtils.SetRenderTarget(cmd, color)` saat frame repaint GUI (SceneView/GameView).
+  - **Rekomendasi:** Mengaktifkan opsi **Enable URP Raster Pass** (`enableURPRasterPass: 1`) di `EffekseerSettings.asset` mengalihkan eksekusi ke native `renderGraph.AddRasterRenderPass` (`builder.SetRenderAttachment`), mengeliminasi exception pada GUI repaints.
+  - Sesuai instruksi pengguna (*"cuman buat memory jangan sentuh project game"*), seluruh file proyek game dibiarkan utuh dan perubahan hanya dilakukan pada arsip memori Obsidian Brain.
+
+---
 - **Catatan Memori:** [[Integrasi Skybox Eksternal dan Awan 3D]]
 - **Ringkasan:** Mengarsipkan memori sesi integrasi aset eksternal pilihan (*Fantasy Skybox FREE* dan awan 3D *Quaternius Modular Platformer Pack*) ke dalam scene gameplay dan sistem atmosfer:
   1. **Audit & Seleksi Skybox Eksternal:** Mengaudit paket `Assets/Fantasy Skybox FREE/` dan `Assets/AllSkyFree/`, memilih preset `Assets/Fantasy Skybox FREE/Panoramics/FS003/FS003_Day.mat` (`Skybox/Panoramic`, tekstur 2048×1024) sebagai preset utama atmosfer `NeutralOcean`.
