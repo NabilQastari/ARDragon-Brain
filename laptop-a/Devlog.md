@@ -13,6 +13,17 @@ updated: 2026-11-26
 
 ---
 
+## 2026-11-26 — Diagnosa & Perumusan Prompt Perbaikan Bug Naga Macet Paska Tantangan 1 ([[Investigasi Bug Naga Macet Sesi 4]])
+- **Masalah:** Pengguna melaporkan bahwa setelah menyelesaikan Tantangan Ke-1 (Pembersihan Kabut Desa Zephyria) dan hendak terbang menuju Tantangan Ke-2 (Desa Pyrewood / Danau Zephyria), naga Fanamir berhenti total / tidak mau bergerak di udara.
+- **Analisis Akar Masalah Teknis (Sesi 4 & Momentum v4.0):**
+  1. *ExitAutoHover Failure:* `ExitAutoHover(applyLaunchThrust: true)` tidak terpanggil atau flag `_isAutoHover` di `DragonFlightController.cs` masih terkunci `true` paska bar mencapai 100%.
+  2. *Infinite Re-trigger Loop:* Naga yang berada di dalam radius silinder tantangan Zephyria ($R=48\text{ m}$) langsung memicu kembali `EnterAutoHover()` tanpa jeda cooldown atau pengecekan status desa `Restored`.
+  3. *Launch Thrust Absent:* Gagalnya dorongan momentum awal ($35\%$, $17.5\text{ m/s}$) menyebabkan naga kehilangan kecepatan awal di udara dan mengalami *stall* saat momentum $0\%$.
+  4. *Input/UI Lock:* Residu mode isolasi UI atau lock input penerbangan yang belum ter-reset.
+- **Handoff Laptop B:** Menyusun instruksi perbaikan teknis (*Bug Fix Prompt*) terstruktur yang siap disalin ke Laptop B untuk mengaudit `VillageZoneController.cs` dan `DragonFlightController.cs`. Catatan sesi diarsipkan di [[Investigasi Bug Naga Macet Sesi 4]].
+
+---
+
 ## 2026-11-26 — Master Prompt Integrasi Skybox Eksternal (*AllSky Free* / *Fantasy Skybox FREE*) & Awan 3D (*Quaternius*) ([[prompt_eksekusi_integrasi_skybox_dan_awan_eksternal_laptop_b]])
 - **Konteks:** Pengguna mengonfirmasi telah meng-install aset eksternal di Laptop B: **AllSky Free - 10 Sky / Skybox Set**, **Fantasy Skybox FREE**, dan **Quaternius Modular Platformer Pack** (model 3D awan).
 - **Handoff Laptop B:** Menerbitkan [prompt_eksekusi_integrasi_skybox_dan_awan_eksternal_laptop_b.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/handoff-laptop-b/prompt_eksekusi_integrasi_skybox_dan_awan_eksternal_laptop_b.md) mencakup audit preset skybox eksternal, adaptasi `BiomeAtmosphereController.cs` (menggunakan instance runtime skybox eksternal + modulasi `_Tint`/`_Exposure`/URP Fog tanpa menimpa balik shader polos lama), pemasangan permanen `RenderSettings.skybox` pada scene, konversi URP + perakitan `PF_StylizedClouds` dari mesh awan Quaternius (`12–18` gugusan di radius `850–1650 m`, `Y = 260–480 m`), serta verifikasi Play Mode & 4 screenshot.
