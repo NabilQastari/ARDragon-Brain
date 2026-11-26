@@ -13,6 +13,21 @@ updated: 2026-11-26
 
 ---
 
+## 2026-11-26 — Sinkronisasi dan Push Progres Utuh Laptop B ke Repositori Project GitHub
+- **Branch Baru:** `feat/laptop-b-full-implementation` -> `origin/feat/laptop-b-full-implementation`
+- **Ringkasan:** Mengaudit working tree repositori game proyek utama (`AR-Dragon.git`) yang sebelumnya belum pernah dipush selama 2 minggu sejak commit `62c7e90` (12 November 2026):
+  1. **Audit & Penataan `.gitignore`:** Menambahkan pengabaian file arsip biner besar/ekspor sementara (`*.zip`, `Export_Delta_LaptopB/`, `**/Export_*/`, `assets/archives/`), cache Obsidian root (`.obsidian/`), serta temporary scene crash dump (`**/[Aa]ssets/_Recovery/`) agar repositori tetap ramping dan tidak menembus batas GitHub.
+  2. **Pembuatan Branch Khusus:** Membuka branch aman `feat/laptop-b-full-implementation` agar tidak menimpa branch `master` secara langsung tanpa review.
+  3. **Commit Terstruktur (4 Tahap):**
+     - `chore(config)`: Pembaruan `.gitignore`, `.antigravityignore`, dan `AGENTS.md`.
+     - `feat(cv)`: Integrasi penuh Python CV hybrid YOLOv8 + MediaPipe Pose, stabilisasi One-Euro, motion recognizer 19 pose, dan seluruh test suite.
+     - `feat(unity)`: Seluruh sistem UI Hybrid (Lobby, Calibration, HUD, Settings, Missions, FinishModal, QuestNarrative), animasi tubuh prosedural (`DragonBodyAnimator`), audio terpadu dual BGM/SFX, kontrol momentum v5.0, serta scene `MainMenu_Lobby.unity` & `MainIsland_Gameplay.unity`.
+     - `feat(assets, docs)`: Pustaka VFX Effekseer, model Blender pulau 3-biome, tools bat/scripts, skill agen, serta dokumen pendukung.
+     - `chore(cleanup)`: Pembersihan file legacy di root (`Assets AR Dragon Sky Guardian/` blender lama, docx/md lama yang sudah direorganisasi).
+  4. **Push ke GitHub:** Berhasil mem-push branch `feat/laptop-b-full-implementation` ke `https://github.com/NabilQastari/AR-Dragon.git` dengan status tracking `origin/feat/laptop-b-full-implementation` aktif.
+
+---
+
 ## 2026-11-26 — Implementasi Kontrol Halus, Steep Bounce Toggle, Ground Lockout, Escape Desa, & Momentum v5.0 ([[Implementasi Kontrol dan Momentum v5]])
 - **Catatan Memori:** [[Implementasi Kontrol dan Momentum v5]]
 - **Ringkasan:** Mengimplementasikan paket spesifikasi resmi v5.0 dari [[laptop-a/gameplay-mechanics/spesifikasi_kecepatan_momentum_v5_dan_kontrol]]:

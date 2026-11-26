@@ -13,6 +13,7 @@ updated: 2026-11-26
 > Ruangan khusus untuk melacak implementasi kode Unity C#, Python CV, integrasi aset 3D, dan build di **Laptop B**. Rujuk desain & arsitektur di [[00 - Overview]], [[laptop-a/prd]], dan [[laptop-a/konteks]].
 
 ## 🔥 Antrean Eksekusi (Dari Dokumen Desain Laptop A)
+- [x] **Audit & Push Progres Game Laptop B ke GitHub Proyek:** Buat branch `feat/laptop-b-full-implementation`, bersihkan `.gitignore` dari zip/recovery/dump besar, commit terstruktur (config, CV hybrid, Unity UI/anim/audio/scenes, VFX/assets/docs, cleanup), dan push ke `origin/feat/laptop-b-full-implementation`.
 - [x] **Sederhanakan Scene Uji Awal (`Test_Dragon_Flight.unity`):** Hapus `/World_Island` dan ganti dengan `/Grass_Baseplate` (Cube `2000x2x2000`, `Mat_Grass_Baseplate.mat`) serta reposisi `/Dragon_Player` ke `(0, 0.85, 0)`.
 - [x] **Perbaikan & Penyempurnaan Mekanisme Kontrol (Hasil Audit — Webcam/CV)** ([[Audit dan Penyempurnaan Kontrol Webcam]]):
   - [x] **Prioritas 1 (Transisi Grounded -> Takeoff, Landing, & Ambang Fly Up):**
