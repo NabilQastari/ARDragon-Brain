@@ -13,6 +13,18 @@ updated: 2026-11-26
 
 ---
 
+## 2026-11-26 — Memori Sesi: Pengemasan Aset VFX Laptop B ([[Pengemasan Aset VFX Laptop B]])
+- **Catatan Memori:** [[Pengemasan Aset VFX Laptop B]]
+- **Ringkasan:** Mengumpulkan, menata, dan mengompresi seluruh aset Efek Visual (VFX) aktif proyek Unity *Fanamir: The Sky Guardian* ke dalam arsip ZIP lokal di `assets/Export_VFX_LaptopB.zip` (`869.790 byte` / `849,4 KB`, `97` berkas, uncompressed `1.423.513 byte`) untuk disalin dan diuji coba pada Three.js Studio Laptop A. Paket mencakup 7 berkas partikel `.efkefc` + subfolder `resources/` (14 tekstur PNG), 7 partikel runtime `.efk`, 7 skrip generator Python `.py` + `recipes/` + `briefs/` + `materials/` + `vfxkit/` + `vfx_manifest.json`, skrip Unity (`DragonVfxController.cs`, `VillageZoneController.cs`, `EffekseerNormalTextureGuard.cs`, `BiomeAtmosphereController.cs`, `Session4_VillageBuilder.cs`), 7 serialized `.asset` + `EffekseerSettings.asset`, material/shader (`Mat_ZoneRing_S4.mat`, `Mat_DynamicBiomeSkybox.mat`, `DynamicBiomeSkybox.shader`), serta panduan komprehensif `README_VFX.txt` (sistem koordinat, hierarki rig, tulang jangkar, offset runtime, skala emitter, dan pemicu gameplay). Folder sementara telah dibersihkan dan berkas ZIP tidak di-push ke git agar ukuran repo tetap ramping.
+
+---
+
+## 2026-11-26 — Memori Sesi: Sistem Audio Terpadu Fanamir — Dual BGM & Quick Switcher ([[Implementasi Sistem Audio Fanamir]])
+- **Catatan Memori:** [[Implementasi Sistem Audio Fanamir]]
+- **Ringkasan:** Mengimplementasikan pembaruan lengkap Sistem Audio Terpadu Fanamir: re-sinkronisasi **37 berkas audio** (`14` BGM `.mp3` + `23` SFX `.wav`, termasuk `SFX_PropellerDash_Loop.wav` Heavy Aerodynamic Whoosh Loop `176,444` bytes & `SFX_Splash_LogoReveal.wav`) dari `assets/Export_Audio_LaptopB.zip`; penggantian `BgmThemeStyle` dengan **Dual BGM Selection persisten** (`Fanamir_BgmFlightIndex` `[0=Adaptif, 1..11=BGM 1..11]` & `Fanamir_BgmMenuIndex` `[0..5=BGM Menu 1..6]`) di `DragonGameSettings.cs` & `AudioManager.cs`; penambahan dua `SolidCameraDropdown` (`Row_BgmFlightSelection` & `Row_BgmMenuSelection`) pada `PF_SettingsPanel.prefab` (`SettingsCard` `960×656`) & `SettingsPanelUI.cs`; penambahan pill pemilih cepat `SharedTopNavbar/NavBgmMenuPill` (`[🎵 BGM Menu: BGM 1 ▼]`, `198×46 px` di `(-442, 0)`) di `LobbyNavigationManager.cs` (`SCREEN 00`); integrasi `SFX_Splash_LogoReveal.wav` + `PlayMenuBGM` & lencana `"MADE WITH UNITY"` pada `SCREEN 09` (`BootFlowController.cs`); penghapusan seluruh `// TODO [SYNC-AUDIO]`; serta verifikasi Play Mode (`MainMenu_Lobby.unity` `37/37` & `MainIsland_Gameplay.unity` `MomentumFlightVerificationRunner` 100% PASS, `0` errors/warnings).
+
+---
+
 ## 2026-11-26 — Memori Sesi: Perbaikan UI Settings dan Pose Guide
 - **Catatan Memori:** [[Perbaikan UI Settings dan Pose Guide]]
 - **Ringkasan:** Mengarsipkan memori sesi penghapusan section `CAMERA INPUT & AI YOLO` dari `PF_SettingsPanel.prefab` & `SettingsPanelUI.cs` (mengarahkan `navCamBadgeButton` ke `LobbyTab.Calibration` di `LobbyNavigationManager.cs`), penyesuaian gap bawah `Btn_ApplyAndClose` (`SettingsCard` `960×520`, `y = 42`) & `Btn_ClosePoseGuide` (`ModalCard` `1848×854`, `y = 48`), serta pelebaran margin dalam `26 px` (kiri/atas/kanan) & `24 px` (bawah) pada `PoseGuideCard_01..15` (`PF_PoseGuideOverlay.prefab` + `PoseGuideOverlayUI.cs`) dan `RecentPoseSlot_1..4` (`PF_CalibrationPanel.prefab`) agar bebas dari bingkai `14..18 px` state `ACTIVE`.
