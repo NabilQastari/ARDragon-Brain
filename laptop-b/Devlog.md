@@ -13,6 +13,21 @@ updated: 2026-11-26
 
 ---
 
+## 2026-11-26 — Revisi Skybox Fantasi *Stylized* (Ghibli/Genshin Style), Awan 3D Parallax (`PF_StylizedClouds`), & Pemasangan Permanen Scene (`DynamicBiomeSkybox.shader`, `Mat_DynamicBiomeSkybox.mat`, `BiomeAtmosphereController.cs`, `Session4_VillageBuilder.cs`, `[[laptop-a/visual-vfx/spesifikasi_revisi_skybox_stylized]]`)
+
+- **Akar Masalah Sebelumnya:**
+  - `Fbm()` pada shader lama memiliki distribusi pusat `0.45–0.55` sehingga rumus ambang `1.0 - _CloudCoverage * 0.75` (`0.715` pada `NeutralOcean`) hampir tidak memunculkan awan sama sekali, tidak memisahkan `_CloudLitColor`/`_CloudShadowColor` maupun *silver lining*, belum memiliki lapisan *cirrus*, dan `Mat_DynamicBiomeSkybox.mat` belum terpasang di semua scene secara permanen dengan default *NeutralOcean* penuh.
+- **Perubahan yang Diimplementasikan:**
+  - **`Assets/Shaders/DynamicBiomeSkybox.shader`:** Menambahkan gradasi 4-stop (`_ZenithColor`, `_MidSkyColor`, `_HorizonColor` terkunci `100%` ke `RenderSettings.fogColor` di pita horizon agar bebas patahan laut, serta `_NadirColor` `#184E66`), *domain-warped procedural FBM* berbatas cel-soft (`_CloudSoftness = 0.045`) untuk awan kumulus bervolume (`_CloudLitColor`, `_CloudShadowColor`, *directional self-shadow*, & *silver lining* arah matahari), awan *cirrus* tipis atas (`_CirrusCoverage`), serta piringan matahari & halo (`_SunDiscSize`, `_SunHaloIntensity`, fallback `_MainLightPosition`) sambil menjaga properti lama (`_SkyTint`, `_CloudTint`, `_SunSize`, `_GroundColor`).
+  - **`Assets/Materials/Mat_DynamicBiomeSkybox.mat` & `BiomeAtmosphereController.cs`:** Mengisi palet penuh `NeutralOcean` di disk (terlihat langsung di Edit Mode), menyelaraskan 7 state (`NeutralOcean`, `ZephyriaCrisis`/`Restored`, `PyrewoodCrisis`/`Restored`, `SolariaCrisis`/`Restored`) bersama `AmbientMode.Trilight` sinkron, isolasi runtime material via `new Material(baseSkyboxTemplate)` (`Destroy` di `OnDestroy()`), serta rotasi perlahan `stylizedCloudRing` (`0.3°/dtk`) yang otomatis nonaktif saat kabut krisis pekat (`fogEndDistance < 700m`) agar tidak meninggalkan siluet poligon di depan awan gelap krisis.
+  - **`PF_StylizedClouds` & Lighting Scene (`Session4_VillageBuilder.cs`, `IslandArchipelagoSetupUtility.cs`):** Membuat prefab `Assets/Prefabs/World/PF_StylizedClouds.prefab` (`14` gugusan / `84` puff bebas collider & bebas bayangan pada radius `980–1620 m`, `Y = 305–515 m`) ber-material `Mat_StylizedCloud3D.mat`, serta memasang `Mat_DynamicBiomeSkybox.mat` permanen pada `RenderSettings.skybox` di `MainIsland_Gameplay.unity` dan `Test_Dragon_Flight.unity` (dan memperbarui `VFXAtmosphereVerificationRunner.cs` memakai `fc.CurrentCameraOffsetZ` agar kompatibel dengan kamera orbit center naga).
+- **Hasil Verifikasi Play Mode (`MainIsland_Gameplay.unity`, `0` Errors):**
+  - `VFXAtmosphereVerificationRunner`: **`ALL PILAR 1 & SESI 4B VFX (10/10), TRAIL, SOCKET & BIOME CHECKS PASSED (100%)`** (`Glide=(fov=64.99,z=-6.30)`, `Dive=(fov=78.88,z=-7.20)`, `Dash=(fov=85.00,z=-7.50)`, `HeadSweep=23.3deg`, `Wildfire=2.60->1.65->0`, `ZephCrisisFog=232m->RestoredFog=3797m`).
+  - Non-regresi `MomentumFlightVerificationRunner`: **`ALL MOMENTUM & FLIGHT PHYSICS CHECKS PASSED (100%)`**.
+  - 4 screenshot perbandingan skybox terverifikasi di `docs/figures/raw_screenshots/`: `SS_Skybox_NeutralOcean.png` (`3800m`, `clouds3D=True`), `SS_Skybox_ZephyriaCrisis.png` (`174m`, `clouds3D=False`), `SS_Skybox_PyrewoodCrisis.png` (`259m`, `ash=True`, `clouds3D=False`), dan `SS_Skybox_SolariaRestored.png` (`3968m`, `clouds3D=True`), lalu scene aktif dikembalikan ke `MainMenu_Lobby.unity`.
+
+---
+
 ## 2026-11-26 — Perbaikan Logika Ground Landing vs Steep Collider Bounce (`DragonFlightController.cs`)
 
 - **Akar Masalah Sebelumnya:**
