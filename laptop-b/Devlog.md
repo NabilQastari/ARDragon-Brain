@@ -13,6 +13,23 @@ updated: 2026-11-26
 
 ---
 
+## 2026-11-26 — Integrasi Skybox Eksternal (*Fantasy Skybox FREE* `FS003_Day`) & Awan 3D *Quaternius* (`PF_StylizedClouds`, `BiomeAtmosphereController.cs`, `Session4_VillageBuilder.cs`, `IslandArchipelagoSetupUtility.cs`, `[[laptop-a/handoff-laptop-b/prompt_eksekusi_integrasi_skybox_dan_awan_eksternal_laptop_b]]`)
+
+- **Audit & Pemilihan Aset Eksternal (`Assets/`):**
+  - Mengimpor paket Unity Asset Store **`Fantasy Skybox FREE`** (`Assets/Fantasy Skybox FREE/`) dan **`AllSky Free - 10 Sky Skybox Set`** (`Assets/AllSkyFree/`), serta mengekstrak `Cloud1.fbx..Cloud5.fbx` dari **Quaternius Modular Platformer Pack** (`assets/Platformer Pack - Nov 2018-20261126T071637Z-1-001.zip`) ke `Assets/Assets 3D/Clouds/`.
+  - Memilih **`Assets/Fantasy Skybox FREE/Panoramics/FS003/FS003_Day.mat`** (`Shader: Skybox/Panoramic`, tekstur `2048×1024`, properti `_Tint`, `_Exposure`, `_Rotation`, `_MainTex`) sebagai template utama **`NeutralOcean`** karena memiliki langit biru fantasi cerah berawan kumulus & cirrus paling tajam dibanding `AllSkyFree/Cartoon Base BlueSky` (polos tanpa awan) maupun `FS000_Day_*` (`512×512`), sekaligus mendukung interpolasi `_Tint` & `_Exposure` mulus tanpa pop visual lintas 7 state biome.
+- **Perubahan yang Diimplementasikan:**
+  - **`BiomeAtmosphereController.cs`:** Menghapus fallback paksa ke shader lama `DragonWingAR/DynamicBiomeSkybox` di `InitRuntimeSkybox()`. Kini memakai `new Material(template)` (`Runtime_ExternalBiomeSkybox`, dibersihkan di `OnDestroy()`), memodulasi `_Tint` / `_TintColor` & `_Exposure` pada 7 state (`NeutralOcean`, `ZephyriaCrisis`/`Restored`, `PyrewoodCrisis`/`Restored`, `SolariaCrisis`/`Restored`), menyelaraskan `RenderSettings.fogColor` (`#D2F2FA` untuk `NeutralOcean`) dengan cakrawala bawah `FS003_Day`, menyinkronkan `AmbientMode.Trilight`, serta memodulasi tint awan 3D via `MaterialPropertyBlock` (tanpa mengubah aset `.mat` di disk).
+  - **Lighting Permanen Scene (`Session4_VillageBuilder.cs`, `IslandArchipelagoSetupUtility.cs`):** Memasang `FS003_Day.mat` permanen pada `RenderSettings.skybox` di `MainIsland_Gameplay.unity` dan `Test_Dragon_Flight.unity` agar langsung tampil sejak Edit Mode dan tidak tertimpa balik saat builder dijalankan ulang.
+  - **Awan 3D Quaternius (`PF_StylizedClouds.prefab`, `Mat_StylizedCloud3D.mat`):** Merakit `16` gugusan awan dari `Cloud1.fbx..Cloud5.fbx` (lebar terukur `~135–235 m`, radius `850–1650 m`, `Y = 260–480 m`, tanpa collider, `shadowCastingMode = Off`, `receiveShadows = false`) dengan material `Universal Render Pipeline/Lit` matte putih-krem `#FFFDF8` (`Smoothness = 0.08`).
+  - **`VFXAtmosphereVerificationRunner.cs`:** Memperbarui assertion agar memverifikasi `Runtime_ExternalBiomeSkybox` (bukan `DynamicBiomeSkybox`) & `PF_StylizedClouds` (`12..18` anak tanpa collider) sekaligus menangkap 4 screenshot bukti visual.
+- **Hasil Verifikasi Play Mode (`MainIsland_Gameplay.unity`, `0` Errors, `0` Warnings):**
+  - `VFXAtmosphereVerificationRunner`: **`ALL PILAR 1 & SESI 4B VFX (10/10), TRAIL, SOCKET & BIOME CHECKS PASSED (100%)`** (`Glide=(fov=64.99,z=-6.30)`, `Dive=(fov=78.87,z=-7.20)`, `Dash=(fov=85.00,z=-7.50)`, `Hover=(fov=60.01)`, `HeadSweep=23.3deg`, `Wildfire=2.60->1.66->0`, `ZephCrisisFog=231m->RestoredFog=3797m`).
+  - `MomentumFlightVerificationRunner`: **`ALL MOMENTUM & FLIGHT PHYSICS CHECKS PASSED (100%)`**.
+  - 4 screenshot terverifikasi di `docs/figures/raw_screenshots/`: `SS_Skybox_NeutralOcean.png`, `SS_Skybox_ZephyriaCrisis.png`, `SS_Skybox_PyrewoodCrisis.png`, & `SS_Skybox_SolariaRestored.png`, lalu scene aktif dikembalikan ke `MainMenu_Lobby.unity` (Build Index `0`).
+
+---
+
 ## 2026-11-26 — Revisi Skybox Fantasi *Stylized* (Ghibli/Genshin Style), Awan 3D Parallax (`PF_StylizedClouds`), & Pemasangan Permanen Scene (`DynamicBiomeSkybox.shader`, `Mat_DynamicBiomeSkybox.mat`, `BiomeAtmosphereController.cs`, `Session4_VillageBuilder.cs`, `[[laptop-a/visual-vfx/spesifikasi_revisi_skybox_stylized]]`)
 
 - **Akar Masalah Sebelumnya:**
