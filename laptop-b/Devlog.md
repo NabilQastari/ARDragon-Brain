@@ -13,6 +13,17 @@ updated: 2026-11-26
 
 ---
 
+## 2026-11-26 — Memori Sesi: Revisi VFX Skybox dan Bouncy Landing ([[Revisi VFX Skybox dan Bouncy Landing]])
+- **Catatan Memori:** [[Revisi VFX Skybox dan Bouncy Landing]]
+- **Ringkasan:** Mengarsipkan memori sesi integrasi artistik & penyempurnaan gameplay loop Pilar 1:
+  1. **Revisi VFX Pilar 1 (10 Efek Effekseer + Dual TrailRenderer):** Mengompilasi 5 resep reworked + 3 baru (`VFX_Lake_MouthIntake`, `VFX_Solaria_ChestGemGlow` di tulang `Neck_01`, `VFX_Pyrewood_Wildfire`) + 2 eksisting tanpa error; koreksi inversi arah maju partikel `-Z`; penambahan sepasang `TrailRenderer` pada sayap naga (`wingtipBoneLength = 1.48f`).
+  2. **Kamera Dinamis Cutscene & Orbit Naga:** Penambahan event camera dinamis saat restorasi desa (diagonal frontview/up-frontview/up-backview); perbaikan `LookOrbit` berpusat di tengah tubuh naga (`targetPosition`), bukan di belakang naga; penambahan slider sensitivitas rotasi kamera di UI Settings (`0.5x–2.5x`, default `1.5x`).
+  3. **Penyempurnaan Bouncy vs Ground Landing:** Pemisahan permukaan tanah pijak (`normal.y >= 0.55f`) yang beralih ke `FlightMode.Ground` (reset momentum, wajib pose `#04 Takeoff` untuk terbang lagi) dengan tebing/dinding terjal (`normal.y < 0.55f`) yang memantul elastis (`TryApplyGlancingBounce()`).
+  4. **Revisi Skybox Fantasi Stylized & Parallax Clouds:** Upgrade `DynamicBiomeSkybox.shader` (gradasi 4-stop, awan kumulus FBM dua warna dengan *silver lining*, awan sirus tinggi, piringan matahari); builder prefab `PF_StylizedClouds.prefab` (14 gugusan awan non-colliding); sinkronisasi 7-state atmosfer di `BiomeAtmosphereController.cs` dan penguncian skybox permanen di scene `MainIsland_Gameplay.unity` & `Test_Dragon_Flight.unity`.
+  5. Seluruh suite verifikasi Play Mode lulus 100% (`MomentumFlightVerificationRunner` & `VFXAtmosphereVerificationRunner`), 4 screenshot lingkungan tersimpan di `docs/figures/raw_screenshots/`, dan scene awal aktif dikembalikan ke `MainMenu_Lobby.unity`.
+
+---
+
 ## 2026-11-26 — Memori Sesi: Ketahanan Motion Blur Propeller Dash ([[Ketahanan Motion Blur Propeller Dash]])
 - **Catatan Memori:** [[Ketahanan Motion Blur Propeller Dash]]
 - **Ringkasan:** Mengatasi kendala gesture **`#14 Propeller Dash`** yang sulit terdeteksi akibat *camera motion blur* saat pergelangan tangan berputar cepat di depan webcam. Menambahkan pemulihan piksel *Elbow-Annulus Motion-Blur Recovery* (`recover_motion_blurred_wrists()` berbasis *spatial-gradient-weighted temporal frame difference* di `pose_stabilizer.py` & `active_cv_sender.py` saat confidence pergelangan drop `< 0.42` atau kolaps ke siku `< 0.16 * sw`), melonggarkan batas kecepatan One-Euro untuk pergelangan tangan terikat siku (`dist <= 0.98 * sw`, `max_step = 7.5 * sw_scale * dt`, `beta = 0.75`), serta menyempurnakan `PropellerRotationClassifier` di `motion_recognizer.py` dengan **Dual-Center Orbital Tracking** (siku + sentroid relatif 10 frame ber-gate *2D circularity* anti-1D-flap), *spin-direction phase unwrapping* lintas 1–3 frame blur (`125°–245°`), debounce pembalikan arah 2–3 frame beruntun (mencegah reset oleh 1-frame *blur streak*), dan toleransi *elbow-spread grace* 4 frame. Seluruh 8 test suite Python CV lulus 100% tanpa regresi pada 6 pose terkunci maupun gerakan kepakan 1D.
