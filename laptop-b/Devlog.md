@@ -382,7 +382,7 @@ updated: 2026-11-26
 
 ---
 
-## 2026-11-23 — Perbaikan UI In-Game: Full Narrative Isolation Mode & Redesain Side-Docked Challenge HUD (`[[laptop-a/ui-ux/planning_perbaikan_ui_ingame_dan_event_desa]]`)
+## 2026-11-23 — Perbaikan UI In-Game: Full Narrative Isolation Mode & Redesain Side-Docked Challenge HUD (`[[laptop-a/ui-ux/planning_perbaikan_ui_ingame_dan_event_desa]]`, [[Isolasi Narasi dan Side Challenge HUD]])
 
 ### Perubahan yang Diimplementasikan
 1. **Perbesaran `PF_QuestNarrativeBox.prefab` (`UISceneAndPrefabBuilder.BuildQuestNarrativePrefab`):**
