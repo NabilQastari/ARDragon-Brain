@@ -18,13 +18,13 @@ updated: 2026-11-26
   1. *Clipping Teks Solaria:* Judul `ANGKAT KEDUA TANGAN!` dan subjudul `Tahan Double I-Pose '11' (#15C) di Sky Altar` terpotong (*clipped*) di sisi kiri dan kanan karena lebar panel terlalu sempit (`400 px` / inner `360 px`).
   2. *Clipping Ikon WaterBreath & Pose Medallion:* Ikon `UI_Illust_Dragon_WaterBreath` terpotong bagian atasnya di Pyrewood, serta ikon pose di Zephyria/Solaria menempel langsung ke border atas (`0 px` top padding).
   3. *Badge Status & Footer Kaku:* Titik status hijau (`●`) pada tombol `GERAKAN TERDETEKSI!` terdampar jauh di sisi kiri tidak sejajar dengan teks, progress bar belum menampilkan visual `NO-DECAY` / *trailing ghost*, serta ketiga desa tidak memiliki aksen warna pembeda biome.
-- **Solusi Desain Baru di FigCraft ([`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft)):**
-  - Memperlebar kartu menjadi **`456 × 672 px`** (`TargetPose_HeroCard` lebar `408 px`, usable text width `368 px`, padding `20 px` di semua sisi) dengan tetap menjaga >75% area tengah layar 100% bebas untuk naga Fanamir.
-  - Memasang bingkai ikon `136 × 108 px` (`172 × 108 px` khusus `WaterBreath`) sehingga seluruh ikon dan ilustrasi muat utuh tanpa terpotong.
-  - Menyatukan badge status **`●  GERAKAN TERDETEKSI!`** (gaya otentik `UI_Badge_Active_Green_Blank` `#5C8D46` + border tinta `#332C25`) dan **`○  MENUNGGU GERAKAN...`** (gaya otentik `UI_Badge_Label_Amber_Blank` `#DF9E38` + border tinta `#332C25` + teks `#231E18`), mengganti subjudul pill pastel menjadi tipografi tinta bersih bergaris divider tipis, serta memakai tag solid deep teal **`NO-DECAY`** (`#2F7E79` + border `#332C25` + teks `#FFFDF5`) sehingga 100% selaras dengan estetika *Parchment-and-Ink Tabletop UI*.
+- **Solusi Desain Minimalis & Ikon Emblem Custom Baru di FigCraft ([`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft)):**
+  - Memangkas kotak bertumpuk (*box-in-box*) menjadi panel samping ramping **`416 × 520 px`** yang super minimalis, hanya memuat 4 hal esensial: (1) Judul Desa bersih, (2) Ikon Emblem Custom + Perintah Singkat + Status Deteksi, (3) Dual-Layer Ghost Progress Bar + `%`, dan (4) Teks Escape Ringan tanpa kotak.
+  - Merancang **3 Custom Vector Emblem Icons Baru** bergaya *Fantasy Ink & Teal/Gold Crest*: sayap mengembang berbusur angin (Zephyria), profil kepala naga menyemburkan ombak air memadamkan api (Pyrewood), serta siluet penjaga mengangkat lengan `"11"` memanggil embun celestial (Solaria).
+  - Menyelaraskan 100% badge status dengan komponen otentik *Export Kit* (`UI_Badge_Active_Green_Blank` `#5C8D46` & `UI_Badge_Label_Amber_Blank` `#DF9E38`) tanpa pil pastel.
 - **Ekspor Referensi:**
   - [`03B_SideDocked_ChallengeHUD_Improved.png`](file:///e:/Semester%205/Game/AR%20Dragon/assets/UI_Unity_Export/Designs/03B_SideDocked_ChallengeHUD_Improved.png) (`1920×1080`, konteks full gameplay).
-  - [`03C_SideDocked_3Biome_Showcase.png`](file:///e:/Semester%205/Game/AR%20Dragon/assets/UI_Unity_Export/Designs/03C_SideDocked_3Biome_Showcase.png) (`1620×840`, perbandingan lengkap 3 biome & 2 state).
+  - [`03C_SideDocked_3Biome_Showcase.png`](file:///e:/Semester%205/Game/AR%20Dragon/assets/UI_Unity_Export/Designs/03C_SideDocked_3Biome_Showcase.png) (`1440×680`, perbandingan lengkap 3 biome & ikon custom baru).
 
 ---
 
