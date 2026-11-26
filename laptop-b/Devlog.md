@@ -4,12 +4,33 @@ tags:
   - devlog
   - laptop-b
 owner: Laptop B
-updated: 2026-11-25
+updated: 2026-11-26
 ---
 
 # 🛠️ Devlog — Laptop B
 
 > Catatan kronologis pengembangan kode, debugging, pengujian Unity/Python, dan hasil build dari **Laptop B**. Kembali ke [[00 - Overview]].
+
+---
+
+## 2026-11-26 — Eksekusi Revisi VFX Pilar 1: 5 VFX Reworked, 3 VFX Baru, Socket `Neck_01`/`Head`/`Wingtip` + `TrailRenderer`, & Efek Desa (`[[laptop-a/visual-vfx/spesifikasi_revisi_vfx_pilar_1]]`, `[[laptop-a/handoff-laptop-b/prompt_eksekusi_revisi_vfx_pilar_1_laptop_b]]`)
+
+- **Langkah 1 — Impor Resep Python & Kompilasi 10 Aset Effekseer (`vfx/`, `Assets/VFX/Effekseer/`):**
+  - Mengekstrak `8` skrip `.py` (`Effekseer_Python_Sources/src/*.py` -> `vfx/src/`) dan `8` brief (`Effekseer_Python_Sources/briefs/*.json` -> `vfx/briefs/`) dari `Export_VFX_Revisi_LaptopB.zip` tanpa menimpa `vfx/textures/processed/*.png` (`14` tekstur `T_*.png` tetap) serta mempertahankan `VFX_Pyrewood_WaterBreath.py` & `VFX_Pyrewood_ExtinguishSteam.py`.
+  - Menjalankan `vfx brief-validate` (`10/10` ok), `vfx lint` (`0` errors), dan `vfx build` (`10/10` `.efkefc` + `.efk` berhasil dibangun), menyalin `10` `.efkefc` ke `Assets/VFX/Effekseer/`, lalu memanggil `AssetDatabase.Refresh()` sehingga seluruh `10/10` `EffekseerEffectAsset` (`.asset`) siap pakai termasuk `VFX_Lake_MouthIntake.asset`, `VFX_Solaria_ChestGemGlow.asset`, dan `VFX_Pyrewood_Wildfire.asset`.
+  - Memastikan `EffekseerSettings.asset` mempertahankan `RendererType: 1` (`EffekseerRendererType.Unity`), `MaintainGammaColorInLinearSpace: 1`, dan `enableDepth: 0`.
+- **Langkah 2 — Perbaikan Socket, Pita Sayap `TrailRenderer`, & Emitter Baru (`DragonVfxController.cs`):**
+  - Menurunkan `wingtipBoneLength` dari `1.95f` $\rightarrow$ **`1.48f`** (`1.1866 * 1.25`) dan menambahkan `wingtipLeftTrail` & `wingtipRightTrail` (`TrailRenderer`: `time = 0.42f`, `minVertexDistance = 0.08f`, `startWidth = 0.16f`, `endWidth = 0.01f`, gradasi cyan-putih `(220,250,255,200)` $\rightarrow$ `(110,225,255,0)`, `shadowCastingMode = Off`, material `Assets/Materials/Mat_WingtipTrail_Additive.mat` shader `Universal Render Pipeline/Particles/Unlit` Additive).
+  - Memperbaiki rotasi `waterBreathEmitter` di `SyncSocketTransforms()` agar diposisikan di `mouthBoneOverride.TransformPoint(0, 0.34, -0.04)` dan diarahkan ke `mouthBoneOverride.TransformDirection(Vector3.up)` sehingga semburan air ikut menyapu saat kepala `Head` menoleh/menunduk.
+  - Menambahkan `mouthIntakeEmitter` (`SetWaterIntakeActive(bool)` terpanggil bersama `SetWaterSiphonActive(bool)`), `chestGemEmitter` (`SetChestGemGlowActive(bool)`), serta mengubah `sonicDashEmitter` di `LateUpdate()` menjadi `SetSonicDashActive(isDashing)` (looping wind tunnel).
+- **Langkah 3 & 4 — Efek Desa & Rebuild Scene (`VillageZoneController.cs`, `Session4_VillageBuilder.cs`, `MainIsland_Gameplay.unity`):**
+  - Menambahkan `pyrewoodWildfireEmitters` (`5` titik `VFX_Pyrewood_Wildfire` di sekitar `SubMarker_HutanTerbakar` ter-raycast ke terrain, skala `2.3f–2.8f`, `playOnStart = true`, `isLooping = true`) dengan `UpdatePyrewoodWildfireVisuals()` yang menyala sejak stage dimulai bila Pyrewood aktif, menyusut halus `Mathf.Lerp(1.0f, 0.0f, _pyrewoodFireProgress)` saat disembur air, lalu `StopRoot()` & `localScale = Vector3.zero` ketika `Restored`.
+  - Memperpanjang hujan embun Solaria pasca-restorasi menjadi `solariaPostRestoreRainDuration = 14.0f` detik (`_solariaPostRestoreRainTimer`, menjaga `solariaDewRainEmitter` + `chestGemEmitter` + `SetSolariaDewChimesLoop(true)` tetap menyala meski melewati `StopAllChallengeVfx()` atau `_pendingVictory`, lalu berhenti bersih saat timer habis atau `ConfigureForStage`/`OnDisable`).
+  - Memperbarui `Session4_VillageBuilder.cs`: memasang `VFX_Lake_MouthIntake` anak `Head` `(0, 0.34, -0.04)`, memasang `VFX_Solaria_ChestGemGlow` anak `Neck_01` `(0, 0.1214, -0.1552)` skala `0.85f`, menggeser `VFX_SonicDash` ke `(0, 0.25, 0)` skala `1.1f`, dan menjalankan `DragonWingAR/Session 4/Build Village Zones and Markers` (`VFX_Sockets count=1`).
+- **Langkah 5 — Verifikasi Play Mode (`Unity 6000.3.7f1`, `0` Errors, `0` Warnings) & Screenshot Mandiri:**
+  - **`VFXAtmosphereVerificationRunner.RunPlayModeVerificationAsync()` (`MainIsland_Gameplay.unity`):** `ALL PILAR 1 & SESI 4B VFX (10/10), TRAIL, SOCKET & BIOME CHECKS PASSED (100%)` — `Glide=(fov=64.99,z=-6.30)`, `Dive=(fov=78.87,z=-7.20)`, `Dash=(fov=85.00,z=-7.50)` (`IsSonicDashActive=True`, `TrailRenderer` aktif), `Hover=(fov=60.06,z=-6.00)`, `HeadSweep=23.4deg` (`dot=1.00`), `Wildfire=2.60->1.65->0`, `IsWaterSiphonActive && IsWaterIntakeActive`, `IsChestGemGlowActive` pada `Neck_01`, dan `Solaria` tetap hujan pada `t+3.5s` (`>8s` tersisa).
+  - **Non-Regresi:** `MomentumFlightVerificationRunner` (**100% PASS**), `consoleErrors=0`, `consoleWarnings=0`; scene aktif dikembalikan ke `MainMenu_Lobby.unity`.
+  - **Screenshot (`docs/figures/raw_screenshots/`):** `SS_Sesi4B_Flight_PropellerDash_FOV85.png`, `SS_Sesi4B_Solaria_CelestialDewRain.png`, `SS_Sesi4B_Zephyria_SmogAndWindGust.png`, `SS_Pilar1_Lake_Siphon_MouthIntake.png`, `SS_Sesi4B_Pyrewood_WaterBreath_Steam.png`.
 
 ---
 
