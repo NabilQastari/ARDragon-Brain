@@ -24,6 +24,10 @@ updated: 2026-11-26
 
 ---
 
+## 2026-11-26 — Memori Sesi: Isolasi Narasi dan Side Challenge HUD
+- **Catatan Memori:** [[Isolasi Narasi dan Side Challenge HUD]]
+- **Ringkasan:** Mengarsipkan memori sesi implementasi Full Narrative Isolation Mode (`PF_QuestNarrativeBox.prefab` `1440×300 px`, hanya `QuestObjectivePanel` & `PF_QuestNarrativeBox` yang tampil + sembunyikan billboard 3D) dan redesain Side-Docked Challenge HUD (`PF_VillageChallengeOverlay.prefab` `400×620 px` *Middle-Right* `(-30, 0)`, `VillageChallengeUI.cs`, `InGameFlightHUD.SetVillageChallengeMode`/`RestoreNormalFlightHUD`, & sinkronisasi `VillageZoneController.cs`) beserta verifikasi Play Mode `Session4VerificationRunner` & `Session5GameLoopVerificationRunner` (`100% PASS`).
+
 ## 2026-11-26 — Memori Sesi: Perbaikan Kemudi Kanan dan Finish UI Stage
 - **Catatan Memori:** [[Perbaikan Kemudi Kanan dan Finish UI Stage]]
 - **Ringkasan:** Mengarsipkan memori sesi audit & perbaikan bug kemudi naga stuck belok kanan terus akibat `ARDragonSkyGuardian_CV/player_profile.json` korup (`neutral_lean_bias_deg = -22.856°`) + penjaga validasi `player_calibrator.py`/`motion_recognizer.py`/`active_cv_sender.py`, pemisahan tantangan per level (`Stage 1/2/3 = 1/2/3 Desa`) lewat default fallback & `SubsystemRegistration` `DragonGameSettings.cs` + `CalibrationPanelUI.cs` + `VillageZoneController.cs`, serta integrasi `FinishModalUI` (`PF_FinishModal`) + `NEXT LEVEL` pasca-penyelesaian misi.
