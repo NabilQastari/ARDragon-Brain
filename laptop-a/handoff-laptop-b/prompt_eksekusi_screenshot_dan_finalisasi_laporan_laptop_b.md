@@ -58,12 +58,17 @@ Sesuai arahan pengguna, pengambilan gambar Unity diusahakan **menampilkan seluru
 Salin teks berikut ke sesi chat **Laptop B**:
 
 ```markdown
-Halo Laptop B! Sesuai instruksi pengguna dan update terbaru dari Laptop A, konten tekstual Laporan Capstone (Bab I–V, Subbab 4.6 Game Loop Sesi 5, Subbab 4.7 Tabel Latensi & FPS, Subbab 4.8 Evaluasi Ergonomi SUS/Borg RPE, serta Bab V Kesimpulan & Saran) telah LENGKAP dan tersinkronisasi di docs/Laporan_Capstone_Fanamir.md dan docs/Laporan_Capstone_Fanamir.docx.
+Halo Laptop B! Sesuai instruksi pengguna dan update terbaru dari Laptop A, seluruh konten tekstual Laporan Capstone (Bab I–V, Subbab 4.6 Game Loop Sesi 5, Subbab 4.7 Tabel Latensi & FPS, Subbab 4.8 Evaluasi Ergonomi SUS/Borg RPE, serta Bab V Kesimpulan & Saran) telah LENGKAP dan tersinkronisasi di docs/Laporan_Capstone_Fanamir.md, docs/Laporan_Capstone_Fanamir.docx, dan docs/Laporan Capstone Fanamir.docx.
 
-Tugas kamu sekarang adalah melengkapi 5 tangkapan layar (screenshot) aktual di Laptop B dan menginjeksinya ke dalam berkas laporan .docx.
+Halaman Sampul dan section Nama Kelompok juga telah DIREVISI penuh:
+- Spacing Table 0 section nama kelompok telah ditata rapi di tengah (CENTER), kolom seimbang (Nama: 2.5", Titik Dua: 0.35", NIM: 1.5"), dan 6 baris kosong telah dibersihkan.
+- Blok Dosen Pembimbing dan Koordinator Prodi / Kaprodi telah ditambahkan pada Halaman Sampul dan Halaman Pengesahan sesuai ketentuan Lampiran 6A.
+- Gambar 2.1 telah diperbarui dengan diagram resmi Topologi CV Hibrida Fanamir (17 Keypoints COCO + 3 Titik Wajah MediaPipe + Seated Virtual Hips + skema warna dwi-warna Oranye-Kanan dan Sian-Kiri).
+
+Tugas kamu sekarang di Laptop B adalah melengkapi 5 tangkapan layar (screenshot) aktual dan menginjeksinya ke dalam berkas laporan .docx.
 
 PENTING — FORMAT SCREENSHOT UNITY:
-Saat mengambil screenshot terkait Unity (Gambar 4.3 dan Gambar 4.4), WAJIB mengambil FULL JENDELA UNITY EDITOR (seluruh jendela Unity lengkap dengan Title bar, Hierarchy, Scene/Game view, Inspector, dan toolbar), BUKAN hanya crop kecil Game view. Kamu bisa menggunakan skill `agent-desktop` atau otomasi desktop Windows/Pillow agar tampilannya natural dan meyakinkan untuk laporan akademik!
+Saat mengambil screenshot terkait Unity (Gambar 4.3 dan Gambar 4.4), WAJIB mengambil FULL JENDELA UNITY EDITOR (seluruh jendela Unity lengkap dengan Title bar, Main Menu, Hierarchy, Scene/Game view, Inspector, dan toolbar), BUKAN hanya crop kecil Game view. Kamu bisa menggunakan skill `agent-desktop` atau otomasi desktop Windows/Pillow agar tampilannya natural dan meyakinkan untuk laporan akademik!
 
 Berikut langkah-langkah eksekusinya:
 
@@ -102,9 +107,11 @@ Setelah file screenshot berada di `docs/figures/raw_screenshots/`, jalankan scri
 ```powershell
 python misc/inject_screenshots_docx.py
 ```
-Script ini akan secara otomatis menggantikan tabel-tabel placeholder (Gambar 3.3, 4.1, 4.3, 4.4, dan 4.7) dengan gambar asli yang telah kamu ambil.
+Script ini akan secara otomatis mendeteksi keberadaan gambar dan menyisipkannya tepat ke dalam kotak-kotak placeholder pada kedua berkas:
+- `docs/Laporan Capstone Fanamir.docx`
+- `docs/Laporan_Capstone_Fanamir.docx`
 
 ### Langkah 4: Verifikasi & Catat di Devlog
-1. Buka dan pastikan `docs/Laporan_Capstone_Fanamir.docx` sudah memuat seluruh gambar dengan rapi tanpa placeholder yang tertinggal.
+1. Buka dan pastikan berkas Word laporan sudah memuat seluruh gambar dengan rapi tanpa placeholder yang tertinggal.
 2. Perbarui `brain/laptop-b/Devlog.md` dan `brain/laptop-b/Tasks.md` dengan ringkasan screenshot yang berhasil diambil.
 ```
