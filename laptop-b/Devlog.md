@@ -13,6 +13,23 @@ updated: 2026-11-26
 
 ---
 
+## 2026-11-26 — Perbaikan Logika Ground Landing vs Steep Collider Bounce (`DragonFlightController.cs`)
+
+- **Akar Masalah Sebelumnya:**
+  1. `OnCollisionEnter()` memanggil `ApplyGlancingBounce()` tanpa memeriksa sudut permukaan (`normal.y`), dan `TryHandleGlancingCollisionSweep()` memantulkan kontak apa pun apabila `isAttemptingLanding == false` (misalnya saat `TuckDive`, *stall* `FlyUp`, atau kepala menengadah `bodyPitchTrim > 0.12f`).
+  2. Ketika jatuh/menukik menyentuh permukaan darat saat `!isAttemptingLanding`, langkah 5 `HandleAirborneState()` hanya meng-clamp ketinggian di udara (`_isGrounded` tetap `false`) serta `groundAvoidance` mendorong vertikal `+1.5f`, sehingga naga terus melayang/terpantul di udara alih-alih masuk **Ground Mode**.
+- **Perbaikan yang Diimplementasikan:**
+  - Menambahkan ambang kemiringan `public float bounceMaxNormalY = 0.55f;` (`~56.6°`) dan helper `IsSteepBounceSurface(Vector3 normal)`, `TryGetGroundSurface(..., out float, out Vector3)` (`QueryTriggerInteraction.Ignore`), serta `LandOnGround(float surfaceY, string reason)` yang menyetel `_isGrounded = true`, mereset `_currentMomentum = 0f`, `_currentVerticalVelocity = 0f`, `_takeoffFlapTimer = 0f`, serta seluruh flag pose udara sehingga pemain harus melakukan pose **`#04 Takeoff`** (`FlapPower >= takeoffFlapThreshold` selama `>= takeoffMinDuration`) untuk terbang kembali.
+  - Membatasi `groundAvoidance` hanya untuk penerbangan skim aktif ke depan (`isActiveSkimBoost`) dan mengizinkan pendaratan ke Ground Mode untuk segala kondisi turun/jatuh non-climbing (`!_isTakingOff && _currentVerticalVelocity <= 0.15f`) selama `landedSurfaceNormal.y > bounceMaxNormalY`.
+  - Memperbarui `TryHandleGlancingCollisionSweep(Vector3)` (memverifikasi overlap awal `hit.distance <= 0.001f` dengan `hit.collider.Raycast` agar tidak menghasilkan normal palsu `-moveDir`) dan `OnCollisionEnter(Collision)` (merata-ratakan normal kontak) sehingga pantulan `ApplyGlancingBounce()` **hanya** aktif pada collider vertikal/miring ekstrem (`normal.y <= 0.55f`).
+- **Hasil Verifikasi Play Mode (`MainIsland_Gameplay.unity`, `0` Errors, `0` Warnings):**
+  - Pendaratan darat datar & lereng `40°`: `T1_GlideLand=PASS`, `T3_DiveLand=PASS`, `T4_StallLand=PASS`, `T5A_40DegLand=PASS` (`_isGrounded = true`, `_currentMomentum = 0.00`, tanpa bounce).
+  - Wajib Takeoff ulang (`T2_RequiresTakeoff=PASS`): `Glide`, `FlyUp` Y-pose, `TuckDive`, dan `PropellerDash` tetap grounded hingga `#04 Takeoff`.
+  - Pantulan tebing/dinding curam: dinding vertikal `90°` (`T5B_VertBounce=PASS`, `mom=0.60 -> 0.30`, `yaw=180.0°`) & lereng curam `70°` (`T5C_70DegBounce=PASS`, `mom=0.30`).
+  - Non-regresi `MomentumFlightVerificationRunner`: **`ALL MOMENTUM & FLIGHT PHYSICS CHECKS PASSED (100%)`**, lalu scene aktif dikembalikan ke `MainMenu_Lobby.unity`.
+
+---
+
 ## 2026-11-26 — Peningkatan Kamera Orbit Berpusat di Center Naga & Slider Settings `Camera Look Rotation` (`DragonFlightController.cs`, `DragonGameSettings.cs`, `SettingsPanelUI.cs`, `UISceneAndPrefabBuilder.cs`)
 
 - **Perubahan yang Diimplementasikan:**
