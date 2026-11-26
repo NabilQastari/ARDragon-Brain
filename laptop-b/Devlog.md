@@ -13,6 +13,10 @@ updated: 2026-11-26
 
 ---
 
+## 2026-11-26 — Memori Sesi: Animasi Tubuh dan Kaki Naga
+- **Catatan Memori:** [[Animasi Tubuh dan Kaki Naga]]
+- **Ringkasan:** Mengarsipkan memori sesi implementasi `DragonBodyAnimator.cs` (`[DefaultExecutionOrder(55)]` pada `/Dragon_Player` untuk rahang `MOUTH_OPEN` + *Victory Roar*, liukan ekor `15/30/55/75/100%` + *undulation*, *Spine Arch*, dan transisi kaki) serta pembaruan **Tahap 1** (*Flight Tuck* aerodinamis kaki depan/belakang, elevasi dada hover $+16^\circ$, *buoyant bobbing* `0.40 Hz / 0.18 m`, `DragonAnimationVerificationRunner`, 4 screenshot mandiri, dan pengembalian scene aktif ke `MainMenu_Lobby.unity`).
+
 ## 2026-11-26 — Diagnosa Error `UnityConnectWebRequestException: Token Exchange failed` ([[Diagnosa Error UnityConnect Token Exchange]])
 
 - Memeriksa Console & status Unity Editor (`6000.3.7f1`) melalui Unity MCP serta `ProjectSettings/UnityConnectSettings.asset` (`m_Enabled: 0` untuk seluruh layanan Unity Services).
