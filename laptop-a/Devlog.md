@@ -13,6 +13,12 @@ updated: 2026-11-26
 
 ---
 
+## 2026-11-26 — Pemaketan Aset Ekspor UI (`Export_UI_Animasi_Loading_Desa_LaptopB`) & Master Prompt Eksekusi Laptop B ([[prompt_eksekusi_ui_animasi_loading_dan_desa_laptop_b]])
+- **Ekspor Aset FigCraft ke Paket Mandiri:** Mengekspor **16 sprite PNG resolusi tinggi** (`10` di `Components/08_LoadingScreen/` dan `6` di `Components/05_Challenge_Minimalist/` termasuk 3 emblem custom Zephyria, Pyrewood, & Solaria) + **3 referensi `Designs/`** ke [`assets/Export_UI_Animasi_Loading_Desa_LaptopB/`](file:///e:/Semester%205/Game/AR%20Dragon/assets/Export_UI_Animasi_Loading_Desa_LaptopB/) beserta `README_EXPORT_UI.md` dan mengemasnya menjadi arsip [`assets/Export_UI_Animasi_Loading_Desa_LaptopB.zip`](file:///e:/Semester%205/Game/AR%20Dragon/assets/Export_UI_Animasi_Loading_Desa_LaptopB.zip) (`1,014,199 B`).
+- **Master Prompt Eksekusi Siap Salin:** Menerbitkan [`prompt_eksekusi_ui_animasi_loading_dan_desa_laptop_b.md`](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/handoff-laptop-b/prompt_eksekusi_ui_animasi_loading_dan_desa_laptop_b.md) mencakup impor sprite, implementasi `LoadingScreenManager.cs` (`SCREEN 11` lengkap dengan animasi siluet naga naik-turun + dynamic flowing trail), perombakan `PF_VillageChallengeOverlay` minimalis (`416×520 px`), serta implementasi seluruh animasi "Juicy UI" Pilar 2 (`EaseOutBack` side-docked, *Parchment Unroll* narasi, *Dual-Layer Trailing Ghost Bar*, *Sequential Star Pop-in* Finish Modal, & micro-interactions tombol).
+
+---
+
 ## 2026-11-26 — Perbaikan & Pembuatan Desain `SCREEN 03B` & `03C` (Improved Side-Docked Village Challenge HUD) di FigCraft
 - **Diagnosis Visual dari 3 Screenshot Live Unity (Pyrewood, Zephyria, Solaria):**
   1. *Clipping Teks Solaria:* Judul `ANGKAT KEDUA TANGAN!` dan subjudul `Tahan Double I-Pose '11' (#15C) di Sky Altar` terpotong (*clipped*) di sisi kiri dan kanan karena lebar panel terlalu sempit (`400 px` / inner `360 px`).
