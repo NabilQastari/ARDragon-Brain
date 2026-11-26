@@ -13,6 +13,17 @@ updated: 2026-11-26
 
 ---
 
+## 2026-11-26 — Memori Sesi: Integrasi Skybox Eksternal dan Awan 3D ([[Integrasi Skybox Eksternal dan Awan 3D]])
+- **Catatan Memori:** [[Integrasi Skybox Eksternal dan Awan 3D]]
+- **Ringkasan:** Mengarsipkan memori sesi integrasi aset eksternal pilihan (*Fantasy Skybox FREE* dan awan 3D *Quaternius Modular Platformer Pack*) ke dalam scene gameplay dan sistem atmosfer:
+  1. **Audit & Seleksi Skybox Eksternal:** Mengaudit paket `Assets/Fantasy Skybox FREE/` dan `Assets/AllSkyFree/`, memilih preset `Assets/Fantasy Skybox FREE/Panoramics/FS003/FS003_Day.mat` (`Skybox/Panoramic`, tekstur 2048×1024) sebagai preset utama atmosfer `NeutralOcean`.
+  2. **Runtime Instance & Modulasi 7 State (`BiomeAtmosphereController.cs`):** Mengganti pembuatan material shader polos lama dengan runtime instance `new Material(template)` (`Runtime_ExternalBiomeSkybox`) yang dibersihkan secara aman pada `OnDestroy()`; memodulasi `_Tint` dan `_Exposure` pada 7 state biome; menyelaraskan `RenderSettings.fogColor = #D2F2FA` dan `fogEndDistance` agar batas cakrawala laut (>2000m) menyatu mulus; mengaktifkan `AmbientMode.Trilight`; serta modulasi warna awan via `MaterialPropertyBlock`.
+  3. **Penguncian Permanen di Lighting Settings:** Mengatur `RenderSettings.skybox = FS003_Day.mat` di scene `MainIsland_Gameplay.unity` & `Test_Dragon_Flight.unity` (serta generator skrip `Session4_VillageBuilder.cs` dan `IslandArchipelagoSetupUtility.cs`) sehingga Edit Mode dan Play Mode langsung menampilkan langit awan yang nyata.
+  4. **Awan 3D Quaternius Transparan Rendah (`PF_StylizedClouds.prefab`):** Menggunakan mesh awan 3D `Cloud1..Cloud5.fbx` dari *Quaternius Modular Platformer Pack*, dikonfigurasi dengan material `Mat_StylizedCloud3D.mat` URP Lit Transparent (`#FFFDF8`, `alpha = 0.45`, `Smoothness = 0.08`, `renderQueue = 3000`), ketinggian diturunkan ke `Y = 115–230 m` (radius `850–1550 m`), bebas collider dan bayangan (`16` gugusan awan di scene).
+  5. **Verifikasi Play Mode:** `VFXAtmosphereVerificationRunner` (10/10 checks PASS) dan `MomentumFlightVerificationRunner` (100% PASS), `0` compile errors, `0` console errors/warnings, 4 screenshot lingkungan tersimpan di `docs/figures/raw_screenshots/` (`SS_Skybox_NeutralOcean.png`, `SS_Skybox_ZephyriaCrisis.png`, `SS_Skybox_PyrewoodCrisis.png`, `SS_Skybox_SolariaRestored.png`), dan scene awal dikembalikan ke `MainMenu_Lobby.unity`.
+
+---
+
 ## 2026-11-26 — Memori Sesi: Revisi VFX Skybox dan Bouncy Landing ([[Revisi VFX Skybox dan Bouncy Landing]])
 - **Catatan Memori:** [[Revisi VFX Skybox dan Bouncy Landing]]
 - **Ringkasan:** Mengarsipkan memori sesi integrasi artistik & penyempurnaan gameplay loop Pilar 1:
