@@ -14,6 +14,7 @@ updated: 2026-11-26
 > Ruangan khusus untuk melacak pekerjaan desain, GDD, UI/UX, konsep aset 3D, dan arsitektur sistem di **Laptop A**. Lihat konteks eksekusi program di [[laptop-b/Tasks]] dan [[laptop-b/Devlog]].
 
 ## 🔥 Fokus Aktif
+- [ ] **Penyusunan Master Prompt & Eksekusi Perbaikan Kontrol, Kemudi, & Momentum v5.0 untuk Laptop B ([[spesifikasi_kecepatan_momentum_v5_dan_kontrol]]):** Menyusun prompt eksekusi bagi Laptop B mencakup implementasi deadzone kemudi $\pm 0.08$ & slider Settings, standarisasi leave desa (3x flap Pyrewood/Solaria vs Tuck Dive Zephyria), pembaruan sistem momentum v5.0 (speed 16-150 m/s, landing glide-to-walk seamless, glancing bounce penalti 10%).
 - [ ] **Penyusunan Desain & Master Prompt Fase Pasca-Animasi Pilar 2 (Animasi UI / "Juice") & Pilar 3 (Mekanisme Kontrol) untuk Laptop B ([[planning_post_animasi_vfx_ui_dan_kontrol]]):** Merumuskan & mengunci spesifikasi animasi UI elastis, ghost progress bar, unroll textbox, serta penguatan kendali instan & mitigasi kelelahan pasca Pilar 1 VFX selesai diserahkan ke Laptop B.
 - [ ] **Penyelesaian Bab Pengujian & Penutup Laporan Capstone (`docs/Laporan_Capstone_Fanamir.md` & `.docx`):**
   - [ ] **Subbab 4.6 (Pengujian Fungsional Game Loop):** Dokumentasi verifikasi Play Mode hitungan mundur, scoring bintang progres global, Finish Modal, dan pembukaan level.

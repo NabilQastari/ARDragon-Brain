@@ -13,6 +13,27 @@ updated: 2026-11-26
 
 ---
 
+## 2026-11-26 — Perumusan Spesifikasi Kecepatan & Sistem Momentum v5.0, Kemudi Halus, & Escape Desa ([[spesifikasi_kecepatan_momentum_v5_dan_kontrol]])
+- **Masukan & Keputusan Desain Bersama Pengguna:**
+  1. *Perbaikan Kemudi Belok:* Mengatasi naga yang terlalu sensitif berbelok dengan menetapkan *Deadzone Center Band* horizontal $\pm 0.08$ ($\approx \pm 3^\circ\text{--}4^\circ$) di mana sinyal belok dikunci $0.0f$, kurva belok non-linier eksponensial $1.35$, menaikkan ambang *Wing Overdrive Steer* ke $0.22$, serta menambahkan slider `Steering Sensitivity` (`0.5x` s.d. `2.0x`, default `1.0x`) pada menu Settings (`SCREEN 05`) dengan persistensi `PlayerPrefs` (`Fanamir_SteeringSensitivity`).
+  2. *Standarisasi Leave/Escape Textbox & Auto-Hover Desa:*
+     - Desa Pyrewood & Solaria: Pemain wajib mengepakkan kedua sayap **3 kali berturut-turut** untuk keluar/escape (mencegah keluar tak sengaja saat meregangkan tangan).
+     - Desa Zephyria: Karena aksi misi adalah *Flapping*, kepakan tangan tidak membatalkan auto-hover. Satu-satunya cara escape adalah pose **Tuck Dive (`#13`)** yang ditahan $\ge 0.6\text{ detik}$.
+  3. *Profil Kecepatan & Sistem Momentum Terpadu v5.0:*
+     - Glide (#08): Base speed $16\text{ m/s}$ ($0\%$), $25\text{--}40\text{ m/s}$ ($< 30\%$), $40\text{ m/s}$ ($\ge 30\%$), dan $40\text{--}100\text{ m/s}$ ($\ge 75\%$, mengikuti Propeller Dash). Drag decay $-3.0\%/\text{s}$.
+     - Propeller Dash (#14): Normal $40\text{--}100\text{ m/s}$ dalam 3 detik (charge $+10\%/\text{s}$ atau $+1\%/0.1\text{s}$); Propeller Dash Boost saat momentum $100\%$ mencapai **$80\text{--}150\text{ m/s}$**!
+     - Tuck Dive (#13): $30\text{--}100\text{ m/s}$ dalam 2 detik (charge $+13\%/\text{s}$).
+     - Takeoff (#04): Charge instan $+10\%$, speed $20\text{--}25\text{ m/s}$.
+     - Flap to Climb (#06): Charge $+5\%/\text{s}$, cap $50\%$, speed $25\text{--}40\text{ m/s}$ dalam 3 detik.
+     - Steep Climb (#06B): Charge $+4\%/\text{s}$, cap $30\%$, speed $20\text{--}35\text{ m/s}$ dalam 4 detik.
+     - Y-Dive (#11): Charge $+8\%/\text{s}$, cap $60\%$, speed $35\text{--}60\text{ m/s}$.
+     - Fly Up / Glide Up (#07): Konsumsi $-10\%/\text{s}$, normal $12\text{ m/s}$, $\ge 80\% \to 40\text{ m/s}$, $\ge 40\% \to 25\text{ m/s}$, $< 40\% \to 20\text{ m/s}$.
+     - Rem & Pendaratan: Hover Active rem $-40\%/\text{s}$; Slow Glide $-10\%/\text{s}$ ($10\text{--}14\text{ m/s}$); Gentle Descent $-15\%/\text{s}$ ($14\text{--}18\text{ m/s}$); W-Pose $-35\%/\text{s}$ ($5\text{ m/s}$).
+     - Event Triggers: Tabrakan tebing hanya penalti $-10\%$ momentum; mendarat kasual melambat dari $X\% \to 0\%$ dan $X\text{ m/s} \to 0\text{ m/s}$ dalam 3 detik; KECUALI jika menyentuh tanah dalam posisi Glide datar (`#08`), langsung bertransisi mulus ke `Ground Walk` ($3.5\text{ m/s}$) tanpa henti mendadak; dorongan keluar desa dinamis mengikuti momentum & pose aktif.
+- **Penerbitan Dokumen:** Disimpan di [[spesifikasi_kecepatan_momentum_v5_dan_kontrol]].
+
+---
+
 ## 2026-11-26 — Arsip Memori Sesi: Finalisasi Revisi VFX dan Pemaketan ([[Finalisasi Revisi VFX dan Pemaketan]])
 - **Perintah Pengguna:** `"jadikan sesi ini memory"`.
 - **Inti Ringkasan Sesi:**
