@@ -13,6 +13,18 @@ updated: 2026-11-26
 
 ---
 
+## 2026-11-26 — Arsip Memori Sesi: Perancangan Sistem Audio dan Dropdown BGM ([[Perancangan Sistem Audio dan Dropdown BGM]])
+- **Perintah Pengguna:** `"jadikan sesi ini memory"`.
+- **Inti Ringkasan Sesi:**
+  1. *Perancangan & Ekspor Audio Fanamir:* Memproduksi 14 BGM MP3 (6 Ghibli Fantasy, 6 Cinematic Tribal, 1 Celebration) dan 23 SFX WAV 44.1kHz 16-bit (lokomosi naga, aksi 3 desa, UI feedback, dan Splash Screen Logo Reveal).
+  2. *Perbaikan SFX Propeller Dash (Whoosh Berat):* Mengganti desau/siulan tinggi menjadi Whoosh Berat (*Heavy Aerodynamic Whoosh*) bertenaga sub-bass masif (30–110 Hz) tanpa siulan berdenging.
+  3. *Sistem Dropdown BGM & Pemilih Cepat Menu:* Menyediakan Dropdown BGM In-Game (`Adaptif`, `BGM 1..11`) dan Dropdown BGM Menu (`BGM Menu 1..6`) di Settings (`SCREEN 05`), serta Pill Pemilih Cepat BGM Menu (`[🎵 BGM Menu: BGM 1 ▼]`) di navbar Lobby (`SCREEN 00`).
+  4. *Persistensi Antar Sesi Penuh:* Pengaturan lagu disimpan permanen di `PlayerPrefs` (`Fanamir_BgmFlightIndex` & `Fanamir_BgmMenuIndex`) sehingga tidak pernah reset saat keluar dari game.
+  5. *Pemaketan & Master Prompt:* Mengemas [`assets/Export_Audio_LaptopB.zip`](file:///e:/Semester%205/Game/AR%20Dragon/assets/Export_Audio_LaptopB.zip) (~91.6 MB) dengan `copy_to_unity.bat` dan menerbitkan master prompt eksekusi 6 langkah bagi Laptop B.
+- **Arsip Memori Lengkap:** Tersimpan di [[Perancangan Sistem Audio dan Dropdown BGM]].
+
+---
+
 ## 2026-11-26 — Arsip Memori Sesi: VFX Skybox Skor dan Animasi Naga ([[VFX Skybox Skor dan Animasi Naga]])
 - **Ringkasan Memori:** Mengarsipkan sesi perancangan terpadu: (1) Penyematan 12 gambar ke draf Laporan Capstone [Laporan_Capstone_Fanamir.docx](file:///e:/Semester%205/Game/AR%20Dragon/docs/Laporan_Capstone_Fanamir.docx) (~4.6 MB) dengan 5 placeholder tertanda untuk Laptop B; (2) SOP screenshot mandiri & staging folder `docs/figures/raw_screenshots/`; (3) Paket Visual Sesi 4B (Dynamic FOV 60°–85°, Dynamic Biome Skybox/Fog URP, & 7 partikel Effekseer); (4) Pembakuan Sesi 5 Game Loop & scoring bintang berbasis Progres Global (33.4%, 66.7%, 100%, unlock minimal 1 bintang, jeda timer saat narasi); serta (5) Arsitektur animasi tubuh naga prosedural `DragonBodyAnimator.cs` (rahang buka mulut `Bone_Jaw` #15B, liukan ekor dinamis *Tail Sway*, lengkungan punggung, & lipatan kaki cakar aerodinamis). Catatan lengkap diarsipkan di [[VFX Skybox Skor dan Animasi Naga]].
 
