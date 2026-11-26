@@ -13,6 +13,18 @@ updated: 2026-11-26
 
 ---
 
+## 2026-11-26 — Perancangan & Pembuatan Desain `SCREEN 11 - Loading Screen` di FigCraft (Konsep 2: *Celestial Twilight Horizon*)
+- **Keputusan Desain Bersama Pengguna:** Memilih **Konsep 2 (*Celestial Twilight Horizon*)** untuk desain Loading Screen antar-scene di [`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft) (Page `Design`, posisi `x: 0, y: 3600`, resolusi `1920×1080`).
+- **Elemen Visual yang Dibangun via FigCraft MCP:**
+  1. *Latar Langit Senja & Pulau Melayang:* Gradasi senja indigo-toska-oranye (`#0E1A2E` $\to$ `#1B4358` $\to$ `#B56B3F` $\to$ `#241C18`), halo matahari senja, vignette bawah, dan lapisan pulau `UI_Bg_Lobby_AerialIsland` (`opacity: 0.32`).
+  2. *Hero Silhouette & Trail:* Vektor siluet Fanamir meluncur anggun (`#FFFDF5` glow `#38BDF8`) diiringi jejak pita energi cyan-emas (`Hero_Glow_Trail`) dan taburan bintang kelip.
+  3. *Top Crest:* Ornamen `UI_Crest_Baroque_Scrollwork` berwarna emas (`#E5AD44`) & judul `FANAMIR · THE SKY GUARDIAN`.
+  4. *Tip & Lore Card Stepped Parchment:* Kartu perkamen bergaya konsisten (`#F2EFE7`, border `#332C25`, tag emas `TAHUKAH KAMU?`), dilengkapi ikon pose vektor `UI_Pose_14_PropellerDash` (`104×104`) serta judul & teks tips gameplay.
+  5. *Bottom Loading Cluster:* Status dinamis (*"MENYUSURI ALIRAN ANGIN KEPULAUAN..."*), persentase amber (`78%`), track bar `1500×26 px` dengan fill gradasi biru-cyan-emas dan bintang bercahaya di ujung kemajuan.
+- **Ekspor & Simpan:** Diekspor `1920×1080` ke [`assets/UI_Unity_Export/Designs/11_LoadingScreen.png`](file:///e:/Semester%205/Game/AR%20Dragon/assets/UI_Unity_Export/Designs/11_LoadingScreen.png) (`854,810 B`) dan file `.figcraft` disimpan (`2,872,684 B`).
+
+---
+
 ## 2026-11-26 — Finalisasi Konten Laporan Capstone Project & Handoff Screenshot Full Unity ke Laptop B ([[prompt_eksekusi_screenshot_dan_finalisasi_laporan_laptop_b]])
 - **Pembaruan Dokumen Laporan Capstone (`docs/Laporan_Capstone_Fanamir.md` & `docs/Laporan_Capstone_Fanamir.docx`):**
   1. *Subbab 4.6 (Pengujian Fungsional Sistem — Sesi 5 Game Loop & Scoring):* Menyusun dokumentasi lengkap siklus state machine `GameManager.cs` (LevelInit -> CountdownStart 3s -> Playing -> Paused -> TimeUp/Victory), timer stage exergaming 5/10/15 menit, evaluasi skor bintang berbasis Progres Global Vitality (33.4%, 66.7%, 100%), TimeUp berpesan apresiasi positif, animasi Finish Modal, AudioManager 37 aset dengan Dual BGM Selection & Whoosh berat Propeller Dash, artikulasi naga `DragonBodyAnimator.cs` (rahang bukaan mulut, liukan ekor, kaki lipat aerodinamis vs elevasi dada hover), serta 100% PASS verifikasi unit test.
