@@ -13,6 +13,17 @@ updated: 2026-11-26
 
 ---
 
+## 2026-11-26 — Implementasi Kontrol Halus, Steep Bounce Toggle, Ground Lockout, Escape Desa, & Momentum v5.0 ([[Implementasi Kontrol dan Momentum v5]])
+- **Catatan Memori:** [[Implementasi Kontrol dan Momentum v5]]
+- **Ringkasan:** Mengimplementasikan paket spesifikasi resmi v5.0 dari [[laptop-a/gameplay-mechanics/spesifikasi_kecepatan_momentum_v5_dan_kontrol]]:
+  1. **Kemudi Belok Halus & Settings (`DragonFlightController.cs`, `DefaultFlightInputMapper.cs`, `IFlightInputProvider.cs`, `DragonGameSettings.cs`, `SettingsPanelUI.cs`, `UISceneAndPrefabBuilder.cs`):** Menetapkan deadzone tengah `±0.08`, kurva non-linier `pow((|r|-0.08)/0.92, 1.35f)` bebas *double-curve*, *Wing Overdrive Steer* `0.22f`, serta menambahkan slider `Row_SteeringSensitivity` (`Fanamir_SteeringSensitivity`, `0.5x–2.0x`, default `1.0x`) di `PF_SettingsPanel.prefab` (`SettingsCard` `960×820 px`).
+  2. **Toggle Steep Bouncy Collision (`DragonGameSettings.cs`, `SettingsPanelUI.cs`, `UISceneAndPrefabBuilder.cs`, `DragonFlightController.cs`):** Menambahkan toggle `Row_SteepBounceToggle` (`Fanamir_SteepBounceEnabled`, `1 = ON / 0 = OFF`, default `1`); saat `ON` penalti `ApplyGlancingBounce()` menjadi `-10%` momentum, saat `OFF` `ApplySmoothSteepSlide()` meluncur geser menyusuri tebing tanpa gaya tolak mendadak atau guncangan kamera.
+  3. **Ground Mode, Takeoff 3 Kepakan, & Air Pose Lockout (`DragonFlightController.cs`, `DragonWingAnimator.cs`):** Mewajibkan `3` kepakan bertenaga (`FlapPower >= 0.28f` dalam `2.5s`) untuk takeoff (`+10%` momentum instan), memastikan T-Pose/`UpperArmOpenness >= 0.35f` konsisten berjalan `3.5 m/s` (rapat `< 0.25f` berhenti), memblokir total seluruh pose udara saat grounded (termasuk di `DragonWingAnimator`), serta memisahkan kasual landing `3.0s` slide decay vs *Glide-to-Ground Seamless Walk* (`3.5 m/s`).
+  4. **Aturan Escape Desa & Momentum v5.0 (`VillageZoneController.cs`, `DragonFlightController.cs`, `DragonLocomotionConfig.cs`/`.asset`, `EffekseerSettings.asset`):** Standarisasi escape Pyrewood & Solaria (`3x` kepakan dalam `2.5s`) vs Zephyria (`100%` hanya Tuck Dive `#13 >= 0.6s`), dorongan keluar dinamis sesuai momentum & pose aktif, pembaruan kurva kecepatan/momentum v5.0 (`16–150 m/s`), serta pengaktifan `enableURPRasterPass: 1` di `EffekseerSettings.asset`.
+  5. **Verifikasi Play Mode (`0` Errors, `0` Warnings):** `MainMenu_Lobby.unity` (`SteeringSlider=0.5..2`, `SteepBounceToggle=ON/OFF`), `MomentumFlightVerificationRunner` (`ALL MOMENTUM v5.0 & FLIGHT PHYSICS CHECKS PASSED (100%)`), dan `Session4VerificationRunner` (`ALL SESSION 4 VILLAGE, SUB-MARKER, AUTO-HOVER, ESCAPE, BILLBOARD & UI ISOLATION CHECKS PASSED (100%)`), lalu scene aktif dikembalikan ke `MainMenu_Lobby.unity` (Build Index `0`).
+
+---
+
 ## 2026-11-26 — Diagnosa Error Render Graph Execution `ArgumentNullException` ([[Diagnosa Render Graph Execution Error]])
 - **Catatan Memori:** [[Diagnosa Render Graph Execution Error]]
 - **Ringkasan:** Mendiagnosa error berulang di Console Unity Editor (`6000.3.7f1`):
