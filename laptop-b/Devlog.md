@@ -13,6 +13,14 @@ updated: 2026-11-26
 
 ---
 
+## 2026-11-26 — Memori Sesi: Perbaikan Kemudi Kanan dan Finish UI Stage
+- **Catatan Memori:** [[Perbaikan Kemudi Kanan dan Finish UI Stage]]
+- **Ringkasan:** Mengarsipkan memori sesi audit & perbaikan bug kemudi naga stuck belok kanan terus akibat `ARDragonSkyGuardian_CV/player_profile.json` korup (`neutral_lean_bias_deg = -22.856°`) + penjaga validasi `player_calibrator.py`/`motion_recognizer.py`/`active_cv_sender.py`, pemisahan tantangan per level (`Stage 1/2/3 = 1/2/3 Desa`) lewat default fallback & `SubsystemRegistration` `DragonGameSettings.cs` + `CalibrationPanelUI.cs` + `VillageZoneController.cs`, serta integrasi `FinishModalUI` (`PF_FinishModal`) + `NEXT LEVEL` pasca-penyelesaian misi.
+
+## 2026-11-26 — Memori Sesi: Arsip dan Push Memori Laptop B
+- **Catatan Memori:** [[Arsip dan Push Memori Laptop B]]
+- **Ringkasan:** Mengarsipkan memori sesi sinkronisasi dan *push* catatan memori Laptop B ke `ARDragon-Brain` (`origin main`, commit `950f2fb` untuk 4 memori: Momentum v4, Sesi 4, Sesi 4B, & Sesi 5 beserta pembaruan `[[Tasks]]` dan `[[Devlog]]`).
+
 ## 2026-11-26 — Integrasi Skybox Eksternal (*Fantasy Skybox FREE* `FS003_Day`) & Awan 3D *Quaternius* (`PF_StylizedClouds`, `BiomeAtmosphereController.cs`, `Session4_VillageBuilder.cs`, `IslandArchipelagoSetupUtility.cs`, `[[laptop-a/handoff-laptop-b/prompt_eksekusi_integrasi_skybox_dan_awan_eksternal_laptop_b]]`)
 
 - **Audit & Pemilihan Aset Eksternal (`Assets/`):**
