@@ -13,6 +13,16 @@ updated: 2026-11-26
 
 ---
 
+## 2026-11-26 — Penyusunan Spesifikasi & Master Prompt Revisi Skybox Fantasi *Stylized* ([[spesifikasi_revisi_skybox_stylized]], [[prompt_eksekusi_revisi_skybox_laptop_b]])
+- **Diagnosis Visual:** Dari evaluasi pengguna dan analisis AST `BiomeAtmosphereController.cs` (`InitRuntimeSkybox()`), implementasi skybox Sesi 4B awal baru berupa gradasi warna prosedural polos tanpa awan *stylized* dan baru di-set saat Play Mode sehingga terlihat mirip dengan `Default-Skybox` bawaan Unity.
+- **Rancangan Revisi Skybox (`spesifikasi_revisi_skybox_stylized.md`):**
+  - **Shader `DynamicBiomeSkybox.shader`:** Gradasi 4-stop (`_ZenithColor`, `_MidSkyColor`, `_HorizonColor` sinkron 100% dengan `RenderSettings.fogColor`, `_NadirColor`), 2 lapisan awan prosedural *stylized* Ghibli/Genshin (kumulus bervolume dengan `_CloudLitColor`/`_CloudShadowColor`/*silver lining* + *cirrus* tinggi), serta piringan matahari & halo atmosferik.
+  - **7 State `BiomeAtmosphereController.cs` + Trilight Ambient:** Matriks palet lengkap (`NeutralOcean`, `ZephyriaCrisis`/`Restored`, `PyrewoodCrisis`/`Restored`, `SolariaCrisis`/`Restored`) mencakup cakupan awan, warna bayangan awan, intensitas halo matahari, dan sinkronisasi `AmbientMode.Trilight`.
+  - **Awan 3D Parallax (`PF_StylizedClouds`) & Lighting Permanen:** Cincin `12–16` awan *stylized* non-colliding di radius `950–1650 m` (`Y = 300–520 m`), pemasangan `Mat_DynamicBiomeSkybox.mat` langsung pada `RenderSettings.skybox` di scene agar terlihat sejak Edit Mode, serta instansiasi material runtime saat Play Mode agar file `.mat` di disk tidak kotor.
+- **Handoff Laptop B:** Menerbitkan master prompt siap salin di [prompt_eksekusi_revisi_skybox_laptop_b.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/handoff-laptop-b/prompt_eksekusi_revisi_skybox_laptop_b.md) lengkap dengan target 4 screenshot verifikasi.
+
+---
+
 ## 2026-11-26 — Finalisasi VFX Pilar 1 (`v23–v24`), Pemaketan `Export_VFX_Revisi_LaptopB.zip`, & Master Prompt Laptop B ([[spesifikasi_revisi_vfx_pilar_1]], [[prompt_eksekusi_revisi_vfx_pilar_1_laptop_b]])
 - **Perbaikan Teknis Studio VFX Three.js (`v23–v24`):**
   - **Fix HTTP JSON Cache & Loop Continuity (`v23`):** Menambahkan `{ cache: 'no-store' }` di `vfx_player.js`, parameter `?v=20261125_v23` di seluruh `VFX_MANIFEST`, mengaktifkan pembaruan `spinRad` tiap frame pada `Ring`/`Model`, auto-wind drift saat `wingtip`/`dash` dinyalakan dari pose diam, serta menghapus celah kosong (*loop gap*) di 7 resep VFX.
