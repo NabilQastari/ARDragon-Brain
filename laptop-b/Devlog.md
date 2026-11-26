@@ -13,6 +13,17 @@ updated: 2026-11-26
 
 ---
 
+## 2026-11-27 — Loading Screen (`SCREEN 11`), UI Event Desa Minimalis (`416×520`), & Animasi Juicy UI Pilar 2 ([[Loading Screen UI Desa Minimalis dan Juicy UI]])
+- **Catatan Memori:** [[Loading Screen UI Desa Minimalis dan Juicy UI]]
+- **Ringkasan:** Mengimpor paket aset `Export_UI_Animasi_Loading_Desa_LaptopB/` dan mengimplementasikan pembaruan antarmuka utama:
+  1. **Impor Aset (`UISpriteSetupUtility.cs`):** Menyalin `10` PNG `08_LoadingScreen/`, `6` PNG `05_Challenge_Minimalist/`, dan `3` referensi `Designs/` (`11_LoadingScreen.png`, `03B_SideDocked_ChallengeHUD_Improved.png`, `03C_SideDocked_3Biome_Showcase.png`), lalu mengonfigurasi seluruh **`158` PNG** (`82` 9-Slice/3-Slice borders, `FullRect`, `Bilinear`, `SpriteMode.Single`).
+  2. **Loading Screen Antar-Scene (`LoadingScreenManager.cs`, `UILoadingWaveTrailGraphic.cs`, `PF_LoadingScreenOverlay.prefab`):** Membangun singleton `DontDestroyOnLoad` (`SortingOrder 999`) dengan latar senja twilight 4-stop + pulau `0.32` + vignette, crest `"FANAMIR · THE SKY GUARDIAN"`, animasi naga mengambang (`Sin(t*2.2)*14px`, rotasi Z `±4°`) dengan pita trail dinamis cyan-ke-emas (`MaskableGraphic`) menempel di ekor + bintang kelip, kartu tip acak `"TAHUKAH KAMU?"`, serta bottom progress bar + `UI_Loading_Tip_Star`. Mengintegrasikan `LoadSceneAsync` (`FadeIn 0.30s -> Async Load -> Smooth 0.9..1.0 -> Hold 0.25s -> FadeOut 0.35s`) pada `DragonGameSettings.LoadSceneCleanly`.
+  3. **UI Event Desa Minimalis (`PF_VillageChallengeOverlay.prefab`, `VillageChallengeUI.cs`, `VillageZoneController.cs`):** Merombak panel samping menjadi **`416 × 520 px`** *Middle-Right* `(-32, 0)` dengan 4 zona bersih, 3 emblem custom baru (`UI_Emblem_Zephyria_WingFlap`, `UI_Emblem_Pyrewood_WaterBreath`, `UI_Emblem_Solaria_DewSummon`), badge status terpusat (`● GERAKAN TERDETEKSI!` / `○ MENUNGGU GERAKAN...`), & escape hint bersih tanpa kotak.
+  4. **Animasi "Juicy UI" Pilar 2 (`UIAnimationUtils.cs`, `UIButtonJuice.cs`, & Controller UI):** Mengimplementasikan slide intro/outro `EaseOutBack`/`EaseInQuad` + punch scale `1.08x` (`VillageChallengeUI`), dual-layer trailing ghost bar `0.08s`/`0.35s` (`VillageChallengeUI` & `InGameFlightHUD`), `UnrollY` + fade + countdown shimmer sweep (`QuestNarrativeUI`), modal drop-in `EaseOutBounce` + pop bintang `0.55s`/`0.95s`/`1.35s` + sparkle burst emas bintang ke-3 (`FinishModalUI`), micro-interaction tombol `1.04x`/`0.96x`, serta *denied horizontal shake* `±10 px` (`MissionsPanelUI` & `CalibrationPanelUI`).
+  5. **Verifikasi Play Mode & Screenshot (`0` Errors, `0` Warnings):** Lulus penuh pada `UIJuiceAndLoadingVerificationRunner`, `Session4VerificationRunner` (`100% PASS`), & `Session5GameLoopVerificationRunner` (`100% PASS`); menyimpan `SS_UI_LoadingScreen.png` & `SS_UI_Minimalist_VillageHUD_3Biomes.png` di `docs/figures/raw_screenshots/`; serta mengembalikan scene aktif ke `MainMenu_Lobby.unity`.
+
+---
+
 ## 2026-11-26 — Sinkronisasi dan Push Progres Utuh Laptop B ke Repositori Project GitHub
 - **Branch Baru:** `feat/laptop-b-full-implementation` -> `origin/feat/laptop-b-full-implementation`
 - **Ringkasan:** Mengaudit working tree repositori game proyek utama (`AR-Dragon.git`) yang sebelumnya belum pernah dipush selama 2 minggu sejak commit `62c7e90` (12 November 2026):
