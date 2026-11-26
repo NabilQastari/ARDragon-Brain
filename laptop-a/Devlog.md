@@ -13,6 +13,22 @@ updated: 2026-11-26
 
 ---
 
+## 2026-11-26 — Perbaikan & Pembuatan Desain `SCREEN 03B` & `03C` (Improved Side-Docked Village Challenge HUD) di FigCraft
+- **Diagnosis Visual dari 3 Screenshot Live Unity (Pyrewood, Zephyria, Solaria):**
+  1. *Clipping Teks Solaria:* Judul `ANGKAT KEDUA TANGAN!` dan subjudul `Tahan Double I-Pose '11' (#15C) di Sky Altar` terpotong (*clipped*) di sisi kiri dan kanan karena lebar panel terlalu sempit (`400 px` / inner `360 px`).
+  2. *Clipping Ikon WaterBreath & Pose Medallion:* Ikon `UI_Illust_Dragon_WaterBreath` terpotong bagian atasnya di Pyrewood, serta ikon pose di Zephyria/Solaria menempel langsung ke border atas (`0 px` top padding).
+  3. *Badge Status & Footer Kaku:* Titik status hijau (`●`) pada tombol `GERAKAN TERDETEKSI!` terdampar jauh di sisi kiri tidak sejajar dengan teks, progress bar belum menampilkan visual `NO-DECAY` / *trailing ghost*, serta ketiga desa tidak memiliki aksen warna pembeda biome.
+- **Solusi Desain Baru di FigCraft ([`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft)):**
+  - Memperlebar kartu menjadi **`456 × 672 px`** (`TargetPose_HeroCard` lebar `408 px`, usable text width `368 px`, padding `20 px` di semua sisi) dengan tetap menjaga >75% area tengah layar 100% bebas untuk naga Fanamir.
+  - Memasang bingkai ikon `136 × 108 px` (`172 × 108 px` khusus `WaterBreath`) sehingga seluruh ikon dan ilustrasi muat utuh tanpa terpotong.
+  - Menyatukan badge status **`●  GERAKAN TERDETEKSI!`** (emerald green) dan **`○  MENUNGGU GERAKAN...`** (amber) agar titik & teks rata tengah menjadi satu kesatuan.
+  - Menambahkan pil aksen krisis biome (Emerald Wind untuk Zephyria, Ember Orange untuk Pyrewood, Solar Gold untuk Solaria), pil **`NO-DECAY`**, **Dual-Layer Trailing Ghost Progress Bar** dengan garis milestone `25/50/75%`, serta footer keycap gelap **`[TUCK DIVE (#13)]`** (Zephyria) vs **`[KEPAK SAYAP 3X]`** (Pyrewood & Solaria) + **`UNTUK KELUAR`**.
+- **Ekspor Referensi:**
+  - [`03B_SideDocked_ChallengeHUD_Improved.png`](file:///e:/Semester%205/Game/AR%20Dragon/assets/UI_Unity_Export/Designs/03B_SideDocked_ChallengeHUD_Improved.png) (`1920×1080`, konteks full gameplay).
+  - [`03C_SideDocked_3Biome_Showcase.png`](file:///e:/Semester%205/Game/AR%20Dragon/assets/UI_Unity_Export/Designs/03C_SideDocked_3Biome_Showcase.png) (`1620×840`, perbandingan lengkap 3 biome & 2 state).
+
+---
+
 ## 2026-11-26 — Perancangan & Pembuatan Desain `SCREEN 11 - Loading Screen` di FigCraft (Konsep 2: *Celestial Twilight Horizon*)
 - **Keputusan Desain Bersama Pengguna:** Memilih **Konsep 2 (*Celestial Twilight Horizon*)** untuk desain Loading Screen antar-scene di [`UI AR Dragon.figcraft`](file:///e:/Semester%205/Game/AR%20Dragon/UI%20AR%20Dragon.figcraft) (Page `Design`, posisi `x: 0, y: 3600`, resolusi `1920×1080`).
 - **Elemen Visual yang Dibangun via FigCraft MCP:**
