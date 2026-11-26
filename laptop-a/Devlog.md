@@ -649,7 +649,7 @@ updated: 2026-11-26
 
 ---
 
-## 2026-11-21 — Restrukturisasi & Penataan Folder Kategori Brain Laptop A
+## 2026-11-21 — Restrukturisasi & Penataan Folder Kategori Brain Laptop A ([[Restrukturisasi Folder Brain Laptop A]])
 - **Aksi Penataan Ruang Kerja:**
   - Melakukan penataan menyeluruh terhadap 19 file dokumentasi lepas yang sebelumnya bertumpuk di root `brain/laptop-a/`.
   - Membuat 5 subfolder kategori modular berbasis domain pengembangan:
