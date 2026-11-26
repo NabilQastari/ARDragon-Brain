@@ -13,6 +13,22 @@ updated: 2026-11-26
 
 ---
 
+## 2026-11-26 — Arsip Memori Sesi: VFX Skybox Skor dan Animasi Naga ([[VFX Skybox Skor dan Animasi Naga]])
+- **Ringkasan Memori:** Mengarsipkan sesi perancangan terpadu: (1) Penyematan 12 gambar ke draf Laporan Capstone [Laporan_Capstone_Fanamir.docx](file:///e:/Semester%205/Game/AR%20Dragon/docs/Laporan_Capstone_Fanamir.docx) (~4.6 MB) dengan 5 placeholder tertanda untuk Laptop B; (2) SOP screenshot mandiri & staging folder `docs/figures/raw_screenshots/`; (3) Paket Visual Sesi 4B (Dynamic FOV 60°–85°, Dynamic Biome Skybox/Fog URP, & 7 partikel Effekseer); (4) Pembakuan Sesi 5 Game Loop & scoring bintang berbasis Progres Global (33.4%, 66.7%, 100%, unlock minimal 1 bintang, jeda timer saat narasi); serta (5) Arsitektur animasi tubuh naga prosedural `DragonBodyAnimator.cs` (rahang buka mulut `Bone_Jaw` #15B, liukan ekor dinamis *Tail Sway*, lengkungan punggung, & lipatan kaki cakar aerodinamis). Catatan lengkap diarsipkan di [[VFX Skybox Skor dan Animasi Naga]].
+
+---
+
+## 2026-11-26 — Pengarsipan Memori: Redesain UI In-Game, Timer Misi Baru, & Stabilisasi Hibrida CV ([[Redesain UI InGame dan Stabilisasi Hibrida CV]])
+- **Perintah Pengguna:** `"jadikan sesi ini memory"`.
+- **Inti Ringkasan Sesi:**
+  1. *Perbaikan UI In-Game:* Menerapkan Full Narrative Isolation Mode pada `InGameFlightHUD.cs` (hanya `QuestObjectivePanel` dan `PF_QuestNarrativeBox` yang tampil), memperbesar ukuran textbox menjadi $1440 \times 300\text{ px}$ dan font dialog menjadi $34\text{ pt}$ (optimal exergaming 2 meter), serta merombak modal tengah raksasa `SCREEN 03` ($720 \times 670\text{ px}$) menjadi **Side-Docked Challenge HUD** ($400 \times 620\text{ px}$) di sisi kanan layar agar badan naga Fanamir $100\%$ bebas terlihat di tengah.
+  2. *Perpanjangan Durasi Timer Misi:* Stage 1 = $5\text{ Menit}$ (300s), Stage 2 = $10\text{ Menit}$ (600s), Stage 3 = $15\text{ Menit}$ (900s), dan Free Play = $\infty$ di `GameManager.cs` & `MissionsPanelUI.cs`.
+  3. *Arsitektur Hibrida CV (YOLOv8 + MediaPipe Pose):* Mengatasi jitter dan glitch lompatan sendi dengan memadukan YOLOv8 (otak makro bounding box & kemudi) dengan MediaPipe Pose Landmarker pada Crop ROI pemain (~360x480 px, model `pose_landmarker_lite.task` eksisting) untuk mengunci sendi pergelangan & siku secara sub-piksel 3D tanpa beban komputasi besar ($\sim 50\text{ FPS}$).
+  4. *Master Prompt Laptop B:* Menerbitkan `prompt_eksekusi_hybrid_cv_dan_timer_laptop_b.md` dan `planning_perbaikan_ui_ingame_dan_event_desa.md`.
+- **Arsip Memori Lengkap:** Tersimpan di [[Redesain UI InGame dan Stabilisasi Hibrida CV]].
+
+---
+
 ## 2026-11-26 — Diagnosa & Perumusan Prompt Perbaikan Bug Naga Macet Paska Tantangan 1 ([[Investigasi Bug Naga Macet Sesi 4]])
 - **Masalah:** Pengguna melaporkan bahwa setelah menyelesaikan Tantangan Ke-1 (Pembersihan Kabut Desa Zephyria) dan hendak terbang menuju Tantangan Ke-2 (Desa Pyrewood / Danau Zephyria), naga Fanamir berhenti total / tidak mau bergerak di udara.
 - **Analisis Akar Masalah Teknis (Sesi 4 & Momentum v4.0):**
@@ -602,10 +618,10 @@ updated: 2026-11-26
 
 ---
 
-## 2026-11-23 — Penerbitan Master Prompt Eksekusi Graphify + Obsidian untuk Laptop B ([[prompt_eksekusi_graphify_laptop_b]])
+## 2026-11-23 — Penerbitan Master Prompt Eksekusi Graphify + Obsidian untuk Laptop B ([[prompt_eksekusi_graphify_laptop_b]], [[Perencanaan dan Master Prompt Graphify Laptop B]])
 - **Penyusunan Master Prompt Siap Salin:**
   - Menyusun dokumen instruksi eksekusi teknis langkah demi langkah siap salin bagi Laptop B di `brain/laptop-a/handoff-laptop-b/prompt_eksekusi_graphify_laptop_b.md`.
-  - Mencakup perintah instalasi paket resmi `graphifyy`, pemindaian AST terarah pada `Assets/_Scripts/` dan `ARDragonSkyGuardian_CV/` dengan output terisolasi di `brain/laptop-b/code-graph/`, pembuatan portal `index.md`, pengujian kueri CLI (`graphify explain`, `graphify path`), verifikasi plugin visual Obsidian (Juggl), serta sinkronisasi git dengan `rtk`.
+  - Mencakup perintah instalasi paket resmi `graphifyy`, pemindaian AST terarah pada `Assets/_Scripts/` dan `ARDragonSkyGuardian_CV/` dengan output terisolasi di `brain/laptop-b/code-graph/`, pembuatan portal `index.md`, pengujian kueri CLI (`graphify explain`, `graphify path`), verifikasi plugin visual Obsidian (Juggl), serta sinkronisasi git dengan `rtk`. Catatan memori diarsipkan di [[Perencanaan dan Master Prompt Graphify Laptop B]].
 - **Pembaruan Dokumen:** Memperbarui [[00 - Overview]], [[Tasks]], [[Devlog]], dan [[planning_graphify_laptop_b]].
 
 ---
