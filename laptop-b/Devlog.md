@@ -13,6 +13,10 @@ updated: 2026-11-26
 
 ---
 
+## 2026-11-26 — Memori Sesi: Perbaikan UI Settings dan Pose Guide
+- **Catatan Memori:** [[Perbaikan UI Settings dan Pose Guide]]
+- **Ringkasan:** Mengarsipkan memori sesi penghapusan section `CAMERA INPUT & AI YOLO` dari `PF_SettingsPanel.prefab` & `SettingsPanelUI.cs` (mengarahkan `navCamBadgeButton` ke `LobbyTab.Calibration` di `LobbyNavigationManager.cs`), penyesuaian gap bawah `Btn_ApplyAndClose` (`SettingsCard` `960×520`, `y = 42`) & `Btn_ClosePoseGuide` (`ModalCard` `1848×854`, `y = 48`), serta pelebaran margin dalam `26 px` (kiri/atas/kanan) & `24 px` (bawah) pada `PoseGuideCard_01..15` (`PF_PoseGuideOverlay.prefab` + `PoseGuideOverlayUI.cs`) dan `RecentPoseSlot_1..4` (`PF_CalibrationPanel.prefab`) agar bebas dari bingkai `14..18 px` state `ACTIVE`.
+
 ## 2026-11-26 — Memori Sesi: Animasi Tubuh dan Kaki Naga
 - **Catatan Memori:** [[Animasi Tubuh dan Kaki Naga]]
 - **Ringkasan:** Mengarsipkan memori sesi implementasi `DragonBodyAnimator.cs` (`[DefaultExecutionOrder(55)]` pada `/Dragon_Player` untuk rahang `MOUTH_OPEN` + *Victory Roar*, liukan ekor `15/30/55/75/100%` + *undulation*, *Spine Arch*, dan transisi kaki) serta pembaruan **Tahap 1** (*Flight Tuck* aerodinamis kaki depan/belakang, elevasi dada hover $+16^\circ$, *buoyant bobbing* `0.40 Hz / 0.18 m`, `DragonAnimationVerificationRunner`, 4 screenshot mandiri, dan pengembalian scene aktif ke `MainMenu_Lobby.unity`).
@@ -150,7 +154,7 @@ updated: 2026-11-26
 
 ---
 
-## 2026-11-25 — Implementasi World Boundary, Pantulan Tabrakan `Terrain`/`Rocks`, Misi Pyrewood 2-Tahap, Time Up Positif, & Dual Input Mode (`CV` vs `Keyboard`) ([[laptop-a/gameplay-mechanics/spesifikasi_gameplay_boundary_dan_dual_input_mode]])
+## 2026-11-25 — Implementasi World Boundary, Pantulan Tabrakan `Terrain`/`Rocks`, Misi Pyrewood 2-Tahap, Time Up Positif, & Dual Input Mode (`CV` vs `Keyboard`) ([[laptop-a/gameplay-mechanics/spesifikasi_gameplay_boundary_dan_dual_input_mode]], [[World Boundary Bounce dan Dual Input]])
 
 - **Konteks & Acuan:** Menyelesaikan Langkah 4–7 Master Prompt mengacu spesifikasi resmi [[laptop-a/gameplay-mechanics/spesifikasi_gameplay_boundary_dan_dual_input_mode]].
 - **Langkah 4 — World Boundary Push-Back & Terrain/Rocks Glancing Bounce (`DragonFlightController.cs`, `InGameFlightHUD.cs`, `TagManager.asset`, `IslandArchipelagoSetupUtility.cs`):**
@@ -266,7 +270,7 @@ updated: 2026-11-26
 
 ---
 
-## 2026-11-25 — Penghapusan Section Kalibrasi/Kamera pada Settings (`PF_SettingsPanel.prefab`, `SettingsPanelUI.cs`, `LobbyNavigationManager.cs`)
+## 2026-11-25 — Penghapusan Section Kalibrasi/Kamera pada Settings & Perbaikan Gap/Padding UI (`PF_SettingsPanel.prefab`, `PF_PoseGuideOverlay.prefab`, `PF_CalibrationPanel.prefab`, `[[Perbaikan UI Settings dan Pose Guide]]`)
 
 ### Perubahan yang Diimplementasikan
 1. **`SettingsPanelUI.cs` (`Assets/_Scripts/UI/SettingsPanelUI.cs`):**
