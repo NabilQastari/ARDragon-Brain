@@ -4,12 +4,23 @@ tags:
   - devlog
   - laptop-a
 owner: Laptop A
-updated: 2026-11-25
+updated: 2026-11-26
 ---
 
 # 📝 Devlog — Laptop A
 
 > Catatan kronologis keputusan desain, ide, arsitektur, dan pembaruan dokumentasi dari **Laptop A**. Kembali ke [[00 - Overview]].
+
+---
+
+## 2026-11-26 — Finalisasi VFX Pilar 1 (`v23–v24`), Pemaketan `Export_VFX_Revisi_LaptopB.zip`, & Master Prompt Laptop B ([[spesifikasi_revisi_vfx_pilar_1]], [[prompt_eksekusi_revisi_vfx_pilar_1_laptop_b]])
+- **Perbaikan Teknis Studio VFX Three.js (`v23–v24`):**
+  - **Fix HTTP JSON Cache & Loop Continuity (`v23`):** Menambahkan `{ cache: 'no-store' }` di `vfx_player.js`, parameter `?v=20261125_v23` di seluruh `VFX_MANIFEST`, mengaktifkan pembaruan `spinRad` tiap frame pada `Ring`/`Model`, auto-wind drift saat `wingtip`/`dash` dinyalakan dari pose diam, serta menghapus celah kosong (*loop gap*) di 7 resep VFX.
+  - **Fix Posisi & Warna Chest Gem (`v24`):** Dari audit bobot vertex `M_Dragon_Chest_Crystal` pada [dragon_model.glb](file:///e:/Semester%205/Game/AR%20Dragon/dragon_anim_studio/dragon_model.glb), kristal dada terbobot **`56.6%` pada tulang `Neck_01`** (bukan `Spine_02`). Socket `chestGem` di [studio.js](file:///e:/Semester%205/Game/AR%20Dragon/dragon_anim_studio/studio.js) dipindahkan ke **`Neck_01`** lokal `(0, 0.1214, -0.1552)`, dan palet warna [VFX_Solaria_ChestGemGlow.json](file:///e:/Semester%205/Game/AR%20Dragon/dragon_anim_studio/vfx/recipes/VFX_Solaria_ChestGemGlow.json) diubah menjadi **biru kristal bercahaya** (`[145, 225, 255]` / `[75, 195, 255]` / `[40, 155, 255]`).
+- **Pemaketan & Validasi Paket Laptop B ([Export_VFX_Revisi_LaptopB.zip](file:///e:/Semester%205/Game/AR%20Dragon/assets/Export_VFX_Revisi_LaptopB.zip), `664,607` B):**
+  - Menghasilkan **8 skrip `.py`** (`Effekseer_Python_Sources/src/*.py`) + **8 `briefs/*.json`** yang kompatibel dengan `vfxkit.primitives` & lolos validasi statis seluruh aturan `vfxkit/lint.py` & `briefs.py` (`budget`, `lifetime`, `layer_plan`, & 14 tekstur eksisting `T_*.png`), dilengkapi **10 JSON final Three.js** (`Threejs_Recipes_Approved/`), `14` PNG referensi (`Resources_Textures/`), & `README_VFX_REVISI.txt`.
+- **Penerbitan Master Prompt Eksekusi:**
+  - Menerbitkan [prompt_eksekusi_revisi_vfx_pilar_1_laptop_b.md](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/handoff-laptop-b/prompt_eksekusi_revisi_vfx_pilar_1_laptop_b.md) mencakup `vfx lint && vfx build`, koreksi `wingtipBoneLength = 1.48f` + `TrailRenderer` pita sayap, rotasi `waterBreathEmitter` ikut `Head`, pemasangan `mouthIntakeEmitter` (`Head`) & `chestGemEmitter` (`Neck_01` biru), `sonicDashEmitter` loop, wildfire Biome 2 skala `1.0 -> 0.0`, serta hujan pasca-restorasi Solaria `14.0 detik`.
 
 ---
 
