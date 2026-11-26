@@ -28,6 +28,18 @@ updated: 2026-11-26
 - **Catatan Memori:** [[Isolasi Narasi dan Side Challenge HUD]]
 - **Ringkasan:** Mengarsipkan memori sesi implementasi Full Narrative Isolation Mode (`PF_QuestNarrativeBox.prefab` `1440×300 px`, hanya `QuestObjectivePanel` & `PF_QuestNarrativeBox` yang tampil + sembunyikan billboard 3D) dan redesain Side-Docked Challenge HUD (`PF_VillageChallengeOverlay.prefab` `400×620 px` *Middle-Right* `(-30, 0)`, `VillageChallengeUI.cs`, `InGameFlightHUD.SetVillageChallengeMode`/`RestoreNormalFlightHUD`, & sinkronisasi `VillageZoneController.cs`) beserta verifikasi Play Mode `Session4VerificationRunner` & `Session5GameLoopVerificationRunner` (`100% PASS`).
 
+## 2026-11-26 — Memori Sesi: Penyempurnaan Kontrol Terbang dan FlyUp
+- **Catatan Memori:** [[Penyempurnaan Kontrol Terbang dan FlyUp]]
+- **Ringkasan:** Mengarsipkan memori sesi audit & penyempurnaan mekanisme kontrol (`#07 Fly Up` anti-hijack `#11` & histeresis, proteksi `#06`/`#06B` dari legacy `chest_elevation`, pembalikan `flap_power` simetris, transisi `#09 -> #10`, responsivitas One-Euro `pose_stabilizer.py`, padding atas `+28%` `HybridPoseTracker`, *sliding auto-baseline* `MouthTracker`, `_takeoffFlapTimer` `DragonFlightController.cs`, dan normalisasi `#15C` `UDPPoseReceiver.cs`), terverifikasi 7/7 suite Python CV + `MomentumFlightVerificationRunner` 100% PASS.
+
+## 2026-11-26 — Memori Sesi: Stabilisasi Kontrol Lintas Scene dan Dash
+- **Catatan Memori:** [[Stabilisasi Kontrol Lintas Scene dan Dash]]
+- **Ringkasan:** Mengarsipkan memori sesi stabilisasi urutan scene menu (`MainMenu_Lobby.unity` Build Index `0`), fallback keyboard (`enableKeyboardFallback`, `SIO_UDP_CONNRESET`, `IsKeyboardOverrideActive`), gerbang wajib kalibrasi (`DragonGameSettings.IsCameraCalibrated` & `OnCalibrationStatusChanged`), persistent shared UDP `5052` socket (`UDPPoseReceiver.cs` & `[DragonSessionHost]`), penghapusan warning RenderGraph + duplikasi `VFX_Sockets` + kilau VFX takeoff (`EffekseerSettings.asset`, `DragonVfxController.cs`, `VFX_Flight_WingtipTrails.py`, `VFX_Flight_SonicDashShockwave.py`), serta penyetelan ulang sensitivitas bilateral `#14 Propeller Dash` (`motion_recognizer.py`, `pose_stabilizer.py`, `cv_locomotion_config.json`).
+
+## 2026-11-26 — Memori Sesi: Timer Stage dan CV Hibrida MediaPipe
+- **Catatan Memori:** [[Timer Stage dan CV Hibrida MediaPipe]]
+- **Ringkasan:** Mengarsipkan memori sesi perpanjangan timer stage Unity (`300s`/`600s`/`900s` + kartu Lobby `5/10/15 MIN`) dan pembangunan arsitektur hibrida Computer Vision Python (`hybrid_pose_tracker.py` `HybridPoseTracker` YOLOv8n-pose + MediaPipe `PoseLandmarker` `pose_landmarker_lite.task` pada ROI `+12%`, integrasi `active_cv_sender.py`, serta penyetelan One-Euro `0.40 Hz / 0.12` & *Kinematic Forearm Clamping* `1.10×` di `pose_stabilizer.py`).
+
 ## 2026-11-26 — Memori Sesi: Perbaikan Kemudi Kanan dan Finish UI Stage
 - **Catatan Memori:** [[Perbaikan Kemudi Kanan dan Finish UI Stage]]
 - **Ringkasan:** Mengarsipkan memori sesi audit & perbaikan bug kemudi naga stuck belok kanan terus akibat `ARDragonSkyGuardian_CV/player_profile.json` korup (`neutral_lean_bias_deg = -22.856°`) + penjaga validasi `player_calibrator.py`/`motion_recognizer.py`/`active_cv_sender.py`, pemisahan tantangan per level (`Stage 1/2/3 = 1/2/3 Desa`) lewat default fallback & `SubsystemRegistration` `DragonGameSettings.cs` + `CalibrationPanelUI.cs` + `VillageZoneController.cs`, serta integrasi `FinishModalUI` (`PF_FinishModal`) + `NEXT LEVEL` pasca-penyelesaian misi.
@@ -352,7 +364,7 @@ updated: 2026-11-26
 
 ---
 
-## 2026-11-24 — Perpanjangan Timer Stage (5/10/15 Menit) & Arsitektur Hibrida YOLOv8 + MediaPipe Pose (`[[laptop-a/cv-control/analisis_dan_solusi_jitter_glitch_cv]]`, `[[laptop-a/gameplay-mechanics/arsitektur_sesi_5_gameloop_dan_scoring]]`)
+## 2026-11-24 — Perpanjangan Timer Stage (5/10/15 Menit) & Arsitektur Hibrida YOLOv8 + MediaPipe Pose ([[Timer Stage dan CV Hibrida MediaPipe]], `[[laptop-a/cv-control/analisis_dan_solusi_jitter_glitch_cv]]`, `[[laptop-a/gameplay-mechanics/arsitektur_sesi_5_gameloop_dan_scoring]]`)
 
 ### Perubahan yang Diimplementasikan
 1. **Perpanjangan Durasi Timer Stage (Unity 6 C#):**
