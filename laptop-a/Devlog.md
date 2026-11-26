@@ -13,6 +13,17 @@ updated: 2026-11-26
 
 ---
 
+## 2026-11-26 — Arsip Memori Sesi: Integrasi 20 Pose dan Model FBX ([[Integrasi 20 Pose dan Model FBX]])
+- **Perintah Pengguna:** `"jadikan sesi ini memory"`.
+- **Inti Ringkasan Sesi:**
+  1. *Penyempurnaan Pose Three.js Studio (v14/v15):* Mengimplementasikan kepakan sayap `#14 Propeller Dash` bergaya renang kupu-kupu (*butterfly stroke*) dengan leher dan kepala lebih maju, merevisi `#15A Zephyria` (kepala menunduk `-14°` & kaki depan melipat santai `36°/44°/-58°`), merevisi `#15C Solaria` (kaki depan melipat simetris ke dalam `-26°/84°/-22°` mengapit kristal permata dada), serta menambahkan pose baru `#15B-1 Pyrewood · Water Siphon (Drink)` (postur *Low Descent* mencelupkan kepala ke danau dengan rahang membuka-tutup halus dan sayap berkepak aktif `1.3 Hz`). Seluruh 20 pose terverifikasi `0` runtime error di Three.js Studio.
+  2. *Perbaikan Tekstur/Mesh Model Naga:* Memperbaiki patahan asimetris dorsal stripe pada `SM_Dragon_Head` di `assets/Dragon_Model.blend` (`polygons[80]`, `83`, `16`) sehingga kini simetris sempurna (`0` poligon asimetris).
+  3. *Ekspor FBX Bersih:* Mengekspor `Dragon_Model.fbx` (47 tulang lengkap termasuk `Root`, 13 SkinnedMeshRenderer, scale 1.0, forward `-Z`, up `Y`).
+  4. *Pemaketan & Handoff Laptop B:* Menyusun formula konversi rotasi Three.js ke Unity `FromStudioEulerXYZ` (`0.00e+00` error), memaketkan `assets/Export_DragonModel_Anim20_LaptopB.zip` (1.82 MB), menyusun Master Prompt eksekusi di `brain/laptop-a/handoff-laptop-b/prompt_eksekusi_model_dan_animasi_20_pose_laptop_b.md`, dan merekomendasikan model AI **`Hydrogen High`** untuk eksekusi di Laptop B.
+- **Arsip Memori Lengkap:** Tersimpan di [[Integrasi 20 Pose dan Model FBX]].
+
+---
+
 ## 2026-11-26 — Arsip Memori Sesi: Perancangan Sistem Audio dan Dropdown BGM ([[Perancangan Sistem Audio dan Dropdown BGM]])
 - **Perintah Pengguna:** `"jadikan sesi ini memory"`.
 - **Inti Ringkasan Sesi:**
