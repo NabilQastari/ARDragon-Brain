@@ -13,6 +13,21 @@ updated: 2026-11-26
 
 ---
 
+## 2026-11-26 (Hotfix Visual) — Perbaikan Arah VFX Zephyria/Pyrewood (Kompensasi Z-Flip Effekseer) & Kamera Dinamis Event Tantangan Desa
+
+- **Akar Masalah yang Ditemukan lewat Inspeksi Screenshot:**
+  1. `EffekseerSettings.asset` memakai `isRightEffekseerHandledCoordinateSystem = 0` (koordinat Left-Handed Unity), sehingga Effekseer membalik sumbu `+Z_effekseer` menjadi `-transform.forward` Unity. Akibatnya, `VFX_Pyrewood_WaterBreath`, `VFX_Zephyria_WindGust`, dan `VFX_Lake_MouthIntake` menyembur/menghadap ke belakang (`-Z`) bukan ke depan.
+  2. `Wind shear lines` pada `VFX_Zephyria_WindGust.py` memakai `billboard='DirectionalBillboard'` dengan `travel` (`Easing`), yang pada `EffekseerForUnity 1.80.8` fallback berdiri vertikal (`Billboard = 0`).
+- **Perbaikan yang Diimplementasikan:**
+  - **`DragonVfxController.cs` & `Session4_VillageBuilder.cs`:** Mengarahkan `-transform.forward` ke target arah depan untuk `waterBreathEmitter` (ditambah clamp `mouthForward.y >= 0.04f` agar tidak menukik ke bawah), `mouthIntakeEmitter` (`Quaternion.LookRotation(-Vector3.up, Vector3.forward)`), dan `PlayWindGust()` (memancarkan angin dinamis ke depan naga pada kipas horizontal `±28°` & sudut naik `+3°..+15°` tanpa pernah mengarah ke bawah).
+  - **`VFX_Zephyria_WindGust.py`:** Mengubah `Wind pivot` / eddies / motes / mist agar tidak bias turun (`y >= 0`), mengganti `Wind shear lines` menjadi `billboard='Fixed'` (`rotation=[[82,98], [-14,14], [-10,10]]`) dengan `PVA` `velocity` ke `+Z_effekseer`, lalu `vfx lint` (`0` errors, `0` warnings) + `vfx build` dan `AssetDatabase.Refresh()`.
+  - **`DragonFlightController.cs` & `VillageZoneController.cs`:** Menambahkan enum `VillageCameraMode` (`Default`, `DiagonalFront` `(4.6, 1.85, 6.8)`, `DiagonalUpFront` `(4.8, 4.6, 6.8)`, `DiagonalUpBack` `(4.2, 4.4, -6.4)`) dengan transisi `Vector3.SmoothDamp` + `Quaternion.Slerp` (`0.42s`) khusus saat tantangan desa aktif (tidak mengubah kamera saat narasi textbox): `ZephyriaChallenge` & `PyrewoodLake` $\rightarrow$ `DiagonalFront`, `SolariaChallenge` $\rightarrow$ `DiagonalUpFront`, dan `PyrewoodForest` $\rightarrow$ `DiagonalUpBack`.
+- **Hasil Verifikasi Play Mode (`Unity 6000.3.7f1`, `0` Errors, `0` Warnings):**
+  - `VFXAtmosphereVerificationRunner`: **`ALL PILAR 1 & SESI 4B VFX (10/10), TRAIL, SOCKET & BIOME CHECKS PASSED (100%)`** (`HeadSweep=23.2deg`, arah `WaterBreath` & `WindGust` ke depan/atas, seluruh `4` sudut kamera event desa + `Default` narasi terverifikasi, & inspeksi ulang screenshot `SS_Sesi4B_Zephyria_SmogAndWindGust.png` / `SS_Pilar1_Lake_Siphon_MouthIntake.png` / `SS_Sesi4B_Solaria_CelestialDewRain.png` / `SS_Sesi4B_Pyrewood_WaterBreath_Steam.png` bersih).
+  - Non-regresi `MomentumFlightVerificationRunner`: **`100% PASS`**, dan scene aktif dikembalikan ke `MainMenu_Lobby.unity`.
+
+---
+
 ## 2026-11-26 — Eksekusi Revisi VFX Pilar 1: 5 VFX Reworked, 3 VFX Baru, Socket `Neck_01`/`Head`/`Wingtip` + `TrailRenderer`, & Efek Desa (`[[laptop-a/visual-vfx/spesifikasi_revisi_vfx_pilar_1]]`, `[[laptop-a/handoff-laptop-b/prompt_eksekusi_revisi_vfx_pilar_1_laptop_b]]`)
 
 - **Langkah 1 — Impor Resep Python & Kompilasi 10 Aset Effekseer (`vfx/`, `Assets/VFX/Effekseer/`):**
