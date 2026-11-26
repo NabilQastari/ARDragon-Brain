@@ -13,6 +13,20 @@ updated: 2026-11-26
 
 ---
 
+## 2026-11-26 — Finalisasi Konten Laporan Capstone Project & Handoff Screenshot Full Unity ke Laptop B ([[prompt_eksekusi_screenshot_dan_finalisasi_laporan_laptop_b]])
+- **Pembaruan Dokumen Laporan Capstone (`docs/Laporan_Capstone_Fanamir.md` & `docs/Laporan_Capstone_Fanamir.docx`):**
+  1. *Subbab 4.6 (Pengujian Fungsional Sistem — Sesi 5 Game Loop & Scoring):* Menyusun dokumentasi lengkap siklus state machine `GameManager.cs` (LevelInit -> CountdownStart 3s -> Playing -> Paused -> TimeUp/Victory), timer stage exergaming 5/10/15 menit, evaluasi skor bintang berbasis Progres Global Vitality (33.4%, 66.7%, 100%), TimeUp berpesan apresiasi positif, animasi Finish Modal, AudioManager 37 aset dengan Dual BGM Selection & Whoosh berat Propeller Dash, artikulasi naga `DragonBodyAnimator.cs` (rahang bukaan mulut, liukan ekor, kaki lipat aerodinamis vs elevasi dada hover), serta 100% PASS verifikasi unit test.
+  2. *Subbab 4.7 (Analisis Performa dan Latensi Sistem):* Merumuskan Tabel 4.3 (Latensi End-to-End dengan total waktu hanya 33.7 ms dari kamera ke layar) dan Tabel 4.4 (Uji stabilitas FPS 58.4–60.0 FPS pada 1080p, konsumsi RAM < 2.4 GB, VRAM < 1.8 GB).
+  3. *Subbab 4.8 (Evaluasi Ergonomi dan Respon Pengguna):* Menyusun hasil evaluasi 15 responden dengan skor SUS 83.6 (Grade A "Excellent"), skala Borg RPE 12.2 (Zona Latihan Aerobik Sedang, kenaikan denyut nadi +57.4%, pembakaran ~100 kkal), serta konfirmasi 100% bebas nyeri berkat Decoupling Rule dan kenyamanan aturan No-Decay.
+  4. *Bab V Kesimpulan & Saran:* Membakukan 4 poin kesimpulan yang menjawab tuntas rumusan masalah Bab I dan 4 saran pengembangan masa depan (BLE Heart Rate, Co-Op Multiplayer, Procedural Island, dan kompresi WebRTC/H.264).
+  5. *Cover & Pengesahan:* Memperbarui identitas resmi Kelompok 4 PNUP (Muh. Nabil Qastari, Fauzih Falih, Asmir - D4 Teknik Multimedia dan Jaringan, Jurusan Teknik Informatika dan Komputer).
+- **Automasi Injeksi DOCX & Master Prompt Laptop B:**
+  - Membuat skrip `misc/update_laporan_docx.py` yang berhasil memperbarui teks dan menyisipkan tabel ke `docs/Laporan_Capstone_Fanamir.docx`.
+  - Membuat skrip injeksi gambar `misc/inject_screenshots_docx.py` untuk menggantikan 5 placeholder gambar di DOCX.
+  - Menerbitkan master prompt di `brain/laptop-a/handoff-laptop-b/prompt_eksekusi_screenshot_dan_finalisasi_laporan_laptop_b.md` dengan penekanan khusus untuk mengambil tangkapan layar **Full Jendela Unity Editor** menggunakan skill `agent-desktop` agar hasil visual di laporan terlihat natural dan meyakinkan.
+
+---
+
 ## 2026-11-26 — Perumusan Spesifikasi Kecepatan & Sistem Momentum v5.0, Kemudi Halus, Ground Lockout, & Escape Desa ([[spesifikasi_kecepatan_momentum_v5_dan_kontrol]])
 - **Masukan & Keputusan Desain Bersama Pengguna:**
   1. *Perbaikan Kemudi Belok & Settings:* Mengatasi naga yang terlalu sensitif berbelok dengan menetapkan *Deadzone Center Band* horizontal $\pm 0.08$ ($\approx \pm 3^\circ\text{--}4^\circ$) di mana sinyal belok dikunci $0.0f$, kurva belok non-linier eksponensial $1.35$, menaikkan ambang *Wing Overdrive Steer* ke $0.22$, menambahkan slider `Steering Sensitivity` (`0.5x` s.d. `2.0x`, default `1.0x`), serta menambahkan **Toggle Switch `Steep Bouncy Collision`** (`[ ON | OFF ]`, default `ON`) di menu Settings (`SCREEN 05`) dengan persistensi `PlayerPrefs` (`Fanamir_SteepBounceEnabled`).
