@@ -13,15 +13,16 @@ updated: 2026-11-26
 
 ---
 
-## 2026-11-26 — Peningkatan Kamera Orbit Berpusat di Center Naga (`DragonFlightController.cs`)
+## 2026-11-26 — Peningkatan Kamera Orbit Berpusat di Center Naga & Slider Settings `Camera Look Rotation` (`DragonFlightController.cs`, `DragonGameSettings.cs`, `SettingsPanelUI.cs`, `UISceneAndPrefabBuilder.cs`)
 
 - **Perubahan yang Diimplementasikan:**
-  - Mengganti rotasi kamera in-place di belakang naga (`cameraPitchFollowFactor = 0.25f`, `cameraYawPeekFactor = 0.11f`, `~3.8°`) menjadi **kamera orbit penuh berpusat di center tubuh naga** (`cameraOrbitPivot = (0f, 0.45f, 0f)`) pada `DragonFlightController.UpdateCameraPolish()`.
-  - Menambahkan parameter orbit baru: `cameraOrbitHeadPitchFactor = 0.72f`, `cameraOrbitFlightPitchFactor = 0.40f`, `cameraOrbitYawFactor = 0.62f`, `cameraOrbitMaxYawDeg = 28f`, `cameraOrbitMaxPitchUpDeg = 22f`, `cameraOrbitMaxPitchDownDeg = 22f`, `cameraOrbitGroundedMaxPitchUpDeg = 16f`, dan `cameraOrbitSmoothTime = 0.18f` (dengan transisi mulus `_wasInVillageCamera` saat kembali dari `VillageCameraMode` serta roll horizon tetap `0°`).
-- **Hasil Verifikasi Play Mode (`MainIsland_Gameplay.unity`, `0` Errors, `0` Warnings):**
-  - Uji UDP 46-float 4 arah: radius orbit terhadap `(0, 0.45, 0)` terjaga konstan **`6.63 m`** (`Neutral=(0.00, 2.68, -6.24)`, `Right=(-2.31, 2.69, -5.80)` `yaw=21.7°`, `Left=(2.30, 2.69, -5.80)` `yaw=-21.7°`, `Up=(0.00, -0.02, -6.60)` `pitch=-7.9°`, `Down=(0.00, 4.89, -5.00)` `pitch=35.95°`).
-  - `MomentumFlightVerificationRunner`: **`ALL MOMENTUM & FLIGHT PHYSICS CHECKS PASSED (100%)`**, `consoleErrors=0`, `consoleWarnings=0`.
-  - Screenshot (`docs/figures/raw_screenshots/`): `SS_CamOrbit_LookRight.png`, `SS_CamOrbit_LookUp.png`.
+  - Mengganti rotasi kamera in-place di belakang naga (`cameraPitchFollowFactor = 0.25f`, `cameraYawPeekFactor = 0.11f`, `~3.8°`) menjadi **kamera orbit penuh berpusat di center tubuh naga** (`cameraOrbitPivot = (0f, 0.45f, 0f)`) pada `DragonFlightController.UpdateCameraPolish()` (`cameraOrbitHeadPitchFactor = 0.72f`, `cameraOrbitFlightPitchFactor = 0.40f`, `cameraOrbitYawFactor = 0.70f`, maks `cameraOrbitMaxYawDeg = 65f`, `cameraOrbitMaxPitchUpDeg = 48f`, `cameraOrbitMaxPitchDownDeg = 48f`, `cameraOrbitGroundedMaxPitchUpDeg = 32f`, `SmoothDamp 0.18s`, roll horizon `0°`).
+  - Menambahkan pengaturan persisten `DragonGameSettings.CameraLookRotationScale` (`PrefCameraLookScale = "Fanamir_CameraLookScale"`, `0.5f–2.5f`, default **`1.5f`**) yang dikalikan langsung ke jangkauan orbit horizontal & vertikal kamera secara live.
+  - Menambahkan baris slider **`Camera Look Rotation`** (`Row_CameraLookScale`, `0.5x–2.5x`, default `1.5x`) di `SettingsPanelUI.cs` & `UISceneAndPrefabBuilder.BuildSettingsPanelPrefab()` (`SettingsCard` `960×778 px`, `AudioAndFlightSection` `880×558 px`), lalu menjalankan `BuildAll()` dan `Session4_VillageBuilder.BuildVillageZonesAndMarkers()`.
+- **Hasil Verifikasi Play Mode (`Unity 6000.3.7f1`, `0` Errors, `0` Warnings):**
+  - `MainMenu_Lobby.unity`: slider `Row_CameraLookScale` tampil rapi (`1.5x` -> uji live `2.2x`, `SS_Settings_CameraLookRotation.png`).
+  - `MainIsland_Gameplay.unity`: `yaw@1.5x = 36.7°`, `yaw@2.5x = 61.2°` (`pos=(-5.47, 2.69, -3.00)`), `euler@2.5xUp = (326.02, 0.04, 0.00)`, serta `MomentumFlightVerificationRunner`: **`ALL MOMENTUM & FLIGHT PHYSICS CHECKS PASSED (100%)`**, `consoleErrors=0`, `consoleWarnings=0`.
+  - Screenshot (`docs/figures/raw_screenshots/`): `SS_CamOrbit_LookRight.png`, `SS_CamOrbit_LookUp.png`, `SS_Settings_CameraLookRotation.png`.
 
 ---
 
