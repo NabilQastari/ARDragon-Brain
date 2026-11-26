@@ -13,6 +13,18 @@ updated: 2026-11-26
 
 ---
 
+## 2026-11-26 — Arsip Memori Sesi: Finalisasi Revisi VFX dan Pemaketan ([[Finalisasi Revisi VFX dan Pemaketan]])
+- **Perintah Pengguna:** `"jadikan sesi ini memory"`.
+- **Inti Ringkasan Sesi:**
+  1. *Evaluasi & Perombakan Artistik 10 VFX:* Merespons masukan visual Three.js vs Unity untuk 10 efek partikel: Zephyria wind gust (arus angin dinamis + shear lines), Lake Water Siphon (aura uap energi halus, bebas beam pekat), Mouth Intake (aura air terserap masuk mulut naga), Solaria Celestial Dew Rain (hujan embun transparan bervariasi dengan durasi lebih panjang), Solaria Chest Gem Glow (kilau biru kristal), Pyrewood Wildfire (kebakaran hutan pohon desa), Wingtip Trails (3D ribbon trail sejati meruncing), Sonic Dash Shockwave (terowongan garis angin turbulensi), Pyrewood Water Breath, dan Cleansed Shockwave.
+  2. *Resolusi Posisi & Warna Permata Dada:* Mendiagnosis rigging `dragon_model.glb` di mana sub-mesh `M_Dragon_Chest_Crystal` berbobot 56.6% pada `Neck_01`. Memindahkan socket dari `Spine_02` ke **`Neck_01`** pada offset permukaan lokal `(0.0, 0.1214, -0.1552)` dan mengubah warna ke **luminous crystal blue** (`#38bdf8` / `#0284c7`).
+  3. *Perbaikan Teknis Three.js Studio (v23–v24):* Memperbaiki stale HTTP JSON cache (`no-store` + `?v=`), rotasi `spin` untuk layer Ring/Model/Fixed, dan menghilangkan celah henti loop (*loop gap*) di 7 efek looping.
+  4. *Pemaketan Mandiri & Validasi Linter:* Menyusun 8 generator Python `vfxkit` terverifikasi `0` lint error (budget $\le 150$ partikel, memanfaatkan 14 tekstur PNG eksisting), mengemas file mandiri [`assets/Export_VFX_Revisi_LaptopB.zip`](file:///e:/Semester%205/Game/AR%20Dragon/assets/Export_VFX_Revisi_LaptopB.zip) (`664 KB`, 42 files) untuk transfer langsung tanpa commit git biner besar.
+  5. *Master Prompt Eksekusi Laptop B:* Menerbitkan [`prompt_eksekusi_revisi_vfx_pilar_1_laptop_b.md`](file:///e:/Semester%205/Game/AR%20Dragon/brain/laptop-a/handoff-laptop-b/prompt_eksekusi_revisi_vfx_pilar_1_laptop_b.md) dengan panduan 5 langkah kompilasi `.efkefc`, socketing rig naga `DragonVfxController.cs`, efek desa `VillageZoneController.cs`, dan verifikasi Play Mode.
+- **Arsip Memori Lengkap:** Tersimpan di [[Finalisasi Revisi VFX dan Pemaketan]].
+
+---
+
 ## 2026-11-26 — Arsip Memori Sesi: Integrasi 20 Pose dan Model FBX ([[Integrasi 20 Pose dan Model FBX]])
 - **Perintah Pengguna:** `"jadikan sesi ini memory"`.
 - **Inti Ringkasan Sesi:**
