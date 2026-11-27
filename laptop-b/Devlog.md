@@ -4,12 +4,23 @@ tags:
   - devlog
   - laptop-b
 owner: Laptop B
-updated: 2026-11-26
+updated: 2026-11-27
 ---
 
 # 🛠️ Devlog — Laptop B
 
 > Catatan kronologis pengembangan kode, debugging, pengujian Unity/Python, dan hasil build dari **Laptop B**. Kembali ke [[00 - Overview]].
+
+---
+
+## 2026-11-27 — Perbaikan Arah VFX `#14 Propeller Dash` (`VFX_SonicDash` & `VFX_Flight_SonicDashShockwave`)
+- **Akar Masalah:** `EffekseerSettings.asset` memakai `isRightEffekseerHandledCoordinateSystem: 0` (Left-Handed Unity) sehingga `+Z_effekseer` dipetakan ke `-transform.forward`. Berbeda dengan `VFX_WaterBreath` dan `VFX_WindGust` yang sudah dikompensasi, socket `VFX_SonicDash` di `Session4_VillageBuilder.cs` dan `MainIsland_Gameplay.unity` masih memakai `Quaternion.identity` dan tidak disetel ulang di `DragonVfxController.cs`, menyebabkan garis slipstream dan kerucut `Subtle wind tunnel sheath` menembak ke depan naga alih-alih menyapu ke belakang. Selain itu, `uv_scroll` pada `Subtle wind tunnel sheath` bernilai positif (`[0.01, 0.08]`) yang menggulir tekstur berlawanan arah (dari belakang ke depan).
+- **Perbaikan yang Diimplementasikan:**
+  1. **`DragonVfxController.cs`:** Memanggil `SyncSocketTransforms()` di `Awake()` dan mengunci `sonicDashEmitter.transform.localRotation = Quaternion.Euler(0f, 180f, 0f)` agar `+Z_effekseer` selaras dengan arah hadap depan `Visual_Dragon`.
+  2. **`Session4_VillageBuilder.cs` & `MainIsland_Gameplay.unity`:** Menyetel `localRotation = Quaternion.Euler(0f, 180f, 0f)` pada `/Dragon_Player/Visual_Dragon/VFX_Sockets/VFX_SonicDash` serta menyimpan ulang scene.
+  3. **`vfx/src/VFX_Flight_SonicDashShockwave.py`:** Membalik `uv_scroll` menjadi `[0.01, -0.08]` agar guratan angin di kerucut selubung mengalir dari ujung depan (`radius=0.55`) ke belakang (`radius2=2.3`), memvalidasi `vfx brief-validate` & `vfx lint` (`0` errors) + `vfx build`, dan menyalin `.efkefc` terbaru ke `Assets/VFX/Effekseer/VFX_Flight_SonicDashShockwave.efkefc` + `AssetDatabase.ImportAsset`.
+  4. **`VFXAtmosphereVerificationRunner.cs`:** Menambahkan pemeriksaan orientasi `dashFwdDot >= 0.99f` pada tahap `Propeller Dash (#14)`.
+- **Hasil Verifikasi Play Mode:** `VFX_SonicDash` (`localEuler=(0, 180, 0)`, `dashFwdDot=1.000`, `SPD 79.1 m/s`) lolos penuh pada tahap Propeller Dash dan screenshot `docs/figures/raw_screenshots/SS_Sesi4B_Flight_PropellerDash_FOV85.png` mengonfirmasi garis angin serta kerucut terowongan kini mengalir bersih dari depan ke belakang naga; editor dikembalikan ke `MainMenu_Lobby.unity`.
 
 ---
 
